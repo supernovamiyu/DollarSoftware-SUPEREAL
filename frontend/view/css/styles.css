@@ -1,0 +1,496 @@
+body {
+    font-family: 'Lexend', sans-serif;
+}
+
+.container{
+    max-width: 500px;
+}
+
+.carousel>img{
+    width: 100%;
+}
+
+.menu-categorias{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.titulo-seccion{
+    width: 100%;
+    text-align: center;
+}
+
+.categoria{
+    padding: 10px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgb(113, 137, 255);
+    margin: 10px;
+    color: white;
+}
+
+.categoria img{
+    width: 20%;
+}
+
+.categoria p{
+    display: inline-block;
+    font-family: 'Lexend', sans-serif;
+    font-size: 90%;
+}
+
+.imgMenu {
+    width: 8vh;
+    height: 8vh;
+}
+
+.imgLogo {
+    position: relative;
+    left: 3%;
+    width: 90%;
+    padding: 4%;
+}
+
+
+
+.barra-navegacion{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: rgb(113, 137, 255);
+}
+
+.barra-navegacion a{
+    color: white;
+    text-decoration: none;
+}
+
+.product{
+    display: inline-block;
+    background-color: #d7d7d752;
+    width: fit-content;
+    margin: 1.8%;
+}
+
+.product h6 {
+    background-color: #d7d7d752;
+    padding: 25%;
+    font-size: 80%;
+}
+
+.product a{
+    font-size: 85%
+}
+.titulo-seccion h4{
+    padding: 1%;
+}
+
+.social-media{
+    background-color: rgb(113, 137, 255);
+    padding: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.social-media img{
+    width: 25%;
+    height: 25%;
+}
+
+.social-media h4{
+    font-size: 95%;
+    color: white;
+    padding: 5%;
+}
+
+.popular-products{
+    margin: 0 0 5%;
+}
+
+.search {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 20px;
+    background: #f6f6f6;
+    border: none;
+    height: 30px;
+    position: relative;
+    top: 0vh;
+    left: 12vh;
+}
+
+.search-input{
+    font-size: 16px;
+    font-family: 'Lexend', sans-serif;
+    color: grey;
+    margin-left: 10px;
+    outline: none;
+    border: none;
+    background: transparent;
+}
+
+.searchbar {
+    display: flex;
+    align-items: center;
+    background-color: rgb(113, 137, 255);
+    height: 51px;
+    border-bottom-right-radius: 90px;
+    border-bottom-left-radius: 90px;
+    bottom: 53px;
+    width: 100%;
+}
+
+.formulario-cuenta{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: rgba(113, 137, 255, 0.678);
+    color: white;
+    padding: 30px 40px;
+}
+
+.formulario-cuenta h1{
+    font-size: 35px;
+    text-align: center;
+}
+
+.formulario-cuenta .input-box{
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 40px;
+    font-size: 16px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder{
+    color: white;
+
+}
+
+.formulario-cuenta .remember-forgot{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15.5px;
+    margin: -15px 0 15px;
+}
+
+.remember-forgot label input{
+    accent-color: white;
+    margin-right: 3px;
+}
+
+.remember-forgot a{
+    color: white;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover{
+    text-decoration: underline;
+}
+
+.formulario-cuenta .btn{
+    width: 100%;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.678);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 15px;
+    color: rgb(243, 238, 238);
+    font-weight: 600;
+}
+
+.formulario-cuenta .register-link{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link p a{
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover{
+    text-decoration: underline;
+}
+
+.formulario-cuenta .login-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.login-link p a{
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link p a:hover{
+    text-decoration: underline;
+}
+
+.formulario-cuenta .btnIniciarSesion {
+    width: 100%;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.678);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 15px;
+    color: rgb(243, 238, 238);
+    font-weight: 600;
+    margin: 20px 0;
+}
+
+.formulario-cuenta .btnRegistro{
+    width: 100%;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.678);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 15px;
+    color: rgb(243, 238, 238);
+    font-weight: 600;
+}
+
+.modify-products{
+    display: flex;
+}
+
+.modify{
+    margin: 15px;
+    cursor: pointer;
+}
+
+.buy{
+    margin: 20px;
+}
+
+.buy .pago{
+    background-color: rgba(113, 137, 255, 0.678);
+    width: 100%;
+    height: 45px;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 15px;
+    color: rgb(243, 238, 238);
+    font-weight: 600;
+}
+
+.modify h6{
+    text-align: center;
+}
+
+.images-product{
+    display: block;
+}
+
+.container-product{
+    min-height: 400px;
+    min-width: 400px;;
+}
+.container-product .images {
+    background-color: rgba(128, 128, 128, 0.623);
+    width: 8vh;
+    height: 7vh;
+    margin: 15%;
+}
+
+.images p{
+    padding: 10%;
+    font-size: 75%;
+}
+
+.aspectos-ayuda{
+    text-align: center;
+    padding: 2vh;
+}
+
+.titulo-seccion-1 {
+    background: rgba(113, 137, 255, 0.678);
+    padding: 7%;
+    text-align: center;
+    color: white;
+}
+
+.help-section{
+    padding: 3vh;
+}
+.help-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.help-btn {
+    background-color: rgba(113, 137, 255, 0.678);
+    width: 19vh;
+    height: 19vh;
+    padding: 3%;
+    text-align: center;
+    margin: 2%;
+    border-radius: 50%;
+}
+
+.help-btn a{
+    color: white;
+    text-decoration: none;
+}
+
+.help-btn p{
+    font-size: 90%;
+}
+
+.product-main-info{
+    margin-top: 5%;
+}
+.mini-images-product{
+    width: 10vh;
+    float: left;
+}
+
+.image-gallery {
+    float: left;
+    padding: 15% 5%;
+    margin-left: 24%;
+    overflow: hidden;
+    background: rgba(128, 128, 128, 0.623);
+}
+
+.profile-details-container{
+    margin: 3vh;
+}
+
+.profile-photo{
+    width: 41%;
+    background-color: #0000001a;
+    padding: 16%;
+    border-radius: 100%;
+    float: left;
+}
+
+.profile-information{
+    padding: 3vh 0 3vh;
+    text-align: right;
+}
+
+.profile-options{
+    display: flex;
+    text-align: center;
+    gap: 1vh;
+}
+
+.profile-buttons-options {
+    background-color: #0000001a;
+    width: 45%;
+    padding: 1vh;
+    border-top-left-radius: 5vh;
+    border-top-right-radius: 5vh;
+}
+
+.help-img{
+    display: flex;
+    width: 47%;
+    margin: 0 26%;
+}
+
+.product-button-block{
+    min-width: 200px;
+}
+
+.description{
+    width: 60%;
+    margin-left: 45%;
+    height: 20%;
+ 
+}
+
+.add-to-cart-component-selector {
+    display: flex;
+    margin-left: 44%;
+}
+
+.product-add-to-cart-selector {
+    margin: 0 20px;
+}
+
+.product-quit-to-cart-selector{
+    margin: 0 20px;
+}
+
+.addToCartButton {
+    width: 40%;
+    height: 45px;
+    background: rgb(113, 137, 255);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 15px;
+    color: rgb(243, 238, 238);
+    font-weight: 600;
+    margin-left: 25%;
+    margin-bottom: 16%;
+}
+
+.product-price{
+    margin-left: 57%;
+}
+
+.boton-form{
+    background-color: rgba(0, 0, 0, 0.445);
+    color:rgb(255, 255, 255);
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 40px;
+    margin: 40px;
+    margin-top: 20px;
+}
+
+.social-media-link{
+    text-decoration: none;
+}
+
+.submit{
+    color: white;
+    background-color: #00000075;
+    text-decoration: none;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.opinions-container .testimonials {
+    display: flex;
+}
+
+.titulo-aspecto-ayuda {
+    text-align: center;
+}
+
+.explicacion-ayuda {
+    text-align: center;
+}
