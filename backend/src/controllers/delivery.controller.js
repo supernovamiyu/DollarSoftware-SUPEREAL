@@ -33,11 +33,11 @@ const readUserDelivery = (req, res) => {
 
 
 const createUserDelivery = (req, res) => {
-    const { fk_id_usuario, id_factura, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
+    const { fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
 
-    const createQuery = `INSERT INTO pedidos (fk_id_usuario, id_factura, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura) VALUES (?,?,?,?,?,?,?,?,?,?,?);`;
+    const createQuery = `INSERT INTO pedidos (fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura) VALUES (?,?,?,?,?,?,?,?,?,?,?);`;
     
-    const query = mysql2.format(createQuery, [fk_id_usuario, id_factura, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura]);
+    const query = mysql2.format(createQuery, [fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
@@ -51,11 +51,11 @@ const createUserDelivery = (req, res) => {
 
 const updateUserDelivery = (req, res) => {
     const { fk_id_usuario } = req.params;
-    const { id_factura, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
+    const { fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
 
-    const updateQuery = `UPDATE pedidos SET id_factura=?, fk_id_metodo_envio=?, fecha_de_pedido=?, fk_id_ciudad=?, direccion=?, fk_id_estado_envio=?, subtotal=?, impuesto=?, total=?, vigencia_factura=? WHERE fk_id_usuario=?;`;
+    const updateQuery = `UPDATE pedidos SET fk_id_metodo_envio=?, fecha_de_pedido=?, fk_id_ciudad=?, direccion=?, fk_id_estado_envio=?, subtotal=?, impuesto=?, total=?, vigencia_factura=? WHERE fk_id_usuario=?;`;
 
-    const query = mysql2.format(updateQuery, [id_factura, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura, fk_id_usuario]);
+    const query = mysql2.format(updateQuery, [fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura, fk_id_usuario]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
