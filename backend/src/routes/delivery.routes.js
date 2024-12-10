@@ -4,12 +4,12 @@ const { createUserDelivery, readUserDelivery, updateUserDelivery, deleteUserDeli
 
 const router = Router();
 
-router.get('/:fk_id_usuario', readUserDelivery);
+router.get('/:id_pedido', readUserDelivery);
 
 router.post('/', createUserDelivery);
 
-router.put('/:fk_id_usuario', updateUserDelivery);
+router.put('/:id_pedido', updateUserDelivery);
 
-router.delete('/:fk_id_usuario', deleteUserDelivery);
+router.delete('/:id_pedido', deleteUserDelivery);
 
 module.exports = router;
