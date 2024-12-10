@@ -11,11 +11,11 @@ const mysql2 = require('mysql2');
 
 const readUserDelivery = (req, res) => { 
 
-    const { fk_id_usuario } = req.params;
+    const { id_pedido } = req.params;
 
-    const readQuery = `SELECT * FROM pedidos WHERE fk_id_usuario=?;`;
+    const readQuery = `SELECT * FROM pedidos WHERE id_pedido=?;`;
 
-    const query = mysql2.format(readQuery, [fk_id_usuario]);
+    const query = mysql2.format(readQuery, [id_pedido]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
@@ -50,12 +50,12 @@ const createUserDelivery = (req, res) => {
 // Actualizar un pedido en la tabla de pedidos en la base de datos
 
 const updateUserDelivery = (req, res) => {
-    const { fk_id_usuario } = req.params;
+    const { id_pedido } = req.params;
     const { fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
 
-    const updateQuery = `UPDATE pedidos SET fk_id_metodo_envio=?, fecha_de_pedido=?, fk_id_ciudad=?, direccion=?, fk_id_estado_envio=?, subtotal=?, impuesto=?, total=?, vigencia_factura=? WHERE fk_id_usuario=?;`;
+    const updateQuery = `UPDATE pedidos SET fk_id_metodo_envio=?, fecha_de_pedido=?, fk_id_ciudad=?, direccion=?, fk_id_estado_envio=?, subtotal=?, impuesto=?, total=?, vigencia_factura=? WHERE id_pedido=?;`;
 
-    const query = mysql2.format(updateQuery, [fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura, fk_id_usuario]);
+    const query = mysql2.format(updateQuery, [fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura, id_pedido]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
@@ -67,11 +67,11 @@ const updateUserDelivery = (req, res) => {
 // Eliminar un pedido en la tabla de pedidos en la base de datos
 
 const deleteUserDelivery = (req, res) => {
-    const { fk_id_usuario } = req.params;
+    const { id_pedido } = req.params;
     
-    const deleteQuery = `DELETE FROM pedidos WHERE fk_id_usuario=?;`;
+    const deleteQuery = `DELETE FROM pedidos WHERE id_pedido=?;`;
     
-    const query = mysql2.format(deleteQuery, [fk_id_usuario]);
+    const query = mysql2.format(deleteQuery, [id_pedido]);
     
     database.query(query, (err, result) => {
         if (err) throw err;
