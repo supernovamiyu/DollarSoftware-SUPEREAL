@@ -1,5 +1,8 @@
 const express = require('express');
 
+
+// RUTAS
+
 const userRoutes = require('../routes/user.routes');
 const categoriesRoutes = require('../routes/category.routes');
 const cityRoutes = require('../routes/city.routes');
