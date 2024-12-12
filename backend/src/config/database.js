@@ -6,6 +6,7 @@ const databaseConnection = mysql2.createConnection({
     user:  'root',
     password: 'Hola1234@1234',
     database: 'db_dollarsoftware',
+    port: 3000,
 });
 
 module.exports = databaseConnection;
