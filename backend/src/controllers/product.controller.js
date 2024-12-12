@@ -32,11 +32,11 @@ const readProduct = (req, res) => {
 
 
 const createProduct = (req, res) => {
-    const { id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria } = req.body;
+    const { id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio } = req.body;
 
-    const createQuery = `INSERT INTO productos (id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria) VALUES (?,?,?,?,?);`;
+    const createQuery = `INSERT INTO productos (id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio) VALUES (?,?,?,?,?);`;
     
-    const query = mysql2.format(createQuery, [id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria]);
+    const query = mysql2.format(createQuery, [id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
@@ -50,11 +50,11 @@ const createProduct = (req, res) => {
 
 const updateProduct = (req, res) => {
     const { id_productos } = req.params;
-    const { nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria } = req.body;
+    const { nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio } = req.body;
 
-    const updateQuery = `UPDATE productos SET nombre_producto=?, unidades_stock=?, unidades_disponibles=?, fk_id_categoria=? WHERE id_productos=?;`;
+    const updateQuery = `UPDATE productos SET nombre_producto=?, unidades_stock=?, unidades_disponibles=?, fk_id_categoria=?, precio=? WHERE id_productos=?;`;
 
-    const query = mysql2.format(updateQuery, [nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, id_productos]);
+    const query = mysql2.format(updateQuery, [nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio, id_productos]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
