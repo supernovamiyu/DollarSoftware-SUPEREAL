@@ -9,7 +9,7 @@ const cityRoutes = require('../routes/city.routes');
 const deliveryStateRoutes = require('../routes/delivery-state.routes');
 const sendMethodRoutes = require('../routes/send-method.routes');
 const productRoutes = require('../routes/product.routes');
-const detailDeliveryRoutes = require('../routes/detail-product.routes');
+const detailDeliveryRoutes = require('../routes/detail-delivery.routes');
 const deliveryRoutes = require('../routes/delivery.routes');
 
 
