@@ -32,11 +32,11 @@ const readDeliveryDetails = (req, res) => {
 
 
 const createDeliveryDetails = (req, res) => {
-    const { fk_id_pedido, fk_id_producto, cantidad, precio_unitario, precio_total } = req.body;
+    const { fk_id_pedido, fk_id_producto, cantidad, precio_unitario } = req.body;
 
-    const createQuery = `INSERT INTO detalle_pedido (fk_id_pedido, fk_id_producto, cantidad, precio_unitario, precio_total) VALUES (?,?,?,?,?);`;
+    const createQuery = `INSERT INTO detalle_pedido (fk_id_pedido, fk_id_producto, cantidad, precio_unitario) VALUES (?,?,?,?);`;
     
-    const query = mysql2.format(createQuery, [fk_id_pedido, fk_id_producto, cantidad, precio_unitario, precio_total]);
+    const query = mysql2.format(createQuery, [fk_id_pedido, fk_id_producto, cantidad, precio_unitario]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
