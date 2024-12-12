@@ -9,7 +9,7 @@ const cityRoutes = require('../routes/city.routes');
 const deliveryStateRoutes = require('../routes/delivery-state.routes');
 const sendMethodRoutes = require('../routes/send-method.routes');
 const productRoutes = require('../routes/product.routes');
-const detailProductRoutes = require('../routes/detail-product.routes');
+const detailDeliveryRoutes = require('../routes/detail-product.routes');
 const deliveryRoutes = require('../routes/delivery.routes');
 
 
@@ -30,7 +30,7 @@ app.use('/city', cityRoutes);
 app.use('/delivery-state', deliveryStateRoutes);
 app.use('/send-method', sendMethodRoutes);
 app.use('/product', productRoutes);
-app.use('/detail-product', detailProductRoutes);
+app.use('/detail-delivery', detailDeliveryRoutes);
 app.use('/delivery', deliveryRoutes);
 
 
