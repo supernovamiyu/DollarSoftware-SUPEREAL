@@ -9,11 +9,11 @@ const mysql2 = require('mysql2');
 
 const readDeliveryDetails = (req, res) => { 
 
-    const { id_detalle_producto } = req.params;
+    const { id_detalle_pedido } = req.params;
 
-    const readQuery = `SELECT * FROM detalle_pedido WHERE id_detalle_producto=?;`;
+    const readQuery = `SELECT * FROM detalle_pedido WHERE id_detalle_pedido=?;`;
 
-    const query = mysql2.format(readQuery, [id_detalle_producto]);
+    const query = mysql2.format(readQuery, [id_detalle_pedido]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
@@ -21,7 +21,7 @@ const readDeliveryDetails = (req, res) => {
         if (result[0] !== undefined) {
             res.json(result[0]);
         } else {
-            res.json({message: 'Detalle del pedido no encontrado :(. Por favor verifica el id del producto en la base de datos'});
+            res.json({message: 'Detalle del pedido no encontrado :(. Por favor verifica el id del pedido en la base de datos'});
         }
     });
 
