@@ -3,4 +3,4 @@ description: "Página web para un comercio electrónico"
 theme: minima
 url: "https://supernovamiyu.github.io/DollarSoftware-SUPEREAL/" 
 exclude:
-  - node_modules
+  - backend/node_modules
