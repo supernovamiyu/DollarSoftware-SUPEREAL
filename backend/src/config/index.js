@@ -10,10 +10,10 @@ const main = () => {
         // Inicio de la API RESTful
     });
 
-
+    const port = 3000;
     // ENCENDER EL SERVIDOR 
-    app.listen(2000, () => {
-        console.log('Servidor encendido en el puerto 2000');
+    app.listen(port, () => {
+        console.log(`Servidor encendido en el puerto 3000`);
     });
 
 }
