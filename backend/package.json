@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/config/index.js",
-    "vercel-build": "bash vercel-build.sh"
+    "dev": "nodemon src/config/index.js"
   },
   "keywords": [],
   "author": "",
