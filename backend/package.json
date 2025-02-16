@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/config/index.js",
-    "vercel-build": "bash ../vercel-build.sh"
+    "vercel-build": "bash vercel-build.sh"
   },
   "keywords": [],
   "author": "",
