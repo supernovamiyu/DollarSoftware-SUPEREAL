@@ -42,7 +42,7 @@ const createUser = (req, res) => {
     database.query(query, (err, result) => {
         if (err) throw err;
         // console.log(result);
-        res.json({message: 'Usuario creado con éxito'});
+        res.json({message: `Usuario creado con éxito. El id del usuario es: ${result.insertId}`});
     });
 };
 
