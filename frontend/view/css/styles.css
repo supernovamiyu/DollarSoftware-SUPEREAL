@@ -9,6 +9,38 @@ body {
 .carousel>img{
     width: 100%;
 }
+.encabezado {
+    background-color: rgb(113, 137, 255);
+    padding: 10px;
+    text-align: center;
+}
+
+.barra-navegacion{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.imgMenu {
+    width: 8vh;
+    height: 8vh;
+}
+
+.imgLogo {
+    position: relative;
+    left: 3%;
+    width: 90%;
+    padding: 4%;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
 
 .menu-categorias{
     display: grid;
@@ -39,26 +71,6 @@ body {
     font-size: 90%;
 }
 
-.imgMenu {
-    width: 8vh;
-    height: 8vh;
-}
-
-.imgLogo {
-    position: relative;
-    left: 3%;
-    width: 90%;
-    padding: 4%;
-}
-
-
-
-.barra-navegacion{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    background-color: rgb(113, 137, 255);
-}
 
 .barra-navegacion a{
     color: white;
@@ -105,41 +117,6 @@ body {
 
 .popular-products{
     margin: 0 0 5%;
-}
-
-.search {
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 20px;
-    background: #f6f6f6;
-    border: none;
-    height: 30px;
-    position: relative;
-    top: 0vh;
-    left: 12vh;
-}
-
-.search-input{
-    font-size: 16px;
-    font-family: 'Lexend', sans-serif;
-    color: grey;
-    margin-left: 10px;
-    outline: none;
-    border: none;
-    background: transparent;
-}
-
-.searchbar {
-    display: flex;
-    align-items: center;
-    background-color: rgb(113, 137, 255);
-    height: 51px;
-    border-bottom-right-radius: 90px;
-    border-bottom-left-radius: 90px;
-    bottom: 53px;
-    width: 100%;
 }
 
 .formulario-cuenta{
