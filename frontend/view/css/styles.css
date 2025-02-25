@@ -20,17 +20,17 @@ body {
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;
     position: relative;
 }
 
 .imgMenu {
-    width: 30px;
+    width: 80%;
     height: auto;
 }
 
 .imgLogo {
-    width: 100px;
+    width: 100%;
     height: auto;
 }
 
