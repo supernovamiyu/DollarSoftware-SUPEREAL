@@ -29,3 +29,8 @@ function mostrarPantallaAtencionCliente(event){
     event.preventDefault();
     vista.mostrarPlantilla("plantilla-atencion-cliente", "container-2")
 }
+
+function mostrarPantallaUbicacion(event) {
+    event.preventDefault();
+    vista.mostrarPlantilla("plantilla-ubicacion", "container-2")
+}
