@@ -166,8 +166,6 @@ body {
     align-items: center;
     background-color: rgb(113, 137, 255);
     height: 51px;
-    border-bottom-right-radius: 90px;
-    border-bottom-left-radius: 90px;
     bottom: 53px;
     width: 100%;
 }
