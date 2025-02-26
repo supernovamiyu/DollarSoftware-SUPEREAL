@@ -1,6 +1,3 @@
-
-// PARA TRABAJAR CON LA BASE DE DATOS LOCAL
-
 const mysql2 = require('mysql2');
 
 // Conexion a base de datos
