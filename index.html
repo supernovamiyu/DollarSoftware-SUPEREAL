@@ -57,10 +57,23 @@
     <!--------------------Plantillas-------------------------->
     <template id="plantilla-inicio">
 
+        <section class="searchbar">
+            <div class="search">
+                <form>
+                    <fieldset>
+                        <a href="productos.html"><span class="material-symbols-outlined">search</span></a>
+                        <input class="search-input" type="text" value="" placeholder="Buscar productos" />
+                    </fieldset>
+                </form>
+            </div>
+        </section>
         <div class="header-img">
             <div class="carousel">
                 <img src="frontend/view/img/carousel_image.png" alt="Imagen con información del descuento">
             </div>
+            <a class="previous" onclick="changeSlide(-1)" style="text-decoration: none;">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)" style="text-decoration: none;">&#10095;</a>
+
         </div>
 
         <div class="titulo-seccion">
@@ -293,7 +306,7 @@
     <!-----------------Enlaces JS------------------->
     <script src="frontend/controller/controller.js"></script>
     <script src="frontend/view/js/view.js"></script>
-
+    <script src="frontend/view/js/carousel.js"></script>
 </body>
 
 </html>
