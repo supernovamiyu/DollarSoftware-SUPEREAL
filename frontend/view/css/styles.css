@@ -522,3 +522,20 @@ body {
 .explicacion-ayuda {
     text-align: center;
 }
+
+.contenedor-selector-ubicacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selector-ubicacion  {
+    display: flex;
+    flex-direction: column;
+}
+
+#ciudades {
+    background-color: #e5e5e5;
+    outline: none;
+    border: none;
+}
