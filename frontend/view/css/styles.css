@@ -14,9 +14,8 @@ body {
 .carousel-slide {
     display: none;
 }
-.carousel-slide>img {
+.carousel-slide img {
     width: 100%;
-    height: auto;
 }
 .previous, .next {
     cursor: pointer;

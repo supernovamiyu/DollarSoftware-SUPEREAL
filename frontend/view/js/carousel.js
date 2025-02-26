@@ -20,7 +20,6 @@ function showSlides(n) {
     slides[slideIndex - 1].style.display = "block"
 }
 
-// Asegúrate de que las diapositivas se muestren correctamente al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
     showSlides(slideIndex)
 })
