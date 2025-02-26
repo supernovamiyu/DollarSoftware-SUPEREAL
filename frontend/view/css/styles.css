@@ -8,6 +8,7 @@ body {
 
 .carousel>img{
     width: 100%;
+    padding: 40px 0;
 }
 .encabezado {
     background-color: rgb(113, 137, 255);
