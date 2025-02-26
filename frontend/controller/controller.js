@@ -34,3 +34,4 @@ function mostrarPantallaUbicacion(event) {
     event.preventDefault();
     vista.mostrarPlantilla("plantilla-ubicacion", "container-2")
 }
+
