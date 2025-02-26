@@ -7,7 +7,7 @@ function changeSlide(n) {
 
 function showSlides(n) {
   let i
-  const slides = document.getElementsByClassName("carousel-slide")
+  const slides = document.querySelectorAll(".carousel-slide")
   if (n > slides.length) {
     slideIndex = 1
   }
@@ -17,7 +17,11 @@ function showSlides(n) {
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none"
   }
-  slides[slideIndex - 1].style.display = "block"
+  if (slides.length > 0 && slideIndex > 0 && slideIndex <= slides.length) {
+    slides[slideIndex - 1].style.display = "block"
+  } else {
+    console.error("Índice de slide inválido o no hay slides disponibles.")
+  }
 }
 
 function autoSlide() {
@@ -43,4 +47,5 @@ document.addEventListener("DOMContentLoaded", () => {
   carousel.addEventListener("mouseenter", stopAutoSlide)
   carousel.addEventListener("mouseleave", startAutoSlide)
 })
+
 
