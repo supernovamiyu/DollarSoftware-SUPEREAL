@@ -539,3 +539,8 @@ body {
     outline: none;
     border: none;
 }
+
+.pin-ubicacion-tienda-disponible {
+    width: 10%;
+    height: 10%;
+}
