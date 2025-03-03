@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <!-------- PÁGINA PRINCIPAL DE DOLLARSOFTWARE - REVERSION --------->
     <meta charset="UTF-8">
@@ -13,21 +14,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
     <div class="container">
         <header class="encabezado">
             <nav class="barra-navegacion">
-                <a href="#" onclick="mostrarPantallaUbicacion(event)"><img class="imgMenu" src="frontend/view/img/location.png" alt="Ubicación"></a>
+                <a href="#" onclick="mostrarPantallaUbicacion(event)"><img id="icono-ubicacion" class="imgMenu"
+                        src="frontend/view/img/location.png" alt="Ubicación"></a>
                 <a href="#" onclick="mostrarPantallaAtencionCliente(event)"><img class="imgMenu"
                         src="frontend/view/img/headphones.png" alt="Audífonos de atención al cliente"></a>
                 <a href="#" onclick="mostrarPantallaInicio(event)"><img class="imgLogo" src="frontend/view/img/logo.png"
                         alt="Logo de la empresa"></a>
-                <a href="#" onclick="mostrarPantallaCarrito(event)"><img class="imgMenu" src="frontend/view/img/cart.png"
-                        alt="Carrito"></a>
-                <a href="#" onclick="mostrarPantallaSesion(event)"><img class="imgMenu" src="frontend/view/img/person.png"
-                        alt="Cuenta UltraCommerce"></a>
+                <a href="#" onclick="mostrarPantallaCarrito(event)"><img class="imgMenu"
+                        src="frontend/view/img/cart.png" alt="Carrito"></a>
+                <a href="#" onclick="mostrarPantallaSesion(event)"><img class="imgMenu"
+                        src="frontend/view/img/person.png" alt="Cuenta UltraCommerce"></a>
             </nav>
         </header>
         <section class="searchbar">
@@ -226,20 +231,28 @@
             </div>
             <div class="help-buttons">
                 <div class="help-btn">
-                    <img class ="help-img" src="frontend/view/img/web.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html"><p>Manejo de la página web</p></a>
+                    <img class="help-img" src="frontend/view/img/web.png" alt="Manejo de la página web">
+                    <a href="sec-atencion-al-cliente.html">
+                        <p>Manejo de la página web</p>
+                    </a>
                 </div>
                 <div class="help-btn">
-                    <img class ="help-img"src="frontend/view/img/send.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html"><p>Gestión de pedidos</p></a>
+                    <img class="help-img" src="frontend/view/img/send.png" alt="Manejo de la página web">
+                    <a href="sec-atencion-al-cliente.html">
+                        <p>Gestión de pedidos</p>
+                    </a>
                 </div>
                 <div class="help-btn">
-                    <img class ="help-img" src="frontend/view/img/shopping-bag.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html"><p>Navegación de productos</p></a>
+                    <img class="help-img" src="frontend/view/img/shopping-bag.png" alt="Manejo de la página web">
+                    <a href="sec-atencion-al-cliente.html">
+                        <p>Navegación de productos</p>
+                    </a>
                 </div>
                 <div class="help-btn">
-                    <img class ="help-img" src="frontend/view/img/user-account.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html"><p>Cuenta Ultra Commerce</p></a>
+                    <img class="help-img" src="frontend/view/img/user-account.png" alt="Manejo de la página web">
+                    <a href="sec-atencion-al-cliente.html">
+                        <p>Cuenta Ultra Commerce</p>
+                    </a>
                 </div>
             </div>
         </section>
@@ -248,72 +261,30 @@
         <div class="titulo-seccion">
             <h4>Ubicación</h4>
         </div>
-        <section class="contenedor-selector-ubicacion">
-            <div class="selector-ubicacion">
-                <label for="ciudades">Selecciona tu ubicación</label>
-                <select name="ciudades" id="ciudades">
-                    <option value="bogota">Bogotá D.C.</option>
-                    <option value="barranquilla">Barranquilla</option>
-                    <option value="medellin">Medellín</option>
-                    <option value="cali">Cali</option>
-                </select>
-            </div>
-            <div class="selector-ubicacion">
-                <label for="zonas">Selecciona tu zona:</label>
-                <select name="zonas" id="zonas">
-                    <option value="centro">Zona Centro</option>
-                    <option value="norte">Zona Norte</option>
-                    <option value="sur">Zona Sur</option>
-                </select>
-            </div>
-        </section>
-        <section class="contenedor-vista-tiendas-disponibles">
-            <div class="vista-tiendas-disponibles">
-                <h5>Tiendas disponibles en tu ubicación</h5>
-                <div class="tienda-disponible">
-                    <div class="icono-tiendas-disponibles">
-                        <img class ="pin-ubicacion-tienda-disponible" src="frontend/view/img/purple-location-pin.png" alt="Tienda 1">
-                    </div>
-                    <div class="informacion-tienda-disponible">
-                        <h6>Tienda 1</h6>
-                        <p>Avenida 123 # 45-67</p>
-                        <p>Horario: YY:YY - YY:YY</p>
-                    </div>
-                </div>
-                <div class="tienda-disponible">
-                    <div class="icono-tiendas-disponibles">
-                        <img class ="pin-ubicacion-tienda-disponible" src="frontend/view/img/purple-location-pin.png" alt="Tienda 2">
-                    </div>
-                    <div class="informacion-tienda-disponible">
-                        <h6>Tienda 2</h6>
-                        <p>Avenida 123 # 45-67</p>
-                        <p>Horario: YY:YY - YY:YY</p>
-                    </div>
-                </div>
-                <div class="tienda-disponible">
-                    <div class="icono-tiendas-disponibles">
-                        <img class = "pin-ubicacion-tienda-disponible" src="frontend/view/img/purple-location-pin.png" alt="Tienda 3">
-                    </div>
-                    <div class="informacion-tienda-disponible">
-                        <h6>Tienda 3</h6>
-                        <p>Avenida 123 # 45-67</p>
-                        <p>Horario: YY:YY - YY:YY</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="contenedor-visualizacion-mapa">
-            <h5>Visualización del mapa con tiendas disponibles</h5>
-            <div class="mapa-tiendas">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7952.729282758341!2d-74.10921409776216!3d4.706561225691654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9bf8054fdd45%3A0x51e46a5a7a9a8e79!2sPortal%2080%20-%20TransMilenio!5e0!3m2!1ses-419!2sco!4v1740488268213!5m2!1ses-419!2sco" width="100%" height="auto" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-        </section>
+        <form id="formulario-ubicacion">
+            <label for="ciudad">Ciudad:</label>
+            <select id="ciudad">
+                <option value="bogota">Bogotá D.C</option>
+                <option value="medellin">Medellín</option>
+                <option value="cali">Cali</option>
+                <option value="barranquilla">Barranquilla</option>
+            </select>
+    
+            <label for="zona">Zona:</label>
+            <select id="zona"></select>
+    
+            <button type="submit">Buscar Tiendas</button>
+        </form>
+    
+        <div id="mapa"></div>
+    
+        <div id="detalles-tiendas"></div>
     </template>
     <!-----------------Enlaces JS------------------->
     <script src="frontend/controller/controller.js"></script>
     <script src="frontend/view/js/view.js"></script>
     <script src="frontend/view/js/carousel.js"></script>
+    <script src="frontend/view/js/mapa.js"></script>
 </body>
 
 </html>
