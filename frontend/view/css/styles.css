@@ -534,13 +534,33 @@ body {
     flex-direction: column;
 }
 
-#ciudades {
+#ciudades, #zonas {
     background-color: #e5e5e5;
     outline: none;
     border: none;
+    border-radius: 20px;
+}
+
+.contenedor-vista-tiendas-disponibles {
+    margin: 5%;
+}
+
+.tienda-disponible {
+    display: flex; 
+    align-items: flex-start;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
+.icono-tiendas-disponibles {
+    width: 10%;
+    height: 10%;
+    margin-right: 20px;
 }
 
 .pin-ubicacion-tienda-disponible {
-    width: 10%;
-    height: 10%;
+    width: 100%;
+    height: auto;
+    display: block;
 }
