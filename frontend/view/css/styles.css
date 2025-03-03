@@ -529,9 +529,10 @@ body {
     align-items: center;
 }
 
-.selector-ubicacion  {
+.selector-ubicacion {
     display: flex;
     flex-direction: column;
+    padding: 3%;
 }
 
 #ciudades, #zonas {
