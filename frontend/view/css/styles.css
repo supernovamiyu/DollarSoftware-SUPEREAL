@@ -579,3 +579,12 @@ body {
 form {
     margin-bottom: 5px;
 }
+
+
+#formulario-ubicacion {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
