@@ -10,37 +10,39 @@ function inicializarMapa() {
   const tiendas = {
     bogota: {
       "parque-simon-bolivar": [
-        { nombre: "Tienda A", direccion: "Calle Falsa #123", horario: "9 AM - 6 PM", lat: 4.657, lng: -74.093 },
-        { nombre: "Tienda B", direccion: "Carrera Verdadera #456", horario: "10 AM - 7 PM", lat: 4.658, lng: -74.094 }
+        { nombre: "Ultra Commerce - Sucursal #1 - Simón Bolívar", direccion: "Calle Falsa #123", horario: "9 AM - 6 PM", lat: 4.657, lng: -74.093 },
+        { nombre: "Ultra Commerce - Sucursal #2 - Simón Bolívar", direccion: "Carrera Verdadera #456", horario: "10 AM - 7 PM", lat: 4.658, lng: -74.094 }
       ],
       "museo-del-oro": [
-        { nombre: "Tienda C", direccion: "Calle Dorada #789", horario: "8 AM - 5 PM", lat: 4.601, lng: -74.072 }
-      ]
+        { nombre: "Ultra Commerce - Sucursal #1 - Museo del Oro", direccion: "Calle Dorada #789", horario: "8 AM - 5 PM", lat: 4.601, lng: -74.072 }
+      ],
+      "cefe-cometas": [
+        { nombre: "Ultra Commerce - Outlet #1 - Cometas", direccion: "Calle Dorada #209", horario: "10 AM - 6 PM", lat: 4.714436, lng: -74.084780 }
+      ],
     },
     medellin: {
       "parque-berrio": [
-        { nombre: "Tienda D", direccion: "Calle Medellín #321", horario: "9 AM - 6 PM", lat: 6.247, lng: -75.563 }
+        { nombre: "Ultra Commerce - Outlet #2 - Barrio Candelaria", direccion: "Calle Medellín #321", horario: "9 AM - 6 PM", lat: 6.247, lng: -75.563 }
       ],
       "museo-de-antioquia": [
-        { nombre: "Tienda E", direccion: "Carrera Antioquia #654", horario: "10 AM - 7 PM", lat: 6.251, lng: -75.565 }
+        { nombre: "Ultra Commerce - Sucursal #1 - Museo de Antioquia", direccion: "Carrera Antioquia #654", horario: "10 AM - 7 PM", lat: 6.251, lng: -75.565 }
       ]
     },
     cali: {
       "parque-del-gato": [
-        { nombre: "Tienda F", direccion: "Calle Cali #901", horario: "9 AM - 6 PM", lat: 3.420556, lng: -76.522222 },
-        { nombre: "Tienda G", direccion: "Carrera Cali #111", horario: "10 AM - 7 PM", lat: 3.421111, lng: -76.523333 }
+        { nombre: "Ultra Commerce - Sucursal #1 - Parque del Gato", direccion: "Calle Cali #901", horario: "9 AM - 6 PM", lat: 3.420556, lng: -76.522222 },
+        { nombre: "Ultra Commerce - Sucursal #2 - Barrio El Peñón", direccion: "Carrera Cali #111", horario: "10 AM - 7 PM", lat: 3.421111, lng: -76.523333 }
       ],
       "museo-de-la-caña-de-azucar": [
-        { nombre: "Tienda H", direccion: "Calle Museo #456", horario: "8 AM - 5 PM", lat: 3.422222, lng: -76.524444 }
+        { nombre: "Ultra Commerce - Outlet #3 - Museo de la Caña de Azucar", direccion: "Calle Museo #456", horario: "8 AM - 5 PM", lat: 3.422222, lng: -76.524444 }
       ]
     },
     barranquilla: {
       "parque-fernando-villa": [
-        { nombre: "Tienda I", direccion: "Calle Barranquilla #789", horario: "9 AM - 6 PM", lat: 10.966667, lng: -74.783333 },
-        { nombre: "Tienda J", direccion: "Carrera Barranquilla #321", horario: "10 AM - 7 PM", lat: 10.967222, lng: -74.784444 }
+        { nombre: "Ultra Commerce - Outlet #4 - Parque Fernando Villa", direccion: "Calle Barranquilla #789", horario: "9 AM - 6 PM", lat: 10.966667, lng: -74.783333 },
       ],
       "museo-del-caribe": [
-        { nombre: "Tienda K", direccion: "Calle Museo #654", horario: "8 AM - 5 PM", lat: 10.968333, lng: -74.785555 }
+        { nombre: "Ultra Commerce - Sucursal #1 - Museo del Caribe", direccion: "Calle Museo #654", horario: "8 AM - 5 PM", lat: 10.968333, lng: -74.785555 }
       ]
     }
   };
@@ -59,6 +61,7 @@ function inicializarMapa() {
       zonaSelect.innerHTML = `
         <option value="parque-simon-bolivar">Parque Simón Bolívar</option>
         <option value="museo-del-oro">Museo del Oro</option>
+        <option value="cefe-cometas">CEFE Cometas</option>
       `;
     } else if (ciudad === 'medellin') {
       zonaSelect.innerHTML = `
