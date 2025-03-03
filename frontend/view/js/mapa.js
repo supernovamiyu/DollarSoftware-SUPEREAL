@@ -105,6 +105,7 @@ function inicializarMapa() {
 
         // Mostrar detalles en la página
         const detallesHTML = `
+          <img id="pin-ubicacion-tiendas" src="./frontend/view/img/purple-location-pin.png">
           <h5>${tienda.nombre}</h5>
           <p>Dirección: ${tienda.direccion}</p>
           <p>Horario: ${tienda.horario}</p>
