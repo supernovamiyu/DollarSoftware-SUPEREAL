@@ -529,12 +529,6 @@ body {
     align-items: center;
 }
 
-.selector-ubicacion {
-    display: flex;
-    flex-direction: column;
-    padding: 3%;
-}
-
 #ciudades, #zonas {
     background-color: #e5e5e5;
     outline: none;
@@ -587,4 +581,31 @@ form {
     flex-direction: column;
     align-content: center;
     align-items: center;
+}
+
+.selector-ubicacion {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.selector-ubicacion:hover {
+    background-color: #dddcdc;
+    transition: ease-in .5s;
+}
+
+#buscar-tiendas {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #c5c5c575;
+    text-decoration: none;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+#buscar-tiendas:hover{
+    background-color: #adadad;
+    transition: ease-in .5s;
 }
