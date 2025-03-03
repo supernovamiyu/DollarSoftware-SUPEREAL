@@ -105,7 +105,7 @@ function inicializarMapa() {
 
         // Mostrar detalles en la página
         const detallesHTML = `
-          <h3>${tienda.nombre}</h3>
+          <h5>${tienda.nombre}</h5>
           <p>Dirección: ${tienda.direccion}</p>
           <p>Horario: ${tienda.horario}</p>
         `;
