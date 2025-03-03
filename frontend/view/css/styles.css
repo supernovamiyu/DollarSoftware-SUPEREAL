@@ -609,3 +609,10 @@ form {
     background-color: #adadad;
     transition: ease-in .5s;
 }
+
+
+#pin-ubicacion-tiendas {
+    width: 10%;
+    height: auto;
+    display: block;
+}
