@@ -94,20 +94,20 @@ body {
     text-decoration: none;
 }
 
-.product{
+.productos{
     display: inline-block;
     background-color: #d7d7d752;
     width: fit-content;
     margin: 1.8%;
 }
 
-.product h6 {
+.productos h6 {
     background-color: #d7d7d752;
     padding: 25%;
     font-size: 80%;
 }
 
-.product a{
+.productos a{
     font-size: 85%
 }
 .titulo-seccion h4{
@@ -132,7 +132,7 @@ body {
     padding: 5%;
 }
 
-.popular-products{
+.productos-populares {
     margin: 0 0 5%;
 }
 
