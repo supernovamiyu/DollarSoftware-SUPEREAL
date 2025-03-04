@@ -24,10 +24,9 @@ fetch('http://localhost:3000/products/')
 
         data.forEach(producto => {
             const productoHTML = `
-        <div>
+        <div class="producto">
             <h3>${producto.nombre_producto}</h3>
             <p>Precio: $${producto.precio}</p>
-            <p>Stock: ${producto.unidades_disponibles}</p>
             <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Comprar</button>
         </div>
         `;
