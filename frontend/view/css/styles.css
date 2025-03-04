@@ -95,20 +95,7 @@ body {
 }
 
 .productos{
-    display: inline-block;
-    background-color: #d7d7d752;
-    width: fit-content;
-    margin: 1.8%;
-}
 
-.productos h6 {
-    background-color: #d7d7d752;
-    padding: 25%;
-    font-size: 80%;
-}
-
-.productos a{
-    font-size: 85%
 }
 .titulo-seccion h4{
     padding: 1%;
@@ -133,8 +120,20 @@ body {
 }
 
 #productos-populares {
-    margin: 0 0 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
 }
+#productos-populares > div {
+    width: 300px;
+    margin: 10px;
+    padding: 15px;
+    border: 1px sold #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
 
 .search {
     width: fit-content;
