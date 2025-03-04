@@ -25,7 +25,7 @@ fetch('http://localhost:3000/products/')
         data.forEach(producto => {
             const productoHTML = `
         <div>
-            <img src="${producto.imagen_url}" alt="Imagen del producto">
+            <img src="${producto.imagen_url}" alt="Imagen del producto" width = "100%" height: "auto">
             <h3>${producto.nombre_producto}</h3>
             <p>Precio: $${producto.precio}</p>
             <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Comprar</button>
