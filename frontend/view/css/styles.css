@@ -50,23 +50,13 @@ body {
     text-align: center;
 }
 
-.categoria{
-    padding: 10px;
+.categoria-botones{
     height: 50px;
     border-radius: 25px;
     background-color: rgb(113, 137, 255);
     margin: 10px;
+    border: none !important;
     color: white;
-}
-
-.categoria img{
-    width: 20%;
-}
-
-.categoria p{
-    display: inline-block;
-    font-family: 'Lexend', sans-serif;
-    font-size: 90%;
 }
 
 .imgMenu {
