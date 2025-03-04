@@ -94,9 +94,6 @@ body {
     text-decoration: none;
 }
 
-.productos{
-
-}
 .titulo-seccion h4{
     padding: 1%;
 }
@@ -120,20 +117,27 @@ body {
 }
 
 #productos-populares {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 20px;
 }
+
 #productos-populares > div {
-    width: 300px;
     margin: 10px;
-    padding: 15px;
-    border: 1px sold #ddd;
     border-radius: 8px;
     text-align: center;
 }
 
+#productos-populares h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+#productos-populares p {
+    margin: 10px 0;
+}
 
 .search {
     width: fit-content;
@@ -148,7 +152,13 @@ body {
     top: 0vh;
     left: 12vh;
 }
-
+.comprar {
+    border: none;
+    background-color: rgb(113, 137, 255);
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
 .search-input{
     font-size: 16px;
     font-family: 'Lexend', sans-serif;
