@@ -17,7 +17,7 @@ class Vista {
     }
 }
 
-fetch('/products/')
+fetch('/products')
     .then(response => response.json())
     .then(data => {
         const productosContenedor = document.getElementById('productos-populares');
