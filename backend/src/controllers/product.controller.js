@@ -8,7 +8,7 @@ const mysql2 = require('mysql2');
 // Buscar todos los productos en la base de datos
 
 const getAllProducts = (req, res) => {
-    const readAllQuery = `SELECT * FROM productos;`;
+    const readAllQuery = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, imagen_url FROM productos;`;
     
     database.query(readAllQuery, (err, result) => {
         if (err) throw err;
