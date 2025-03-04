@@ -5,6 +5,17 @@ const mysql2 = require('mysql2');
 
 /////////////// PRODUCTO /////////////////
 
+// Buscar todos los productos en la base de datos
+
+const getAllProducts = (req, res) => {
+    const readAllQuery = `SELECT * FROM productos;`;
+    
+    database.query(readAllQuery, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+};
+
 // Buscar un producto en la base de datos
 
 const readProduct = (req, res) => { 
@@ -85,5 +96,6 @@ module.exports = {
     readProduct,
     createProduct,
     updateProduct,
-    deleteProduct, 
+    deleteProduct,
+    getAllProducts,
 };
