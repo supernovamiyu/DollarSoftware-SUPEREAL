@@ -17,7 +17,7 @@ class Vista {
     }
 }
 
-fetch('/products')
+fetch('http://localhost:3000/products/')
     .then(response => response.json())
     .then(data => {
         const productosContenedor = document.getElementById('productos-populares');
@@ -25,12 +25,12 @@ fetch('/products')
         data.forEach(producto => {
             const productoHTML = `
         <div>
-          <h3>${producto.nombre_producto}</h3>
-          <p>Precio: $${producto.precio}</p>
-          <p>Stock: ${producto.unidades_disponibles}</p>
-          <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Comprar</button>
+            <h3>${producto.nombre_producto}</h3>
+            <p>Precio: $${producto.precio}</p>
+            <p>Stock: ${producto.unidades_disponibles}</p>
+            <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Comprar</button>
         </div>
-      `;
+        `;
 
             productosContenedor.insertAdjacentHTML('beforeend', productoHTML);
         });
