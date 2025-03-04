@@ -43,11 +43,11 @@ const readProduct = (req, res) => {
 
 
 const createProduct = (req, res) => {
-    const { id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio } = req.body;
+    const { id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio, imagen_url } = req.body;
 
-    const createQuery = `INSERT INTO productos (id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio) VALUES (?,?,?,?,?);`;
+    const createQuery = `INSERT INTO productos (id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio, imagen_url) VALUES (?,?,?,?,?,?);`;
     
-    const query = mysql2.format(createQuery, [id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio]);
+    const query = mysql2.format(createQuery, [id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio, imagen_url]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
