@@ -127,6 +127,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-content: space-around;
+    margin-bottom: 5%;
 }
 
 #productos-populares > div, .producto {
@@ -136,7 +137,7 @@ body {
 }
 
 #productos-populares h3 {
-    font-size: 20px;
+    font-size: 100%;
     margin-bottom: 5px;
     color: #333;
 }
@@ -146,7 +147,7 @@ body {
 }
 
 #productos-categorias div > h3 {
-    font-size: 20px;
+    font-size: 100%;
     margin-bottom: 5px;
     color: #333;
 }
