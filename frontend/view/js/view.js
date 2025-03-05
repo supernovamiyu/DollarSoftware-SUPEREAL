@@ -78,46 +78,39 @@ function cargarProductos() {
 }
 
 // Llama a la función cuando la plantilla se carga o se actualiza
-document.addEventListener('DOMContentLoaded', cargarProductos);
+function mostrarPantallaCategoriasProductos(event) {
+    const categoria = event.target.closest('button').getAttribute('data-categoria');
+    mostrarProductos(categoria);
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    const categoriaBtns = document.querySelectorAll('.categoria-botones[data-categoria]');
-    const plantillaProductos = document.getElementById('plantilla-categorias-productos').innerHTML;
+function mostrarProductos(categoria) {
+    fetch(`http://localhost:3000/products/categoria/${categoria}`)
+        .then(response => response.json())
+        .then(data => {
+            const plantillaProductos = document.getElementById('plantilla-categorias-productos').innerHTML;
+            const contenido = document.getElementById('container-2');
+            contenido.innerHTML = plantillaProductos;
 
-    const contenido = document.getElementById('container-2');
-    contenido.innerHTML = plantillaProductos;
+            const productosCategorias = document.getElementById('productos-categorias');
+            productosCategorias.innerHTML = ''; // Limpiar contenido previo
 
-    categoriaBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const categoria = btn.getAttribute('data-categoria');
-            mostrarProductos(categoria);
-        });
-    });
+            if (data.message) {
+                productosCategorias.innerHTML = `<p>${data.message}</p>`;
+                return;
+            }
 
-    function mostrarProductos(categoria) {
-        fetch(`http://localhost:3000/products/categoria/${categoria}`)
-            .then(response => response.json())
-            .then(data => {
-                const productosCategorias = document.getElementById('productos-categorias');
-                productosCategorias.innerHTML = ''; // Limpiar contenido previo
+            const contenidoProductos = data.map(producto => {
+                return `
+                    <div class="producto">
+                        <h3>${producto.nombre_producto}</h3>
+                        <p>Precio: $${producto.precio}</p>
+                        <img src="${producto.imagen_url}" alt="${producto.nombre_producto}">
+                    </div>
+                `;
+            }).join('');
 
-                if (data.message) {
-                    productosCategorias.innerHTML = `<p>${data.message}</p>`;
-                    return;
-                }
+            productosCategorias.innerHTML = contenidoProductos;
+        })
+        .catch(error => console.error('Error al obtener los productos:', error));
+}
 
-                const contenido = data.map(producto => {
-                    return `
-                        <div class="producto">
-                            <h3>${producto.nombre_producto}</h3>
-                            <p>Precio: $${producto.precio}</p>
-                            <img src="${producto.imagen_url}" alt="${producto.nombre_producto}">
-                        </div>
-                    `;
-                }).join('');
-
-                productosCategorias.innerHTML = contenido;
-            })
-            .catch(error => console.error('Error al obtener los productos:', error));
-    }
-});
