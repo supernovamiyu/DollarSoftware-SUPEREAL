@@ -15,22 +15,23 @@ class Vista {
             dest.appendChild(clone);
             
             if (plantilla === "plantilla-inicio") {
-                cargarProductos();
+                mostrarProductosDestacados();
             }
         }
     }
 }
 
-function cargarProductos() {
-    fetch('http://localhost:3000/products/')
-        .then(response => response.json())
-        .then(data => {
-            const productosContenedor = document.getElementById('productos-populares');
-            
-            productosContenedor.innerHTML = '';
+function mostrarProductosDestacados() {
+    fetch('http://localhost:3000/products/destacados')
+    .then (response => response.json())
+    .then(data => {
+        const productosDestacados = document.getElementById('productos-populares');
+        productosDestacados.innerHTML = '';
 
-            data.forEach(producto => {
-                const productoHTML = `
+        const productosLimitados = data.slice(0,3);
+
+        const contenidoProductos = productosLimitados.map(producto => {
+            return `
             <div>
                 <img src="${producto.imagen_url}" alt="Imagen del producto" width="100%" height="auto">
                 <h3>${producto.nombre_producto}</h3>
@@ -38,44 +39,68 @@ function cargarProductos() {
                 <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Comprar</button>
             </div>
             `;
+        }).join('');
+
+        productosDestacados.innerHTML = contenidoProductos;
+    })
+    .catch(error => console.error('Error al obtener los productos: '. error));
+};
+
+// function cargarProductos() {
+//     fetch('http://localhost:3000/products/')
+//         .then(response => response.json())
+//         .then(data => {
+//             const productosContenedor = document.getElementById('productos-populares');
+            
+//             productosContenedor.innerHTML = '';
+
+//             data.forEach(producto => {
+//                 const productoHTML = `
+//             <div>
+//                 <img src="${producto.imagen_url}" alt="Imagen del producto" width="100%" height="auto">
+//                 <h3>${producto.nombre_producto}</h3>
+//                 <p>Precio: $${producto.precio}</p>
+//                 <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Comprar</button>
+//             </div>
+//             `;
     
-                productosContenedor.insertAdjacentHTML('beforeend', productoHTML);
-            });
+//                 productosContenedor.insertAdjacentHTML('beforeend', productoHTML);
+//             });
     
-            // Agrega evento de clic a los botones de comprar
-            const comprarBotones = document.querySelectorAll('.comprar');
+//             // Agrega evento de clic a los botones de comprar
+//             const comprarBotones = document.querySelectorAll('.comprar');
     
-            comprarBotones.forEach(boton => {
-                boton.addEventListener('click', function () {
-                    const id = this.getAttribute('data-id');
-                    let unidadesDisponibles = parseInt(this.getAttribute('data-unidades-disponibles'));
+//             comprarBotones.forEach(boton => {
+//                 boton.addEventListener('click', function () {
+//                     const id = this.getAttribute('data-id');
+//                     let unidadesDisponibles = parseInt(this.getAttribute('data-unidades-disponibles'));
     
-                    if (unidadesDisponibles > 0) {
-                        // Actualiza el stock en el backend
-                        fetch(`/products/${id}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ unidades_disponibles: unidadesDisponibles - 1 })
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                // Actualiza el stock en la interfaz
-                                unidadesDisponibles--;
-                                this.setAttribute('data-unidades-disponibles', unidadesDisponibles);
-                                const stockElement = this.parentNode.querySelector('p:nth-child(2)');
-                                stockElement.textContent = `Stock: ${unidadesDisponibles}`;
-                            });
-                    } else {
-                        alert('No hay stock disponible para este producto.');
-                    }
-                });
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
+//                     if (unidadesDisponibles > 0) {
+//                         // Actualiza el stock en el backend
+//                         fetch(`/products/${id}`, {
+//                             method: 'PUT',
+//                             headers: {
+//                                 'Content-Type': 'application/json'
+//                             },
+//                             body: JSON.stringify({ unidades_disponibles: unidadesDisponibles - 1 })
+//                         })
+//                             .then(response => response.json())
+//                             .then(data => {
+//                                 console.log(data);
+//                                 // Actualiza el stock en la interfaz
+//                                 unidadesDisponibles--;
+//                                 this.setAttribute('data-unidades-disponibles', unidadesDisponibles);
+//                                 const stockElement = this.parentNode.querySelector('p:nth-child(2)');
+//                                 stockElement.textContent = `Stock: ${unidadesDisponibles}`;
+//                             });
+//                     } else {
+//                         alert('No hay stock disponible para este producto.');
+//                     }
+//                 });
+//             });
+//         })
+//         .catch(error => console.error('Error:', error));
+// }
 
 // Llama a la función cuando la plantilla se carga o se actualiza
 function mostrarPantallaCategoriasProductos(event) {
