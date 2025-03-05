@@ -8,13 +8,37 @@ const mysql2 = require('mysql2');
 // Buscar todos los productos en la base de datos
 
 const getAllProducts = (req, res) => {
-    const readAllQuery = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, imagen_url FROM productos;`;
+    const readAllQuery = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, fk_id_categoria, imagen_url FROM productos;`;
     
     database.query(readAllQuery, (err, result) => {
         if (err) throw err;
         res.json(result);
     });
 };
+
+const getProductCategory = (req, res) => {
+    const { fk_id_categoria } = req.params;
+
+    console.log('Categoría:', fk_id_categoria); // Verifica el valor
+
+    const getProCatQuery = `SELECT * FROM productos WHERE fk_id_categoria = ?;`;
+
+    const query = mysql2.format(getProCatQuery, [fk_id_categoria]);
+
+    database.query(query, (err, result) => {
+        if (err) {
+            console.error('Error al obtener productos:', err);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        } else {
+            if (result.length > 0) {
+                res.json(result); // Devuelve todos los productos
+            } else {
+                res.json({ message: 'No han sido encontrados productos con esta categoría :(' });
+            }
+        }
+    });
+};
+
 
 // Buscar un producto en la base de datos
 
@@ -98,4 +122,5 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getAllProducts,
+    getProductCategory,
 };

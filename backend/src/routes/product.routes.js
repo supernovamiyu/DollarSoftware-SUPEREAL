@@ -1,12 +1,14 @@
 const { Router } = require('express');
 
-const { createProduct, readProduct, updateProduct, deleteProduct, getAllProducts } = require('../controllers/product.controller');
+const { createProduct, readProduct, updateProduct, deleteProduct, getAllProducts, getProductCategory } = require('../controllers/product.controller');
 
 const router = Router();
 
 router.get('/', getAllProducts);
 
 router.get('/:id_productos', readProduct);
+
+router.get('/categoria/:fk_id_categoria', getProductCategory);
 
 router.post('/', createProduct);
 
