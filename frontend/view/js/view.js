@@ -80,7 +80,44 @@ function cargarProductos() {
 // Llama a la función cuando la plantilla se carga o se actualiza
 document.addEventListener('DOMContentLoaded', cargarProductos);
 
-// Si la plantilla se carga dinámicamente, llama a la función después de cargar la plantilla
+document.addEventListener('DOMContentLoaded', function() {
+    const categoriaBtns = document.querySelectorAll('.categoria-botones[data-categoria]');
+    const plantillaProductos = document.getElementById('plantilla-categorias-productos').innerHTML;
 
+    const contenido = document.getElementById('container-2');
+    contenido.innerHTML = plantillaProductos;
 
+    categoriaBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const categoria = btn.getAttribute('data-categoria');
+            mostrarProductos(categoria);
+        });
+    });
 
+    function mostrarProductos(categoria) {
+        fetch(`http://localhost:3000/products/categoria/${categoria}`)
+            .then(response => response.json())
+            .then(data => {
+                const productosCategorias = document.getElementById('productos-categorias');
+                productosCategorias.innerHTML = ''; // Limpiar contenido previo
+
+                if (data.message) {
+                    productosCategorias.innerHTML = `<p>${data.message}</p>`;
+                    return;
+                }
+
+                const contenido = data.map(producto => {
+                    return `
+                        <div class="producto">
+                            <h3>${producto.nombre_producto}</h3>
+                            <p>Precio: $${producto.precio}</p>
+                            <img src="${producto.imagen_url}" alt="${producto.nombre_producto}">
+                        </div>
+                    `;
+                }).join('');
+
+                productosCategorias.innerHTML = contenido;
+            })
+            .catch(error => console.error('Error al obtener los productos:', error));
+    }
+});

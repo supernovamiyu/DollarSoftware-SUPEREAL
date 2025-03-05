@@ -35,3 +35,7 @@ function mostrarPantallaUbicacion(event) {
     vista.mostrarPlantilla("plantilla-ubicacion", "container-2")
 }
 
+function mostrarPantallaCategoriasProductos(event) {
+    event.preventDefault();
+    vista.mostrarPlantilla("plantilla-categorias-productos", "container-2")
+}
