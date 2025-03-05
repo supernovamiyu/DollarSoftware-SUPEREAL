@@ -91,8 +91,13 @@ function mostrarProductos(categoria) {
             const contenido = document.getElementById('container-2');
             contenido.innerHTML = plantillaProductos;
 
+            const tituloCategoria = document.querySelector('.titulo-seccion-categoria');
             const productosCategorias = document.getElementById('productos-categorias');
-            productosCategorias.innerHTML = ''; // Limpiar contenido previo
+           
+           // Limpiar contenido previo
+
+            tituloCategoria.innerHTML = '';
+            productosCategorias.innerHTML = ''; 
 
             if (data.message) {
                 productosCategorias.innerHTML = `<p>${data.message}</p>`;
@@ -100,7 +105,7 @@ function mostrarProductos(categoria) {
             }
             const nombreCategoria = data[0].nombre_categoria;
 
-            productosCategorias.innerHTML = `<h2>${nombreCategoria}</h2>`;
+            tituloCategoria.innerHTML = `<h2 style="width: 100%; text-align: center">${nombreCategoria}</h2>`;
 
             const contenidoProductos = data.map(producto => {
                 return `
