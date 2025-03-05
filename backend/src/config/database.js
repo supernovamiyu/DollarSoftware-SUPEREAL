@@ -4,7 +4,7 @@ const mysql2 = require('mysql2');
 const databaseConnection = mysql2.createConnection({
     host: 'localhost',
     user:  'root',
-    password: 'Yinet2006@@ñ' || 'Hola1234@1234',
+    password: process.env.DB_PASSWORD || 'Hola1234@1234',
     database: 'db_dollarsoftware',
     port: 3306,
 });
