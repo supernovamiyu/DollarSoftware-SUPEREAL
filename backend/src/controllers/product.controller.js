@@ -16,6 +16,24 @@ const getAllProducts = (req, res) => {
     });
 };
 
+// Buscar los productos destacados en la base de datos
+
+const getFeaturedProducts = (req, res) => {
+    const readFeaturedQuery = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, fk_id_categoria, imagen_url FROM productos WHERE destacado = 1;`;
+    
+    database.query(readFeaturedQuery, (err, result) => {
+        if (err) {
+            console.error('Error al obtener los productos destacados:', err);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        } else if (result.length === 0) {
+            res.json({ message: 'No se encontraron productos destacados' });
+        } else {
+            res.json(result);
+        }
+    });
+};
+
+
 // Buscar productos por categoria en la base de datos
 const getProductCategory = (req, res) => {
     const { fk_id_categoria } = req.params;
@@ -124,4 +142,5 @@ module.exports = {
     deleteProduct,
     getAllProducts,
     getProductCategory,
+    getFeaturedProducts,
 };
