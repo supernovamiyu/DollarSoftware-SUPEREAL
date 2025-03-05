@@ -98,6 +98,9 @@ function mostrarProductos(categoria) {
                 productosCategorias.innerHTML = `<p>${data.message}</p>`;
                 return;
             }
+            const nombreCategoria = data[0].nombre_categoria;
+
+            productosCategorias.innerHTML = `<h2>${nombreCategoria}</h2>`;
 
             const contenidoProductos = data.map(producto => {
                 return `
@@ -110,7 +113,7 @@ function mostrarProductos(categoria) {
                 `;
             }).join('');
 
-            productosCategorias.innerHTML = contenidoProductos;
+            productosCategorias.innerHTML += contenidoProductos;
         })
         .catch(error => console.error('Error al obtener los productos:', error));
 }
