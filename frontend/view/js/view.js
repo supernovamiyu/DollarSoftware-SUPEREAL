@@ -118,7 +118,6 @@ function mostrarProductos(categoria) {
 
             const tituloCategoria = document.querySelector('.titulo-seccion-categoria');
             const productosCategorias = document.getElementById('productos-categorias');
-           
            // Limpiar contenido previo
 
             tituloCategoria.innerHTML = '';
@@ -134,7 +133,7 @@ function mostrarProductos(categoria) {
 
             const contenidoProductos = data.map(producto => {
                 return `
-                    <div class="producto">
+                    <div>
                         <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" width="100%" height="auto">
                         <h3>${producto.nombre_producto}</h3>
                         <p>Precio: $${producto.precio}</p>
