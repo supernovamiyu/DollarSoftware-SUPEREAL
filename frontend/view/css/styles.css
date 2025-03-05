@@ -116,14 +116,14 @@ body {
     padding: 5%;
 }
 
-#productos-populares {
+#productos-populares, #productos-categorias {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
-#productos-populares > div {
+#productos-populares > div, .producto {
     margin: 10px;
     border-radius: 8px;
     text-align: center;
