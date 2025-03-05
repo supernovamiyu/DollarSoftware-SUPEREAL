@@ -16,12 +16,13 @@ const getAllProducts = (req, res) => {
     });
 };
 
+// Buscar productos por categoria en la base de datos
 const getProductCategory = (req, res) => {
     const { fk_id_categoria } = req.params;
 
     console.log('Categoría:', fk_id_categoria); // Verifica el valor
 
-    const getProCatQuery = `SELECT * FROM productos WHERE fk_id_categoria = ?;`;
+    const getProCatQuery = `SELECT * FROM productos INNER JOIN categorias ON productos.fk_id_categoria = categorias.id_categoria WHERE productos.fk_id_categoria = ?;`;
 
     const query = mysql2.format(getProCatQuery, [fk_id_categoria]);
 
