@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 
 // RUTAS
@@ -17,7 +18,7 @@ const app = express();
 
 
 // Middlewares
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -29,7 +30,7 @@ app.use('/categories', categoriesRoutes);
 app.use('/city', cityRoutes);
 app.use('/delivery-state', deliveryStateRoutes);
 app.use('/send-method', sendMethodRoutes);
-app.use('/product', productRoutes);
+app.use('/products', productRoutes);
 app.use('/detail-delivery', detailDeliveryRoutes);
 app.use('/delivery', deliveryRoutes);
 
