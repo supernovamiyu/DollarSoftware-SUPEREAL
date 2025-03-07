@@ -58,6 +58,8 @@ body {
     display: flex;
     align-items: center;
     margin: 5%;
+    transition: .5s;
+    transition-property: box-shadow;
 }
 
 .categoria-botones i {
@@ -172,7 +174,16 @@ body {
     color: #ffffff;
     border-radius: 20px;
     padding: 10px 20px;
+    transition: .5s;
 }
+
+.comprar:hover, .categoria-botones:hover {
+    box-shadow: 0 0 2px rgb(170, 184, 255),
+                0 0 4px rgb(170, 184, 255),
+                0 0 16px rgb(170, 184, 255),
+                0 0 32px rgb(170, 184, 255);
+}
+
 .search-input{
     font-size: 16px;
     font-family: 'Lexend', sans-serif;
