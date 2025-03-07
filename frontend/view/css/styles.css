@@ -107,9 +107,14 @@ body {
     align-items: center;
 }
 
-.social-media img{
-    width: 20%;
-    height: 20%;
+.social-media p {
+    margin-bottom: 0rem;
+    color: white;
+}
+
+.social-media-link{
+    text-decoration: none;
+    color: white;
 }
 
 #productos-populares {
@@ -525,10 +530,6 @@ body {
     margin-top: 20px;
 }
 
-.social-media-link{
-    text-decoration: none;
-    color: white;
-}
 
 .submit{
     color: white;
