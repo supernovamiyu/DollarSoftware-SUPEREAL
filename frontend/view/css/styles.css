@@ -102,20 +102,14 @@ body {
 
 .social-media{
     background-color: rgb(113, 137, 255);
-    padding: 2%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .social-media img{
     width: 20%;
     height: 20%;
-}
-
-.social-media h4{
-    font-size: 95%;
-    color: white;
-    padding: 5%;
 }
 
 #productos-populares {
@@ -533,6 +527,7 @@ body {
 
 .social-media-link{
     text-decoration: none;
+    color: white;
 }
 
 .submit{
