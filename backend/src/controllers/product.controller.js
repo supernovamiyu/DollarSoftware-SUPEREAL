@@ -5,6 +5,60 @@ const mysql2 = require('mysql2');
 
 /////////////// PRODUCTO /////////////////
 
+// Buscar todos los productos en la base de datos
+
+const getAllProducts = (req, res) => {
+    const readAllQuery = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, fk_id_categoria, imagen_url FROM productos;`;
+    
+    database.query(readAllQuery, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+};
+
+// Buscar los productos destacados en la base de datos
+
+const getFeaturedProducts = (req, res) => {
+    const readFeaturedQuery = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, fk_id_categoria, imagen_url FROM productos WHERE destacado = 1;`;
+    
+    database.query(readFeaturedQuery, (err, result) => {
+        if (err) {
+            console.error('Error al obtener los productos destacados:', err);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        } else if (result.length === 0) {
+            res.json({ message: 'No se encontraron productos destacados' });
+        } else {
+            res.json(result);
+        }
+    });
+};
+
+
+// Buscar productos por categoria en la base de datos
+const getProductCategory = (req, res) => {
+    const { fk_id_categoria } = req.params;
+
+    console.log('Categoría:', fk_id_categoria); // Verifica el valor
+
+    const getProCatQuery = `SELECT * FROM productos INNER JOIN categorias ON productos.fk_id_categoria = categorias.id_categoria WHERE productos.fk_id_categoria = ?;`;
+
+    const query = mysql2.format(getProCatQuery, [fk_id_categoria]);
+
+    database.query(query, (err, result) => {
+        if (err) {
+            console.error('Error al obtener productos:', err);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        } else {
+            if (result.length > 0) {
+                res.json(result); // Devuelve todos los productos
+            } else {
+                res.json({ message: 'No han sido encontrados productos con esta categoría :(' });
+            }
+        }
+    });
+};
+
+
 // Buscar un producto en la base de datos
 
 const readProduct = (req, res) => { 
@@ -32,11 +86,11 @@ const readProduct = (req, res) => {
 
 
 const createProduct = (req, res) => {
-    const { id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio } = req.body;
+    const { id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio, imagen_url } = req.body;
 
-    const createQuery = `INSERT INTO productos (id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio) VALUES (?,?,?,?,?);`;
+    const createQuery = `INSERT INTO productos (id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio, imagen_url) VALUES (?,?,?,?,?,?,?);`;
     
-    const query = mysql2.format(createQuery, [id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio]);
+    const query = mysql2.format(createQuery, [id_productos, nombre_producto, unidades_stock, unidades_disponibles, fk_id_categoria, precio, imagen_url]);
 
     database.query(query, (err, result) => {
         if (err) throw err;
@@ -85,5 +139,8 @@ module.exports = {
     readProduct,
     createProduct,
     updateProduct,
-    deleteProduct, 
+    deleteProduct,
+    getAllProducts,
+    getProductCategory,
+    getFeaturedProducts,
 };
