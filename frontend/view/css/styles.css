@@ -166,6 +166,7 @@ body {
     left: 12vh;
 }
 .comprar {
+    font-size: 77%;
     border: none;
     background-color: rgb(113, 137, 255);
     color: #ffffff;
