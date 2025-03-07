@@ -116,6 +116,7 @@ body {
 .social-media-link{
     text-decoration: none;
     color: white;
+    margin: 0 5%;
 }
 
 #productos-populares {
