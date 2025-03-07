@@ -100,14 +100,15 @@ body {
     padding: 1%;
 }
 
-.social-media{
+.social-media-container{
+    height: 7vh;
     background-color: rgb(113, 137, 255);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.social-media p {
+.social-media-container p {
     margin-bottom: 0rem;
     color: white;
 }
