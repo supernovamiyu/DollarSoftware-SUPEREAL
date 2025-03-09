@@ -72,16 +72,11 @@ body {
     margin-top: 10%;
 }
 
-.imgMenu {
-    width: 8vh;
-    height: 8vh;
-}
 
 .imgLogo {
     position: relative;
-    left: 3%;
     width: 90%;
-    padding: 4%;
+    height: auto;
 }
 
 .barra-navegacion{
@@ -95,6 +90,9 @@ body {
 .barra-navegacion a{
     color: white;
     text-decoration: none;
+    margin: 0 5%;
+    width: fit-content;
+    height: auto;
 }
 
 .titulo-seccion h4{
