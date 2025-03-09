@@ -29,7 +29,7 @@
                         src="frontend/view/img/location.png" alt="Ubicación"></a>
                 <a href="#" onclick="mostrarPantallaAtencionCliente(event)"><img class="imgMenu"
                         src="frontend/view/img/headphones.png" alt="Audífonos de atención al cliente"></a>
-                <a href="#" onclick="mostrarPantallaInicio(event)"><img id="boton-inicio" class="imgLogo" src="frontend/view/img/logo.png"
+                <a href="#" onclick="mostrarPantallaInicio(event)"><img class="imgLogo" src="frontend/view/img/logo.png"
                         alt="Logo de la empresa"></a>
                 <a href="#" onclick="mostrarPantallaCarrito(event)"><img class="imgMenu"
                         src="frontend/view/img/cart.png" alt="Carrito"></a>
@@ -41,8 +41,8 @@
             <div class="search">
                 <form>
                     <fieldset>
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input class="search-input" type="text" value="" placeholder="Buscar productos" />
+                        <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <input id= "search-bar" class="search-input" type="text" placeholder="Buscar productos..." minlength="3" required/>
                     </fieldset>
                 </form>
             </div>
