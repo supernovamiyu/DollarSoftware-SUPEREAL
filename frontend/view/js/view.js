@@ -110,6 +110,10 @@ function mostrarPantallaCategoriasProductos(event) {
     mostrarProductos(categoria);
 }
 
+function actualizarURL(url) {
+    window.history.pushState({}, "", url);
+}
+
 function mostrarProductos(categoria) {
     fetch(`http://localhost:3000/products/categoria/${categoria}`)
         .then(response => response.json())
@@ -145,7 +149,14 @@ function mostrarProductos(categoria) {
             }).join('');
 
             productosCategorias.innerHTML += contenidoProductos;
+
+            const url = `/categoria/${categoria}`;
+            actualizarURL(url);
         })
         .catch(error => console.error('Error al obtener los productos:', error));
 }
+
+document.getElementById('boton-inicio').addEventListener('click', function() {
+    actualizarURL('http://127.0.0.1:5500/index.html')
+})
 
