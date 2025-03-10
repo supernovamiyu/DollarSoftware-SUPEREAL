@@ -95,6 +95,10 @@ body {
     height: auto;
 }
 
+.barra-navegacion a:hover{
+    transition: .5s;
+    color: gray;
+}
 .titulo-seccion h4{
     padding: 1%;
 }
