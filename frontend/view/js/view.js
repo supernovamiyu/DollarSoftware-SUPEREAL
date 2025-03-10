@@ -35,7 +35,7 @@ function mostrarProductosDestacados() {
         const contenidoProductos = productosLimitados.map(producto => {
             return `
             <div>
-                <img src="${producto.imagen_url}" alt="Imagen del producto" width="100%" height="auto">
+                <img src="${producto.imagen_url}" alt="Imagen del producto" width="50%" height="auto">
                 <h3>${producto.nombre_producto}</h3>
                 <p>Precio: <br> $${producto.precio}</p>
                 <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
@@ -84,7 +84,7 @@ function mostrarProductos(categoria) {
             const contenidoProductos = data.map(producto => {
                 return `
                     <div>
-                        <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" width="100%" height="auto">
+                        <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" width="50%" height="auto">
                         <h3>${producto.nombre_producto}</h3>
                         <p>Precio: <br>$${producto.precio}</p>
                     <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
@@ -155,7 +155,7 @@ function mostrarResultadosDeBusqueda(data) {
     const contenidoProductos = data.map(producto => {
         return `
             <div>
-                <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" width="100%" height="auto">
+                <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" width="50%" height="auto">
                 <h3>${producto.nombre_producto}</h3>
                 <p>Precio: <br>$${producto.precio}</p>
                 <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>

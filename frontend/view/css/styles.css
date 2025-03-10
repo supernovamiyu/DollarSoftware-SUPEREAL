@@ -142,14 +142,14 @@ body {
 }
 #productos-populares {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
 #productos-categorias {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     justify-content: space-around;
     margin-bottom: 5%;
 }
@@ -250,8 +250,20 @@ body {
 }
 
 #resultados-productos {
+    display: grid;
     margin-bottom: 5%;
+    grid-template-columns: repeat(2, 1fr);
 }
+
+#resultados-productos div img {
+    width: 30%;
+    height: auto;
+}
+
+#resultados-productos div h3 {
+    font-size: 100%;
+}
+
 .formulario-cuenta{
     display: flex;
     justify-content: center;
