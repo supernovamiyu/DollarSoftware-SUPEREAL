@@ -154,6 +154,10 @@ body {
     margin-bottom: 5%;
 }
 
+#productos-categorias > div {
+    text-align: center;
+}
+
 #productos-populares > div, .producto {
     margin: 10px;
     border-radius: 8px;

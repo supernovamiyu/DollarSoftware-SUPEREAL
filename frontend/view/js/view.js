@@ -30,7 +30,7 @@ function mostrarProductosDestacados() {
         const productosDestacados = document.getElementById('productos-populares');
         productosDestacados.innerHTML = '';
 
-        const productosLimitados = data.slice(0,3);
+        const productosLimitados = data.slice(0,4);
 
         const contenidoProductos = productosLimitados.map(producto => {
             return `
