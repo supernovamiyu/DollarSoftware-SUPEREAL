@@ -194,6 +194,18 @@ body {
     color: rgb(113, 137, 255);
     cursor: pointer;
 }
+
+#search-button {
+    border: none;
+    background-color: transparent;
+    border-radius: 100%;
+}
+
+#search-button:hover {
+    transition: .4s;
+    color: rgb(113, 137, 255);
+}
+
 .comprar {
     font-size: 77%;
     border: none;
