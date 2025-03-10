@@ -16,6 +16,21 @@ const getAllProducts = (req, res) => {
     });
 };
 
+// Buscar los productos que coincidan con el término de búsqueda en la base de datos
+
+const getSimilarProducts = (req, res) => {
+    const searchTerm = req.params.searchTerm;
+
+    const similarProductsQuery = `SELECT * FROM productos WHERE nombre_producto LIKE ?`;
+    
+    const searchValue = `%${searchTerm}%`;
+
+    database.query(similarProductsQuery, [searchValue], (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+};
+
 // Buscar los productos destacados en la base de datos
 
 const getFeaturedProducts = (req, res) => {
@@ -143,4 +158,5 @@ module.exports = {
     getAllProducts,
     getProductCategory,
     getFeaturedProducts,
+    getSimilarProducts,
 };
