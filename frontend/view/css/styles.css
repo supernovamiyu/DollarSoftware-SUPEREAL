@@ -246,6 +246,11 @@ body {
 .titulo-resultados-productos h2 {
     text-align: center;
     padding: 5%;
+    margin-bottom: 0rem;
+}
+
+#resultados-productos {
+    margin-bottom: 5%;
 }
 .formulario-cuenta{
     display: flex;
