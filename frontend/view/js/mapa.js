@@ -34,7 +34,7 @@ function inicializarMapa() {
         { nombre: "Ultra Commerce - Sucursal #2 - Barrio El Peñón", direccion: "Carrera Cali #111", horario: "10 AM - 7 PM", lat: 3.421111, lng: -76.523333 }
       ],
       "museo-de-la-caña-de-azucar": [
-        { nombre: "Ultra Commerce - Outlet #3 - Museo de la Caña de Azucar", direccion: "Calle Museo #456", horario: "8 AM - 5 PM", lat: 3.422222, lng: -76.524444 }
+        { nombre: "Ultra Commerce - Outlet #3 - Museo de la Caña de Azucar", direccion: "Calle Museo #456", horario: "8 AM - 5 PM", lat: 3.623200, lng: -76.226476 }
       ]
     },
     barranquilla: {
