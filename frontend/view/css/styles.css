@@ -243,6 +243,10 @@ body {
     height: 51px;
 }
 
+.titulo-resultados-productos h2 {
+    text-align: center;
+    padding: 5%;
+}
 .formulario-cuenta{
     display: flex;
     justify-content: center;
