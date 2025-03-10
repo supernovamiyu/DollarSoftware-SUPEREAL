@@ -72,16 +72,21 @@ body {
     margin-top: 10%;
 }
 
-.imgMenu {
-    width: 8vh;
-    height: 8vh;
-}
 
 .imgLogo {
     position: relative;
-    left: 3%;
-    width: 90%;
-    padding: 4%;
+    width: fit-content;
+    height: auto;
+    transition: .5s;
+    transition-property: box-shadow;
+    border-radius: 50px;
+}
+
+.imgLogo:hover{
+    box-shadow: 0 0 2px rgb(170, 184, 255),
+                0 0 4px rgb(170, 184, 255),
+                0 0 10px rgb(170, 184, 255),
+                0 0 20px rgb(170, 184, 255);
 }
 
 .barra-navegacion{
@@ -95,8 +100,15 @@ body {
 .barra-navegacion a{
     color: white;
     text-decoration: none;
+    margin: 0 5%;
+    width: fit-content;
+    height: auto;
 }
 
+.barra-navegacion a:hover{
+    transition: .5s;
+    color: rgb(211, 211, 211);
+}
 .titulo-seccion h4{
     padding: 1%;
 }
@@ -176,6 +188,24 @@ body {
     position: relative;
     top: 0vh;
 }
+
+#search-icon:hover{
+    transition: .5s ease;
+    color: rgb(113, 137, 255);
+    cursor: pointer;
+}
+
+#search-button {
+    border: none;
+    background-color: transparent;
+    border-radius: 100%;
+}
+
+#search-button:hover {
+    transition: .4s;
+    color: rgb(113, 137, 255);
+}
+
 .comprar {
     font-size: 77%;
     border: none;
