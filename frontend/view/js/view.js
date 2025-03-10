@@ -144,7 +144,6 @@ function buscarProductos(event) {
 function mostrarResultadosDeBusqueda(data) {
     const plantillaResultados = document.getElementById('plantilla-resultados-productos').innerHTML;
     container2.innerHTML = plantillaResultados;
-
     const resultadosProductos = document.getElementById('resultados-productos');
     resultadosProductos.innerHTML = '';
 
