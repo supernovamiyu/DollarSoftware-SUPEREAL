@@ -188,6 +188,12 @@ body {
     position: relative;
     top: 0vh;
 }
+
+#search-icon:hover{
+    transition: .5s ease;
+    color: rgb(113, 137, 255);
+    cursor: pointer;
+}
 .comprar {
     font-size: 77%;
     border: none;
