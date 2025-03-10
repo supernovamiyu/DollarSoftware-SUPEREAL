@@ -259,6 +259,10 @@ body {
     grid-template-columns: repeat(2, 1fr);
 }
 
+#resultados-productos div {
+    text-align: center;
+}
+
 #resultados-productos div img {
     width: 30%;
     height: auto;
