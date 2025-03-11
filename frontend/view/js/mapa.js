@@ -105,10 +105,12 @@ function inicializarMapa() {
 
         // Mostrar detalles en la página
         const detallesHTML = `
-          <i id="pin-ubicacion-tiendas" class="fa-solid fa-location-dot fa-xl elemento-ubicacion-tiendas"></i>
-          <h5 class="elemento-ubicacion-tiendas">${tienda.nombre}</h5>
-          <p class= "elemento-ubicacion-tiendas">Dirección: ${tienda.direccion}</p>
-          <p class = "elemento-ubicacion-tiendas">Horario: ${tienda.horario}</p>
+          <i id="pin-ubicacion-tiendas" class="fa-solid fa-location-dot fa-xl"></i>
+          <div class="texto-ubicacion-tiendas">
+            <h5 class="elemento-ubicacion-tiendas">${tienda.nombre}</h5>
+            <p class= "elemento-ubicacion-tiendas">Dirección: ${tienda.direccion}</p>
+            <p class = "elemento-ubicacion-tiendas">Horario: ${tienda.horario}</p>
+          </div>
         `;
         detallesDiv.insertAdjacentHTML('beforeend', detallesHTML);
       });
