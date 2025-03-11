@@ -653,11 +653,20 @@ body {
     margin-right: 20px;
 }
 
-.pin-ubicacion-tienda-disponible {
-    width: 100%;
-    height: auto;
-    display: block;
+.elemento-ubicacion-tiendas {
+    margin: 0 5%;
 }
+
+#pin-ubicacion-tiendas {
+    color: rgb(211, 211, 211);
+}
+
+#pin-ubicacion-tiendas:hover {
+    transition: .5s ease-in;
+    color: rgb(113, 137, 255);
+    cursor: pointer;
+}
+
 
 #mapa {
     width: 100%;
@@ -670,7 +679,7 @@ body {
     align-items: center;
     margin: 20px;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 form {
