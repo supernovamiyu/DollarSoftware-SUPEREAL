@@ -458,17 +458,17 @@ body {
     padding: 2vh;
 }
 
-.titulo-seccion-1 {
+.titulo-seccion-atencion-cliente {
     background: rgba(113, 137, 255, 0.678);
     padding: 7%;
     text-align: center;
     color: white;
 }
 
-.help-section{
+.seccion-atencion-cliente{
     padding: 3vh;
 }
-.help-buttons {
+.titulo-botones-ayuda {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
