@@ -63,7 +63,7 @@ function mostrarProductos(categoria) {
         .then(response => response.json())
         .then(data => {
             const plantillaProductos = document.getElementById('plantilla-categorias-productos').innerHTML;
-            const contenido = document.getElementById('container-2');
+            const contenido = document.getElementById('container-principal');
             contenido.innerHTML = plantillaProductos;
 
             const tituloCategoria = document.querySelector('.titulo-seccion-categoria');
@@ -106,7 +106,7 @@ document.getElementById('boton-inicio').addEventListener('click', function() {
 
 const searchBar = document.getElementById('search-bar');
 const searchButton = document.getElementById('search-button');
-const container2 = document.getElementById('container-2');
+const container2 = document.getElementById('container-principal');
 
 // Evento para el botón de búsqueda
 searchButton.addEventListener('click', buscarProductos);

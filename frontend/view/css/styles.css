@@ -653,19 +653,6 @@ body {
     margin-right: 20px;
 }
 
-.elemento-ubicacion-tiendas {
-    margin: 0 5%;
-}
-
-#pin-ubicacion-tiendas {
-    color: rgb(211, 211, 211);
-}
-
-#pin-ubicacion-tiendas:hover {
-    transition: .5s ease-in;
-    color: rgb(113, 137, 255);
-    cursor: pointer;
-}
 
 
 #mapa {
@@ -677,11 +664,41 @@ body {
 #detalles-tiendas {
     display: flex;
     align-items: center;
-    margin: 20px;
-    justify-content: center;
-    flex-direction: row;
+    margin-bottom: 20px;
 }
 
+#pin-ubicacion-tiendas {
+    width: 10%;
+    height: auto;
+    display: block;
+    margin-right: 15px;
+    color: rgb(211, 211, 211); /* Color del ícono, puedes cambiarlo */
+}
+
+#pin-ubicacion-tiendas:hover {
+    transition: .5s ease-in;
+    color: rgb(113, 137, 255);
+    cursor: pointer;
+}
+
+.texto-ubicacion-tiendas {
+    display: flex;
+    flex-direction: column;
+}
+
+.elemento-ubicacion-tiendas {
+    margin: 5px 0;
+}
+
+h5.elemento-ubicacion-tiendas {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+p.elemento-ubicacion-tiendas {
+    font-size: 1em;
+    color: #555; /* Color del texto, puedes cambiarlo */
+}
 form {
     margin-bottom: 5px;
 }
@@ -720,11 +737,4 @@ form {
 #buscar-tiendas:hover{
     background-color: #adadad;
     transition: ease-in .5s;
-}
-
-
-#pin-ubicacion-tiendas {
-    width: 10%;
-    height: auto;
-    display: block;
 }
