@@ -475,14 +475,13 @@ body {
     justify-content: space-evenly;
 }
 
-.help-btn {
+.boton-ayuda-individual {
+    height: 15vh;
+    align-items: center;
     background-color: rgba(113, 137, 255, 0.678);
-    width: 19vh;
-    height: 19vh;
-    padding: 3%;
-    text-align: center;
-    margin: 2%;
-    border-radius: 50%;
+    color: white;
+    border: none;
+    border-radius: 100%;
 }
 
 .help-btn a{
@@ -614,8 +613,14 @@ body {
     display: flex;
 }
 
-.titulo-aspecto-ayuda {
+.titulo-aspectos-ayuda {
     text-align: center;
+    margin-bottom: 6%;
+}
+
+.grupo-botones-ayuda {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .explicacion-ayuda {
