@@ -476,12 +476,13 @@ body {
 }
 
 .boton-ayuda-individual {
-    height: 15vh;
     align-items: center;
     background-color: rgba(113, 137, 255, 0.678);
     color: white;
     border: none;
     border-radius: 100%;
+    padding: 10%;
+    margin: 10%
 }
 
 .help-btn a{
