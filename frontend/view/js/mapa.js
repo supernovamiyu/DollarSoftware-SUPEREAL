@@ -9,15 +9,15 @@ function inicializarMapa() {
   // Datos ficticios de las tiendas
   const tiendas = {
     bogota: {
-      "parque-simon-bolivar": [
-        { nombre: "Sucursal #1 - Simón Bolívar", direccion: "Calle Falsa #123", horario: "9 AM - 6 PM", lat: 4.657, lng: -74.093 },
-        { nombre: "Sucursal #2 - Simón Bolívar", direccion: "Carrera Verdadera #456", horario: "10 AM - 7 PM", lat: 4.658, lng: -74.094 }
+      "engativa": [
+        { nombre: "Sucursal #1 - Parque Simón Bolívar", direccion: "Calle Falsa #123", horario: "9 AM - 6 PM", lat: 4.657, lng: -74.093 },
+        { nombre: "Sucursal #2 - Parque San Andrés", direccion: "Carrera Verdadera #456", horario: "10 AM - 7 PM", lat: 4.712934, lng: -74.112192 }
       ],
-      "museo-del-oro": [
-        { nombre: "Sucursal #1 - Museo del Oro", direccion: "Calle Dorada #789", horario: "8 AM - 5 PM", lat: 4.601, lng: -74.072 }
+      "puente-aranda": [
+        { nombre: "Sucursal #3 - C.C. Plaza Central", direccion: "Calle Dorada #789", horario: "8 AM - 5 PM", lat: 4.630062, lng: -74.116559 }
       ],
-      "cefe-cometas": [
-        { nombre: "Outlet #1 - Cometas", direccion: "Calle Dorada #209", horario: "10 AM - 6 PM", lat: 4.714436, lng: -74.084780 }
+      "usme": [
+        { nombre: "Outlet #1 - C.C. Altavista", direccion: "Calle Dorada #209", horario: "10 AM - 6 PM", lat: 4.532279, lng: -74.118170 }
       ],
     },
     medellin: {
@@ -59,9 +59,9 @@ function inicializarMapa() {
     // Agregar nuevas opciones según la ciudad
     if (ciudad === 'bogota') {
       zonaSelect.innerHTML = `
-        <option value="parque-simon-bolivar">Parque Simón Bolívar</option>
-        <option value="museo-del-oro">Museo del Oro</option>
-        <option value="cefe-cometas">CEFE Cometas</option>
+        <option value="engativa">Engativá</option>
+        <option value="puente-aranda">Puente Aranda</option>
+        <option value="usme">Usme</option>
       `;
     } else if (ciudad === 'medellin') {
       zonaSelect.innerHTML = `

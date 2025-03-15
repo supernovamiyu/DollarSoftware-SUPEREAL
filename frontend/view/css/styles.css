@@ -694,7 +694,6 @@ form {
     display: flex;
     align-items: center;
     padding: 5%;
-    justify-content: center;
 }
 
 #pin-ubicacion-tiendas {
