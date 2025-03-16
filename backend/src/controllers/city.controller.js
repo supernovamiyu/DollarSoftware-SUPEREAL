@@ -1,89 +1,101 @@
-const database = require('../config/database');
-const mysql2 = require('mysql2');
+// Importar el modelo de ciudades
+const cityModel = require('../models/city.model');
 
 ///////////////// C ****** R ****** U ****** D /////////////////
 
-/////////////// CIUDADES /////////////////
-
 // Buscar una ciudad en la base de datos
+const readCity = async (req, res) => {
+    try {
+        const { id_ciudad } = req.params;
 
-const readCity = (req, res) => { 
+        // Validar que el ID de la ciudad esté presente
+        if (!id_ciudad) {
+            return res.status(400).json({ message: 'El ID de la ciudad es obligatorio' });
+        }
 
-    const { id_ciudad } = req.params;
+        // Llamar al modelo para obtener la ciudad
+        const [result] = await cityModel.readCity(id_ciudad);
 
-    const readQuery = `SELECT * FROM ciudades WHERE id_ciudad=?;`;
-
-    const query = mysql2.format(readQuery, [id_ciudad]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(typeof result[0]);
-        if (result[0] !== undefined) {
+        // Verificar si se encontró la ciudad
+        if (result[0]) {
             res.json(result[0]);
         } else {
-            res.json({message: 'Ciudad no encontrada :('});
+            res.status(404).json({ message: 'Ciudad no encontrada :(' });
         }
-    });
-
+    } catch (err) {
+        console.error('Error en readCity:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Crear una ciudad en la base de datos
+const createCity = async (req, res) => {
+    try {
+        const { id_ciudad, nombre_ciudad } = req.body;
 
-// Crear una ciudad en la tabla de ciudades en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!id_ciudad || !nombre_ciudad) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
+        // Llamar al modelo para crear la ciudad
+        await cityModel.createCity(id_ciudad, nombre_ciudad);
 
-const createCity = (req, res) => {
-    const { id_ciudad, nombre_ciudad } = req.body;
-
-    const createQuery = `INSERT INTO ciudades (id_ciudad, nombre_ciudad) VALUES (?,?);`;
-    
-    const query = mysql2.format(createQuery, [id_ciudad, nombre_ciudad]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        // console.log(result);
-        res.json({message: 'Ciudad creada con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Ciudad creada con éxito' });
+    } catch (err) {
+        console.error('Error en createCity:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Actualizar una ciudad en la base de datos
+const updateCity = async (req, res) => {
+    try {
+        const { id_ciudad } = req.params;
+        const { nombre_ciudad } = req.body;
 
-// Actualizar una ciudad en la tabla de ciudades en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!id_ciudad || !nombre_ciudad) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
-const updateCity = (req, res) => {
-    const { id_ciudad } = req.params;
-    const { nombre_ciudad } = req.body;
+        // Llamar al modelo para actualizar la ciudad
+        await cityModel.updateCity(id_ciudad, nombre_ciudad);
 
-    const updateQuery = `UPDATE ciudades SET nombre_ciudad=? WHERE id_ciudad=?;`;
-
-    const query = mysql2.format(updateQuery, [nombre_ciudad, id_ciudad]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Ciudad actualizada con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Ciudad actualizada con éxito' });
+    } catch (err) {
+        console.error('Error en updateCity:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
-// Eliminar una ciudad en la tabla de ciudades en la base de datos
+// Eliminar una ciudad en la base de datos
+const deleteCity = async (req, res) => {
+    try {
+        const { id_ciudad } = req.params;
 
-const deleteCity = (req, res) => {
-    const { id_ciudad } = req.params;
-    
-    const deleteQuery = `DELETE FROM ciudades WHERE id_ciudad=?;`;
-    
-    const query = mysql2.format(deleteQuery, [id_ciudad]);
-    
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Ciudad eliminada con éxito'});
-    });
+        // Validar que el ID de la ciudad esté presente
+        if (!id_ciudad) {
+            return res.status(400).json({ message: 'El ID de la ciudad es obligatorio' });
+        }
+
+        // Llamar al modelo para eliminar la ciudad
+        await cityModel.deleteCity(id_ciudad);
+
+        // Enviar respuesta de éxito
+        res.json({ message: 'Ciudad eliminada con éxito' });
+    } catch (err) {
+        console.error('Error en deleteCity:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
 // Exportar las funciones para usarlas en otros archivos
-
 module.exports = {
     readCity,
     createCity,
     updateCity,
-    deleteCity, 
+    deleteCity,
 };
