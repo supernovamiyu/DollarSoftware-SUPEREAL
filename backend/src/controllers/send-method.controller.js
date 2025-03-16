@@ -1,89 +1,101 @@
-const database = require('../config/database');
-const mysql2 = require('mysql2');
+// Importar el modelo de métodos de envío
+const sendMethodModel = require('../models/send-method.model');
 
 ///////////////// C ****** R ****** U ****** D /////////////////
 
-/////////////// MÉTODO DE ENVÍO /////////////////
-
 // Buscar un método de envío en la base de datos
+const readSendMethod = async (req, res) => {
+    try {
+        const { id_metodo_envio } = req.params;
 
-const readSendMethod = (req, res) => { 
+        // Validar que el ID del método de envío esté presente
+        if (!id_metodo_envio) {
+            return res.status(400).json({ message: 'El ID del método de envío es obligatorio' });
+        }
 
-    const { id_metodo_envio } = req.params;
+        // Llamar al modelo para obtener el método de envío
+        const [result] = await sendMethodModel.readSendMethod(id_metodo_envio);
 
-    const readQuery = `SELECT * FROM metodo_de_envio WHERE id_metodo_envio=?;`;
-
-    const query = mysql2.format(readQuery, [id_metodo_envio]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(typeof result[0]);
-        if (result[0] !== undefined) {
+        // Verificar si se encontró el método de envío
+        if (result[0]) {
             res.json(result[0]);
         } else {
-            res.json({message: 'Método de envío no encontrado :('});
+            res.json({ message: 'Método de envío no encontrado :(' });
         }
-    });
-
+    } catch (err) {
+        console.error('Error en readSendMethod:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Crear un método de envío en la base de datos
+const createSendMethod = async (req, res) => {
+    try {
+        const { id_metodo_envio, nombre_m_envio } = req.body;
 
-// Crear un método de envío en la tabla de métodos de envío en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!id_metodo_envio || !nombre_m_envio) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
+        // Llamar al modelo para crear el método de envío
+        await sendMethodModel.createSendMethod(id_metodo_envio, nombre_m_envio);
 
-const createSendMethod = (req, res) => {
-    const { id_metodo_envio, nombre_m_envio } = req.body;
-
-    const createQuery = `INSERT INTO metodo_de_envio (id_metodo_envio, nombre_m_envio) VALUES (?,?);`;
-    
-    const query = mysql2.format(createQuery, [id_metodo_envio, nombre_m_envio]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        // console.log(result);
-        res.json({message: 'Método de envío creado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Método de envío creado con éxito' });
+    } catch (err) {
+        console.error('Error en createSendMethod:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Actualizar un método de envío en la base de datos
+const updateSendMethod = async (req, res) => {
+    try {
+        const { id_metodo_envio } = req.params;
+        const { nombre_m_envio } = req.body;
 
-// Actualizar un estado de pedido en la tabla de estado de pedidos en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!id_metodo_envio || !nombre_m_envio) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
-const updateSendMethod = (req, res) => {
-    const { id_metodo_envio } = req.params;
-    const { nombre_m_envio } = req.body;
+        // Llamar al modelo para actualizar el método de envío
+        await sendMethodModel.updateSendMethod(id_metodo_envio, nombre_m_envio);
 
-    const updateQuery = `UPDATE metodo_de_envio SET nombre_m_envio=? WHERE id_metodo_envio=?;`;
-
-    const query = mysql2.format(updateQuery, [nombre_m_envio, id_metodo_envio]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Método de envío actualizado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Método de envío actualizado con éxito' });
+    } catch (err) {
+        console.error('Error en updateSendMethod:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
-// Eliminar un método de envío en la tabla de métodos de envío en la base de datos
+// Eliminar un método de envío en la base de datos
+const deleteSendMethod = async (req, res) => {
+    try {
+        const { id_metodo_envio } = req.params;
 
-const deleteSendMethod = (req, res) => {
-    const { id_metodo_envio } = req.params;
-    
-    const deleteQuery = `DELETE FROM metodo_de_envio WHERE id_metodo_envio=?;`;
-    
-    const query = mysql2.format(deleteQuery, [id_metodo_envio]);
-    
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Método de envío eliminado con éxito'});
-    });
+        // Validar que el ID del método de envío esté presente
+        if (!id_metodo_envio) {
+            return res.status(400).json({ message: 'El ID del método de envío es obligatorio' });
+        }
+
+        // Llamar al modelo para eliminar el método de envío
+        await sendMethodModel.deleteSendMethod(id_metodo_envio);
+
+        // Enviar respuesta de éxito
+        res.json({ message: 'Método de envío eliminado con éxito' });
+    } catch (err) {
+        console.error('Error en deleteSendMethod:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
 // Exportar las funciones para usarlas en otros archivos
-
 module.exports = {
     readSendMethod,
     createSendMethod,
     updateSendMethod,
-    deleteSendMethod, 
+    deleteSendMethod,
 };
