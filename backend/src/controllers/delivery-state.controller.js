@@ -1,89 +1,101 @@
-const database = require('../config/database');
-const mysql2 = require('mysql2');
+// Importar el modelo de estado de pedido
+const deliveryStateModel = require('../models/delivery-state.model');
 
 ///////////////// C ****** R ****** U ****** D /////////////////
 
-/////////////// ESTADO DEL PEDIDO /////////////////
-
 // Buscar un estado de pedido en la base de datos
+const readDeliveryState = async (req, res) => {
+    try {
+        const { id_estado_envio } = req.params;
 
-const readDeliveryState = (req, res) => { 
+        // Validar que el ID del estado de pedido esté presente
+        if (!id_estado_envio) {
+            return res.status(400).json({ message: 'El ID del estado de pedido es obligatorio' });
+        }
 
-    const { id_estado_envio } = req.params;
+        // Llamar al modelo para obtener el estado de pedido
+        const [result] = await deliveryStateModel.readDeliveryState(id_estado_envio);
 
-    const readQuery = `SELECT * FROM estado_del_pedido WHERE id_estado_envio=?;`;
-
-    const query = mysql2.format(readQuery, [id_estado_envio]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(typeof result[0]);
-        if (result[0] !== undefined) {
+        // Verificar si se encontró el estado de pedido
+        if (result[0]) {
             res.json(result[0]);
         } else {
-            res.json({message: 'Estado de envío no encontrado :('});
+            res.status(404).json({ message: 'Estado de envío no encontrado :(' });
         }
-    });
-
+    } catch (err) {
+        console.error('Error en readDeliveryState:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Crear un estado de pedido en la base de datos
+const createDeliveryState = async (req, res) => {
+    try {
+        const { id_estado_envio, denominacion } = req.body;
 
-// Crear un estado de pedido en la tabla de estado de pedidos en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!id_estado_envio || !denominacion) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
+        // Llamar al modelo para crear el estado de pedido
+        await deliveryStateModel.createDeliveryState(id_estado_envio, denominacion);
 
-const createDeliveryState = (req, res) => {
-    const { id_estado_envio, denominacion } = req.body;
-
-    const createQuery = `INSERT INTO estado_del_pedido (id_estado_envio, denominacion) VALUES (?,?);`;
-    
-    const query = mysql2.format(createQuery, [id_estado_envio, denominacion]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        // console.log(result);
-        res.json({message: 'Estado de envío creado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Estado de envío creado con éxito' });
+    } catch (err) {
+        console.error('Error en createDeliveryState:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Actualizar un estado de pedido en la base de datos
+const updateDeliveryState = async (req, res) => {
+    try {
+        const { id_estado_envio } = req.params;
+        const { denominacion } = req.body;
 
-// Actualizar un estado de pedido en la tabla de estado de pedidos en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!id_estado_envio || !denominacion) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
-const updateDeliveryState = (req, res) => {
-    const { id_estado_envio } = req.params;
-    const { denominacion } = req.body;
+        // Llamar al modelo para actualizar el estado de pedido
+        await deliveryStateModel.updateDeliveryState(id_estado_envio, denominacion);
 
-    const updateQuery = `UPDATE estado_del_pedido SET denominacion=? WHERE id_estado_envio=?;`;
-
-    const query = mysql2.format(updateQuery, [denominacion, id_estado_envio]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Estado de envío actualizado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Estado de envío actualizado con éxito' });
+    } catch (err) {
+        console.error('Error en updateDeliveryState:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
-// Eliminar una categoria en la tabla de usuarios en la base de datos
+// Eliminar un estado de pedido en la base de datos
+const deleteDeliveryState = async (req, res) => {
+    try {
+        const { id_estado_envio } = req.params;
 
-const deleteDeliveryState = (req, res) => {
-    const { id_estado_envio } = req.params;
-    
-    const deleteQuery = `DELETE FROM estado_del_pedido WHERE id_estado_envio=?;`;
-    
-    const query = mysql2.format(deleteQuery, [id_estado_envio]);
-    
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Estado de envío eliminado con éxito'});
-    });
+        // Validar que el ID del estado de pedido esté presente
+        if (!id_estado_envio) {
+            return res.status(400).json({ message: 'El ID del estado de pedido es obligatorio' });
+        }
+
+        // Llamar al modelo para eliminar el estado de pedido
+        await deliveryStateModel.deleteDeliveryState(id_estado_envio);
+
+        // Enviar respuesta de éxito
+        res.json({ message: 'Estado de envío eliminado con éxito' });
+    } catch (err) {
+        console.error('Error en deleteDeliveryState:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
 // Exportar las funciones para usarlas en otros archivos
-
 module.exports = {
     readDeliveryState,
     createDeliveryState,
     updateDeliveryState,
-    deleteDeliveryState, 
+    deleteDeliveryState,
 };
