@@ -23,6 +23,7 @@ class Vista {
     }
 }
 
+
 function mostrarProductosDestacados() {
     fetch('http://localhost:3000/products/destacados')
     .then (response => response.json())
@@ -164,4 +165,75 @@ function mostrarResultadosDeBusqueda(data) {
     }).join('');
 
     resultadosProductos.innerHTML += contenidoProductos;
+}
+
+
+ // Función para mostrar los detalles de cada aspecto de ayuda
+function mostrarDetallesAyuda(tipoAyuda) {
+    const contenedorPrincipal = document.getElementById('container-principal');
+    const templateAyuda = document.getElementById('plantilla-contenido-boton-atencion-ayuda');
+
+    if (!templateAyuda || !contenedorPrincipal) {
+        console.error("No se encontró el template o el contenedor principal.");
+        return;
+    }
+
+    const contenidoAyuda = document.importNode(templateAyuda.content, true);
+
+    const tituloAyuda = contenidoAyuda.querySelector('#titulo-del-aspecto-de-ayuda'); // Ahora es un <h4>
+    const contenido = contenidoAyuda.querySelector('.contenido-aspecto-ayuda');
+
+    if (!tituloAyuda || !contenido) {
+        console.error("No se encontraron los elementos esperados en el template.");
+        return;
+    }
+
+    const detallesAyuda = {
+        'manejo-pagina': {
+            titulo: 'Manejo de la página web',
+            contenido: `
+                <p>Aquí encontrarás información sobre cómo manejar la página web.</p>
+                <ul>
+                    <li><strong>Navegación:</strong> Usa el menú principal para acceder a las diferentes secciones.</li>
+                    <li><strong>Búsqueda:</strong> Utiliza la barra de búsqueda para encontrar productos rápidamente.</li>
+                </ul>
+            `
+        },
+        'gestion-pedidos': {
+            titulo: 'Gestión de pedidos',
+            contenido: `
+                <p>Aquí encontrarás información sobre cómo gestionar tus pedidos.</p>
+                <p>Puedes <a href="/mis-pedidos">ver el estado de tus pedidos</a> en cualquier momento.</p>
+            `
+        },
+        'navegacion-productos': {
+            titulo: 'Navegación por los productos',
+            contenido: `
+                <p>Aquí encontrarás información sobre cómo navegar por los productos.</p>
+                <p>Usa los filtros para refinar tu búsqueda y encontrar lo que necesitas.</p>
+            `
+        },
+        'cuenta-ultracommerce': {
+            titulo: 'Cuenta UltraCommerce',
+            contenido: `
+                <p>Aquí encontrarás información sobre tu cuenta UltraCommerce.</p>
+                <p>Accede a <a href="/mi-cuenta">tu cuenta</a> para gestionar tus datos y preferencias.</p>
+            `
+        }
+    };
+
+    const ayudaSeleccionada = detallesAyuda[tipoAyuda] || {
+        titulo: 'Ayuda no disponible',
+        contenido: '<p>Lo sentimos, no hay información disponible para este aspecto de ayuda.</p>'
+    };
+
+    tituloAyuda.textContent = ayudaSeleccionada.titulo; // El título ahora es un <h4>
+    contenido.innerHTML = ayudaSeleccionada.contenido;
+
+    contenedorPrincipal.innerHTML = '';
+    contenedorPrincipal.appendChild(contenidoAyuda);
+
+    // Actualizar la URL con el tipo de ayuda seleccionado
+    const nuevaURL = `/atencion-cliente/${tipoAyuda}`;
+    window.history.pushState({}, "", nuevaURL);
 }
