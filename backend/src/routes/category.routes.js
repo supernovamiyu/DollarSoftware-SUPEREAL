@@ -1,15 +1,22 @@
 const { Router } = require('express');
+const categoryController = require('../controllers/category.controller');
 
-const { createCategory, readCategory, updateCategory, deleteCategory } = require('../controllers/category.controller');
-
+// Crear un enrutador
 const router = Router();
 
-router.get('/:id_categoria', readCategory);
+///////////////// R ****** U ****** T ****** A ****** S /////////////////
 
-router.post('/', createCategory);
+// Obtener una categoría por ID
+router.get('/:id_categoria', categoryController.readCategory);
 
-router.put('/:id_categoria', updateCategory);
+// Crear una nueva categoría
+router.post('/', categoryController.createCategory);
 
-router.delete('/:id_categoria', deleteCategory);
+// Actualizar una categoría por ID
+router.put('/:id_categoria', categoryController.updateCategory);
 
+// Eliminar una categoría por ID
+router.delete('/:id_categoria', categoryController.deleteCategory);
+
+// Exportar el enrutador
 module.exports = router;

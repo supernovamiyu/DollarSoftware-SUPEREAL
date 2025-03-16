@@ -1,15 +1,22 @@
 const { Router } = require('express');
+const deliveryStateController = require('../controllers/delivery-state.controller');
 
-const { createDeliveryState, readDeliveryState, updateDeliveryState, deleteDeliveryState } = require('../controllers/delivery-state.controller');
-
+// Crear un enrutador
 const router = Router();
 
-router.get('/:id_estado_envio', readDeliveryState);
+///////////////// R ****** U ****** T ****** A ****** S /////////////////
 
-router.post('/', createDeliveryState);
+// Obtener un estado de envío por ID
+router.get('/:id_estado_envio', deliveryStateController.readDeliveryState);
 
-router.put('/:id_estado_envio', updateDeliveryState);
+// Crear un nuevo estado de envío
+router.post('/', deliveryStateController.createDeliveryState);
 
-router.delete('/:id_estado_envio', deleteDeliveryState);
+// Actualizar un estado de envío por ID
+router.put('/:id_estado_envio', deliveryStateController.updateDeliveryState);
 
+// Eliminar un estado de envío por ID
+router.delete('/:id_estado_envio', deliveryStateController.deleteDeliveryState);
+
+// Exportar el enrutador
 module.exports = router;
