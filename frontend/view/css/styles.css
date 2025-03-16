@@ -453,11 +453,6 @@ body {
     font-size: 75%;
 }
 
-.aspectos-ayuda{
-    text-align: center;
-    padding: 2vh;
-}
-
 .titulo-seccion-atencion-cliente {
     background: rgba(113, 137, 255, 0.678);
     padding: 7%;
@@ -485,15 +480,14 @@ body {
     margin: 10%
 }
 
-.help-btn a{
-    color: white;
-    text-decoration: none;
+.boton-ayuda-individual > .icono-ayuda-individual {
+    margin: 20%;
 }
 
-.help-btn p{
-    font-size: 90%;
+.boton-ayuda-individual:hover {
+    box-shadow: 0 0 50px 5px rgb(170, 184, 255);
+    transition: .5s ease;
 }
-
 .product-main-info{
     margin-top: 5%;
 }
