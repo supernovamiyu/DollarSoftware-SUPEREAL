@@ -141,7 +141,6 @@ body {
 #productos-populares {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    flex-wrap: wrap;
     justify-content: space-around;
 }
 
@@ -156,10 +155,16 @@ body {
     text-align: center;
 }
 
-#productos-populares > div, .producto {
+#productos-populares > div {
     margin: 10px;
     border-radius: 8px;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#productos-populares > div:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.274);
 }
 
 #productos-populares h3 {
