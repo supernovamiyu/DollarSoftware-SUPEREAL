@@ -101,6 +101,10 @@ function mostrarProductos(categoria) {
         .catch(error => console.error('Error al obtener los productos:', error));
 }
 
+document.getElementById('boton-inicio').addEventListener('click', function() {
+    actualizarURL('http://127.0.0.1:5500/index.html')
+})
+
 const searchBar = document.getElementById('search-bar');
 const searchButton = document.getElementById('search-button');
 const container2 = document.getElementById('container-principal');
