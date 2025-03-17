@@ -1,4 +1,4 @@
-// VISTA
+import DOMPurify from 'dompurify';
 
 class Vista {
     constructor(){}
