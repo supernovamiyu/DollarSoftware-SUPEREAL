@@ -6,39 +6,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Dollar Software - Ultra Commerce</title>
-    <link rel="shortcut icon" href="frontend/view/img/comercio-electronico.png" type="image/x-icon">
-    <link rel="stylesheet" href="frontend/view/css/bootstrap.min.css">
-    <link rel="stylesheet" href="frontend/view/css/styles.css">
+    <link rel="shortcut icon" href="frontend/assets/img/comercio-electronico.png" type="image/x-icon">
+    <link rel="stylesheet" href="frontend/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="frontend/assets/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-
+    
 </head>
 
 <body>
     <div class="container">
-
+        
         <!--------- MENU DE NAVEGACIÓN ---------------->
-
+        
         <header class="encabezado">
             <nav class="barra-navegacion">
                 <a href="#" onclick="mostrarPantallaUbicacion(event)"><i id="icono-ubicacion" class="fa-solid fa-location-dot fa-2xl"></i></a>
                 <a href="#" onclick="mostrarPantallaAtencionCliente(event)"><i class="fa-solid fa-headphones-simple fa-2xl"></i></a>
-                <a href="#" onclick="mostrarPantallaInicio(event)"><img id="boton-inicio" class="imgLogo" src="frontend/view/img/logo.svg"
+                <a href="#" onclick="mostrarPantallaInicio(event)"><img id="boton-inicio" class="imgLogo" src="frontend/assets/img/logo.svg"
                         alt="Logo de la empresa"></a>
-                <a href="#" onclick="mostrarPantallaCarrito(event)"><i class="fa-solid fa-cart-shopping fa-2xl"></i></a>
-                <a href="#" onclick="mostrarPantallaSesion(event)"><i class="fa-solid fa-user fa-2xl"></i></a>
-            </nav>
-        </header>
-
+                        <a href="#" onclick="mostrarPantallaCarrito(event)"><i class="fa-solid fa-cart-shopping fa-2xl"></i></a>
+                        <a href="#" onclick="mostrarPantallaSesion(event)"><i class="fa-solid fa-user fa-2xl"></i></a>
+                    </nav>
+                </header>
+                
         <!--------- BARRA DE BÚSQUEDA INTEGRADA AL MENÚ DE NAVEGACIÓN ---------------->
-
+        
         <section class="searchbar">
             <div class="search">
                 <form>
@@ -49,14 +49,14 @@
                 </form>
             </div>
         </section>
-
+        
         <!--------- CONTENEDOR PRINCIPAL DE CADA PLANTILLA (CONTENIDO DE CADA SECCIÓN DE LA PÁGINA WEB DE DOLLARSOFTWARE) ---------------->
-
+        
         <main id="container-principal">
         </main>
-
+        
         <!--------- PIE DE PÁGINA CON LAS REDES SOCIALES DEL COMERCIO ELECTRÓNICO ---------------->
-
+        
         <footer class="social-media-section">
             <div class="social-media-container">
                 <p>@ Todos los derechos reservados</p>
@@ -68,33 +68,33 @@
             </div>
         </footer>
     </div>
-
-
+    
+    
     <!--------------------Plantillas-------------------------->
-
-
+    
+    
     <!--------- INICIO (CARRUSEL, CATEGORÍAS) --------->
-
+    
     <template id="plantilla-inicio">
-
-    <!--------- 1. CARRUSEL DE IMÁGENES - INICIO (CARRUSEL, CATEGORÍAS)---------------->
-
+        
+        <!--------- 1. CARRUSEL DE IMÁGENES - INICIO (CARRUSEL, CATEGORÍAS)---------------->
+        
         <div class="carousel-container">
             <div class="carousel-slide">
-                <img src="frontend/view/img/carousel_image.png" alt="Imagen con información del descuento 1">
+                <img src="frontend/assets/img/carousel_image.png" alt="Imagen con información del descuento 1">
             </div>
             <div class="carousel-slide">
-                <img src="frontend/view/img/discount-two.jpg" alt="Imagen con información del descuento 2">
+                <img src="frontend/assets/img/discount-two.jpg" alt="Imagen con información del descuento 2">
             </div>
             <div class="carousel-slide">
-                <img src="frontend/view/img/discount-three.jpeg" alt="Imagen con información del descuento 3">
+                <img src="frontend/assets/img/discount-three.jpeg" alt="Imagen con información del descuento 3">
             </div>
             <a class="previous" onclick="changeSlide(-1)" style="text-decoration: none;">&#10094;</a>
             <a class="next" onclick="changeSlide(1)" style="text-decoration: none;">&#10095;</a>
         </div>
-
+        
         <!--------- 2. CATEGORÍAS - INICIO (CARRUSEL, CATEGORÍAS) ---------------->
-
+        
         <div class="titulo-seccion">
             <h4>Categorías</h4>
         </div>
@@ -124,51 +124,51 @@
                 <p>Víveres</p>
             </button>
         </section>
-
+        
         <!--------- 3. PRODUCTOS DESTACADOS - INICIO (CARRUSEL, CATEGORÍAS) ---------------->
-
+        
         <div class="titulo-seccion">
             <h4>Productos destacados</h4>
         </div>
         <section id="productos-populares">
         </section>
-
+        
     </template>
-
+    
     <!------------ RESULTADOS DE PRODUCTOS POR CATEGORÍA --------->
-
+    
     <template id="plantilla-categorias-productos">
-
+        
         <!--------- 1. TÍTULO DE LA SECCIÓN DE CATEGORÍAS - RESULTADOS DE PRODUCTOS POR CATEGORÍA ---------------->
-
+        
         <div class="titulo-seccion">
         </div>
         <!--------- 2. CONTENEDOR DE LOS PRODUCTOS POR CATEGORÍA - RESULTADOS DE PRODUCTOS POR CATEGORÍA ---------------->
-
+        
         <section id="productos-categorias">
         </section>
     </template>
-
+    
     <!----------- RESULTADOS DE BÚSQUEDA DE PRODUCTOS --------->
-
-
+    
+    
     <template id="plantilla-resultados-productos">
         <!--------- 1. TÍTULO DE LA SECCIÓN DE RESULTADOS DE BÚSQUEDA DE PRODUCTOS - RESULTADOS DE BÚSQUEDA DE PRODUCTOS ---------------->
-
+        
         <div class="titulo-resultados-productos">
             <h2>Resultados de búsqueda</h2>
         </div>
-
+        
         <!--------- 2. CONTENEDOR DE LOS RESULTADOS DE LA BÚSQUEDA DE PRODUCTOS - RESULTADOS DE BÚSQUEDA DE PRODUCTOS ---------------->
-
+        
         <section id="resultados-productos">
         </section>
     </template>
 
     <!----------- INICIO DE SESIÓN --------->
-
+    
     <template id="plantilla-sesion">
-
+        
         <!--------- ¡CAMBIAR! 1. FORMULARIO DE CUENTA  - INICIO DE SESIÓN ---------------->
 
         <div class="formulario-cuenta">
@@ -184,9 +184,9 @@
 
     <!--------- CARRITO DE COMPRAS --------->
 
-
+    
     <template id="plantilla-carrito">
-
+        
         <!--------- ¡CAMBIAR! 1. TÍTULO DE LA SECCIÓN DEL CARRITO DE COMPRAS - CARRITO DE COMPRAS ---------------->
         
         <div class="titulo-seccion">
@@ -252,16 +252,16 @@
                 <a href="#">Opiniones</a>
             </div>
         </section>
-
+        
         <!--------- ¡CAMBIAR! 4. SECCIÓN PARA AÑADIR O ELIMINAR UN PRODUCTO DEL CARRITO Y PAGAR - CARRITO DE COMPRAS ---------------->
         
         <section class="modify-products">
             <div class="modify">
-                <img src="frontend/view/img/add-circle.png" alt="Añadir">
+                <img src="frontend/assets/img/add-circle.png" alt="Añadir">
                 <h6>Añadir</h6>
             </div>
             <div class="modify">
-                <img src="frontend/view/img/quit-product.png" alt="Quitar">
+                <img src="frontend/assets/img/quit-product.png" alt="Quitar">
                 <h6>Quitar</h6>
             </div>
             <div class="buy">
@@ -270,43 +270,43 @@
                 <button type="submit" class="pago">Ir a pagar</button>
             </div>
         </section>
-        </div>
-    </template>
+    </div>
+</template>
 
-    <!----------- ATENCIÓN AL CLIENTE --------->
+<!----------- ATENCIÓN AL CLIENTE --------->
 
-    <template id="plantilla-atencion-cliente">
-        <!---------  1. TÍTULO DE LA SECCIÓN DE ATENCIÓN AL CLIENTE - ATENCIÓN AL CLIENTE ---------------->
+<template id="plantilla-atencion-cliente">
+    <!---------  1. TÍTULO DE LA SECCIÓN DE ATENCIÓN AL CLIENTE - ATENCIÓN AL CLIENTE ---------------->
+    
+    <div class="titulo-seccion">
+        <h4>Atención al Cliente</h4>
+    </div>
+    <!---------  2. SECCIÓN CON LOS BOTONES DE CADA ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
+    <section class="seccion-atencion-cliente">
         
-        <div class="titulo-seccion">
-            <h4>Atención al Cliente</h4>
-        </div>
-        <!---------  2. SECCIÓN CON LOS BOTONES DE CADA ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
-        <section class="seccion-atencion-cliente">
-
         <!---------  3. TÍTULO DE LA INTRODUCCIÓN A LA SECCIÓN DEL ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
         
         <div class="titulo-aspectos-ayuda">
             <h5>¿En qué aspecto necesitas ayuda?</h5>
         </div>
-
+        
         <!---------  4. GRUPO CONTENEDOR DE LOS BOTONES DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
-
-            <div class="grupo-botones-ayuda">
-
-        <!---------  5. BOTÓN INDIVIDUAL DEL ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
-
-                <button class="boton-ayuda-individual" type="button" data-ayuda="manejo-pagina">
-                    <i class="icono-ayuda-individual fa-solid fa-globe fa-2xl"></i>
-                    <p>Manejo de la página web</p>
-                </button>
-                <button class="boton-ayuda-individual" type="button" data-ayuda="gestion-pedidos">
-                    <i class="icono-ayuda-individual fa-solid fa-paper-plane fa-2xl"></i>
-                    <p class="texto-boton-ayuda-individual">Gestión de pedidos</p>
-                </button>
-                <button class="boton-ayuda-individual" type="button" data-ayuda="navegacion-productos">
-                    <i class="icono-ayuda-individual fa-solid fa-bag-shopping fa-2xl"></i>
-                    <p class="texto-boton-ayuda-individual">Navegación por los productos</p>
+        
+        <div class="grupo-botones-ayuda">
+            
+            <!---------  5. BOTÓN INDIVIDUAL DEL ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
+            
+            <button class="boton-ayuda-individual" type="button" data-ayuda="manejo-pagina">
+                <i class="icono-ayuda-individual fa-solid fa-globe fa-2xl"></i>
+                <p>Manejo de la página web</p>
+            </button>
+            <button class="boton-ayuda-individual" type="button" data-ayuda="gestion-pedidos">
+                <i class="icono-ayuda-individual fa-solid fa-paper-plane fa-2xl"></i>
+                <p class="texto-boton-ayuda-individual">Gestión de pedidos</p>
+            </button>
+            <button class="boton-ayuda-individual" type="button" data-ayuda="navegacion-productos">
+                <i class="icono-ayuda-individual fa-solid fa-bag-shopping fa-2xl"></i>
+                <p class="texto-boton-ayuda-individual">Navegación por los productos</p>
                 </button>
                 <button class="boton-ayuda-individual" type="button" data-ayuda="cuenta-ultracommerce">
                     <i class="icono-ayuda-individual fa-solid fa-user fa-2xl"></i>
@@ -315,9 +315,9 @@
             </div>
         </section>
     </template>
-
+    
     <!------------ CONTENIDO DE CADA BOTÓN DE AYUDA - ATENCIÓN AL CLIENTE-------------------->
-
+    
     <template id="plantilla-contenido-boton-atencion-ayuda">
 
         <section id="contenedor-informacion-boton-atencion-ayuda">
@@ -331,16 +331,16 @@
     </template>
 
     <!------------ UBICACIÓN --------->
-
+    
     <template id="plantilla-ubicacion">
-
+        
         <!---------  1. TÍTULO DE LA SECCIÓN DE UBICACIÓN - UBICACIÓN ---------------->
-
+        
         <div class="titulo-seccion">
             <h4>Ubicación</h4>
         </div>
         <!---------  2. FORMULARIO PARA SELECCIONAR LA UBICACIÓN DONDE SE ENCUENTRA EL USUARIO - UBICACIÓN ---------------->
-
+        
         <form id="formulario-ubicacion">
             <label for="ciudad">Ciudad:</label>
             <select class="selector-ubicacion" id="ciudad">
@@ -349,17 +349,17 @@
                 <option value="cali">Cali</option>
                 <option value="barranquilla">Barranquilla</option>
             </select>
-    
+            
             <label for="zona">Zona:</label>
             <select class="selector-ubicacion" id="zona"></select>
-
-        <!---------  3. BOTÓN PARA ENVIAR LOS DATOS DE LA UBICACIÓN Y DESPLEGAR EL MAPA CON LAS TIENDAS DISPONIBLES - UBICACIÓN ---------------->
-
+            
+            <!---------  3. BOTÓN PARA ENVIAR LOS DATOS DE LA UBICACIÓN Y DESPLEGAR EL MAPA CON LAS TIENDAS DISPONIBLES - UBICACIÓN ---------------->
+            
             <button id="buscar-tiendas"type="submit">Buscar Tiendas</button>
         </form>
-
+        
         <!---------  4. MAPA QUE SE DESPLIEGA CUANDO EL USUARIO DA CLICK AL BOTÓN ANTERIOR, MOSTRANDO CADA TIENDA UBICADA DISPONIBLE - UBICACIÓN ---------------->
-
+        
         <div id="mapa"></div>
         
         <!----------- 5. DETALLES DE CADA TIENDA DISPONIBLE - UBICACIÓN ---------->
@@ -367,19 +367,19 @@
         <section id="detalles-tiendas">
         </section>
     </template>
-
+    
     <!------------------------------ AÑADIR PRODUCTOS - CARRITO DE COMPRAS --------->
-
+    
     <template id="plantilla-añadir-productos-carrito">
-
-
+        
+        
     </template>
     
     <!-----------------Enlaces JS------------------->
-    <script src="frontend/view/js/view.js"></script>
+    <script src="frontend/assets/js/view.js"></script>
     <script src="frontend/controller/controller.js"></script>
-    <script src="frontend/view/js/carousel.js"></script>
-    <script src="frontend/view/js/mapa.js"></script>
+    <script src="frontend/assets/js/carousel.js"defer></script>
+    <script src="frontend/assets/js/mapa.js"></script>
 </body>
 
 </html>
