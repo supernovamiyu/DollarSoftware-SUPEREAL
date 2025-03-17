@@ -66,7 +66,7 @@ function mostrarProductos(categoria) {
             const contenido = document.getElementById('container-principal');
             contenido.innerHTML = plantillaProductos;
 
-            const tituloCategoria = document.querySelector('.titulo-seccion-categoria');
+            const tituloCategoria = document.getElementById('titulo-seccion-categoria');
             const productosCategorias = document.getElementById('productos-categorias');
            // Limpiar contenido previo
 
