@@ -65,22 +65,22 @@
         const subtotal = precio * producto.cantidad
     
         return `
-            <div class="producto-carrito" style="margin: 10px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
-                <div style="display: flex; align-items: center; flex: 1;">
-                    <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" style="width: 80px; height: 80px; object-fit: cover; margin-right: 15px; border-radius: 4px;">
-                    <div style="flex: 1;">
-                        <h3 style="margin: 0 0 5px 0; font-size: 16px;">${producto.nombre_producto}</h3>
-                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                            <button onclick="actualizarCantidad('${producto.id_productos}', ${producto.cantidad - 1})" style="width: 25px; height: 25px; border: 1px solid #ddd; border-radius: 4px; background: #f8f8f8; cursor: pointer;">-</button>
-                            <span style="margin: 0 10px; font-weight: bold;">${producto.cantidad}</span>
-                            <button onclick="actualizarCantidad('${producto.id_productos}', ${producto.cantidad + 1})" style="width: 25px; height: 25px; border: 1px solid #ddd; border-radius: 4px; background: #f8f8f8; cursor: pointer;">+</button>
+            <div class="contenedor-producto-unico-carrito">
+                <div class="producto-individual-carrito">
+                    <img class = "imagen-producto-individual-carrito" src="${producto.imagen_url}" alt="${producto.nombre_producto}">
+                    <div class = "informacion-producto-carrito">
+                        <h3 class ="nombre-producto-en-el-carrito">${producto.nombre_producto}</h3>
+                        <div class="botones-productos-carrito-compras">
+                            <button class="actualizar-cantidad-producto-carrito" onclick="actualizarCantidad('${producto.id_productos}', ${producto.cantidad - 1})">-</button>
+                            <span class="cantidad-producto-individual-carrito">${producto.cantidad}</span>
+                            <button class="actualizar-cantidad-producto-carrito" onclick="actualizarCantidad('${producto.id_productos}', ${producto.cantidad + 1})">+</button>
                         </div>
-                        <p style="margin: 0; font-size: 14px; color: #666;">Precio unitario: $${isNaN(precio) ? 0 : precio.toLocaleString()}</p>
+                        <p class="precio-unitario-producto-carrito">Precio unitario: $${isNaN(precio) ? 0 : precio.toLocaleString()}</p>
                     </div>
                 </div>
-                <div style="display: flex; flex-direction: column; align-items: flex-end; min-width: 120px;">
-                    <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 16px;">$${isNaN(subtotal) ? 0 : subtotal.toLocaleString()}</p>
-                    <button onclick="eliminarDelCarrito('${producto.id_productos}')" style="padding: 5px 10px; border: none; border-radius: 4px; background: #ff4d4d; color: white; cursor: pointer;">Eliminar</button>
+                <div class="contenedor-subtotal-eliminar-producto">
+                    <p class="subtotal-producto-carrito">$${isNaN(subtotal) ? 0 : subtotal.toLocaleString()}</p>
+                    <button class="eliminar-producto-individual-carrito" onclick="eliminarDelCarrito('${producto.id_productos}')">Eliminar</button>
                 </div>
             </div>
         `
@@ -121,12 +121,12 @@
     
         // Agregar el total al final del carrito
         contenedorCarrito.innerHTML += `
-            <div style="margin-top: 20px; padding: 15px; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="margin: 0; font-size: 18px;">Total:</h3>
-                <p style="margin: 0; font-weight: bold; font-size: 20px;">$${total.toLocaleString()}</p>
+            <div class="contenedor-total-compra-carrito">
+                <h3 class="titulo-total-compra-carrito">Total:</h3>
+                <p class ="total-compra-del-carrito">$${total.toLocaleString()}</p>
             </div>
-            <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
-                <button onclick="procederAlPago()" style="padding: 10px 20px; border: none; border-radius: 4px; background: rgb(113, 137, 255); color: white; cursor: pointer; font-weight: bold; margin-bottom: 20px;">Proceder al pago</button>
+            <div class="contenedor-boton-proceder-al-pago">
+                <button class="boton-proceder-al-pago" onclick="procederAlPago()">Proceder al pago</button>
             </div>
         `
     }
