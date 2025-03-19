@@ -304,6 +304,45 @@ body {
     margin-bottom: 20px;
 }
 
+/* Estilos para los mensajes de notificación */
+.mensaje-notificacion {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.mensaje-success {
+    background-color: #28a745;
+}
+
+.mensaje-error {
+    background-color: #dc3545;
+}
+
+.mensaje-warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.mensaje-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mensaje-oculto {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
 .search {
     width: fit-content;
     display: flex;

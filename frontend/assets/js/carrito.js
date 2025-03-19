@@ -1,3 +1,30 @@
+// Función para mostrar mensajes elegantes
+function mostrarMensaje(mensaje, tipo = 'success') {
+    // Crear el elemento del mensaje
+    const mensajeElement = document.createElement('div');
+    mensajeElement.className = `mensaje-notificacion mensaje-${tipo}`;
+    mensajeElement.textContent = mensaje;
+    
+    // Agregar el mensaje al body
+    document.body.appendChild(mensajeElement);
+    
+    // Mostrar el mensaje con animación
+    setTimeout(() => {
+        mensajeElement.classList.add('mensaje-visible');
+    }, 10);
+    
+    // Ocultar y eliminar el mensaje después de un tiempo
+    setTimeout(() => {
+        mensajeElement.classList.remove('mensaje-visible');
+        mensajeElement.classList.add('mensaje-oculto');
+        
+        // Eliminar el elemento después de que termine la animación
+        setTimeout(() => {
+            mensajeElement.remove();
+        }, 500);
+    }, 3000);
+}
+    
     // Función para agregar un producto al carrito
     async function agregarAlCarrito(productoId) {
         try {
@@ -52,10 +79,10 @@
     
         localStorage.setItem("carrito", JSON.stringify(carrito))
         mostrarCarrito() // Actualiza el carrito después de agregar un producto
-        alert("Producto agregado al carrito")
+        mostrarMensaje("Producto agregado al carrito")
         } catch (error) {
         console.error("Error al agregar al carrito:", error)
-        alert("No se pudo agregar el producto al carrito: " + error.message)
+        mostrarMensaje("No se pudo agregar el producto al carrito: " + error.message)
         }
     }
     
@@ -156,11 +183,11 @@
     function procederAlPago() {
         const carrito = JSON.parse(localStorage.getItem("carrito")) || []
         if (carrito.length === 0) {
-        alert("Tu carrito está vacío. Agrega productos antes de proceder al pago.")
+        mostrarMensaje("Tu carrito está vacío. Agrega productos antes de proceder al pago.")
         return
         }
         // Aquí puedes redirigir al usuario a una página de pago o mostrar un formulario de pago
-        alert("Funcionalidad de pago en desarrollo.")
+        mostrarMensaje("Funcionalidad de pago en desarrollo.")
     }
     
     
