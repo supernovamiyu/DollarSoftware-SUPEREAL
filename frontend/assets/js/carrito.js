@@ -1,3 +1,10 @@
+// Escuchar el evento carritoCargado
+document.addEventListener('carritoCargado', function() {
+    // Llamar a mostrarCarrito cuando se dispare el evento
+    mostrarCarrito();
+});
+
+
 // Función para mostrar mensajes elegantes
 function mostrarMensaje(mensaje, tipo = 'success') {
     // Crear el elemento del mensaje

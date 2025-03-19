@@ -27,6 +27,10 @@ function mostrarPantallaCarrito(event) {
     event.preventDefault();
     if (vista) {
         vista.mostrarPlantilla("plantilla-carrito", "container-principal");
+        
+        // Disparar un evento personalizado para notificar que la plantilla del carrito se ha cargado
+        const eventoCarritoCargado = new CustomEvent('carritoCargado');
+        document.dispatchEvent(eventoCarritoCargado);
     } else {
         console.error("vista no está inicializado.");
     }
