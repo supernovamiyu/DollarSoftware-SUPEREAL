@@ -38,7 +38,7 @@ function mostrarProductosDestacados() {
                 <img src="${producto.imagen_url}" alt="Imagen del producto" width="50%" height="auto">
                 <h3>${producto.nombre_producto}</h3>
                 <p>Precio: <br> $${producto.precio}</p>
-                <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
+                <button class="comprar" onclick="agregarAlCarrito(${producto.id})" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
             </div>
             `;
         }).join('');
@@ -87,7 +87,7 @@ function mostrarProductos(categoria) {
                         <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" width="50%" height="auto">
                         <h3>${producto.nombre_producto}</h3>
                         <p>Precio: <br>$${producto.precio}</p>
-                    <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
+                    <button class="comprar" onclick="agregarAlCarrito(${producto.id})" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}"data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
                     </div>
                 `;
             }).join('');
@@ -101,7 +101,7 @@ function mostrarProductos(categoria) {
 }
 
 document.getElementById('boton-inicio').addEventListener('click', function() {
-    actualizarURL('http://127.0.0.1:5500/index.html')
+    actualizarURL('http://127.0.0.1:5501/index.html')
 })
 
 const searchBar = document.getElementById('search-bar');
@@ -158,7 +158,7 @@ function mostrarResultadosDeBusqueda(data) {
                 <img src="${producto.imagen_url}" alt="${producto.nombre_producto}" width="50%" height="auto">
                 <h3>${producto.nombre_producto}</h3>
                 <p>Precio: <br>$${producto.precio}</p>
-                <button class="comprar" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
+                <button class="comprar" onclick="agregarAlCarrito(${producto.id})" data-id="${producto.id_productos}" data-unidades-disponibles="${producto.unidades_disponibles}">Añadir al carrito</button>
             </div>
         `;
     }).join('');
