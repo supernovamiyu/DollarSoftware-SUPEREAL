@@ -1,15 +1,22 @@
 const { Router } = require('express');
+const userController = require('../controllers/user.controller');
 
-const { createUser, readUser, updateUser, deleteUser } = require('../controllers/user.controller');
-
+// Crear un enrutador
 const router = Router();
 
-router.get('/:id_usuario', readUser);
+///////////////// R ****** U ****** T ****** A ****** S /////////////////
 
-router.post('/', createUser);
+// Obtener un usuario por ID
+router.get('/:id_usuario', userController.readUser);
 
-router.put('/:id_usuario', updateUser);
+// Crear un nuevo usuario
+router.post('/', userController.createUser);
 
-router.delete('/:id_usuario', deleteUser);
+// Actualizar un usuario por ID
+router.put('/:id_usuario', userController.updateUser);
 
+// Eliminar un usuario por ID
+router.delete('/:id_usuario', userController.deleteUser);
+
+// Exportar el enrutador
 module.exports = router;

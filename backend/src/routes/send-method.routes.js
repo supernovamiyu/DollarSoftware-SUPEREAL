@@ -1,15 +1,22 @@
 const { Router } = require('express');
+const sendMethodController = require('../controllers/send-method.controller');
 
-const { createSendMethod, readSendMethod, updateSendMethod, deleteSendMethod } = require('../controllers/send-method.controller');
-
+// Crear un enrutador
 const router = Router();
 
-router.get('/:id_metodo_envio', readSendMethod);
+///////////////// R ****** U ****** T ****** A ****** S /////////////////
 
-router.post('/', createSendMethod);
+// Obtener un método de envío por ID
+router.get('/:id_metodo_envio', sendMethodController.readSendMethod);
 
-router.put('/:id_metodo_envio', updateSendMethod);
+// Crear un nuevo método de envío
+router.post('/', sendMethodController.createSendMethod);
 
-router.delete('/:id_metodo_envio', deleteSendMethod);
+// Actualizar un método de envío por ID
+router.put('/:id_metodo_envio', sendMethodController.updateSendMethod);
 
+// Eliminar un método de envío por ID
+router.delete('/:id_metodo_envio', sendMethodController.deleteSendMethod);
+
+// Exportar el enrutador
 module.exports = router;

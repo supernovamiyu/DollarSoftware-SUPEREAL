@@ -9,40 +9,40 @@ function inicializarMapa() {
   // Datos ficticios de las tiendas
   const tiendas = {
     bogota: {
-      "parque-simon-bolivar": [
-        { nombre: "Ultra Commerce - Sucursal #1 - Simón Bolívar", direccion: "Calle Falsa #123", horario: "9 AM - 6 PM", lat: 4.657, lng: -74.093 },
-        { nombre: "Ultra Commerce - Sucursal #2 - Simón Bolívar", direccion: "Carrera Verdadera #456", horario: "10 AM - 7 PM", lat: 4.658, lng: -74.094 }
+      "engativa": [
+        { nombre: "Sucursal #1 - Parque Simón Bolívar", direccion: "Calle Falsa #123", horario: "9 AM - 6 PM", lat: 4.657, lng: -74.093 },
+        { nombre: "Sucursal #2 - Parque San Andrés", direccion: "Carrera Verdadera #456", horario: "10 AM - 7 PM", lat: 4.712934, lng: -74.112192 }
       ],
-      "museo-del-oro": [
-        { nombre: "Ultra Commerce - Sucursal #1 - Museo del Oro", direccion: "Calle Dorada #789", horario: "8 AM - 5 PM", lat: 4.601, lng: -74.072 }
+      "puente-aranda": [
+        { nombre: "Sucursal #3 - C.C. Plaza Central", direccion: "Calle Dorada #789", horario: "8 AM - 5 PM", lat: 4.630062, lng: -74.116559 }
       ],
-      "cefe-cometas": [
-        { nombre: "Ultra Commerce - Outlet #1 - Cometas", direccion: "Calle Dorada #209", horario: "10 AM - 6 PM", lat: 4.714436, lng: -74.084780 }
+      "usme": [
+        { nombre: "Outlet #1 - C.C. Altavista", direccion: "Calle Dorada #209", horario: "10 AM - 6 PM", lat: 4.532279, lng: -74.118170 }
       ],
     },
     medellin: {
       "parque-berrio": [
-        { nombre: "Ultra Commerce - Outlet #2 - Barrio Candelaria", direccion: "Calle Medellín #321", horario: "9 AM - 6 PM", lat: 6.247, lng: -75.563 }
+        { nombre: "Outlet #2 - Barrio Candelaria", direccion: "Calle Medellín #321", horario: "9 AM - 6 PM", lat: 6.247, lng: -75.563 }
       ],
       "museo-de-antioquia": [
-        { nombre: "Ultra Commerce - Sucursal #1 - Museo de Antioquia", direccion: "Carrera Antioquia #654", horario: "10 AM - 7 PM", lat: 6.251, lng: -75.565 }
+        { nombre: "Sucursal #1 - Museo de Antioquia", direccion: "Carrera Antioquia #654", horario: "10 AM - 7 PM", lat: 6.251, lng: -75.565 }
       ]
     },
     cali: {
       "parque-del-gato": [
-        { nombre: "Ultra Commerce - Sucursal #1 - Parque del Gato", direccion: "Calle Cali #901", horario: "9 AM - 6 PM", lat: 3.420556, lng: -76.522222 },
-        { nombre: "Ultra Commerce - Sucursal #2 - Barrio El Peñón", direccion: "Carrera Cali #111", horario: "10 AM - 7 PM", lat: 3.421111, lng: -76.523333 }
+        { nombre: "Sucursal #1 - Parque del Gato", direccion: "Calle Cali #901", horario: "9 AM - 6 PM", lat: 3.420556, lng: -76.522222 },
+        { nombre: "Sucursal #2 - Barrio El Peñón", direccion: "Carrera Cali #111", horario: "10 AM - 7 PM", lat: 3.421111, lng: -76.523333 }
       ],
       "museo-de-la-caña-de-azucar": [
-        { nombre: "Ultra Commerce - Outlet #3 - Museo de la Caña de Azucar", direccion: "Calle Museo #456", horario: "8 AM - 5 PM", lat: 3.422222, lng: -76.524444 }
+        { nombre: "Outlet #3 - Museo de la Caña de Azucar", direccion: "Calle Museo #456", horario: "8 AM - 5 PM", lat: 3.623200, lng: -76.226476 }
       ]
     },
     barranquilla: {
       "parque-fernando-villa": [
-        { nombre: "Ultra Commerce - Outlet #4 - Parque Fernando Villa", direccion: "Calle Barranquilla #789", horario: "9 AM - 6 PM", lat: 10.966667, lng: -74.783333 },
+        { nombre: "Outlet #4 - Parque Fernando Villa", direccion: "Calle Barranquilla #789", horario: "9 AM - 6 PM", lat: 10.966667, lng: -74.783333 },
       ],
       "museo-del-caribe": [
-        { nombre: "Ultra Commerce - Sucursal #1 - Museo del Caribe", direccion: "Calle Museo #654", horario: "8 AM - 5 PM", lat: 10.968333, lng: -74.785555 }
+        { nombre: "Sucursal #1 - Museo del Caribe", direccion: "Calle Museo #654", horario: "8 AM - 5 PM", lat: 10.968333, lng: -74.785555 }
       ]
     }
   };
@@ -59,9 +59,9 @@ function inicializarMapa() {
     // Agregar nuevas opciones según la ciudad
     if (ciudad === 'bogota') {
       zonaSelect.innerHTML = `
-        <option value="parque-simon-bolivar">Parque Simón Bolívar</option>
-        <option value="museo-del-oro">Museo del Oro</option>
-        <option value="cefe-cometas">CEFE Cometas</option>
+        <option value="engativa">Engativá</option>
+        <option value="puente-aranda">Puente Aranda</option>
+        <option value="usme">Usme</option>
       `;
     } else if (ciudad === 'medellin') {
       zonaSelect.innerHTML = `
@@ -105,10 +105,14 @@ function inicializarMapa() {
 
         // Mostrar detalles en la página
         const detallesHTML = `
-          <img id="pin-ubicacion-tiendas" src="./frontend/view/img/purple-location-pin.png">
-          <h5>${tienda.nombre}</h5>
-          <p>Dirección: ${tienda.direccion}</p>
-          <p>Horario: ${tienda.horario}</p>
+        <div class="tienda-ubicada">
+        <i id="pin-ubicacion-tiendas" class="fa-solid fa-location-dot fa-xl"></i>
+          <div class="textos-ubicacion-tiendas">
+            <h5 class="elemento-ubicacion-tiendas">${tienda.nombre}</h5>
+            <p class= "elemento-ubicacion-tiendas">Dirección: ${tienda.direccion}</p>
+            <p class = "elemento-ubicacion-tiendas">Horario: ${tienda.horario}</p>
+          </div>
+        </div>
         `;
         detallesDiv.insertAdjacentHTML('beforeend', detallesHTML);
       });
@@ -127,7 +131,7 @@ function inicializarMapa() {
 document.addEventListener('DOMContentLoaded', function() {
   // Agrega un evento al ícono para mostrar la pantalla de ubicación
   document.getElementById('icono-ubicacion').addEventListener('click', function() {
-    vista.mostrarPlantilla("plantilla-ubicacion", "container-2");
+    vista.mostrarPlantilla("plantilla-ubicacion", "container-principal");
     setTimeout(inicializarMapa, 100); // Llamar a inicializarMapa después de mostrar el template
   });
 });

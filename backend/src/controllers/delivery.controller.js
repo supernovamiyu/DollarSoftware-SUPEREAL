@@ -1,90 +1,101 @@
-const database = require('../config/database');
-const mysql2 = require('mysql2');
+// Importar el modelo de pedidos
+const deliveryModel = require('../models/delivery.model');
 
 ///////////////// C ****** R ****** U ****** D /////////////////
 
-/////////////// PEDIDOS /////////////////
+// Buscar un pedido en la base de datos
+const readUserDelivery = async (req, res) => {
+    try {
+        const { id_pedido } = req.params;
 
+        // Validar que el ID del pedido esté presente
+        if (!id_pedido) {
+            return res.status(400).json({ message: 'El ID del pedido es obligatorio' });
+        }
 
+        // Llamar al modelo para obtener el pedido
+        const [result] = await deliveryModel.readUserDelivery(id_pedido);
 
-// Buscar un pedido en la tabla de pedidos en la base de datos 
-
-const readUserDelivery = (req, res) => { 
-
-    const { id_pedido } = req.params;
-
-    const readQuery = `SELECT * FROM pedidos WHERE id_pedido=?;`;
-
-    const query = mysql2.format(readQuery, [id_pedido]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(typeof result[0]);
-        if (result[0] !== undefined) {
+        // Verificar si se encontró el pedido
+        if (result[0]) {
             res.json(result[0]);
         } else {
-            res.json({message: 'Pedido no encontrado :('});
+            res.status(404).json({ message: 'Pedido no encontrado :(' });
         }
-    });
-
+    } catch (err) {
+        console.error('Error en readUserDelivery:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
-// Crear un pedido en la tabla de pedidos en la base de datos
+// Crear un pedido en la base de datos
+const createUserDelivery = async (req, res) => {
+    try {
+        const { fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
 
+        // Validar que los campos obligatorios estén presentes
+        if (!fk_id_usuario || !fk_id_metodo_envio || !fecha_de_pedido || !fk_id_ciudad || !direccion || !fk_id_estado_envio || !subtotal || !impuesto || !total || !vigencia_factura) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
-const createUserDelivery = (req, res) => {
-    const { fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
+        // Llamar al modelo para crear el pedido
+        await deliveryModel.createUserDelivery(fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura);
 
-    const createQuery = `INSERT INTO pedidos (fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura) VALUES (?,?,?,?,?,?,?,?,?,?,?);`;
-    
-    const query = mysql2.format(createQuery, [fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        // console.log(result);
-        res.json({message: 'Pedido creado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Pedido creado con éxito' });
+    } catch (err) {
+        console.error('Error en createUserDelivery:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Actualizar un pedido en la base de datos
+const updateUserDelivery = async (req, res) => {
+    try {
+        const { id_pedido } = req.params;
+        const { fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
 
-// Actualizar un pedido en la tabla de pedidos en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!fk_id_metodo_envio || !fecha_de_pedido || !fk_id_ciudad || !direccion || !fk_id_estado_envio || !subtotal || !impuesto || !total || !vigencia_factura) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
-const updateUserDelivery = (req, res) => {
-    const { id_pedido } = req.params;
-    const { fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura } = req.body;
+        // Llamar al modelo para actualizar el pedido
+        await deliveryModel.updateUserDelivery(id_pedido, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura);
 
-    const updateQuery = `UPDATE pedidos SET fk_id_metodo_envio=?, fecha_de_pedido=?, fk_id_ciudad=?, direccion=?, fk_id_estado_envio=?, subtotal=?, impuesto=?, total=?, vigencia_factura=? WHERE id_pedido=?;`;
-
-    const query = mysql2.format(updateQuery, [fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura, id_pedido]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Pedido actualizado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Pedido actualizado con éxito' });
+    } catch (err) {
+        console.error('Error en updateUserDelivery:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
-// Eliminar un pedido en la tabla de pedidos en la base de datos
+// Eliminar un pedido en la base de datos
+const deleteUserDelivery = async (req, res) => {
+    try {
+        const { id_pedido } = req.params;
 
-const deleteUserDelivery = (req, res) => {
-    const { id_pedido } = req.params;
-    
-    const deleteQuery = `DELETE FROM pedidos WHERE id_pedido=?;`;
-    
-    const query = mysql2.format(deleteQuery, [id_pedido]);
-    
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Pedido eliminado con éxito'});
-    });
+        // Validar que el ID del pedido esté presente
+        if (!id_pedido) {
+            return res.status(400).json({ message: 'El ID del pedido es obligatorio' });
+        }
+
+        // Llamar al modelo para eliminar el pedido
+        await deliveryModel.deleteUserDelivery(id_pedido);
+
+        // Enviar respuesta de éxito
+        res.json({ message: 'Pedido eliminado con éxito' });
+    } catch (err) {
+        console.error('Error en deleteUserDelivery:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
 // Exportar las funciones para usarlas en otros archivos
-
 module.exports = {
     readUserDelivery,
     createUserDelivery,
     updateUserDelivery,
-    deleteUserDelivery, 
+    deleteUserDelivery,
 };

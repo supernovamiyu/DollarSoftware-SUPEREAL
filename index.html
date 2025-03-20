@@ -6,9 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Dollar Software - Ultra Commerce</title>
-    <link rel="shortcut icon" href="frontend/view/img/comercio-electronico.png" type="image/x-icon">
-    <link rel="stylesheet" href="frontend/view/css/bootstrap.min.css">
-    <link rel="stylesheet" href="frontend/view/css/styles.css">
+    <link rel="stylesheet" href="frontend/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="frontend/assets/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
@@ -23,16 +22,22 @@
 
 <body>
     <div class="container">
+
+        <!--------- MENU DE NAVEGACIÓN ---------------->
+
         <header class="encabezado">
             <nav class="barra-navegacion">
                 <a href="#" onclick="mostrarPantallaUbicacion(event)"><i id="icono-ubicacion" class="fa-solid fa-location-dot fa-2xl"></i></a>
                 <a href="#" onclick="mostrarPantallaAtencionCliente(event)"><i class="fa-solid fa-headphones-simple fa-2xl"></i></a>
-                <a href="#" onclick="mostrarPantallaInicio(event)"><img id="boton-inicio" class="imgLogo" src="frontend/view/img/logo.svg"
+                <a href="#" onclick="mostrarPantallaInicio(event)"><img id="boton-inicio" class="imgLogo" src="frontend/assets/img/logo.svg"
                         alt="Logo de la empresa"></a>
                 <a href="#" onclick="mostrarPantallaCarrito(event)"><i class="fa-solid fa-cart-shopping fa-2xl"></i></a>
                 <a href="#" onclick="mostrarPantallaSesion(event)"><i class="fa-solid fa-user fa-2xl"></i></a>
             </nav>
         </header>
+
+        <!--------- BARRA DE BÚSQUEDA INTEGRADA AL MENÚ DE NAVEGACIÓN ---------------->
+
         <section class="searchbar">
             <div class="search">
                 <form>
@@ -43,8 +48,14 @@
                 </form>
             </div>
         </section>
-        <div id="container-2">
-        </div>
+
+        <!--------- CONTENEDOR PRINCIPAL DE CADA PLANTILLA (CONTENIDO DE CADA SECCIÓN DE LA PÁGINA WEB DE DOLLARSOFTWARE) ---------------->
+
+        <main id="container-principal">
+        </main>
+
+        <!--------- PIE DE PÁGINA CON LAS REDES SOCIALES DEL COMERCIO ELECTRÓNICO ---------------->
+
         <footer class="social-media-section">
             <div class="social-media-container">
                 <p>@ Todos los derechos reservados</p>
@@ -59,21 +70,29 @@
 
 
     <!--------------------Plantillas-------------------------->
+
+
+    <!--------- INICIO (CARRUSEL, CATEGORÍAS) --------->
+
     <template id="plantilla-inicio">
+
+    <!--------- 1. CARRUSEL DE IMÁGENES - INICIO (CARRUSEL, CATEGORÍAS)---------------->
 
         <div class="carousel-container">
             <div class="carousel-slide">
-                <img src="frontend/view/img/carousel_image.png" alt="Imagen con información del descuento 1">
+                <img src="frontend/assets/img/carousel_image.png" alt="Imagen con información del descuento 1">
             </div>
             <div class="carousel-slide">
-                <img src="frontend/view/img/discount-two.jpg" alt="Imagen con información del descuento 2">
+                <img src="frontend/assets/img/discount-two.jpg" alt="Imagen con información del descuento 2">
             </div>
             <div class="carousel-slide">
-                <img src="frontend/view/img/discount-three.jpeg" alt="Imagen con información del descuento 3">
+                <img src="frontend/assets/img/discount-three.jpeg" alt="Imagen con información del descuento 3">
             </div>
             <a class="previous" onclick="changeSlide(-1)" style="text-decoration: none;">&#10094;</a>
             <a class="next" onclick="changeSlide(1)" style="text-decoration: none;">&#10095;</a>
         </div>
+
+        <!--------- 2. CATEGORÍAS - INICIO (CARRUSEL, CATEGORÍAS) ---------------->
 
         <div class="titulo-seccion">
             <h4>Categorías</h4>
@@ -104,6 +123,9 @@
                 <p>Víveres</p>
             </button>
         </section>
+
+        <!--------- 3. PRODUCTOS DESTACADOS - INICIO (CARRUSEL, CATEGORÍAS) ---------------->
+
         <div class="titulo-seccion">
             <h4>Productos destacados</h4>
         </div>
@@ -112,14 +134,42 @@
 
     </template>
 
+    <!------------ RESULTADOS DE PRODUCTOS POR CATEGORÍA --------->
+
     <template id="plantilla-categorias-productos">
-        <div class="titulo-seccion-categoria">
+
+        <!--------- 1. TÍTULO DE LA SECCIÓN DE CATEGORÍAS - RESULTADOS DE PRODUCTOS POR CATEGORÍA ---------------->
+
+        <div id="titulo-seccion-categoria" class="titulo-seccion">
         </div>
+        <!--------- 2. CONTENEDOR DE LOS PRODUCTOS POR CATEGORÍA - RESULTADOS DE PRODUCTOS POR CATEGORÍA ---------------->
+
         <section id="productos-categorias">
         </section>
     </template>
 
+    <!----------- RESULTADOS DE BÚSQUEDA DE PRODUCTOS --------->
+
+
+    <template id="plantilla-resultados-productos">
+        <!--------- 1. TÍTULO DE LA SECCIÓN DE RESULTADOS DE BÚSQUEDA DE PRODUCTOS - RESULTADOS DE BÚSQUEDA DE PRODUCTOS ---------------->
+
+        <div class="titulo-resultados-productos">
+            <h2>Resultados de búsqueda</h2>
+        </div>
+
+        <!--------- 2. CONTENEDOR DE LOS RESULTADOS DE LA BÚSQUEDA DE PRODUCTOS - RESULTADOS DE BÚSQUEDA DE PRODUCTOS ---------------->
+
+        <section id="resultados-productos">
+        </section>
+    </template>
+
+    <!----------- INICIO DE SESIÓN --------->
+
     <template id="plantilla-sesion">
+
+        <!--------- ¡CAMBIAR! 1. FORMULARIO DE CUENTA  - INICIO DE SESIÓN ---------------->
+
         <div class="formulario-cuenta">
             <form action="">
                 <h1>Cuenta Ultra Commerce</h1>
@@ -131,126 +181,91 @@
         </div>
     </template>
 
+    <!--------- CARRITO DE COMPRAS --------->
+
+
     <template id="plantilla-carrito">
+
+        <!--------- ¡CAMBIAR! 1. TÍTULO DE LA SECCIÓN DEL CARRITO DE COMPRAS - CARRITO DE COMPRAS ---------------->
+        
         <div class="titulo-seccion">
             <h4>Mi carrito de compras</h4>
         </div>
-        <section class="popular-products">
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="vista-productos.html">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="vista-productos.html">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="vista-productos.html">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="vista-productos.html">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="#">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="#">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="#">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="#">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-            <div class="product">
-                <h6>Imagen del producto</h6>
-                <p>Producto</p>
-                <a href="#">Observar</a>
-                <a href="#">Opiniones</a>
-            </div>
-        </section>
-        <section class="modify-products">
-            <div class="modify">
-                <img src="frontend/view/img/add-circle.png" alt="Añadir">
-                <h6>Añadir</h6>
-            </div>
-            <div class="modify">
-                <img src="frontend/view/img/quit-product.png" alt="Quitar">
-                <h6>Quitar</h6>
-            </div>
-            <div class="buy">
-                <h6>Subtotal: </h6>
-                <h6>Total: </h6>
-                <button type="submit" class="pago">Ir a pagar</button>
-            </div>
-        </section>
-        </div>
+        <!--------- ¡CAMBIAR! 2. CONTENEDOR DE LOS PRODUCTOS DEPOSITADOS EN EL CARRITO DE COMPRAS - CARRITO DE COMPRAS ---------------->
+        <section id="contenedor-productos-carrito">
+        
+            <!--------- ¡CAMBIAR! 3. VISUALIZACIÓN INDIVIDUAL DE CADA PRODUCTO - CARRITO DE COMPRAS ---------------->
+            
     </template>
+
+    <!----------- ATENCIÓN AL CLIENTE --------->
 
     <template id="plantilla-atencion-cliente">
-        <div class="titulo-seccion-1">
+        <!---------  1. TÍTULO DE LA SECCIÓN DE ATENCIÓN AL CLIENTE - ATENCIÓN AL CLIENTE ---------------->
+        
+        <div class="titulo-seccion">
             <h4>Atención al Cliente</h4>
-            <h4>Ultra Commerce</h4>
         </div>
-        <section class="help-section">
-            <div class="aspectos-ayuda">
-                <h5>¿En qué aspecto necesitas ayuda?</h5>
-            </div>
-            <div class="help-buttons">
-                <div class="help-btn">
-                    <img class="help-img" src="frontend/view/img/web.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html">
-                        <p>Manejo de la página web</p>
-                    </a>
-                </div>
-                <div class="help-btn">
-                    <img class="help-img" src="frontend/view/img/send.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html">
-                        <p>Gestión de pedidos</p>
-                    </a>
-                </div>
-                <div class="help-btn">
-                    <img class="help-img" src="frontend/view/img/shopping-bag.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html">
-                        <p>Navegación de productos</p>
-                    </a>
-                </div>
-                <div class="help-btn">
-                    <img class="help-img" src="frontend/view/img/user-account.png" alt="Manejo de la página web">
-                    <a href="sec-atencion-al-cliente.html">
-                        <p>Cuenta Ultra Commerce</p>
-                    </a>
-                </div>
+        <!---------  2. SECCIÓN CON LOS BOTONES DE CADA ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
+        <section class="seccion-atencion-cliente">
+
+        <!---------  3. TÍTULO DE LA INTRODUCCIÓN A LA SECCIÓN DEL ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
+        
+        <div class="titulo-aspectos-ayuda">
+            <h5>¿En qué aspecto necesitas ayuda?</h5>
+        </div>
+
+        <!---------  4. GRUPO CONTENEDOR DE LOS BOTONES DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
+
+            <div class="grupo-botones-ayuda">
+
+        <!---------  5. BOTÓN INDIVIDUAL DEL ASPECTO DE AYUDA - ATENCIÓN AL CLIENTE ---------------->
+
+                <button class="boton-ayuda-individual" type="button" data-ayuda="manejo-pagina">
+                    <i class="icono-ayuda-individual fa-solid fa-globe fa-2xl"></i>
+                    <p class="texto-boton-ayuda-individual">Manejo de la página web</p>
+                </button>
+                <button class="boton-ayuda-individual" type="button" data-ayuda="gestion-pedidos">
+                    <i class="icono-ayuda-individual fa-solid fa-paper-plane fa-2xl"></i>
+                    <p class="texto-boton-ayuda-individual">Gestión de pedidos</p>
+                </button>
+                <button class="boton-ayuda-individual" type="button" data-ayuda="navegacion-productos">
+                    <i class="icono-ayuda-individual fa-solid fa-bag-shopping fa-2xl"></i>
+                    <p class="texto-boton-ayuda-individual">Navegación por los productos</p>
+                </button>
+                <button class="boton-ayuda-individual" type="button" data-ayuda="cuenta-ultracommerce">
+                    <i class="icono-ayuda-individual fa-solid fa-user fa-2xl"></i>
+                    <p class="texto-boton-ayuda-individual">Cuenta UltraCommerce</p>
+                </button>
             </div>
         </section>
     </template>
 
+    <!------------ CONTENIDO DE CADA BOTÓN DE AYUDA - ATENCIÓN AL CLIENTE-------------------->
+
+    <template id="plantilla-contenido-boton-atencion-ayuda">
+
+        <section id="contenedor-informacion-boton-atencion-ayuda">
+            <div class="titulo-seccion">
+                <h4 id="titulo-del-aspecto-de-ayuda"></h4>
+            </div>
+            <div class="contenido-aspecto-ayuda">
+            </div>
+        </section>
+
+    </template>
+
+    <!------------ UBICACIÓN --------->
+
     <template id="plantilla-ubicacion">
+
+        <!---------  1. TÍTULO DE LA SECCIÓN DE UBICACIÓN - UBICACIÓN ---------------->
+
         <div class="titulo-seccion">
             <h4>Ubicación</h4>
         </div>
+        <!---------  2. FORMULARIO PARA SELECCIONAR LA UBICACIÓN DONDE SE ENCUENTRA EL USUARIO - UBICACIÓN ---------------->
+
         <form id="formulario-ubicacion">
             <label for="ciudad">Ciudad:</label>
             <select class="selector-ubicacion" id="ciudad">
@@ -262,26 +277,35 @@
     
             <label for="zona">Zona:</label>
             <select class="selector-ubicacion" id="zona"></select>
-    
+
+        <!---------  3. BOTÓN PARA ENVIAR LOS DATOS DE LA UBICACIÓN Y DESPLEGAR EL MAPA CON LAS TIENDAS DISPONIBLES - UBICACIÓN ---------------->
+
             <button id="buscar-tiendas"type="submit">Buscar Tiendas</button>
         </form>
+
+        <!---------  4. MAPA QUE SE DESPLIEGA CUANDO EL USUARIO DA CLICK AL BOTÓN ANTERIOR, MOSTRANDO CADA TIENDA UBICADA DISPONIBLE - UBICACIÓN ---------------->
+
         <div id="mapa"></div>
         
-        <h2>Vista de Tiendas</h2>
-        <div id="detalles-tiendas"></div>
-    </template>
-
-    <template id="plantilla-producto-individual">
-        <section class="producto-individual">
-            <img src="" alt="Imagen general del producto" class="producto-imagen-general">
-            
+        <!----------- 5. DETALLES DE CADA TIENDA DISPONIBLE - UBICACIÓN ---------->
+        
+        <section id="detalles-tiendas">
         </section>
     </template>
+
+    <!------------------------------ AÑADIR PRODUCTOS - CARRITO DE COMPRAS --------->
+
+    <template id="plantilla-añadir-productos-carrito">
+
+
+    </template>
+    
     <!-----------------Enlaces JS------------------->
+    <script src="frontend/assets/js/view.js"></script>
     <script src="frontend/controller/controller.js"></script>
-    <script src="frontend/view/js/view.js"></script>
-    <script src="frontend/view/js/carousel.js"></script>
-    <script src="frontend/view/js/mapa.js"></script>
+    <script src="frontend/assets/js/carousel.js"></script>
+    <script src="frontend/assets/js/carrito.js"></script>
+    <script src="frontend/assets/js/mapa.js"></script>
 </body>
 
 </html>

@@ -1,21 +1,34 @@
 const { Router } = require('express');
+const productController = require('../controllers/product.controller');
 
-const { createProduct, readProduct, updateProduct, deleteProduct, getAllProducts, getProductCategory, getFeaturedProducts } = require('../controllers/product.controller');
-
+// Crear un enrutador
 const router = Router();
 
-router.get('/', getAllProducts);
+///////////////// R ****** U ****** T ****** A ****** S /////////////////
 
-router.get('/destacados', getFeaturedProducts);
+// Obtener todos los productos
+router.get('/', productController.getAllProducts);
 
-router.get('/:id_productos', readProduct);
+// Obtener productos destacados
+router.get('/destacados', productController.getFeaturedProducts);
 
-router.get('/categoria/:fk_id_categoria', getProductCategory);
+// Buscar productos similares
+router.get('/search/:searchTerm', productController.getSimilarProducts);
 
-router.post('/', createProduct);
+// Obtener un producto por ID
+router.get('/:id_productos', productController.readProduct);
 
-router.put('/:id_productos', updateProduct);
+// Obtener productos por categoría
+router.get('/categoria/:fk_id_categoria', productController.getProductCategory);
 
-router.delete('/:id_productos', deleteProduct);
+// Crear un nuevo producto
+router.post('/', productController.createProduct);
 
+// Actualizar un producto por ID
+router.put('/:id_productos', productController.updateProduct);
+
+// Eliminar un producto por ID
+router.delete('/:id_productos', productController.deleteProduct);
+
+// Exportar el enrutador
 module.exports = router;

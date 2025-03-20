@@ -1,89 +1,101 @@
-const database = require('../config/database');
-const mysql2 = require('mysql2');
+// Importar el modelo de detalle de pedido
+const detailDeliveryModel = require('../models/detail-delivery.model');
 
 ///////////////// C ****** R ****** U ****** D /////////////////
 
-/////////////// DETALLE-PEDIDO /////////////////
-
 // Buscar el detalle de un pedido en la base de datos
+const readDeliveryDetails = async (req, res) => {
+    try {
+        const { id_detalle_pedido } = req.params;
 
-const readDeliveryDetails = (req, res) => { 
+        // Validar que el ID del detalle del pedido esté presente
+        if (!id_detalle_pedido) {
+            return res.status(400).json({ message: 'El ID del detalle del pedido es obligatorio' });
+        }
 
-    const { id_detalle_pedido } = req.params;
+        // Llamar al modelo para obtener el detalle del pedido
+        const [result] = await detailDeliveryModel.readDeliveryDetails(id_detalle_pedido);
 
-    const readQuery = `SELECT * FROM detalle_pedido WHERE id_detalle_pedido=?;`;
-
-    const query = mysql2.format(readQuery, [id_detalle_pedido]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(typeof result[0]);
-        if (result[0] !== undefined) {
+        // Verificar si se encontró el detalle del pedido
+        if (result[0]) {
             res.json(result[0]);
         } else {
-            res.json({message: 'Detalle del pedido no encontrado :(. Por favor verifica el id del pedido en la base de datos'});
+            res.status(404).json({ message: 'Detalle del pedido no encontrado :(. Por favor verifica el id del pedido en la base de datos' });
         }
-    });
-
+    } catch (err) {
+        console.error('Error en readDeliveryDetails:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Crear el detalle de un pedido en la base de datos
+const createDeliveryDetails = async (req, res) => {
+    try {
+        const { fk_id_pedido, fk_id_producto, cantidad, precio_unitario } = req.body;
 
-// Crear el detalle de un pedido en la tabla de detalle_pedido en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!fk_id_pedido || !fk_id_producto || !cantidad || !precio_unitario) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
+        // Llamar al modelo para crear el detalle del pedido
+        await detailDeliveryModel.createDeliveryDetails(fk_id_pedido, fk_id_producto, cantidad, precio_unitario);
 
-const createDeliveryDetails = (req, res) => {
-    const { fk_id_pedido, fk_id_producto, cantidad, precio_unitario } = req.body;
-
-    const createQuery = `INSERT INTO detalle_pedido (fk_id_pedido, fk_id_producto, cantidad, precio_unitario) VALUES (?,?,?,?);`;
-    
-    const query = mysql2.format(createQuery, [fk_id_pedido, fk_id_producto, cantidad, precio_unitario]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        // console.log(result);
-        res.json({message: 'Detalle del pedido asignado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Detalle del pedido asignado con éxito' });
+    } catch (err) {
+        console.error('Error en createDeliveryDetails:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
+// Actualizar el detalle de un pedido en la base de datos
+const updateDeliveryDetails = async (req, res) => {
+    try {
+        const { id_detalle_pedido } = req.params;
+        const { cantidad, precio_unitario, precio_total } = req.body;
 
-// Actualizar el detalle de un pedido en la tabla de detalle_pedido en la base de datos
+        // Validar que los campos obligatorios estén presentes
+        if (!cantidad || !precio_unitario || !precio_total) {
+            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        }
 
-const updateDeliveryDetails = (req, res) => {
-    const { id_detalle_pedido } = req.params;
-    const { cantidad, precio_unitario, precio_total } = req.body;
+        // Llamar al modelo para actualizar el detalle del pedido
+        await detailDeliveryModel.updateDeliveryDetails(id_detalle_pedido, cantidad, precio_unitario, precio_total);
 
-    const updateQuery = `UPDATE detalle_pedido SET cantidad=?, precio_unitario=?, precio_total=? WHERE id_detalle_pedido=?;`;
-
-    const query = mysql2.format(updateQuery, [cantidad, precio_unitario, precio_total, id_detalle_pedido]);
-
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Detalle del pedido actualizado con éxito'});
-    });
+        // Enviar respuesta de éxito
+        res.json({ message: 'Detalle del pedido actualizado con éxito' });
+    } catch (err) {
+        console.error('Error en updateDeliveryDetails:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
-// Eliminar el detalle de un pedido en la tabla de detalle_pedido en la base de datos
+// Eliminar el detalle de un pedido en la base de datos
+const deleteDeliveryDetails = async (req, res) => {
+    try {
+        const { id_detalle_pedido } = req.params;
 
-const deleteDeliveryDetails = (req, res) => {
-    const { id_detalle_pedido } = req.params;
-    
-    const deleteQuery = `DELETE FROM detalle_pedido WHERE id_detalle_pedido=?;`;
-    
-    const query = mysql2.format(deleteQuery, [id_detalle_pedido]);
-    
-    database.query(query, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.json({message: 'Detalle del pedido eliminado con éxito'});
-    });
+        // Validar que el ID del detalle del pedido esté presente
+        if (!id_detalle_pedido) {
+            return res.status(400).json({ message: 'El ID del detalle del pedido es obligatorio' });
+        }
+
+        // Llamar al modelo para eliminar el detalle del pedido
+        await detailDeliveryModel.deleteDeliveryDetails(id_detalle_pedido);
+
+        // Enviar respuesta de éxito
+        res.json({ message: 'Detalle del pedido eliminado con éxito' });
+    } catch (err) {
+        console.error('Error en deleteDeliveryDetails:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
 };
 
 // Exportar las funciones para usarlas en otros archivos
-
 module.exports = {
     readDeliveryDetails,
     createDeliveryDetails,
     updateDeliveryDetails,
-    deleteDeliveryDetails, 
+    deleteDeliveryDetails,
 };
