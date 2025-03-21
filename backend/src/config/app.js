@@ -12,6 +12,7 @@ const sendMethodRoutes = require('../routes/send-method.routes');
 const productRoutes = require('../routes/product.routes');
 const detailDeliveryRoutes = require('../routes/detail-delivery.routes');
 const deliveryRoutes = require('../routes/delivery.routes');
+const opinionsRoutes = require('../routes/opinions.routes');
 
 
 const app = express();
@@ -33,8 +34,8 @@ app.use('/send-method', sendMethodRoutes);
 app.use('/products', productRoutes);
 app.use('/detail-delivery', detailDeliveryRoutes);
 app.use('/delivery', deliveryRoutes);
+app.use('/opinions', opinionsRoutes);
+
 
 
 module.exports = app;
-
-
