@@ -159,6 +159,7 @@ body {
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 #productos-populares > div:hover, #productos-categorias > div:hover, #resultados-productos > div:hover {
