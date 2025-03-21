@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <link rel="stylesheet" href="frontend\assets\css\producto-detalle.css">
+
 </head>
 
 <body>
@@ -164,76 +164,6 @@
         </section>
     </template>
 
-    <!------------------ VISTA DE PRODUCTOS A NIVEL INDIVIDUAL --------------------->
-
-    <template id="plantilla-vista-productos-individuales">
-        <div class="titulo-producto-individual">
-            <h4 id="nombre-producto">Cargando producto...</h4>
-        </div>
-        <section id="vista-producto" class="contenedor-vista-producto">
-            <div class="producto-galeria">
-                <div class="contenedor-producto-imagen-principal">
-                    <img src="" alt="" id="producto-imagen-principal">
-                </div>
-                <div class="producto-miniaturas">
-                    <div class="miniatura-item-producto">
-                        <img src="" alt="Imagen de miniatura #1">
-                    </div>
-                    <div class="miniatura-item-producto">
-                        <img src="" alt="Imagen de miniatura #2">
-                    </div>
-                    <div class="miniatura-item-producto">
-                        <img src="" alt="Imagen de miniatura #3">
-                    </div>
-                    <div class="miniatura-item-producto">
-                        <img src="" alt="Imagen de miniatura #4">
-                    </div>
-                    <div class="miniatura-item-producto">
-                        <img src="" alt="Imagen de miniatura #5">
-                    </div>
-                </div>
-                <div class="producto-detalles">
-                    <div class="producto-especificacion">
-                        <h5>Descripción y especificaciones</h5>
-                        <p id="producto-descripcion">Cargando descripcion...</p>
-                    </div>
-                    <div class="producto-compra">
-                        <div class="producto-cantidad">
-                            <button class="btn-cantidad btn-disminuir">-</button>
-                            <span id="cantidad-producto">1</span>
-                            <button class="btn-cantidad btn-aumentar">+</button>
-                        </div>
-                        <div class="contenedor-producto-precio">
-                            <span id="producto-precio">$0</span>
-                        </div>
-                        <button id="btn-agregar-carrito" class="boton-agregar-carrito">Añadir al carrito</button>
-                    </div>
-                </div>
-                <div class="producto-opiniones">
-                    <h5>Opiniones</h5>
-                    <div class="producto-calificacion">
-                        <span class="estrellas">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </span>
-                        <span class="calificacion-texto">4.0/5.0 (12 opiniones)</span>
-                    </div>
-                    <div id="producto-comentarios">
-
-                    </div>
-
-                    <div class="producto-comentario-nuevo">
-                        <textarea id="comentario-nuevo" placeholder="Escribe aquí tu reseña..."></textarea>
-                        <button id="btn-enviar-comentario">Enviar</button>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-    </template>
-
     <!----------- INICIO DE SESIÓN --------->
 
     <template id="plantilla-sesion">
@@ -376,7 +306,6 @@
     <script src="frontend/assets/js/carousel.js"></script>
     <script src="frontend/assets/js/carrito.js"></script>
     <script src="frontend/assets/js/mapa.js"></script>
-    <script src="frontend/assets/js/producto-detalle.js"></script>
 </body>
 
 </html>
