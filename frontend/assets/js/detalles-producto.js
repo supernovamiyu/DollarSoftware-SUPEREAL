@@ -131,10 +131,64 @@
         history.pushState({}, "", url)
     }
     
-    // Inicializar cuando el DOM esté completamente cargado
+function enviarOpinion(event) {
+    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+    const opinionInput = document.getElementById("opinion");
+    const anónimoCheckbox = document.getElementById("anonimo");
+    
+    const opinion = opinionInput.value.trim();
+    const esAnonimo = anónimoCheckbox.checked;
+
+    // Validar que la opinión no esté vacía
+    if (opinion === "") {
+        alert("Por favor, escribe tu opinión.");
+        return;
+    }
+
+    // Hacer la petición POST al backend
+    fetch("http://localhost:3000/opiniones", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ opinion, esAnonimo })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al enviar la opinión");
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert("Opinión enviada con éxito");
+        opinionInput.value = ""; // Limpiar el campo de opinión
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("No se pudo enviar la opinión");
+    });
+}
+
+const containerPrincipal = document.getElementById("container-principal");
+const formularioOpiniones = `
+    <div class="seccion-opiniones">
+        <h4>Deja tu opinión</h4>
+        <form id="formulario-opiniones" onsubmit="enviarOpinion(event)">
+            <textarea id="opinion" placeholder="Escribe tu opinión aquí..." required></textarea>
+            <div>
+                <label>
+                    <input type="checkbox" id="anonimo"> Quiero permanecer anónimo
+                </label>
+            </div>
+            <button type="submit">Enviar Opinión</button>
+        </form>
+    </div>
+`;
+
+containerPrincipal.innerHTML += formularioOpiniones; // Agregar el formulario al contenedor principal
+
     document.addEventListener("DOMContentLoaded", () => {
         // Iniciar la observación de cambios en el DOM
         observarCambiosDOM()
     })
-    
-    
