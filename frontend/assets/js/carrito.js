@@ -5,33 +5,6 @@ document.addEventListener('carritoCargado', function () {
 });
 
 
-// Función para mostrar mensajes elegantes
-function mostrarMensaje(mensaje, tipo = 'success') {
-    // Crear el elemento del mensaje
-    const mensajeElement = document.createElement('div');
-    mensajeElement.className = `mensaje-notificacion mensaje-${tipo}`;
-    mensajeElement.textContent = mensaje;
-
-    // Agregar el mensaje al body
-    document.body.appendChild(mensajeElement);
-
-    // Mostrar el mensaje con animación
-    setTimeout(() => {
-        mensajeElement.classList.add('mensaje-visible');
-    }, 10);
-
-    // Ocultar y eliminar el mensaje después de un tiempo
-    setTimeout(() => {
-        mensajeElement.classList.remove('mensaje-visible');
-        mensajeElement.classList.add('mensaje-oculto');
-
-        // Eliminar el elemento después de que termine la animación
-        setTimeout(() => {
-            mensajeElement.remove();
-        }, 500);
-    }, 1000);
-}
-
 // Función para agregar un producto al carrito
 async function agregarAlCarrito(productoId) {
     try {
