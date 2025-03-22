@@ -97,7 +97,6 @@
     }
     
     // Función para cargar las opiniones existentes del producto
-    
     function cargarOpiniones(productoId) {
         const url = `http://localhost:3000/opinions/${productoId}`
         console.log("Intentando cargar opiniones desde:", url)
@@ -120,7 +119,7 @@
     }
     
     // Función para mostrar las opiniones en la página
-    function mostrarOpiniones(opiniones) {
+    function mostrarOpiniones(opiniones, limite = 2) {
         // Obtener el contenedor de opiniones
         const opinionesContainer = document.getElementById("opiniones-container")
         opinionesContainer.innerHTML = "" // Limpiar el contenedor antes de agregar nuevas opiniones
@@ -143,8 +142,12 @@
         const listaOpiniones = document.createElement("div")
         listaOpiniones.className = "lista-opiniones"
     
-        // Agregar cada opinión a la lista
-        opiniones.forEach((opinion) => {
+        // Determinar cuántas opiniones mostrar inicialmente
+        const opinionesAMostrar = opiniones.slice(0, limite)
+        const hayMasOpiniones = opiniones.length > limite
+    
+        // Agregar cada opinión a la lista (limitado)
+        opinionesAMostrar.forEach((opinion) => {
             const opinionElement = document.createElement("div")
             opinionElement.className = "opinion-item"
     
@@ -173,7 +176,60 @@
         })
     
         opinionesContainer.appendChild(listaOpiniones)
+    
+        // Si hay más opiniones, mostrar botón "Ver más"
+        if (hayMasOpiniones) {
+            const verMasBtn = document.createElement("button")
+            verMasBtn.className = "boton-ver-mas"
+            verMasBtn.textContent = `Ver más opiniones (${opiniones.length - limite} restantes)`
+    
+            // Al hacer clic en "Ver más", mostrar todas las opiniones
+            verMasBtn.addEventListener("click", () => {
+            // Eliminar el botón "Ver más"
+            verMasBtn.remove()
+    
+            // Mostrar todas las opiniones
+            mostrarTodasLasOpiniones(opiniones, listaOpiniones)
+            })
+    
+            opinionesContainer.appendChild(verMasBtn)
         }
+        }
+    }
+    
+    // Función auxiliar para mostrar todas las opiniones
+    function mostrarTodasLasOpiniones(opiniones, listaOpiniones) {
+        // Limpiar la lista actual
+        listaOpiniones.innerHTML = ""
+    
+        // Mostrar todas las opiniones
+        opiniones.forEach((opinion) => {
+        const opinionElement = document.createElement("div")
+        opinionElement.className = "opinion-item"
+    
+        // Determinar el nombre a mostrar
+        const nombreUsuario = opinion.es_anonimo === 1 ? "Usuario anónimo" : opinion.nombre_usuario || "Usuario"
+    
+        // Formatear la fecha
+        const fecha = new Date(opinion.fecha).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        })
+    
+        // Crear el HTML de la opinión
+        opinionElement.innerHTML = `
+                <div class="opinion-header">
+                    <span class="opinion-usuario">${nombreUsuario}</span>
+                    <span class="opinion-fecha">${fecha}</span>
+                </div>
+                <div class="opinion-contenido">
+                    <p>${opinion.opinion}</p>
+                </div>
+            `
+    
+        listaOpiniones.appendChild(opinionElement)
+        })
     }
     
     // Función para agregar el formulario de opiniones

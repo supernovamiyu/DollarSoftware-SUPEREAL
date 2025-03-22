@@ -1086,3 +1086,19 @@ p.elemento-ubicacion-tiendas {
     transform: translateY(-20px);
     transition: opacity 0.3s, transform 0.3s;
 }
+
+.boton-ver-mas {
+    display: block;
+    margin: 15px auto;
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.boton-ver-mas:hover {
+    background-color: #e0e0e0;
+}
