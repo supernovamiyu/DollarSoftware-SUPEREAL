@@ -39,7 +39,7 @@
             setTimeout(() => {
             mensajeElement.remove()
             }, 500)
-        }, 3000)
+        }, 1000)
     
         return mensajeElement
         }
