@@ -1,3 +1,9 @@
+const path = require('path');
+
+require('dotenv').config({ 
+    path: path.resolve(__dirname, 'backend/.env') 
+});
+
 const express = require('express');
 const cors = require('cors');
 
@@ -13,6 +19,7 @@ const productRoutes = require('../routes/product.routes');
 const detailDeliveryRoutes = require('../routes/detail-delivery.routes');
 const deliveryRoutes = require('../routes/delivery.routes');
 const opinionsRoutes = require('../routes/opinions.routes');
+const authRoutes = require('../routes/auth.routes');
 
 
 const app = express();
@@ -35,6 +42,7 @@ app.use('/products', productRoutes);
 app.use('/detail-delivery', detailDeliveryRoutes);
 app.use('/delivery', deliveryRoutes);
 app.use('/opinions', opinionsRoutes);
+app.use('/auth', authRoutes);
 
 
 

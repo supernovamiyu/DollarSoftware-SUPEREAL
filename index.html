@@ -326,6 +326,22 @@
         </div>
     </template>
 
+    <!------------------ VISTA DEL PERFIL DEL USUARIO --------------------->
+
+    <template id="plantilla-perfil-usuario">
+        <div class="user-profile-container">
+            <h2>Perfil de Usuario</h2>
+            <div class="user-info">
+                <div class="user-info-avatar">
+                    <span id="userInfoInitial">U</span>
+                </div>
+                <div class="user-info-name" id="userInfoName">Nombre Completo</div>
+                <div class="user-info-email" id="userInfoEmail">usuario@ejemplo.com</div>
+            </div>
+            <button id="logoutButton">Cerrar Sesión</button>
+        </div>
+    </template>
+
     <!--------- CARRITO DE COMPRAS --------->
 
 
@@ -455,6 +471,9 @@
     <script src="frontend/assets/js/detalles-producto.js"></script>
     <script src="frontend/assets/js/notificaciones.js"></script>
     <script src="frontend/assets/js/mapa.js"></script>
+    <script type="module" src="./assets/js/auth.js"></script>
+    <script type="module" src="./assets/js/test_login.js"></script>
+
 </body>
 
 </html>

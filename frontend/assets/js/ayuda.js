@@ -1,5 +1,5 @@
  // Función para mostrar los detalles de cada aspecto de ayuda
- function mostrarDetallesAyuda(tipoAyuda) {
+function mostrarDetallesAyuda(tipoAyuda) {
     const contenedorPrincipal = document.getElementById('container-principal');
     const templateAyuda = document.getElementById('plantilla-contenido-boton-atencion-ayuda');
 
