@@ -26,7 +26,7 @@ app.use(express.urlencoded({extended: true}));
 
 // Endpoints
 
-app.use('/user', userRoutes);
+app.use('/users', userRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/city', cityRoutes);
 app.use('/delivery-state', deliveryStateRoutes);
