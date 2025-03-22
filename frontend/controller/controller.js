@@ -17,7 +17,7 @@ function mostrarPantallaInicio(event) {
 function mostrarPantallaSesion(event) {
     event.preventDefault();
     if (vista) {
-        vista.mostrarPlantilla("plantilla-sesion", "container-principal");
+        vista.mostrarPlantilla("plantilla-sesion-registro", "container-principal");
     } else {
         console.error("vista no está inicializado.");
     }

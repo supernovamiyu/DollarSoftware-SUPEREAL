@@ -164,20 +164,43 @@
         </section>
     </template>
 
-    <!----------- INICIO DE SESIÓN --------->
+    <!----------- INICIO DE SESIÓN Y REGISTRO --------->
 
-    <template id="plantilla-sesion">
-
-        <!--------- ¡CAMBIAR! 1. FORMULARIO DE CUENTA  - INICIO DE SESIÓN ---------------->
-
-        <div class="formulario-cuenta">
-            <form action="">
-                <h1>Cuenta Ultra Commerce</h1>
-                <p> Crea tu cuenta Ultra Commerce para gestionar tus pedidos, ver el estado de tus productos y poder
-                    gestionar tus datos o inicia sesión.</p>
-                <a class="boton-form" href="login.html">Iniciar sesión</a>
-                <a class="boton-form" href="registro.html">Regístrarte</a>
-            </form>
+    <template id="plantilla-sesion-registro">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <img src="frontend/assets/img/logo.svg" alt="Logo Ultra Commerce" class="auth-logo">
+                    <h1>Cuenta Ultra Commerce</h1>
+                    <p class="auth-description">
+                        Crea tu cuenta Ultra Commerce para gestionar tus pedidos, ver el estado de tus productos y administrar tus datos personales.
+                    </p>
+                </div>
+                <div class="auth-options">
+                    <a href="login.html" class="auth-button primary-button">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Iniciar sesión
+                    </a>
+                    <a href="registro.html" class="auth-button secondary-button">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Registrarte
+                    </a>
+                </div>
+                <div class="auth-separator">
+                    <span>o continúa con</span>
+                </div>
+                <div class="social-login">
+                    <button class="social-button google">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="social-button facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="social-button apple">
+                        <i class="fab fa-apple"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </template>
 

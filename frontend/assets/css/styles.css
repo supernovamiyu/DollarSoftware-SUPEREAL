@@ -522,167 +522,6 @@ body {
     font-size: 100%;
 }
 
-.formulario-cuenta{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: rgba(113, 137, 255, 0.678);
-    color: white;
-    padding: 30px 40px;
-}
-
-.formulario-cuenta h1{
-    font-size: 35px;
-    text-align: center;
-}
-
-.formulario-cuenta .input-box{
-    width: 100%;
-    height: 50px;
-    margin: 30px 0;
-}
-.input-box input{
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    border: 2px solid rgb(255, 255, 255);
-    border-radius: 40px;
-    font-size: 16px;
-    color: white;
-    padding: 20px 45px 20px 20px;
-}
-
-.input-box input::placeholder{
-    color: white;
-
-}
-
-.formulario-cuenta .remember-forgot{
-    display: flex;
-    justify-content: space-between;
-    font-size: 15.5px;
-    margin: -15px 0 15px;
-}
-
-.remember-forgot label input{
-    accent-color: white;
-    margin-right: 3px;
-}
-
-.remember-forgot a{
-    color: white;
-    text-decoration: none;
-}
-
-.remember-forgot a:hover{
-    text-decoration: underline;
-}
-
-.formulario-cuenta .btn{
-    width: 100%;
-    height: 45px;
-    background: rgba(0, 0, 0, 0.678);
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 15px;
-    color: rgb(243, 238, 238);
-    font-weight: 600;
-}
-
-.formulario-cuenta .register-link{
-    font-size: 14.5px;
-    text-align: center;
-    margin: 20px 0 15px;
-}
-
-.register-link p a{
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.register-link p a:hover{
-    text-decoration: underline;
-}
-
-.formulario-cuenta .login-link {
-    font-size: 14.5px;
-    text-align: center;
-    margin: 20px 0 15px;
-}
-
-.login-link p a{
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.login-link p a:hover{
-    text-decoration: underline;
-}
-
-.formulario-cuenta .btnIniciarSesion {
-    width: 100%;
-    height: 45px;
-    background: rgba(0, 0, 0, 0.678);
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 15px;
-    color: rgb(243, 238, 238);
-    font-weight: 600;
-    margin: 20px 0;
-}
-
-.formulario-cuenta .btnRegistro{
-    width: 100%;
-    height: 45px;
-    background: rgba(0, 0, 0, 0.678);
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 15px;
-    color: rgb(243, 238, 238);
-    font-weight: 600;
-}
-
-.modify-products{
-    display: flex;
-}
-
-.modify{
-    margin: 15px;
-    cursor: pointer;
-}
-
-.buy{
-    margin: 20px;
-}
-
-.buy .pago{
-    background-color: rgba(113, 137, 255, 0.678);
-    width: 100%;
-    height: 45px;
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 15px;
-    color: rgb(243, 238, 238);
-    font-weight: 600;
-}
-
-.modify h6{
-    text-align: center;
-}
-
 .images-product{
     display: block;
 }
@@ -1100,4 +939,158 @@ p.elemento-ubicacion-tiendas {
 
 .boton-ver-mas:hover {
     background-color: #e0e0e0;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 20px;
+    background-image: linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.auth-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    padding: 30px;
+    text-align: center;
+}
+
+.auth-header {
+    margin-bottom: 30px;
+}
+
+.auth-logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+.auth-header h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.auth-description {
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.auth-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.auth-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    gap: 10px;
+}
+
+.primary-button {
+    background-color: #6e8efb;
+    color: white;
+}
+
+.primary-button:hover {
+    background-color: #5c7df0;
+    transform: translateY(-2px);
+}
+
+.secondary-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #e0e0e0;
+}
+
+.secondary-button:hover {
+    background-color: #e8e8e8;
+    transform: translateY(-2px);
+}
+
+.auth-separator {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #888;
+}
+
+.auth-separator::before,
+.auth-separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.auth-separator span {
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.social-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.google {
+    color: #DB4437;
+}
+
+.facebook {
+    color: #4267B2;
+}
+
+.apple {
+    color: #000000;
+}
+
+/* Asegúrate de que sea responsive */
+@media (max-width: 500px) {
+    .auth-card {
+        padding: 20px;
+    }
+    
+    .auth-header h1 {
+        font-size: 24px;
+    }
+    
+    .auth-button {
+        padding: 12px 15px;
+    }
 }
