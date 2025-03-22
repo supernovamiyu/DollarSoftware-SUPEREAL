@@ -177,11 +177,11 @@
                     </p>
                 </div>
                 <div class="auth-options">
-                    <a href="login.html" class="auth-button primary-button">
+                    <a href="#" onclick="mostrarPantallaInicioSesion(event)" class="auth-button primary-button">
                         <i class="fa-solid fa-right-to-bracket"></i>
                         Iniciar sesión
                     </a>
-                    <a href="registro.html" class="auth-button secondary-button">
+                    <a href="#" onclick="mostrarPantallaRegistro(event)" class="auth-button secondary-button">
                         <i class="fa-solid fa-user-plus"></i>
                         Registrarte
                     </a>
@@ -199,6 +199,128 @@
                     <button class="social-button apple">
                         <i class="fab fa-apple"></i>
                     </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!----------------- INICIAR SESIÓN ------------------>
+    <template id="plantilla-iniciar-sesion">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <a href="index.html">
+                        <img src="frontend/assets/img/logo-moradito.png" alt="Logo Ultra Commerce" class="auth-logo">
+                    </a>
+                    <h1>Iniciar Sesión</h1>
+                    <p class="auth-description">
+                        Accede a tu cuenta para gestionar tus pedidos y ver el estado de tus productos.
+                    </p>
+                </div>
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <input type="email" id="correo" name="correo" class="form-input" placeholder="Correo electrónico" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="contraseña" name="contraseña" class="form-input" placeholder="Contraseña" required>
+                        </div>
+                    </div>
+                    <div class="form-group form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="recordar" name="recordar">
+                            <label for="recordar">Recordarme</label>
+                        </div>
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <div id="login-error" class="error-message"></div>
+                    <button type="submit" class="auth-button primary-button">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Iniciar sesión
+                    </button>
+                </form>
+                <div class="auth-separator">
+                    <span>o continúa con</span>
+                </div>
+                <div class="social-login">
+                    <button class="social-button google">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="social-button facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="social-button apple">
+                        <i class="fab fa-apple"></i>
+                    </button>
+                </div>
+                <div class="auth-footer">
+                    ¿No tienes una cuenta? <a href="#" onclick="mostrarPantallaRegistro(event)">Regístrate</a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!----------------------- REGISTRO --------------------------->
+
+    <template id="plantilla-registro">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <a href="index.html">
+                        <img src="frontend/assets/img/logo-moradito.png" alt="Logo Ultra Commerce" class="auth-logo">
+                    </a>
+                    <h1>Crear Cuenta</h1>
+                    <p class="auth-description">
+                        Regístrate para disfrutar de todos los beneficios de Ultra Commerce.
+                    </p>
+                </div>
+                <form id="registro-form" class="auth-form">
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input type="text" id="nombre_completo" name="nombre_completo" class="form-input" placeholder="Nombre completo" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-id-card input-icon"></i>
+                            <input type="text" id="numero_identificacion" name="numero_identificacion" class="form-input" placeholder="Número de identificación" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <input type="email" id="correo" name="correo" class="form-input" placeholder="Correo electrónico" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="contraseña" name="contraseña" class="form-input" placeholder="Contraseña" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="confirmar_contraseña" name="confirmar_contraseña" class="form-input" placeholder="Confirmar contraseña" required>
+                        </div>
+                    </div>
+                    <div class="form-group terms">
+                        <input type="checkbox" id="terminos" name="terminos" required>
+                        <label for="terminos">Acepto los <a href="#">términos y condiciones</a></label>
+                    </div>
+                    <div id="registro-error" class="error-message"></div>
+                    <button type="submit" class="auth-button primary-button">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Crear cuenta
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    ¿Ya tienes una cuenta? <a href="#" onclick="mostrarPantallaInicioSesion(event)">Iniciar sesión</a>
                 </div>
             </div>
         </div>

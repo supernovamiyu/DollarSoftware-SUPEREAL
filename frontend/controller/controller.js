@@ -76,3 +76,20 @@ function mostrarPantallaUbicacion(event) {
     }
 }
 
+function mostrarPantallaInicioSesion(event) {
+    event.preventDefault();
+    if (vista) {
+        vista.mostrarPlantilla("plantilla-iniciar-sesion", "container-principal");
+    } else {
+        console.error("vista no está inicializado.");
+    }
+}
+
+function mostrarPantallaRegistro(event) {
+    event.preventDefault();
+    if (vista) {
+        vista.mostrarPlantilla("plantilla-registro", "container-principal");
+    } else {
+        console.error("vista no está inicializado.");
+    }
+}
