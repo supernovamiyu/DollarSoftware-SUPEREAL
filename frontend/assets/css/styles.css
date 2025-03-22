@@ -1096,6 +1096,8 @@ p.elemento-ubicacion-tiendas {
 
 /* Estilos adicionales para los formularios de autenticación */
 .auth-form {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
