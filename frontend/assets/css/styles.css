@@ -971,4 +971,118 @@ p.elemento-ubicacion-tiendas {
     color: #555;
 }
 
+.opiniones-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(113, 137, 255, 0.05);
+    border-radius: 8px;
+}
 
+.lista-opiniones {
+    margin-top: 20px;
+}
+
+.opinion-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.opinion-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.opinion-usuario {
+    font-weight: bold;
+    color: rgb(113, 137, 255);
+}
+
+.opinion-fecha {
+    color: #777;
+    font-size: 0.9em;
+}
+
+.opinion-contenido {
+    line-height: 1.5;
+}
+
+.sin-opiniones {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+    font-style: italic;
+}
+
+.seccion-opiniones {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(113, 137, 255, 0.05);
+    border-radius: 8px;
+}
+
+#formulario-opiniones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#opinion {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: "Lexend", sans-serif;
+}
+
+.opciones-opinion {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.boton-enviar-opinion {
+    background-color: rgb(113, 137, 255);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    align-self: flex-end;
+    max-width: 200px;
+}
+
+.boton-enviar-opinion:hover {
+    background-color: rgb(93, 117, 235);
+    box-shadow: 0 0 10px rgba(113, 137, 255, 0.5);
+}
+
+.mensaje-notificacion {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s, transform 0.3s;
+}

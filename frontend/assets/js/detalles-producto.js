@@ -1,3 +1,31 @@
+    // Función para cargar las opiniones existentes del producto
+    function cargarOpiniones(productoId) {
+        // Importar o declarar mostrarOpiniones aquí
+        // Por ejemplo, si mostrarOpiniones está en otro archivo:
+        // import { mostrarOpiniones } from './otro-archivo';
+        // O si es una función simple, puedes definirla aquí:
+        function mostrarOpiniones(opiniones) {
+        // Implementación de la función mostrarOpiniones
+        console.log("Opiniones:", opiniones) // Ejemplo: mostrar en la consola
+        // Aquí deberías agregar la lógica para mostrar las opiniones en el DOM
+        }
+    
+        fetch(`http://localhost:3000/opinions/${productoId}`)
+        .then((response) => {
+            if (!response.ok) {
+            throw new Error("No se pudieron cargar las opiniones")
+            }
+            return response.json()
+        })
+        .then((opiniones) => {
+            mostrarOpiniones(opiniones)
+        })
+        .catch((error) => {
+            console.error("Error al cargar opiniones:", error)
+            // No mostramos alerta para no interrumpir la experiencia del usuario
+        })
+    }
+    
     // Función para mostrar los detalles de un producto
     function mostrarDetalleProducto(productoId) {
         // Hacer la petición a la API para obtener los detalles del producto
@@ -50,11 +78,245 @@
     
             // Mostrar el contenido en el contenedor principal
             containerPrincipal.innerHTML = contenidoHTML
+    
+            // Crear un contenedor para las opiniones
+            const opinionesContainer = document.createElement("div")
+            opinionesContainer.id = "opiniones-container"
+            containerPrincipal.appendChild(opinionesContainer)
+    
+            // Cargar y mostrar las opiniones existentes
+            cargarOpiniones(producto.id_productos)
+    
+            // Añadir el formulario de opiniones
+            agregarFormularioOpiniones(producto.id_productos)
         })
         .catch((error) => {
             console.error("Error al cargar los detalles del producto:", error)
             alert("No se pudo cargar los detalles del producto")
         })
+    }
+    
+    // Función para cargar las opiniones existentes del producto
+    
+    function cargarOpiniones(productoId) {
+        const url = `http://localhost:3000/opinions/${productoId}`
+        console.log("Intentando cargar opiniones desde:", url)
+    
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("No se pudieron cargar las opiniones")
+                }
+                return response.json()
+            })
+            .then((opiniones) => {
+                console.log("Opiniones recibidas:", opiniones)
+                mostrarOpiniones(opiniones)
+            })
+            .catch((error) => {
+                console.error("Error al cargar opiniones:", error)
+                // No mostramos alerta para no interrumpir la experiencia del usuario
+            })
+    }
+    
+    // Función para mostrar las opiniones en la página
+    function mostrarOpiniones(opiniones) {
+        // Obtener el contenedor de opiniones
+        const opinionesContainer = document.getElementById("opiniones-container")
+        opinionesContainer.innerHTML = "" // Limpiar el contenedor antes de agregar nuevas opiniones
+        opinionesContainer.className = "opiniones-container"
+    
+        // Título de la sección
+        const tituloOpiniones = document.createElement("div")
+        tituloOpiniones.className = "titulo-seccion"
+        tituloOpiniones.innerHTML = "<h4>Opiniones de los usuarios</h4>"
+        opinionesContainer.appendChild(tituloOpiniones)
+    
+        // Si no hay opiniones, mostrar mensaje
+        if (!opiniones || opiniones.length === 0) {
+        const sinOpiniones = document.createElement("p")
+        sinOpiniones.className = "sin-opiniones"
+        sinOpiniones.textContent = "Aún no hay opiniones para este producto. ¡Sé el primero en opinar!"
+        opinionesContainer.appendChild(sinOpiniones)
+        } else {
+        // Crear lista de opiniones
+        const listaOpiniones = document.createElement("div")
+        listaOpiniones.className = "lista-opiniones"
+    
+        // Agregar cada opinión a la lista
+        opiniones.forEach((opinion) => {
+            const opinionElement = document.createElement("div")
+            opinionElement.className = "opinion-item"
+    
+            // Determinar el nombre a mostrar
+            const nombreUsuario = opinion.es_anonimo === 1 ? "Usuario anónimo" : opinion.nombre_usuario || "Usuario"
+    
+            // Formatear la fecha
+            const fecha = new Date(opinion.fecha).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            })
+    
+            // Crear el HTML de la opinión
+            opinionElement.innerHTML = `
+                    <div class="opinion-header">
+                        <span class="opinion-usuario">${nombreUsuario}</span>
+                        <span class="opinion-fecha">${fecha}</span>
+                    </div>
+                    <div class="opinion-contenido">
+                        <p>${opinion.opinion}</p>
+                    </div>
+                `
+    
+            listaOpiniones.appendChild(opinionElement)
+        })
+    
+        opinionesContainer.appendChild(listaOpiniones)
+        }
+    }
+    
+    // Función para agregar el formulario de opiniones
+    function agregarFormularioOpiniones(productoId) {
+        const containerPrincipal = document.getElementById("container-principal")
+    
+        // Crear el contenedor del formulario
+        const formularioContainer = document.createElement("div")
+        formularioContainer.className = "seccion-opiniones"
+    
+        // Título del formulario
+        const tituloFormulario = document.createElement("div")
+        tituloFormulario.className = "titulo-seccion"
+        tituloFormulario.innerHTML = "<h4>Deja tu opinión</h4>"
+        formularioContainer.appendChild(tituloFormulario)
+    
+        // Crear el formulario
+        const formulario = document.createElement("form")
+        formulario.id = "formulario-opiniones"
+        formulario.innerHTML = `
+            <textarea id="opinion" placeholder="Escribe tu opinión aquí..." required></textarea>
+            <div class="opciones-opinion">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="anonimo"> Quiero permanecer anónimo
+                </label>
+            </div>
+            <button type="submit" class="boton-enviar-opinion">Enviar Opinión</button>
+        `
+    
+        // Agregar evento de envío al formulario
+        formulario.addEventListener("submit", (event) => {
+        event.preventDefault()
+        enviarOpinion(productoId)
+        })
+    
+        formularioContainer.appendChild(formulario)
+    
+        // Agregar el formulario al contenedor principal
+        containerPrincipal.appendChild(formularioContainer)
+    }
+    
+    // Función para verificar si el usuario está autenticado
+    function verificarAutenticacion() {
+        // Aquí deberías implementar la lógica para verificar si el usuario está autenticado
+        // Por ejemplo, verificar si hay un token en localStorage o una cookie de sesión
+    
+        // Por ahora, simulamos que no hay usuario autenticado
+        return {
+        autenticado: false,
+        id_usuario: null,
+        }
+    }
+    
+    // Función para enviar la opinión
+    function enviarOpinion(productoId) {
+        const opinionInput = document.getElementById("opinion")
+        const anonimoCheckbox = document.getElementById("anonimo")
+    
+        const contenidoOpinion = opinionInput.value.trim()
+        const esAnonimo = anonimoCheckbox.checked ? 1 : 0
+    
+        // Validar que la opinión no esté vacía
+        if (contenidoOpinion === "") {
+        mostrarMensaje("Por favor, escribe tu opinión.", "error")
+        return
+        }
+    
+        // Verificar si el usuario está autenticado
+        const usuario = verificarAutenticacion()
+    
+        // Si no está autenticado y no es anónimo, redirigir a inicio de sesión
+        if (!usuario.autenticado && esAnonimo === 0) {
+        mostrarMensaje("Debes iniciar sesión para enviar una opinión con tu nombre.", "info")
+        // Aquí deberías redirigir a la página de inicio de sesión
+        // Por ahora, mostramos un mensaje
+        setTimeout(() => {
+            alert("Funcionalidad de inicio de sesión en desarrollo. Por favor, marca la opción 'Anónimo' para continuar.")
+        }, 1000)
+        return
+        }
+    
+        // Preparar los datos para enviar
+        const opinionData = {
+        fk_id_productos: productoId,
+        fk_id_usuario: usuario.autenticado ? usuario.id_usuario : null,
+        es_anonimo: esAnonimo,
+        opinion: contenidoOpinion,
+        // La fecha se generará en el servidor
+        }
+    
+        // Enviar la opinión al servidor
+        fetch("http://localhost:3000/opinions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(opinionData),
+        })
+        .then((response) => {
+            if (!response.ok) {
+            throw new Error("Error al enviar la opinión")
+            }
+            return response.json()
+        })
+        .then((data) => {
+            mostrarMensaje("¡Opinión enviada con éxito!", "success")
+            opinionInput.value = "" // Limpiar el campo de opinión
+            anonimoCheckbox.checked = false // Desmarcar el checkbox
+    
+            // Recargar las opiniones para mostrar la nueva
+            cargarOpiniones(productoId)
+        })
+        .catch((error) => {
+            console.error("Error:", error)
+            mostrarMensaje("No se pudo enviar la opinión. Intenta de nuevo más tarde.", "error")
+        })
+    }
+    
+    // Función para mostrar mensajes al usuario
+    function mostrarMensaje(mensaje, tipo) {
+        // Crear el elemento del mensaje
+        const mensajeElement = document.createElement("div")
+        mensajeElement.className = `mensaje-notificacion mensaje-${tipo}`
+        mensajeElement.textContent = mensaje
+    
+        // Agregar el mensaje al body
+        document.body.appendChild(mensajeElement)
+    
+        // Mostrar el mensaje con animación
+        setTimeout(() => {
+        mensajeElement.classList.add("mensaje-visible")
+        }, 10)
+    
+        // Ocultar y eliminar el mensaje después de un tiempo
+        setTimeout(() => {
+        mensajeElement.classList.remove("mensaje-visible")
+        mensajeElement.classList.add("mensaje-oculto")
+    
+        // Eliminar el elemento después de que termine la animación
+        setTimeout(() => {
+            mensajeElement.remove()
+        }, 500)
+        }, 3000)
     }
     
     // Función para agregar event listeners a las imágenes de productos
@@ -131,64 +393,12 @@
         history.pushState({}, "", url)
     }
     
-function enviarOpinion(event) {
-    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
-
-    const opinionInput = document.getElementById("opinion");
-    const anónimoCheckbox = document.getElementById("anonimo");
-    
-    const opinion = opinionInput.value.trim();
-    const esAnonimo = anónimoCheckbox.checked;
-
-    // Validar que la opinión no esté vacía
-    if (opinion === "") {
-        alert("Por favor, escribe tu opinión.");
-        return;
-    }
-
-    // Hacer la petición POST al backend
-    fetch("http://localhost:3000/opiniones", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ opinion, esAnonimo })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Error al enviar la opinión");
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert("Opinión enviada con éxito");
-        opinionInput.value = ""; // Limpiar el campo de opinión
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("No se pudo enviar la opinión");
-    });
-}
-
-const containerPrincipal = document.getElementById("container-principal");
-const formularioOpiniones = `
-    <div class="seccion-opiniones">
-        <h4>Deja tu opinión</h4>
-        <form id="formulario-opiniones" onsubmit="enviarOpinion(event)">
-            <textarea id="opinion" placeholder="Escribe tu opinión aquí..." required></textarea>
-            <div>
-                <label>
-                    <input type="checkbox" id="anonimo"> Quiero permanecer anónimo
-                </label>
-            </div>
-            <button type="submit">Enviar Opinión</button>
-        </form>
-    </div>
-`;
-
-containerPrincipal.innerHTML += formularioOpiniones; // Agregar el formulario al contenedor principal
-
+    // Inicializar cuando el DOM esté completamente cargado
     document.addEventListener("DOMContentLoaded", () => {
         // Iniciar la observación de cambios en el DOM
         observarCambiosDOM()
     })
+    
+    // Exportar funciones para que sean accesibles desde otros archivos
+    window.mostrarDetalleProducto = mostrarDetalleProducto
+    
