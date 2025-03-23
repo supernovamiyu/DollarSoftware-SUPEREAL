@@ -1337,3 +1337,79 @@ p.elemento-ubicacion-tiendas {
         display: none;
     }
 }
+/* Estilos para el perfil de usuario */
+.user-profile-container {
+    display: flex;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex-direction: column;
+}
+
+.user-profile-container h2 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.user-info-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #6e8efb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 32px;
+}
+
+.user-info-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.user-info-email {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+#logoutButton {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#logoutButton:hover {
+    background-color: #e04141;
+}
+
+/* Estilo para el nombre de usuario debajo del icono */
+.nombre-usuario {
+    display: block;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 5px;
+    color: white;
+}

@@ -166,6 +166,7 @@ async function registrarUsuario(formulario) {
     }
 }
 
+
 // Función para cerrar sesión
 function cerrarSesion() {
     // Eliminar la sesión del usuario
@@ -268,3 +269,4 @@ window.mostrarPantallaSesion = function(event) {
         vista.mostrarPlantilla('plantilla-sesion-registro', 'container-principal');
     }
 };
+
