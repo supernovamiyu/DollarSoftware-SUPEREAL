@@ -2,7 +2,7 @@
 let slideIndex = 1
 let slideInterval
 const transitionTime = 200 // Tiempo de transición en ms
-const autoSlideTime = 2500 // Tiempo entre slides automáticos en ms
+const autoSlideTime = 1500 // Tiempo entre slides automáticos en ms
 let carouselInitialized = false // Para evitar inicializaciones múltiples
 
 /**
