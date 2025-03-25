@@ -134,6 +134,17 @@ body {
     margin-left: 15px;
 }
 
+#terms-and-conditions {
+    color: white;
+    text-decoration: none;
+    font-size: 90%;
+}
+
+#terms-and-conditions:hover {
+    transition: .5s ease;
+    color: rgb(211, 211, 211);
+}
+
 #youtube:hover, #instagram:hover, #facebook:hover {
     color: rgb(211, 211, 211);
     transition: .5s ease;
@@ -1173,7 +1184,8 @@ p.elemento-ubicacion-tiendas {
 }
 
 .auth-footer a:hover {
-    text-decoration: underline;
+    transition: .5s ease;
+    color: rgb(170, 184, 255);
 }
 
 .terms {
@@ -1190,6 +1202,15 @@ p.elemento-ubicacion-tiendas {
 
 .terms a:hover {
     text-decoration: underline;
+}
+
+#terms-and-conditions-register {
+    text-decoration: none;
+}
+
+#terms-and-conditions-register:hover{
+    transition: .5s ease;
+    color: rgb(170, 184, 255);
 }
 
 /* Estilos para el perfil de usuario */
@@ -1413,3 +1434,4 @@ p.elemento-ubicacion-tiendas {
     margin-top: 5px;
     color: white;
 }
+
