@@ -1492,3 +1492,6 @@ p.elemento-ubicacion-tiendas {
     color: white;
 }
 
+.user-option-button {
+    list-style-type: none;
+}
