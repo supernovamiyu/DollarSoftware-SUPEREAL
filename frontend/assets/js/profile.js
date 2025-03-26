@@ -1,10 +1,3 @@
-
-// Declarar la función mostrarMensaje (asumiendo que se define en otro archivo)
-// Para este ejemplo, simplemente la definiremos para mostrar una alerta.
-function mostrarMensaje(mensaje, tipo) {
-    alert(mensaje) // En un escenario real, esto podría ser una notificación más sofisticada.
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     // Verificar si estamos en la página de perfil
     const perfilContainer = document.querySelector(".user-profile-container")
@@ -33,8 +26,7 @@ function configurarBotonesPerfil() {
     }
 
     if (historialProductosBtn) {
-        historialProductosBtn.addEventListener("click", () =>
-            manejarClickBotonPerfil("historial-de-productos-boton-perfil"),
+        historialProductosBtn.addEventListener("click", () => manejarClickBotonPerfil("historial-de-productos-boton-perfil"),
         )
     }
 
@@ -42,8 +34,6 @@ function configurarBotonesPerfil() {
         modificarDatosBtn.addEventListener("click", () => manejarClickBotonPerfil("agregar-o-modificar-datos-boton-perfil"))
     }
 
-    // Por defecto, mostrar la sección de gestión de pedidos
-    mostrarSeccionPerfil("seccion-gestion-pedidos")
 }
 
 // Manejar el clic en los botones del perfil
@@ -97,83 +87,117 @@ function mostrarSeccionPerfil(seccionId) {
 function cargarContenidoSeccion(seccionId, seccionElement) {
     switch (seccionId) {
         case "seccion-gestion-pedidos":
-            // Usar la plantilla existente para gestión de pedidos
-            const vista = new Vista()
-            const contenidoHTML = vista.obtenerContenidoPlantilla("plantila-gestion-pedidos")
-            seccionElement.innerHTML = contenidoHTML
+            // Crear el contenido para la gestión de los pedidos
+
+            seccionElement.innerHTML = `
+                    <section id="contenedor-gestion-pedidos">
+                        <div class="titulo-seccion">
+                            <h4>Gestión de Pedidos</h4>
+                        </div>
+                        <div class="contenedor-pedidos">
+                            <table class="tabla-de-pedidos">
+                                <thead>
+                                    <tr>
+                                        <th>Identificador del Pedido</th>
+                                        <th>Fecha del Pedido</th>
+                                        <th>Ciudad</th>
+                                        <th>Dirección</th>
+                                        <th>Estado del Pedido</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Identificador 1234567890</td>
+                                        <td>15/03/2023</td>
+                                        <td>Bogotá D.C.</td>
+                                        <td>Carrera X #Z-Y</td>
+                                        <td>En preparación</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Identificador 1234567890</td>
+                                        <td>15/03/2023</td>
+                                        <td>Bogotá D.C.</td>
+                                        <td>Carrera X #Z-Y</td>
+                                        <td>En preparación</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+            `
             break
 
         case "seccion-historial-productos":
             // Crear contenido para historial de productos
             seccionElement.innerHTML = `
-                  <section id="contenedor-historial-productos">
-                      <div class="titulo-seccion">
-                          <h4>Historial de productos</h4>
-                      </div>
-                      <div class="contenedor-historial">
-                          <table class="tabla-de-historial">
-                              <thead>
-                                  <tr>
-                                      <th>Producto</th>
-                                      <th>Fecha de compra</th>
-                                      <th>Precio</th>
-                                      <th>Estado</th>
-                                      <th>Acciones</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Smartphone XYZ</td>
-                                      <td>15/03/2023</td>
-                                      <td>$599.99</td>
-                                      <td>Entregado</td>
-                                      <td><a href="#">Ver detalles</a></td>
-                                  </tr>
-                                  <tr>
-                                      <td>Laptop ABC</td>
-                                      <td>02/01/2023</td>
-                                      <td>$1299.99</td>
-                                      <td>Entregado</td>
-                                      <td><a href="#">Ver detalles</a></td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </section>
-              `
+                    <section id="contenedor-historial-productos">
+                        <div class="titulo-seccion">
+                            <h4>Historial de productos</h4>
+                        </div>
+                        <div class="contenedor-historial">
+                            <table class="tabla-de-historial">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Fecha de compra</th>
+                                        <th>Precio</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Smartphone XYZ</td>
+                                        <td>15/03/2023</td>
+                                        <td>$599.99</td>
+                                        <td>Entregado</td>
+                                        <td><a href="#">Ver detalles</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Laptop ABC</td>
+                                        <td>02/01/2023</td>
+                                        <td>$1299.99</td>
+                                        <td>Entregado</td>
+                                        <td><a href="#">Ver detalles</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                `
             break
 
         case "seccion-modificar-datos":
             // Crear contenido para modificar datos
             seccionElement.innerHTML = `
-                  <section id="contenedor-modificar-datos">
-                      <div class="titulo-seccion">
-                          <h4>Modificar datos personales</h4>
-                      </div>
-                      <form id="form-modificar-datos" class="form-datos-personales">
-                          <div class="form-group">
-                              <label for="nombre_completo">Nombre completo:</label>
-                              <input type="text" id="nombre_completo" name="nombre_completo" class="form-input" value="${usuarioActual ? usuarioActual.nombre_completo : ""}" required>
-                          </div>
-                          <div class="form-group">
-                              <label for="correo">Correo electrónico:</label>
-                              <input type="email" id="correo" name="correo" class="form-input" value="${usuarioActual ? usuarioActual.correo : ""}" required>
-                          </div>
-                          <div class="form-group">
-                              <label for="telefono">Teléfono:</label>
-                              <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="Ingrese su número telefónico">
-                          </div>
-                          <div class="form-group">
-                              <label for="direccion">Dirección:</label>
-                              <input type="text" id="direccion" name="direccion" class="form-input" placeholder="Ingrese su dirección">
-                          </div>
-                          <button type="submit" class="auth-button primary-button">
-                              <i class="fa-solid fa-save"></i>
-                              Guardar cambios
-                          </button>
-                      </form>
-                  </section>
-              `
+                    <section id="contenedor-modificar-datos">
+                        <div class="titulo-seccion">
+                            <h4>Modificar datos personales</h4>
+                        </div>
+                        <form id="form-modificar-datos" class="form-datos-personales">
+                            <div class="form-group">
+                                <label for="nombre_completo">Nombre completo:</label>
+                                <input type="text" id="nombre_completo" name="nombre_completo" class="form-input" value="${usuarioActual ? usuarioActual.nombre_completo : ""}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="correo">Correo electrónico:</label>
+                                <input type="email" id="correo" name="correo" class="form-input" value="${usuarioActual ? usuarioActual.correo : ""}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono">Teléfono:</label>
+                                <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="Ingrese su número telefónico">
+                            </div>
+                            <div class="form-group">
+                                <label for="direccion">Dirección:</label>
+                                <input type="text" id="direccion" name="direccion" class="form-input" placeholder="Ingrese su dirección">
+                            </div>
+                            <button type="submit" class="auth-button primary-button">
+                                <i class="fa-solid fa-save"></i>
+                                Guardar cambios
+                            </button>
+                        </form>
+                    </section>
+                `
 
             // Agregar event listener para el formulario
             const formModificarDatos = seccionElement.querySelector("#form-modificar-datos")
