@@ -1495,3 +1495,113 @@ p.elemento-ubicacion-tiendas {
 .user-option-button {
     list-style-type: none;
 }
+
+/* Estilos para las secciones del perfil de usuario */
+
+/* Estilos generales para las secciones */
+.seccion-perfil {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los botones de opciones */
+.user-options-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 0;
+}
+
+.user-option-button {
+    list-style-type: none;
+}
+
+.user-option-button button {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #333;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-option-button button:hover {
+    background-color: #e0e0e0;
+}
+
+.user-option-button button.active {
+    background-color: #6e8efb;
+    color: white;
+    border-color: #6e8efb;
+}
+
+/* Estilos para las tablas */
+.tabla-de-pedidos,
+.tabla-de-historial {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    display: block;
+    overflow-x: auto;
+}
+
+.tabla-de-pedidos th,
+.tabla-de-pedidos td,
+.tabla-de-historial th,
+.tabla-de-historial td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla-de-pedidos th,
+.tabla-de-historial th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+}
+
+.tabla-de-pedidos tr:hover,
+.tabla-de-historial tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para el formulario de datos personales */
+.form-datos-personales {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-datos-personales .form-group {
+    margin-bottom: 15px;
+}
+
+.form-datos-personales label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-datos-personales .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.form-datos-personales .form-input:focus {
+    outline: none;
+    border-color: #6e8efb;
+    box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+}
+
+.form-datos-personales button {
+    margin-top: 10px;
+}
