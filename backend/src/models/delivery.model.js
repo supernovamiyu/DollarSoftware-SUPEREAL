@@ -4,11 +4,19 @@ const mysql2 = require('mysql2');
 
 ///////////////// C ****** R ****** U ****** D /////////////////
 
-// Buscar un pedido en la base de datos
-const readUserDelivery = (id_pedido) => {
+// Buscar un pedido en la base de datos por su ID
+const readIdDelivery = (id_pedido) => {
     const query = mysql2.format('SELECT * FROM pedidos WHERE id_pedido = ?;', [id_pedido]);
     return database.promise().query(query);
 };
+
+// Buscar los pedidos asociados a un usuario
+
+const readUserDelivery = (fk_id_usuario) => {
+    const query = mysql2.format('SELECT * FROM pedidos WHERE fk_id_usuario = ?;',[fk_id_usuario]);
+    return database.promise().query(query);
+}
+
 
 // Crear un pedido en la base de datos
 const createUserDelivery = (fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura) => {
@@ -36,6 +44,7 @@ const deleteUserDelivery = (id_pedido) => {
 
 // Exportar las funciones para usarlas en otros archivos
 module.exports = {
+    readIdDelivery,
     readUserDelivery,
     createUserDelivery,
     updateUserDelivery,

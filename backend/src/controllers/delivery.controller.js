@@ -4,7 +4,7 @@ const deliveryModel = require('../models/delivery.model');
 ///////////////// C ****** R ****** U ****** D /////////////////
 
 // Buscar un pedido en la base de datos
-const readUserDelivery = async (req, res) => {
+const readIdDelivery = async (req, res) => {
     try {
         const { id_pedido } = req.params;
 
@@ -14,7 +14,7 @@ const readUserDelivery = async (req, res) => {
         }
 
         // Llamar al modelo para obtener el pedido
-        const [result] = await deliveryModel.readUserDelivery(id_pedido);
+        const [result] = await deliveryModel.readIdDelivery(id_pedido);
 
         // Verificar si se encontró el pedido
         if (result[0]) {
@@ -22,6 +22,33 @@ const readUserDelivery = async (req, res) => {
         } else {
             res.status(404).json({ message: 'Pedido no encontrado :(' });
         }
+    } catch (err) {
+        console.error('Error en readIdDelivery:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+
+// Buscar los pedidos asociados a un usuario
+const readUserDelivery = async (req, res) => {
+    try {
+        const { fk_id_usuario } = req.params;
+
+        // Validar que el ID del usuario esté presente
+
+        if (!fk_id_usuario) {
+            return res.status(400).json({ message: 'El ID del usuario es obligatorio'});
+        }
+
+        // Llamar al modelo para obtener los pedidos del usuario
+        const [result] = await deliveryModel.readUserDelivery(fk_id_usuario);
+
+        // Verificar si se encontraron pedidos asociados al usuario
+        if (result[0]) {
+            res.json(result[0]);
+        } else {
+            res.stauts(404).json({ message: 'No hay pedidos asociados a este usuario :(' });
+        }
+
     } catch (err) {
         console.error('Error en readUserDelivery:', err);
         res.status(500).json({ message: 'Error interno del servidor' });
@@ -94,6 +121,7 @@ const deleteUserDelivery = async (req, res) => {
 
 // Exportar las funciones para usarlas en otros archivos
 module.exports = {
+    readIdDelivery,
     readUserDelivery,
     createUserDelivery,
     updateUserDelivery,
