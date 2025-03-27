@@ -7,16 +7,16 @@ const router = Router();
 ///////////////// R ****** U ****** T ****** A ****** S /////////////////
 
 // Obtener un pedido por ID
-router.get('/:id_pedido', deliveryController.readIdDelivery);
+router.get('/idPedido/:id_pedido', deliveryController.readIdDelivery);
 
 // Obtener los pedidos asociados al usuario
-router.get('/:fk_id_usuario', deliveryController.readUserDelivery);
+router.get('/usuario/:fk_id_usuario', deliveryController.readUserDelivery);
 
 // Crear un nuevo pedido
 router.post('/', deliveryController.createUserDelivery);
 
 // Actualizar un pedido por ID
-router.put('/:id_pedido', deliveryController.updateUserDelivery);
+router.put('/pedido/:id_pedido', deliveryController.updateUserDelivery);
 
 
 // Eliminar un pedido por ID
