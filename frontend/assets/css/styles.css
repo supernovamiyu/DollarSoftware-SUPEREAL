@@ -1418,12 +1418,8 @@ p.elemento-ubicacion-tiendas {
 /* Estilos para el perfil de usuario */
 .user-profile-container {
     display: flex;
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 30px;
+    padding: 20px;
     background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     text-align: center;
     flex-direction: column;
 }
@@ -1437,7 +1433,6 @@ p.elemento-ubicacion-tiendas {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 30px;
 }
 
 .user-info-avatar {
@@ -1464,6 +1459,12 @@ p.elemento-ubicacion-tiendas {
 .user-info-email {
     font-size: 16px;
     color: #666;
+    margin-bottom: 20px;
+}
+
+.user-logout-button {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
@@ -1496,10 +1497,7 @@ p.elemento-ubicacion-tiendas {
     list-style-type: none;
 }
 
-/* Estilos para las secciones del perfil de usuario */
-
-/* Estilos generales para las secciones */
-.seccion-perfil {
+.container-user-option-button {
     margin-top: 20px;
     padding: 20px;
     background-color: #f9f9f9;
