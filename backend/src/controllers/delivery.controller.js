@@ -20,7 +20,7 @@ const readIdDelivery = async (req, res) => {
         if (result[0]) {
             res.json(result[0]);
         } else {
-            res.status(404).json({ message: 'Pedido no encontrado :(' });
+            res.status(404).json({ message: 'Pedido con el id del pedido no encontrado :(' });
         }
     } catch (err) {
         console.error('Error en readIdDelivery:', err);
