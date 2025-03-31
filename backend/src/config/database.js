@@ -10,6 +10,4 @@ const databaseConnection = mysql2.createConnection({
     port: process.env.DB_PORT || 3306,
 });
 
-console.log('Variables cargadas:', process.env.DB_PASSWORD);
-
 module.exports = databaseConnection;
