@@ -1,19 +1,16 @@
     // Función para cargar las opiniones existentes del producto
     function cargarOpiniones(productoId) {
-        // Importar o declarar mostrarOpiniones aquí
-        // Por ejemplo, si mostrarOpiniones está en otro archivo:
-        // import { mostrarOpiniones } from './otro-archivo';
-        // O si es una función simple, puedes definirla aquí:
+
         function mostrarOpiniones(opiniones) {
         // Implementación de la función mostrarOpiniones
         console.log("Opiniones:", opiniones) // Ejemplo: mostrar en la consola
         // Aquí deberías agregar la lógica para mostrar las opiniones en el DOM
         }
-    
+
         fetch(`http://localhost:3000/opinions/${productoId}`)
         .then((response) => {
             if (!response.ok) {
-            throw new Error("No se pudieron cargar las opiniones")
+                throw new Error("No se pudieron cargar las opiniones")
             }
             return response.json()
         })
@@ -22,7 +19,6 @@
         })
         .catch((error) => {
             console.error("Error al cargar opiniones:", error)
-            // No mostramos alerta para no interrumpir la experiencia del usuario
         })
     }
     
