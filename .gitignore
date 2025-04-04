@@ -1,2 +1,9 @@
+# Ignorar la carpeta node_modules
+node_modules/
+
+# Ignorar las variables de entorno
 .env
-node_modules
+
+# Ignorar los archivos de bloqueo de dependiencias
+package-lock.json
+package.json
