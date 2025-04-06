@@ -1,268 +1,117 @@
-// AppController.js - Controlador principal de la aplicación
-
-import { UserModel } from "../model/user.model.js";
-import { ProductModel } from "../model/product.model.js";
-import { CartModel } from "../model/cart.model.js";
-import { OpinionModel } from "../model/opinion.model.js";
-import { StoreModel } from "../model/store.model.js";
-import { OrderModel } from "../model/order.model.js";
-
-import { BaseView } from "../view/base.view.js";
-import { AuthView } from "../view/auth.view.js";
-import { ProductView } from "../view/product.view.js";
-import { CartView } from "../view/cart.view.js";
-import { StoreView } from "../view/store.view.js";
-import { HelpView } from "../view/help.view.js";
-import { CarouselView } from "../view/carousel.view.js";
-
-import { AuthController } from "./auth.controller.js";
-import { ProductController } from "./product.controller.js";
-import { CartController } from "./cart.controller.js";
-import { StoreController } from "./store.controller.js";
-import { HelpController } from "./help.controller.js";
-
-class AppController {
-    constructor() {
-    // Inicializar modelos
-    this.userModel = new UserModel();
-    this.productModel = new ProductModel();
-    this.cartModel = new CartModel();
-    this.opinionModel = new OpinionModel();
-    this.storeModel = new StoreModel();
-    this.orderModel = new OrderModel(this.userModel, this.cartModel);
-
-    // Inicializar vistas
-    this.baseView = new BaseView();
-    this.authView = new AuthView();
-    this.productView = new ProductView();
-    this.cartView = new CartView();
-    this.storeView = new StoreView();
-    this.helpView = new HelpView();
-    this.carouselView = new CarouselView();
-
-    // Inicializar controladores
-    this.authController = new AuthController(this.userModel, this.authView);
-    this.productController = new ProductController(
-        this.productModel,
-        this.opinionModel,
-        this.productView
-    );
-    this.cartController = new CartController(
-        this.cartModel,
-        this.userModel,
-        this.orderModel,
-        this.cartView
-    );
-    this.storeController = new StoreController(this.storeModel, this.storeView);
-    this.helpController = new HelpController(this.helpView);
-
-    // Configurar eventos globales
-    this.setupEventListeners();
+    /**
+     * Controlador principal de la aplicación
+     */
+    class AppController {
+    /**
+     * @param {Object} controllers - Objeto con los controladores de la aplicación
+     */
+    constructor(controllers) {
+        this.controllers = controllers;
+        this.setupGlobalEventListeners();
     }
 
-  // Inicializar la aplicación
+    /**
+     * Inicializa la aplicación
+     */
     init() {
-    console.log("Inicializando aplicación...");
+        // Mostrar la página de inicio por defecto
+        this.controllers.homeController.showHomePage();
 
-    // Verificar si hay una sesión de usuario
-    if (this.userModel.isLoggedIn()) {
-        this.authView.updateUserInterface(this.userModel.getCurrentUser());
+        // Inicializar el observador de cambios en el DOM
+        this.initDOMObserver();
     }
 
-    // Configurar eventos para los elementos que ya existen en el DOM
-    this.setupInitialEvents();
+    /**
+     * Configura los event listeners globales
+     */
+    setupGlobalEventListeners() {
+        // Event listeners para la navegación principal
+        document.addEventListener("click", (event) => {
+        const target = event.target.closest("a");
+        if (!target) return;
 
-    // Cargar la página de inicio si estamos en la ruta principal
-    if (
-        window.location.pathname === "/" ||
-        window.location.pathname === "/index.html"
-    ) {
-        this.loadHomePage();
-    } else {
-      // Manejar otras rutas (implementación futura)
-        this.handleRoutes();
-    }
-    }
-
-  // Cargar la página de inicio
-    loadHomePage() {
-    // Mostrar la plantilla de inicio
-    const vista = new BaseView();
-    vista.showTemplate("plantilla-inicio", "container-principal");
-
-    // Cargar productos destacados
-    this.productController.loadFeaturedProducts();
-
-    // Inicializar el carrusel si existe
-        setTimeout(() => {
-        this.carouselView.tryInitCarousel();
-        }, 100);
-    }
-
-    // Manejar rutas de la aplicación
-    handleRoutes() {
-        const path = window.location.pathname;
-
-        // Extraer la ruta principal
-        const mainPath = path.split("/")[1];
-
-        switch (mainPath) {
-        case "categoria":
-            const category = path.split("/")[2];
-            if (category) {
-            this.productController.loadProductsByCategory(category);
-            }
-            break;
-
-        case "producto":
-            const productId = path.split("/")[2];
-            if (productId) {
-            this.productController.loadProductDetails(productId);
-            }
-            break;
-
-        case "search":
-            const searchParams = new URLSearchParams(window.location.search);
-            const query = searchParams.get("q");
-            if (query) {
-            this.productController.searchProducts(query);
-            }
-            break;
-
-        case "carrito":
-            this.cartController.displayCart();
-            break;
-
-        case "checkout":
-            this.cartController.showCheckout();
-            break;
-
-        case "perfil":
-            this.authController.showProfileScreen();
-            break;
-
-        case "ubicacion":
-            this.storeController.showStoreLocator();
-            break;
-
-        case "atencion-cliente":
-            const helpType = path.split("/")[2];
-            if (helpType) {
-            this.helpController.showHelpDetails(helpType);
-            } else {
-            this.helpController.showHelpScreen();
-            }
-            break;
-
-        default:
-            // Si no coincide con ninguna ruta conocida, cargar la página de inicio
-            this.loadHomePage();
-        }
-    }
-
-    // Configurar eventos iniciales
-    setupInitialEvents() {
-        // Configurar evento para el botón de inicio
-        const homeButton = document.getElementById("boton-inicio");
-        if (homeButton) {
-        homeButton.addEventListener("click", () => {
-            this.baseView.updateURL("/");
-            this.loadHomePage();
-        });
-        }
-
-        // Configurar evento para el icono de usuario
-        const userIcon = document.querySelector(".fa-user");
-        if (userIcon) {
-        userIcon.parentElement.addEventListener("click", (event) => {
+        // Prevenir la navegación por defecto
+        if (target.getAttribute("href") === "#") {
             event.preventDefault();
-            this.authController.handleUserIconClick();
-        });
         }
 
-        // Configurar evento para el icono de carrito
-        const cartIcon = document.querySelector(".fa-cart-shopping");
-        if (cartIcon) {
-        cartIcon.parentElement.addEventListener("click", (event) => {
+        // Manejar los diferentes enlaces de navegación
+        if (target.getAttribute("onclick")) {
+            const onclickAttr = target.getAttribute("onclick");
+
+            if (onclickAttr.includes("mostrarPantallaInicio")) {
             event.preventDefault();
-            this.cartController.displayCart();
-        });
+            this.controllers.homeController.showHomePage();
+            } else if (onclickAttr.includes("mostrarPantallaSesion")) {
+            event.preventDefault();
+            this.controllers.authController.showAuthOptions();
+            } else if (onclickAttr.includes("mostrarPantallaCarrito")) {
+            event.preventDefault();
+            this.controllers.cartController.showCart();
+            } else if (onclickAttr.includes("mostrarPantallaUbicacion")) {
+            event.preventDefault();
+            this.controllers.locationController.showLocationPage();
+            } else if (onclickAttr.includes("mostrarPantallaAtencionCliente")) {
+            event.preventDefault();
+            this.controllers.customerSupportController.showCustomerSupportPage();
+            } else if (onclickAttr.includes("mostrarPantallaInicioSesion")) {
+            event.preventDefault();
+            this.controllers.authController.showLoginPage();
+            } else if (onclickAttr.includes("mostrarPantallaRegistro")) {
+            event.preventDefault();
+            this.controllers.authController.showRegisterPage();
+            }
         }
-
-        // Configurar evento para el icono de ubicación
-        const locationIcon = document.getElementById("icono-ubicacion");
-        if (locationIcon) {
-        locationIcon.addEventListener("click", () => {
-            this.storeController.showStoreLocator();
         });
-        }
 
-        // Configurar evento para la búsqueda
+        // Event listener para la búsqueda
         const searchBar = document.getElementById("search-bar");
         const searchButton = document.getElementById("search-button");
 
-        if (searchButton && searchBar) {
+        if (searchButton) {
         searchButton.addEventListener("click", (event) => {
             event.preventDefault();
-            this.productController.searchProducts(searchBar.value);
+            if (searchBar) {
+            this.controllers.productController.searchProducts(searchBar.value);
+            }
         });
+        }
 
+        if (searchBar) {
         searchBar.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
             event.preventDefault();
-            this.productController.searchProducts(searchBar.value);
+            this.controllers.productController.searchProducts(searchBar.value);
             }
         });
         }
     }
 
-    // Configurar eventos globales
-    setupEventListeners() {
-        // Usar event delegation para manejar clics en botones de categoría
-        document.addEventListener("click", (event) => {
-        const categoryButton = event.target.closest("[data-categoria]");
-        if (categoryButton) {
-            event.preventDefault();
-            const category = categoryButton.getAttribute("data-categoria");
-            this.productController.loadProductsByCategory(category);
-        }
+    /**
+     * Inicializa el observador de cambios en el DOM
+     */
+    initDOMObserver() {
+        // Crear un nuevo observador
+        const observer = new MutationObserver((mutations) => {
+        // Para cada mutación
+        mutations.forEach((mutation) => {
+            // Si se agregaron nodos
+            if (mutation.addedNodes.length) {
+            // Verificar si hay imágenes de productos y agregar event listeners
+            this.controllers.productController.setupProductImageEvents();
 
-        // Manejar clics en imágenes de productos
-        const productImage = event.target.closest("#imagen-individual-producto");
-        if (productImage) {
-            event.preventDefault();
-            const productId =
-            productImage.getAttribute("data-id") ||
-            productImage.closest("[data-id]")?.getAttribute("data-id");
-            if (productId) {
-            this.productController.loadProductDetails(productId);
+            // Verificar si hay botones de agregar al carrito y agregar event listeners
+            this.controllers.cartController.setupAddToCartButtons();
             }
-        }
-
-        // Manejar clics en botones de agregar al carrito
-        const addToCartButton = event.target.closest(".comprar");
-        if (addToCartButton) {
-            event.preventDefault();
-            const productId = addToCartButton.getAttribute("data-id");
-            if (productId) {
-            this.cartController.addToCart(productId);
-            }
-        }
-
-        // Manejar clics en botones de ayuda
-        const helpButton = event.target.closest("[data-help-type]");
-        if (helpButton) {
-            event.preventDefault();
-            const helpType = helpButton.getAttribute("data-help-type");
-            this.helpController.showHelpDetails(helpType);
-        }
+        });
         });
 
-        // Manejar cambios en la URL (navegación por historial)
-        window.addEventListener("popstate", () => {
-        this.handleRoutes();
-        });
+        // Configurar el observador para observar cambios en el contenedor principal
+        const containerPrincipal = document.getElementById("container-principal");
+        if (containerPrincipal) {
+        observer.observe(containerPrincipal, { childList: true, subtree: true });
+        }
     }
     }
 
-export { AppController };
+    export default AppController;

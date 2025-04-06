@@ -1,35 +1,53 @@
-    // UserModel.js - Maneja los datos y la lógica relacionada con los usuarios
-
+    /**
+     * Modelo para manejar los datos y la lógica de negocio relacionada con los usuarios
+     */
     class UserModel {
     constructor() {
-        this.currentUser = null;
-        this.initializeFromStorage();
+        this.currentUser = null
+        this.initSession()
     }
 
-    // Inicializar el modelo desde localStorage
-    initializeFromStorage() {
-        try {
-        const savedSession = localStorage.getItem("sesionUsuario");
+    /**
+     * Inicializa la sesión del usuario desde localStorage
+     * @returns {boolean} - true si se recuperó la sesión, false en caso contrario
+     */
+    initSession() {
+        const savedSession = localStorage.getItem("sesionUsuario")
         if (savedSession) {
-            this.currentUser = JSON.parse(savedSession);
-        }
+        try {
+            this.currentUser = JSON.parse(savedSession)
+            return true
         } catch (error) {
-        console.error("Error al recuperar la sesión:", error);
-        localStorage.removeItem("sesionUsuario");
+            console.error("Error al recuperar la sesión:", error)
+            localStorage.removeItem("sesionUsuario")
+            return false
         }
+        }
+        return false
     }
 
-    // Verificar si el usuario está autenticado
-    isLoggedIn() {
-        return this.currentUser !== null;
-    }
-
-    // Obtener el usuario actual
+    /**
+     * Obtiene el usuario actual
+     * @returns {Object|null} - Datos del usuario actual o null si no hay sesión
+     */
     getCurrentUser() {
-        return this.currentUser;
+        return this.currentUser
     }
 
-    // Iniciar sesión
+    /**
+     * Verifica si hay un usuario autenticado
+     * @returns {boolean} - true si hay un usuario autenticado, false en caso contrario
+     */
+    isAuthenticated() {
+        return this.currentUser !== null
+    }
+
+    /**
+     * Inicia sesión con las credenciales proporcionadas
+     * @param {string} email - Correo electrónico del usuario
+     * @param {string} password - Contraseña del usuario
+     * @returns {Promise<Object>} - Resultado de la operación
+     */
     async login(email, password) {
         try {
         const response = await fetch("http://localhost:3000/auth/login", {
@@ -38,27 +56,34 @@
             "Content-Type": "application/json",
             },
             body: JSON.stringify({ correo: email, contraseña: password }),
-        });
+        })
 
-        const data = await response.json();
+        const data = await response.json()
 
         if (!response.ok) {
-            throw new Error(data.mensaje || "Error al iniciar sesión");
+            throw new Error(data.mensaje || "Error al iniciar sesión")
         }
 
-        // Guardar datos del usuario
-        this.currentUser = data.usuario;
-        localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser));
-        localStorage.setItem("authToken", data.token);
+        // Guardar la sesión del usuario
+        this.currentUser = data.usuario
+        localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser))
+        localStorage.setItem("authToken", data.token)
 
-        return { success: true, user: this.currentUser };
+        return { success: true, user: data.usuario }
         } catch (error) {
-        console.error("Error en login:", error);
-        return { success: false, error: error.message };
+        console.error("Error al iniciar sesión:", error)
+        return {
+            success: false,
+            error: error.message || "Error al iniciar sesión. Verifica tus credenciales.",
+        }
         }
     }
 
-    // Registrar un nuevo usuario
+    /**
+     * Registra un nuevo usuario
+     * @param {Object} userData - Datos del usuario a registrar
+     * @returns {Promise<Object>} - Resultado de la operación
+     */
     async register(userData) {
         try {
         const response = await fetch("http://localhost:3000/auth/register", {
@@ -67,58 +92,63 @@
             "Content-Type": "application/json",
             },
             body: JSON.stringify(userData),
-        });
+        })
 
-        const data = await response.json();
+        const data = await response.json()
 
         if (!response.ok) {
-            throw new Error(data.mensaje || "Error al registrar usuario");
+            throw new Error(data.mensaje || "Error al registrar usuario")
         }
 
-        // Guardar datos del usuario
-        this.currentUser = data.usuario;
-        localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser));
-        localStorage.setItem("authToken", data.token);
+        // Guardar la sesión del usuario
+        this.currentUser = data.usuario
+        localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser))
+        localStorage.setItem("authToken", data.token)
 
-        return { success: true, user: this.currentUser };
+        return { success: true, user: data.usuario }
         } catch (error) {
-        console.error("Error en registro:", error);
-        return { success: false, error: error.message };
+        console.error("Error al registrar usuario:", error)
+        return {
+            success: false,
+            error: error.message || "Error al crear la cuenta. Inténtalo de nuevo.",
+        }
         }
     }
 
-    // Cerrar sesión
+    /**
+     * Cierra la sesión del usuario actual
+     * @returns {boolean} - true si se cerró la sesión correctamente
+     */
     logout() {
-        this.currentUser = null;
-        localStorage.removeItem("sesionUsuario");
-        localStorage.removeItem("authToken");
-        return true;
+        this.currentUser = null
+        localStorage.removeItem("sesionUsuario")
+        localStorage.removeItem("authToken")
+        return true
     }
 
-    // Obtener el perfil del usuario
-    async getUserProfile() {
-        // Si ya tenemos los datos del usuario, los devolvemos
-        if (this.currentUser) {
-        return this.currentUser;
-        }
-
-        // Si no, intentamos obtenerlos del servidor (implementación futura)
-        return null;
-    }
-
-    // Actualizar datos del usuario
+    /**
+     * Actualiza los datos del usuario
+     * @param {Object} userData - Nuevos datos del usuario
+     * @returns {Promise<Object>} - Resultado de la operación
+     */
     async updateUserData(userData) {
+        // Aquí iría la lógica para actualizar los datos del usuario en el servidor
+        // Por ahora, simulamos una actualización exitosa
         try {
-        // Aquí iría la lógica para actualizar los datos en el servidor
-        // Por ahora, solo actualizamos localmente
-        this.currentUser = { ...this.currentUser, ...userData };
-        localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser));
-        return { success: true };
+        // Simulación de actualización exitosa
+        this.currentUser = { ...this.currentUser, ...userData }
+        localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser))
+
+        return { success: true, user: this.currentUser }
         } catch (error) {
-        console.error("Error al actualizar datos:", error);
-        return { success: false, error: error.message };
+        console.error("Error al actualizar datos del usuario:", error)
+        return {
+            success: false,
+            error: error.message || "Error al actualizar los datos. Inténtalo de nuevo.",
+        }
         }
     }
     }
 
-    export { UserModel };
+    export default UserModel
+

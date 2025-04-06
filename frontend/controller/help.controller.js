@@ -1,37 +1,38 @@
-    // HelpController.js - Controlador para la sección de ayuda
-
-    class HelpController {
-    constructor(helpView) {
-        this.view = helpView;
-    }
-
-    // Mostrar la pantalla principal de ayuda
-    showHelpScreen() {
-        const result = this.view.showHelpScreen();
-
-        if (result) {
-        // Configurar eventos para los botones de ayuda
-        this.setupHelpButtons();
+    /**
+     * Controlador para la atención al cliente
+     */
+    class CustomerSupportController {
+        /**
+         * @param {Object} view - Vista de atención al cliente
+         */
+        constructor(view) {
+        this.view = view
+        }
+    
+        /**
+         * Muestra la página de atención al cliente
+         */
+        showCustomerSupportPage() {
+        this.view.showCustomerSupportPage()
+        this.setupHelpButtons()
+        }
+    
+        /**
+         * Configura los botones de ayuda
+         */
+        setupHelpButtons() {
+        this.view.setupHelpButtons((helpType) => this.showHelpDetails(helpType))
+        }
+    
+        /**
+         * Muestra los detalles de un aspecto de ayuda
+         * @param {string} helpType - Tipo de ayuda
+         */
+        showHelpDetails(helpType) {
+        this.view.showHelpDetails(helpType)
         }
     }
-
-    // Configurar los botones de ayuda
-    setupHelpButtons() {
-        const helpButtons = document.querySelectorAll("[data-help-type]");
-
-        helpButtons.forEach((button) => {
-        button.addEventListener("click", (event) => {
-            event.preventDefault();
-            const helpType = button.getAttribute("data-help-type");
-            this.showHelpDetails(helpType);
-        });
-        });
-    }
-
-    // Mostrar detalles de un aspecto específico de ayuda
-    showHelpDetails(helpType) {
-        this.view.showHelpDetails(helpType);
-    }
-    }
-
-    export { HelpController };
+    
+    export default CustomerSupportController
+    
+    

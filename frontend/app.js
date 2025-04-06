@@ -1,76 +1,120 @@
-// app.js - Punto de entrada principal de la aplicación
-import { AppController } from "./controller/app.controller.js"
+// Importar modelos
+import UserModel from "./model/user.model.js"
+import ProductModel from "./model/product.model.js"
+import CartModel from "./model/cart.model.js"
+import LocationModel from "./model/location.model.js"
+
+// Importar vistas
+import BaseView from "./view/base.view.js"
+import HomeView from "./view/home.view.js"
+import AuthView from "./view/auth.view.js"
+import ProductView from "./view/product.view.js"
+import CartView from "./view/cart.view.js"
+import LocationView from "./view/location.view.js"
+import CustomerSupportView from "./view/help.view.js"
+import ProfileView from "./view/profile.view.js"
+
+// Importar controladores
+import AppController from "./controller/app.controller.js"
+import AuthController from "./controller/auth.controller.js"
+import ProductController from "./controller/product.controller.js"
+import CartController from "./controller/cart.controller.js"
+import HomeController from "./controller/home.controller.js"
+import LocationController from "./controller/location.controller.js"
+import CustomerSupportController from "./controller/help.controller.js"
+import ProfileController from "./controller/profile.controller.js"
 
 // Inicializar la aplicación cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM cargado, inicializando aplicación...")
+  // Inicializar modelos
+  const userModel = new UserModel()
+  const productModel = new ProductModel()
+  const cartModel = new CartModel()
+  const locationModel = new LocationModel()
 
-  try {
-    // Crear e inicializar el controlador principal
-    const app = new AppController()
-    app.init()
+  // Inicializar vistas
+  const baseView = new BaseView()
+  const homeView = new HomeView()
+  const authView = new AuthView()
+  const productView = new ProductView()
+  const cartView = new CartView()
+  const locationView = new LocationView()
+  const customerSupportView = new CustomerSupportView()
+  const profileView = new ProfileView()
 
-    // Exponer funciones globales necesarias para mantener compatibilidad con HTML existente
-    window.mostrarPantallaSesion = (event) => {
-      if (event) event.preventDefault()
-      app.authController.handleUserIconClick()
-    }
+  // Inicializar controladores
+  const productController = new ProductController(productModel, productView)
+  const homeController = new HomeController(homeView, productController)
+  const authController = new AuthController(userModel, authView)
+  const cartController = new CartController(cartModel, cartView, productModel)
+  const locationController = new LocationController(locationModel, locationView)
+  const customerSupportController = new CustomerSupportController(customerSupportView)
+  const profileController = new ProfileController(userModel, profileView)
 
-    window.mostrarPantallaInicio = (event) => {
-      if (event) event.preventDefault()
-      app.loadHomePage()
-    }
+  // Inicializar el controlador principal
+  const appController = new AppController({
+    homeController,
+    authController,
+    productController,
+    cartController,
+    locationController,
+    customerSupportController,
+    profileController,
+  })
 
-    window.mostrarPantallaUbicacion = (event) => {
-      if (event) event.preventDefault()
-      app.storeController.showStoreLocator()
-    }
+  // Iniciar la aplicación
+  appController.init()
 
-    window.mostrarPantallaAtencionCliente = (event) => {
-      if (event) event.preventDefault()
-      app.helpController.showHelpScreen()
-    }
+  // Exponer funciones globales necesarias
+  window.mostrarMensaje = baseView.showMessage.bind(baseView)
 
-    window.mostrarPantallaCarrito = (event) => {
-      if (event) event.preventDefault()
-      app.cartController.displayCart()
-    }
+  // Configurar eventos personalizados
+  window.addEventListener("showHomePage", () => homeController.showHomePage())
+  window.addEventListener("showAuthOptions", () => authController.showAuthOptions())
+  window.addEventListener("logout", () => authController.handleLogout())
 
-    window.mostrarPantallaInicioSesion = (event) => {
-      if (event) event.preventDefault()
-      const baseView = new app.baseView.constructor()
-      baseView.showTemplate("plantilla-iniciar-sesion", "container-principal")
-    }
-
-    window.mostrarPantallaRegistro = (event) => {
-      if (event) event.preventDefault()
-      const baseView = new app.baseView.constructor()
-      baseView.showTemplate("plantilla-registro", "container-principal")
-    }
-
-    window.mostrarPantallaCategoriasProductos = (event) => {
-      if (event) event.preventDefault()
-      const categoria = event.currentTarget.getAttribute("data-categoria")
-      if (categoria) {
-        app.productController.loadProductsByCategory(categoria)
-      }
-    }
-
-    // Función para cambiar slides del carrusel
-    window.changeSlide = (n) => {
-      if (app.carouselView) {
-        app.carouselView.changeSlide(n)
-      }
-    }
-
-    // Función global para mostrar mensajes
-    window.mostrarMensaje = (mensaje, tipo) => {
-      app.baseView.showMessage(mensaje, tipo)
-    }
-
-    console.log("Aplicación inicializada correctamente")
-  } catch (error) {
-    console.error("Error al inicializar la aplicación:", error)
+  // Reemplazar las funciones globales existentes
+  window.mostrarPantallaInicio = (event) => {
+    if (event) event.preventDefault()
+    homeController.showHomePage()
   }
+
+  window.mostrarPantallaSesion = (event) => {
+    if (event) event.preventDefault()
+    authController.showAuthOptions()
+  }
+
+  window.mostrarPantallaCarrito = (event) => {
+    if (event) event.preventDefault()
+    cartController.showCart()
+  }
+
+  window.mostrarPantallaUbicacion = (event) => {
+    if (event) event.preventDefault()
+    locationController.showLocationPage()
+  }
+
+  window.mostrarPantallaAtencionCliente = (event) => {
+    if (event) event.preventDefault()
+    customerSupportController.showCustomerSupportPage()
+  }
+
+  window.mostrarPantallaInicioSesion = (event) => {
+    if (event) event.preventDefault()
+    authController.showLoginPage()
+  }
+
+  window.mostrarPantallaRegistro = (event) => {
+    if (event) event.preventDefault()
+    authController.showRegisterPage()
+  }
+
+  window.mostrarPantallaPerfil = (event) => {
+    if (event) event.preventDefault()
+    profileController.showProfilePage()
+  }
+
+  // Inicializar la vista por defecto
+  homeController.showHomePage()
 })
 

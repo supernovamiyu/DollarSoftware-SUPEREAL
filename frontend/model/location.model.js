@@ -1,6 +1,7 @@
-    // StoreModel.js - Maneja los datos y la lógica relacionada con las tiendas físicas
-
-    class StoreModel {
+    /**
+     * Modelo para manejar los datos y la lógica de negocio relacionada con las ubicaciones de tiendas
+     */
+    class LocationModel {
         constructor() {
         // Datos ficticios de las tiendas
         this.stores = {
@@ -110,40 +111,42 @@
         }
         }
     
-        // Obtener todas las ciudades disponibles
-        getCities() {
+        /**
+         * Obtiene las zonas disponibles para una ciudad
+         * @param {string} city - Ciudad
+         * @returns {Array} - Lista de zonas disponibles
+         */
+        getZonesByCity(city) {
+        if (!this.stores[city]) {
+            return []
+        }
+    
+        return Object.keys(this.stores[city])
+        }
+    
+        /**
+         * Obtiene las tiendas por ciudad y zona
+         * @param {string} city - Ciudad
+         * @param {string} zone - Zona
+         * @returns {Array} - Lista de tiendas
+         */
+        getStoresByCityAndZone(city, zone) {
+        if (!this.stores[city] || !this.stores[city][zone]) {
+            return []
+        }
+    
+        return this.stores[city][zone]
+        }
+    
+        /**
+         * Obtiene todas las ciudades disponibles
+         * @returns {Array} - Lista de ciudades
+         */
+        getAllCities() {
         return Object.keys(this.stores)
-        }
-    
-        // Obtener zonas de una ciudad
-        getZones(city) {
-        if (this.stores[city]) {
-            return Object.keys(this.stores[city])
-        }
-        return []
-        }
-    
-        // Obtener tiendas por ciudad y zona
-        getStores(city, zone) {
-        if (this.stores[city] && this.stores[city][zone]) {
-            return this.stores[city][zone]
-        }
-        return []
-        }
-    
-        // Obtener todas las tiendas de una ciudad
-        getAllStoresInCity(city) {
-        if (!this.stores[city]) return []
-    
-        let allStores = []
-        const zones = this.getZones(city)
-    
-        zones.forEach((zone) => {
-            allStores = allStores.concat(this.stores[city][zone])
-        })
-    
-        return allStores
         }
     }
     
-    export { StoreModel }
+    export default LocationModel
+    
+    

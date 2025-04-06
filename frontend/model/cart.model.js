@@ -1,110 +1,154 @@
-    // CartModel.js - Maneja los datos y la lógica relacionada con el carrito de compras
-
+    /**
+     * Modelo para manejar los datos y la lógica de negocio relacionada con el carrito de compras
+     */
     class CartModel {
         constructor() {
-        this.items = []
-        this.loadCart()
+        this.cartItems = this.loadCart()
         }
     
-        // Cargar el carrito desde localStorage
+        /**
+         * Carga los items del carrito desde localStorage
+         * @returns {Array} - Items del carrito
+         */
         loadCart() {
         try {
-            const savedCart = localStorage.getItem("carrito")
-            if (savedCart) {
-            this.items = JSON.parse(savedCart)
-            }
+            const cartData = localStorage.getItem("carrito")
+            return cartData ? JSON.parse(cartData) : []
         } catch (error) {
             console.error("Error al cargar el carrito:", error)
-            this.items = []
-            localStorage.removeItem("carrito")
+            return []
         }
         }
     
-        // Guardar el carrito en localStorage
+        /**
+         * Guarda los items del carrito en localStorage
+         */
         saveCart() {
-        localStorage.setItem("carrito", JSON.stringify(this.items))
+        localStorage.setItem("carrito", JSON.stringify(this.cartItems))
         }
     
-        // Obtener todos los items del carrito
-        getCart() {
-        return this.items
+        /**
+         * Obtiene todos los items del carrito
+         * @returns {Array} - Items del carrito
+         */
+        getCartItems() {
+        return this.cartItems
         }
     
-        // Agregar un producto al carrito
-        addToCart(product, quantity = 1) {
-        // Verificar si el producto ya está en el carrito
-        const existingItemIndex = this.items.findIndex((item) => item.id === product.id)
+        /**
+         * Agrega un producto al carrito
+         * @param {Object} product - Producto a agregar
+         * @returns {Object} - Resultado de la operación
+         */
+        addToCart(product) {
+        try {
+            if (!product || !product.id_productos) {
+            throw new Error("Producto inválido")
+            }
     
-        if (existingItemIndex >= 0) {
-            // Actualizar cantidad si ya existe
-            this.items[existingItemIndex].quantity += quantity
-        } else {
-            // Agregar nuevo item
-            this.items.push({
-            id: product.id,
-            name: product.nombre_producto,
-            price: product.precio,
-            image: product.imagen_url,
-            quantity: quantity,
-            })
-        }
+            const existingProduct = this.cartItems.find((item) => item.id_productos === product.id_productos)
     
-        this.saveCart()
-        return true
-        }
-    
-        // Actualizar la cantidad de un producto
-        updateQuantity(productId, quantity) {
-        const itemIndex = this.items.findIndex((item) => item.id === productId)
-    
-        if (itemIndex >= 0) {
-            if (quantity <= 0) {
-            // Eliminar el producto si la cantidad es 0 o menos
-            this.items.splice(itemIndex, 1)
+            if (existingProduct) {
+            existingProduct.cantidad++
             } else {
-            // Actualizar la cantidad
-            this.items[itemIndex].quantity = quantity
+            this.cartItems.push({
+                id_productos: product.id_productos,
+                nombre_producto: product.nombre_producto,
+                precio: product.precio,
+                imagen_url: product.imagen_url,
+                cantidad: 1,
+            })
             }
     
             this.saveCart()
-            return true
+            return { success: true }
+        } catch (error) {
+            console.error("Error al agregar al carrito:", error)
+            return {
+            success: false,
+            error: error.message || "No se pudo agregar el producto al carrito",
+            }
+        }
         }
     
-        return false
-        }
+        /**
+         * Actualiza la cantidad de un producto en el carrito
+         * @param {string} productId - ID del producto
+         * @param {number} quantity - Nueva cantidad
+         * @returns {Object} - Resultado de la operación
+         */
+        updateQuantity(productId, quantity) {
+        try {
+            const productIndex = this.cartItems.findIndex((item) => item.id_productos === productId)
     
-        // Eliminar un producto del carrito
-        removeFromCart(productId) {
-        const itemIndex = this.items.findIndex((item) => item.id === productId)
+            if (productIndex === -1) {
+            throw new Error("Producto no encontrado en el carrito")
+            }
     
-        if (itemIndex >= 0) {
-            this.items.splice(itemIndex, 1)
+            if (quantity <= 0) {
+            return this.removeFromCart(productId)
+            }
+    
+            this.cartItems[productIndex].cantidad = quantity
             this.saveCart()
-            return true
+            return { success: true }
+        } catch (error) {
+            console.error("Error al actualizar cantidad:", error)
+            return {
+            success: false,
+            error: error.message || "No se pudo actualizar la cantidad del producto",
+            }
+        }
         }
     
-        return false
+        /**
+         * Elimina un producto del carrito
+         * @param {string} productId - ID del producto a eliminar
+         * @returns {Object} - Resultado de la operación
+         */
+        removeFromCart(productId) {
+        try {
+            this.cartItems = this.cartItems.filter((item) => item.id_productos !== productId)
+            this.saveCart()
+            return { success: true }
+        } catch (error) {
+            console.error("Error al eliminar del carrito:", error)
+            return {
+            success: false,
+            error: error.message || "No se pudo eliminar el producto del carrito",
+            }
+        }
         }
     
-        // Vaciar el carrito
-        clearCart() {
-        this.items = []
-        this.saveCart()
-        }
-    
-        // Calcular el total del carrito
-        calculateTotal() {
-        return this.items.reduce((total, item) => {
-            return total + item.price * item.quantity
+        /**
+         * Calcula el total del carrito
+         * @returns {number} - Total del carrito
+         */
+        getCartTotal() {
+        return this.cartItems.reduce((total, item) => {
+            const price = Number.parseFloat(item.precio)
+            return total + (isNaN(price) ? 0 : price * item.cantidad)
         }, 0)
         }
     
-        // Obtener el número total de items en el carrito
-        getItemCount() {
-        return this.items.reduce((count, item) => count + item.quantity, 0)
+        /**
+         * Vacía el carrito
+         * @returns {Object} - Resultado de la operación
+         */
+        clearCart() {
+        try {
+            this.cartItems = []
+            this.saveCart()
+            return { success: true }
+        } catch (error) {
+            console.error("Error al vaciar el carrito:", error)
+            return {
+            success: false,
+            error: error.message || "No se pudo vaciar el carrito",
+            }
+        }
         }
     }
     
-    export { CartModel }
-    
+    export default CartModel
     

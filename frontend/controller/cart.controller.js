@@ -1,304 +1,195 @@
-    // CartController.js - Controlador para el carrito de compras
-
+    /**
+     * Controlador para el carrito de compras
+     */
     class CartController {
-    constructor(cartModel, userModel, orderModel, cartView) {
-        this.cartModel = cartModel;
-        this.userModel = userModel;
-        this.orderModel = orderModel;
-        this.view = cartView;
-
-        // Configurar manejadores de eventos
-        this.setupEventHandlers();
-    }
-
-    // Configurar manejadores de eventos
-    setupEventHandlers() {
-        // Usar event delegation para los botones del carrito
-        document.addEventListener("click", (event) => {
-        // Botón de aumentar cantidad
-        if (event.target.classList.contains("btn-mas")) {
-            const productId = event.target.getAttribute("data-id");
-            if (productId) {
-            this.increaseQuantity(productId);
-            }
+        /**
+         * @param {Object} model - Modelo del carrito
+         * @param {Object} view - Vista del carrito
+         * @param {Object} productModel - Modelo de productos
+         */
+        constructor(model, view, productModel) {
+        this.model = model
+        this.view = view
+        this.productModel = productModel
+    
+        // Configurar event listeners globales
+        this.setupGlobalEventListeners()
         }
-
-        // Botón de disminuir cantidad
-        else if (event.target.classList.contains("btn-menos")) {
-            const productId = event.target.getAttribute("data-id");
-            if (productId) {
-            this.decreaseQuantity(productId);
-            }
+    
+        /**
+         * Configura los event listeners globales
+         */
+        setupGlobalEventListeners() {
+        // Escuchar evento de agregar al carrito
+        window.addEventListener("addToCart", async (event) => {
+            const { productId } = event.detail
+            await this.addToCart(productId)
+        })
         }
-
-        // Botón de eliminar producto
-        else if (event.target.closest(".btn-eliminar")) {
-            const productId = event.target
-            .closest(".btn-eliminar")
-            .getAttribute("data-id");
-            if (productId) {
-            this.removeFromCart(productId);
-            }
+    
+        /**
+         * Muestra el carrito de compras
+         */
+        showCart() {
+        const cartItems = this.model.getCartItems()
+        const total = this.model.getCartTotal()
+    
+        this.view.showCart(cartItems, total)
+    
+        // Configurar eventos del carrito
+        this.view.setupCartEvents({
+            updateQuantity: (productId, quantity) => this.updateQuantity(productId, quantity),
+            removeItem: (productId) => this.removeFromCart(productId),
+            checkout: () => this.proceedToCheckout(),
+        })
         }
-
-        // Botón de seguir comprando
-        else if (event.target.id === "seguir-comprando") {
-            event.preventDefault();
-            window.history.back();
-        }
-
-        // Botón de proceder al pago
-        else if (event.target.id === "btn-checkout") {
-            event.preventDefault();
-            this.showCheckout();
-        }
-
-        // Botón de procesar pago
-        else if (event.target.id === "btn-process-payment") {
-            event.preventDefault();
-            this.processPayment();
-        }
-
-        // Botón de volver al inicio (después del pago exitoso)
-        else if (event.target.id === "volver-inicio") {
-            event.preventDefault();
-            window.location.href = "/";
-        }
-
-        // Botón de reintentar pago
-        else if (event.target.id === "reintentar-pago") {
-            event.preventDefault();
-            this.showCheckout();
-        }
-
-        // Botón de volver al carrito
-        else if (event.target.id === "volver-carrito") {
-            event.preventDefault();
-            this.displayCart();
-        }
-        });
-
-        // Manejar cambios en los inputs de cantidad
-        document.addEventListener("change", (event) => {
-        if (event.target.classList.contains("input-cantidad")) {
-            const productId = event.target.getAttribute("data-id");
-            const quantity = Number.parseInt(event.target.value);
-
-            if (productId && !isNaN(quantity) && quantity >= 0) {
-            this.updateQuantity(productId, quantity);
-            }
-        }
-        });
-    }
-
-    // Mostrar el carrito
-    displayCart() {
-        const cartItems = this.cartModel.getCart();
-        const total = this.cartModel.calculateTotal();
-
-        this.view.showCart(cartItems, total);
-        this.view.updateURL("/carrito");
-    }
-
-    // Agregar un producto al carrito
-    async addToCart(productId) {
+    
+        /**
+         * Agrega un producto al carrito
+         * @param {string} productId - ID del producto
+         */
+        async addToCart(productId) {
         try {
-        // Obtener los detalles del producto
-        const product = await this.getProductDetails(productId);
-
-        // Agregar al carrito
-        const result = this.cartModel.addToCart(product);
-
-        if (result) {
-            this.view.showMessage("Producto agregado al carrito", "success");
+            // Obtener los detalles del producto
+            const product = await this.productModel.getProductDetails(productId)
+    
+            if (!product) {
+            this.view.showMessage("No se pudo obtener la información del producto", "error")
+            return
+            }
+    
+            // Agregar al carrito
+            const result = this.model.addToCart(product)
+    
+            if (result.success) {
+            this.view.showMessage("Producto agregado al carrito", "success")
+            } else {
+            this.view.showMessage(result.error, "error")
+            }
+        } catch (error) {
+            console.error("Error al agregar al carrito:", error)
+            this.view.showMessage("Error al agregar el producto al carrito", "error")
+        }
+        }
+    
+        /**
+         * Actualiza la cantidad de un producto en el carrito
+         * @param {string} productId - ID del producto
+         * @param {number} quantity - Nueva cantidad
+         */
+        updateQuantity(productId, quantity) {
+        const result = this.model.updateQuantity(productId, quantity)
+    
+        if (result.success) {
+            this.showCart() // Actualizar la vista del carrito
         } else {
-            throw new Error("No se pudo agregar el producto al carrito");
-        }
-        } catch (error) {
-        console.error("Error al agregar al carrito:", error);
-        this.view.showMessage(
-            "No se pudo agregar el producto al carrito",
-            "error"
-        );
-        }
-    }
-
-    // Obtener detalles de un producto
-    async getProductDetails(productId) {
-        // Aquí normalmente llamaríamos al ProductModel, pero para evitar dependencias circulares,
-        // hacemos la petición directamente
-        try {
-        const response = await fetch(
-            `http://localhost:3000/products/${productId}`
-        );
-
-        if (!response.ok) {
-            throw new Error("No se pudo obtener la información del producto");
-        }
-
-        return await response.json();
-        } catch (error) {
-        console.error("Error al obtener detalles del producto:", error);
-        throw error;
-        }
-    }
-
-    // Aumentar la cantidad de un producto
-    increaseQuantity(productId) {
-        // Obtener la cantidad actual
-        const cartItems = this.cartModel.getCart();
-        const item = cartItems.find((item) => item.id === productId);
-
-        if (item) {
-        // Aumentar en 1
-        const newQuantity = item.quantity + 1;
-        this.updateQuantity(productId, newQuantity);
-        }
-    }
-
-    // Disminuir la cantidad de un producto
-    decreaseQuantity(productId) {
-        // Obtener la cantidad actual
-        const cartItems = this.cartModel.getCart();
-        const item = cartItems.find((item) => item.id === productId);
-
-        if (item && item.quantity > 1) {
-        // Disminuir en 1
-        const newQuantity = item.quantity - 1;
-        this.updateQuantity(productId, newQuantity);
-        } else if (item && item.quantity === 1) {
-        // Si la cantidad es 1, preguntar si quiere eliminar
-        if (confirm("¿Desea eliminar este producto del carrito?")) {
-            this.removeFromCart(productId);
+            this.view.showMessage(result.error, "error")
         }
         }
-    }
-
-    // Actualizar la cantidad de un producto
-    updateQuantity(productId, quantity) {
-        // Actualizar en el modelo
-        const result = this.cartModel.updateQuantity(productId, quantity);
-
-        if (result) {
-        // Actualizar en la vista
-        this.view.updateItemQuantity(productId, quantity);
-
-        // Actualizar el total
-        const total = this.cartModel.calculateTotal();
-        this.view.updateCartTotal(total);
-
-        // Si la cantidad es 0, eliminar el producto
-        if (quantity === 0) {
-            this.view.removeCartItem(productId);
+    
+        /**
+         * Elimina un producto del carrito
+         * @param {string} productId - ID del producto
+         */
+        removeFromCart(productId) {
+        const result = this.model.removeFromCart(productId)
+    
+        if (result.success) {
+            this.showCart() // Actualizar la vista del carrito
+            this.view.showMessage("Producto eliminado del carrito", "success")
+        } else {
+            this.view.showMessage(result.error, "error")
         }
         }
-    }
-
-    // Eliminar un producto del carrito
-    removeFromCart(productId) {
-        // Eliminar del modelo
-        const result = this.cartModel.removeFromCart(productId);
-
-        if (result) {
-        // Eliminar de la vista
-        this.view.removeCartItem(productId);
-
-        // Actualizar el total
-        const total = this.cartModel.calculateTotal();
-        this.view.updateCartTotal(total);
-
-        // Mostrar mensaje
-        this.view.showMessage("Producto eliminado del carrito", "success");
-
-        // Si el carrito está vacío, recargar la vista
-        if (this.cartModel.getCart().length === 0) {
-            this.displayCart();
-        }
-        }
-    }
-
-    // Mostrar la pantalla de pago
-    showCheckout() {
-        // Verificar si hay productos en el carrito
-        const cartItems = this.cartModel.getCart();
-
+    
+        /**
+         * Procede al checkout
+         */
+        proceedToCheckout() {
+        const cartItems = this.model.getCartItems()
+    
         if (cartItems.length === 0) {
-        this.view.showMessage("El carrito está vacío", "error");
-        return;
+            this.view.showMessage("Tu carrito está vacío", "warning")
+            return
         }
-
-        // Verificar si el usuario está autenticado
-        if (!this.userModel.isLoggedIn()) {
-        this.view.showMessage(
-            "Debe iniciar sesión para continuar con la compra",
-            "warning"
-        );
-
-        // Redirigir a la pantalla de inicio de sesión
-        setTimeout(() => {
-            window.mostrarPantallaSesion();
-        }, 1000);
-
-        return;
+    
+        const total = this.model.getCartTotal()
+        this.view.showCheckout(cartItems, total)
+    
+        // Configurar eventos del formulario de checkout
+        this.view.setupCheckoutFormEvents({
+            processPayment: () => this.processPayment(),
+            backToCart: () => this.showCart(),
+            backToHome: () => window.dispatchEvent(new CustomEvent("showHomePage")),
+            tryAgain: () => {
+            document.getElementById("formulario-pago").style.display = "block"
+            document.getElementById("pago-fallido").style.display = "none"
+            },
+        })
         }
-
-        // Mostrar la pantalla de pago
-        const userData = this.userModel.getCurrentUser();
-        const total = this.cartModel.calculateTotal();
-
-        this.view.showCheckout(userData, cartItems, total);
-        this.view.updateURL("/checkout");
-    }
-
-    // Procesar el pago
-    async processPayment() {
-        try {
-        // Obtener los datos del formulario
-        const form = document.getElementById("checkout-form");
-
-        if (!form) {
-            throw new Error("No se encontró el formulario de pago");
-        }
-
-        // Validar el formulario
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        // Recopilar los datos de envío
-        const shippingData = {
-            nombre: form.querySelector("#checkout-nombre").value,
-            correo: form.querySelector("#checkout-email").value,
-            telefono: form.querySelector("#checkout-telefono").value,
-            direccion: form.querySelector("#checkout-direccion").value,
-            ciudad: form.querySelector("#checkout-ciudad").value,
-            codigo_postal: form.querySelector("#checkout-codigo-postal").value,
-            metodo_pago: form.querySelector('input[name="metodo-pago"]:checked')
-            .value,
-        };
-
+    
+        /**
+         * Procesa el pago
+         */
+        processPayment() {
         // Mostrar pantalla de procesamiento
-        this.view.showProcessingScreen();
-
-        // Crear el pedido
-        const orderData = await this.orderModel.createOrder(shippingData);
-
-        // Simular procesamiento de pago
+        this.view.showProcessingPayment()
+    
+        // Simular procesamiento (en un caso real, aquí iría la llamada al API de pago)
         setTimeout(() => {
-            // Mostrar pantalla de éxito
-            this.view.showSuccessScreen(orderData.id_pedido);
-
-            // Limpiar carrito
-            this.cartModel.clearCart();
-        }, 2000);
-        } catch (error) {
-        console.error("Error al procesar pago:", error);
-        this.view.showErrorScreen(
-            error.message || "Ha ocurrido un error al procesar su pago"
-        );
+            // Simular resultado aleatorio (éxito o error)
+            const success = Math.random() > 0.3 // 70% de probabilidad de éxito
+    
+            if (success) {
+            this.handlePaymentSuccess()
+            } else {
+            this.handlePaymentFailure()
+            }
+        }, 3000)
+        }
+    
+        /**
+         * Maneja el pago exitoso
+         */
+        handlePaymentSuccess() {
+        this.view.showPaymentSuccess()
+    
+        // Vaciar el carrito
+        this.model.clearCart()
+        }
+    
+        /**
+         * Maneja el pago fallido
+         */
+        handlePaymentFailure() {
+        // Generar mensaje de error aleatorio
+        const errorMessages = [
+            "La transacción fue rechazada por el banco emisor.",
+            "Fondos insuficientes en la cuenta.",
+            "La tarjeta ha expirado.",
+            "Error de comunicación con la entidad bancaria.",
+            "La tarjeta ha sido reportada como perdida o robada.",
+        ]
+    
+        const errorMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)]
+        this.view.showPaymentFailure(errorMessage)
+        }
+    
+        /**
+         * Configura los eventos para los botones de agregar al carrito
+         */
+        setupAddToCartButtons() {
+        document.querySelectorAll(".comprar").forEach((button) => {
+            button.addEventListener("click", async (event) => {
+            const productId = event.target.getAttribute("data-id")
+            if (productId) {
+                await this.addToCart(productId)
+            }
+            })
+        })
         }
     }
-    }
-
-    export { CartController };
+    
+    export default CartController
+    
+    

@@ -1,42 +1,93 @@
-    // MessageUtils.js - Funciones de utilidad para mostrar mensajes
-    export function showMessage(message, type = "info") {
-    // Crear elemento de mensaje
-    const messageElement = document.createElement("div")
-    messageElement.className = `message message-${type}`
-    messageElement.textContent = message
-
-    // Estilos inline para asegurar que se vea correctamente
-    messageElement.style.position = "fixed"
-    messageElement.style.top = "20px"
-    messageElement.style.left = "50%"
-    messageElement.style.transform = "translateX(-50%)"
-    messageElement.style.backgroundColor =
-        type === "success" ? "#4CAF50" : type === "error" ? "#F44336" : type === "warning" ? "#FF9800" : "#2196F3"
-    messageElement.style.color = "white"
-    messageElement.style.padding = "10px 20px"
-    messageElement.style.borderRadius = "4px"
-    messageElement.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)"
-    messageElement.style.zIndex = "9999"
-    messageElement.style.opacity = "0"
-    messageElement.style.transition = "opacity 0.3s, transform 0.3s"
-
-    // Agregar al documento
-    document.body.appendChild(messageElement)
-
-    // Mostrar con animación
-    setTimeout(() => {
-        messageElement.style.opacity = "1"
-    }, 10)
-
-    // Eliminar después de un tiempo
-    setTimeout(() => {
+    /**
+     * Utilidades para mostrar notificaciones
+     */
+    class NotificationUtils {
+        /**
+         * Muestra un mensaje de notificación
+         * @param {string} message - Mensaje a mostrar
+         * @param {string} type - Tipo de mensaje (success, error, warning, info)
+         * @returns {HTMLElement} - Elemento del mensaje
+         */
+        static showMessage(message, type = "success") {
+        console.log(`Mostrando mensaje: ${message}, tipo: ${type}`)
+    
+        // Eliminar cualquier notificación existente para evitar acumulación
+        const existingNotifications = document.querySelectorAll(".mensaje-notificacion")
+        existingNotifications.forEach((notif) => notif.remove())
+    
+        // Crear el elemento del mensaje
+        const messageElement = document.createElement("div")
+        messageElement.className = `mensaje-notificacion mensaje-${type}`
+        messageElement.textContent = message
+    
+        // Asegurarse de que el mensaje sea visible
         messageElement.style.opacity = "0"
+        messageElement.style.transform = "translateY(-20px)"
+        messageElement.style.zIndex = "9999"
+    
+        // Agregar el mensaje al body
+        document.body.appendChild(messageElement)
+    
+        // Forzar un reflow para asegurar que las transiciones funcionen
+        messageElement.offsetHeight
+    
+        // Mostrar el mensaje con animación
         setTimeout(() => {
-        document.body.removeChild(messageElement)
-        }, 500)
-    }, 3000)
+            messageElement.style.opacity = "1"
+            messageElement.style.transform = "translateY(0)"
+        }, 10)
+    
+        // Ocultar y eliminar el mensaje después de un tiempo
+        setTimeout(() => {
+            messageElement.style.opacity = "0"
+            messageElement.style.transform = "translateY(-20px)"
+    
+            // Eliminar el elemento después de que termine la animación
+            setTimeout(() => {
+            messageElement.remove()
+            }, 500)
+        }, 3000)
+    
+        return messageElement
+        }
+    
+        /**
+         * Muestra un mensaje de éxito
+         * @param {string} message - Mensaje a mostrar
+         * @returns {HTMLElement} - Elemento del mensaje
+         */
+        static showSuccess(message) {
+        return this.showMessage(message, "success")
+        }
+    
+        /**
+         * Muestra un mensaje de error
+         * @param {string} message - Mensaje a mostrar
+         * @returns {HTMLElement} - Elemento del mensaje
+         */
+        static showError(message) {
+        return this.showMessage(message, "error")
+        }
+    
+        /**
+         * Muestra un mensaje de advertencia
+         * @param {string} message - Mensaje a mostrar
+         * @returns {HTMLElement} - Elemento del mensaje
+         */
+        static showWarning(message) {
+        return this.showMessage(message, "warning")
+        }
+    
+        /**
+         * Muestra un mensaje de información
+         * @param {string} message - Mensaje a mostrar
+         * @returns {HTMLElement} - Elemento del mensaje
+         */
+        static showInfo(message) {
+        return this.showMessage(message, "info")
+        }
     }
-
-    // Hacer la función disponible globalmente
-    window.mostrarMensaje = showMessage
-
+    
+    export default NotificationUtils
+    
+    

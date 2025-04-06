@@ -1,10 +1,43 @@
-    // HelpView.js - Vista para la sección de ayuda
-    import { BaseView } from "./base.view.js"
+    import BaseView from "./base.view.js"
 
-    class HelpView extends BaseView {
-    constructor() {
-        super()
-        this.helpDetails = {
+    /**
+     * Vista para la atención al cliente
+     */
+    class CustomerSupportView extends BaseView {
+    /**
+     * Muestra la página de atención al cliente
+     */
+    showCustomerSupportPage() {
+        if (this.showTemplate("plantilla-atencion-cliente", "container-principal")) {
+        // Actualizar la URL
+        this.updateURL("/atencion-cliente")
+        }
+    }
+
+    /**
+     * Muestra los detalles de un aspecto de ayuda
+     * @param {string} helpType - Tipo de ayuda
+     */
+    showHelpDetails(helpType) {
+        const containerPrincipal = document.getElementById("container-principal")
+        const templateAyuda = document.getElementById("plantilla-contenido-boton-atencion-ayuda")
+
+        if (!templateAyuda || !containerPrincipal) {
+        console.error("No se encontró el template o el contenedor principal")
+        return
+        }
+
+        const helpContent = document.importNode(templateAyuda.content, true)
+
+        const helpTitle = helpContent.querySelector("#titulo-del-aspecto-de-ayuda")
+        const content = helpContent.querySelector(".contenido-aspecto-ayuda")
+
+        if (!helpTitle || !content) {
+        console.error("No se encontraron los elementos esperados en el template")
+        return
+        }
+
+        const helpDetails = {
         "manejo-pagina": {
             titulo: "Manejo de la página web",
             contenido: `
@@ -73,51 +106,38 @@
             `,
         },
         }
-    }
 
-    // Mostrar la pantalla de ayuda
-    showHelpScreen() {
-        const result = this.showTemplate("plantilla-ayuda", "container-principal")
-        return result
-    }
-
-    // Mostrar detalles de un aspecto específico de ayuda
-    showHelpDetails(helpType) {
-        const containerPrincipal = document.getElementById("container-principal")
-        const templateAyuda = document.getElementById("plantilla-contenido-boton-atencion-ayuda")
-
-        if (!templateAyuda || !containerPrincipal) {
-        console.error("No se encontró el template o el contenedor principal.")
-        return false
-        }
-
-        const contenidoAyuda = document.importNode(templateAyuda.content, true)
-
-        const tituloAyuda = contenidoAyuda.querySelector("#titulo-del-aspecto-de-ayuda")
-        const contenido = contenidoAyuda.querySelector(".contenido-aspecto-ayuda")
-
-        if (!tituloAyuda || !contenido) {
-        console.error("No se encontraron los elementos esperados en el template.")
-        return false
-        }
-
-        const ayudaSeleccionada = this.helpDetails[helpType] || {
+        const selectedHelp = helpDetails[helpType] || {
         titulo: "Ayuda no disponible",
         contenido: "<p>Lo sentimos, no hay información disponible para este aspecto de ayuda.</p>",
         }
 
-        tituloAyuda.textContent = ayudaSeleccionada.titulo
-        contenido.innerHTML = ayudaSeleccionada.contenido
+        helpTitle.textContent = selectedHelp.titulo
+        content.innerHTML = selectedHelp.contenido
 
         containerPrincipal.innerHTML = ""
-        containerPrincipal.appendChild(contenidoAyuda)
+        containerPrincipal.appendChild(helpContent)
 
         // Actualizar la URL con el tipo de ayuda seleccionado
         this.updateURL(`/atencion-cliente/${helpType}`)
+    }
 
-        return true
+    /**
+     * Configura los eventos para los botones de ayuda
+     * @param {Function} helpButtonHandler - Manejador para los botones de ayuda
+     */
+    setupHelpButtons(helpButtonHandler) {
+        const helpButtons = document.querySelectorAll(".boton-ayuda-individual")
+        helpButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const helpType = button.getAttribute("data-ayuda")
+            if (helpType) {
+            helpButtonHandler(helpType)
+            }
+        })
+        })
     }
     }
 
-    export { HelpView }
+    export default CustomerSupportView
 
