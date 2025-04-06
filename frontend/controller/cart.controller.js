@@ -1,6 +1,6 @@
 // CartController.js - Controla las operaciones del carrito
-import { CartModel } from '../models/CartModel.js';
-import { CartView } from '../views/CartView.js';
+import { CartModel } from '../model/cart.model.js';
+import { CartView } from '../view/cart.view.js';
 
 export class CartController {
     constructor() {

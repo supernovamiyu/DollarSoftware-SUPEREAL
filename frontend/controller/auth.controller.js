@@ -1,7 +1,7 @@
 // AuthController.js - Controla la autenticación
-import { UserModel } from '../models/UserModel.js';
-import { AuthView } from '../views/AuthView.js';
-import { PaymentController } from './PaymentController.js';
+import { UserModel } from '../model/user.model.js';
+import { AuthView } from '../view/auth.view.js';
+import { PaymentController } from './payment.controller.js';
 
 export class AuthController {
     constructor() {

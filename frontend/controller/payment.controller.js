@@ -1,9 +1,9 @@
 // PaymentController.js - Controla el proceso de pago
-import { UserModel } from '../models/UserModel.js';
-import { CartModel } from '../models/CartModel.js';
-import { OrderModel } from '../models/OrderModel.js';
-import { PaymentView } from '../views/PaymentView.js';
-import { CartController } from './CartController.js';
+import { UserModel } from '../model/user.model.js';
+import { CartModel } from '../model/cart.model.js';
+import { OrderModel } from '../model/order.model.js';
+import { PaymentView } from '../view/payment.view.js';
+import { CartController } from './cart.controller.js';
 
 export class PaymentController {
     constructor() {
@@ -16,7 +16,7 @@ export class PaymentController {
     async showPaymentScreen() {
         // Verificar si el usuario está autenticado
         if (!this.userModel.isLoggedIn()) {
-            const AuthController = require('./AuthController.js').AuthController;
+            const AuthController = require('./auth.controller.js').AuthController;
             const authController = new AuthController();
             authController.showAuthScreen();
             return;
