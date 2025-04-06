@@ -1,5 +1,5 @@
     // CarouselView.js - Vista para el carrusel de imágenes
-    import { BaseView } from "./BaseView.js"
+    import { BaseView } from "./base.view.js"
 
     class CarouselView extends BaseView {
     constructor() {

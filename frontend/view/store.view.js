@@ -1,5 +1,5 @@
     // StoreView.js - Vista para la ubicación de tiendas
-    import { BaseView } from "./BaseView.js";
+    import { BaseView } from "./base.view.js"
     import L from "leaflet"; // Import Leaflet library
 
     class StoreView extends BaseView {

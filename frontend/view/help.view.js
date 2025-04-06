@@ -1,5 +1,5 @@
     // HelpView.js - Vista para la sección de ayuda
-    import { BaseView } from "./BaseView.js"
+    import { BaseView } from "./base.view.js"
 
     class HelpView extends BaseView {
     constructor() {

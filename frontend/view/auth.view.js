@@ -1,5 +1,5 @@
     // AuthView.js - Vista para la autenticación de usuarios
-    import { BaseView } from "./BaseView.js"
+    import { BaseView } from "./base.view.js"
 
     class AuthView extends BaseView {
     constructor() {

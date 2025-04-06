@@ -1,5 +1,5 @@
     // PaymentView.js - Vista para la pantalla de pago
-    import { BaseView } from "./BaseView.js"
+    import { BaseView } from "./base.view.js"
 
     class PaymentView extends BaseView {
     constructor() {

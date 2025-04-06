@@ -1,5 +1,5 @@
     // CartView.js - Vista para el carrito de compras
-    import { BaseView } from "./BaseView.js"
+    import { BaseView } from "./base.view.js"
 
     class CartView extends BaseView {
     constructor() {

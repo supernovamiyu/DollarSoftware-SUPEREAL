@@ -1,5 +1,5 @@
 // app.js - Punto de entrada principal de la aplicación
-import { AppController } from "./controllers/AppController.js"
+import { AppController } from "./controller/app.controller.js"
 
 // Inicializar la aplicación cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {

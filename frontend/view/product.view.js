@@ -1,5 +1,5 @@
     // ProductView.js - Vista para la visualización de productos
-    import { BaseView } from "./BaseView.js"
+    import { BaseView } from "./base.view.js"
 
     class ProductView extends BaseView {
     constructor() {

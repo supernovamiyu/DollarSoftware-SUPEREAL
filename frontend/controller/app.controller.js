@@ -1,25 +1,25 @@
 // AppController.js - Controlador principal de la aplicación
 
-import { UserModel } from "../models/UserModel.js";
-import { ProductModel } from "../models/ProductModel.js";
-import { CartModel } from "../models/CartModel.js";
-import { OpinionModel } from "../models/OpinionModel.js";
-import { StoreModel } from "../models/StoreModel.js";
-import { OrderModel } from "../models/OrderModel.js";
+import { UserModel } from "../model/user.model.js";
+import { ProductModel } from "../model/product.model.js";
+import { CartModel } from "../model/cart.model.js";
+import { OpinionModel } from "../model/opinion.model.js";
+import { StoreModel } from "../model/store.model.js";
+import { OrderModel } from "../model/order.model.js";
 
-import { BaseView } from "../views/BaseView.js";
-import { AuthView } from "../views/AuthView.js";
-import { ProductView } from "../views/ProductView.js";
-import { CartView } from "../views/CartView.js";
-import { StoreView } from "../views/StoreView.js";
-import { HelpView } from "../views/HelpView.js";
-import { CarouselView } from "../views/CarouselView.js";
+import { BaseView } from "../view/base.view.js";
+import { AuthView } from "../view/auth.view.js";
+import { ProductView } from "../view/product.view.js";
+import { CartView } from "../view/cart.view.js";
+import { StoreView } from "../view/store.view.js";
+import { HelpView } from "../view/help.view.js";
+import { CarouselView } from "../view/carousel.view.js";
 
-import { AuthController } from "./AuthController.js";
-import { ProductController } from "./ProductController.js";
-import { CartController } from "./CartController.js";
-import { StoreController } from "./StoreController.js";
-import { HelpController } from "./HelpController.js";
+import { AuthController } from "./auth.controller.js";
+import { ProductController } from "./product.controller.js";
+import { CartController } from "./cart.controller.js";
+import { StoreController } from "./store.controller.js";
+import { HelpController } from "./help.controller.js";
 
 class AppController {
     constructor() {
