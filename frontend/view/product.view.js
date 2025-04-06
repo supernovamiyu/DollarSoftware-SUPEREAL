@@ -366,6 +366,38 @@
         button.addEventListener("click", clickHandler)
         })
     }
+
+    /**
+     * Muestra los productos destacados en la página de inicio
+     * @param {Array} products - Lista de productos destacados
+     */
+    showFeaturedProducts(products) {
+        const featuredProductsContainer = document.getElementById("productos-populares")
+        if (!featuredProductsContainer) {
+        console.error("No se encontró el contenedor de productos destacados")
+        return
+        }
+
+        featuredProductsContainer.innerHTML = ""
+
+        // Limitar a 4 productos
+        const limitedProducts = products.slice(0, 4)
+
+        const productsHTML = limitedProducts
+        .map((product) => {
+            return `
+        <div>
+            <img id="imagen-individual-producto" src="${product.imagen_url}" alt="Imagen del producto" width="50%" height="auto" title="Ver los detalles del producto">
+            <h3>${product.nombre_producto}</h3>
+            <p>Precio: <br> $${product.precio}</p>
+            <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles}">Añadir al carrito</button>
+        </div>
+        `
+        })
+        .join("")
+
+        featuredProductsContainer.innerHTML = productsHTML
+    }
     }
 
     export default ProductView
