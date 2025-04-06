@@ -53,39 +53,78 @@
      * @param {string} searchTerm - Término de búsqueda
      */
     showSearchResults(products, searchTerm) {
-        if (this.showTemplate("plantilla-resultados-productos", "container-principal")) {
-        const resultsContainer = document.getElementById("resultados-productos")
-
+        // Validar el término de búsqueda primero
+        if (!searchTerm || typeof searchTerm !== 'string') {
+            this.showMessage("Término de búsqueda inválido", "error");
+            return;
+        }
+    
+        const trimmedSearchTerm = searchTerm.trim();
+        
+        if (!this.showTemplate("plantilla-resultados-productos", "container-principal")) {
+            this.showMessage("Error al cargar la plantilla de resultados", "error");
+            return;
+        }
+    
+        const resultsContainer = document.getElementById("resultados-productos");
         if (!resultsContainer) {
-            console.error("No se encontró el contenedor de resultados")
-            return
+            console.error("No se encontró el contenedor de resultados");
+            return;
         }
-
-        resultsContainer.innerHTML = ""
-
-        if (!products.length) {
-            resultsContainer.innerHTML = `<p>No se encontraron productos para "${searchTerm}"</p>`
-            return
-        }
-
-        const productsHTML = products
-            .map((product) => {
-            return `
-            <div>
-                <img id="imagen-individual-producto" src="${product.imagen_url}" alt="${product.nombre_producto}" width="50%" height="auto" title="Ver los detalles del producto">
-                <h3>${product.nombre_producto}</h3>
-                <p>Precio: <br>$${product.precio}</p>
-                <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles}">Añadir al carrito</button>
-            </div>
-            `
-            })
-            .join("")
-
-        resultsContainer.innerHTML = productsHTML
-
-        // Actualizar la URL
-        this.updateURL(`/search?q=${encodeURIComponent(searchTerm)}`)
-        }
+    
+        // Limpiar y mostrar estado inicial
+        resultsContainer.innerHTML = "<div class='loading'>Buscando productos...</div>";
+    
+        // Simular pequeño retraso para evitar parpadeo
+        setTimeout(() => {
+            resultsContainer.innerHTML = "";
+    
+            if (!products || !Array.isArray(products)) {
+                this.showMessage("Error en los datos de productos", "error");
+                return;
+            }
+    
+            if (products.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <p>No se encontraron productos para "${trimmedSearchTerm}"</p>
+                    </div>
+                `;
+                return;
+            }
+    
+            // Construir HTML de resultados
+            const productsHTML = products.map(product => `
+                <div class="producto-resultado">
+                    <img id="imagen-individual-producto" 
+                            src="${product.imagen_url || 'ruta/por/defecto.jpg'}" 
+                            alt="${product.nombre_producto}" 
+                            title="Ver detalles de ${product.nombre_producto}">
+                    <div class="info-producto">
+                        <h3>${product.nombre_producto}</h3>
+                        <p class="precio">$${product.precio?.toLocaleString() || 'N/A'}</p>
+                        <button class="comprar" 
+                                data-id="${product.id_productos}" 
+                                data-unidades="${product.unidades_disponibles || 0}">
+                            Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+    
+            resultsContainer.innerHTML = productsHTML;
+            
+            // Actualizar URL después de renderizar
+            this.updateURL(`/busqueda?q=${encodeURIComponent(trimmedSearchTerm)}`, {
+                searchTerm: trimmedSearchTerm,
+                resultsCount: products.length
+            });
+    
+            // DEBUG: Verificar en consola
+            console.log(`Mostrando ${products.length} resultados para:`, trimmedSearchTerm);
+    
+        }, 100); // Pequeño delay para mejor UX
     }
 
     /**

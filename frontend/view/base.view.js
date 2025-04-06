@@ -95,8 +95,20 @@
          * Actualiza la URL del navegador sin recargar la página
          * @param {string} url - Nueva URL
          */
-        updateURL(url) {
-        window.history.pushState({}, "", url)
+        updateURL(url, state = {}) {
+            if (typeof url !== 'string') {
+                console.error('La URL debe ser un string');
+                return;
+            }
+        
+            const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
+            
+            if (window.location.pathname !== normalizedUrl) {
+                window.history.pushState(state, '', normalizedUrl);
+                window.dispatchEvent(new CustomEvent('urlChanged', {
+                    detail: { url: normalizedUrl, state }
+                }));
+            }
         }
     }
     

@@ -1,20 +1,21 @@
+/**
+ * Controlador para los productos
+ */
+class ProductController {
     /**
-     * Controlador para los productos
+     * @param {Object} model - Modelo de productos
+     * @param {Object} view - Vista de productos
      */
-    class ProductController {
-        /**
-         * @param {Object} model - Modelo de productos
-         * @param {Object} view - Vista de productos
-         */
-        constructor(model, view) {
+    constructor(model, view) {
         this.model = model
         this.view = view
-        }
-    
-        /**
-         * Muestra los productos destacados
-         */
-        async showFeaturedProducts() {
+        this.currentProductId = null
+    }
+
+    /**
+     * Muestra los productos destacados
+     */
+    async showFeaturedProducts() {
         try {
             const products = await this.model.getFeaturedProducts()
             this.view.showFeaturedProducts(products)
@@ -23,202 +24,196 @@
             console.error("Error al mostrar productos destacados:", error)
             this.view.showMessage("Error al cargar los productos destacados", "error")
         }
-        }
-    
-        /**
-         * Muestra los productos por categoría
-         * @param {string} categoryId - ID de la categoría
-         */
-        async showProductsByCategory(categoryId) {
+    }
+
+    /**
+     * Muestra los productos por categoría
+     * @param {string} categoryId - ID de la categoría
+     */
+    async showProductsByCategory(categoryId) {
         try {
             const products = await this.model.getProductsByCategory(categoryId)
-    
-            // Obtener el nombre de la categoría del primer producto
             const categoryName = products.length > 0 ? products[0].nombre_categoria : "Categoría"
-    
+
             this.view.showProductsByCategory(products, categoryName)
             this.setupProductEvents()
+            
+            // Actualizar URL
+            this.view.updateURL(`/categoria/${categoryId}`, { 
+                categoryId,
+                categoryName 
+            });
         } catch (error) {
             console.error("Error al mostrar productos por categoría:", error)
             this.view.showMessage("Error al cargar los productos de esta categoría", "error")
         }
+    }
+
+    /**
+ * Busca productos por término
+ * @param {string} searchTerm - Término de búsqueda
+ */
+async searchProducts(searchTerm) {
+    try {
+        // Validación robusta del término
+        const trimmedTerm = searchTerm ? searchTerm.trim() : '';
+        
+        if (trimmedTerm.length < 3) {
+            this.view.showMessage("Ingresa al menos 3 caracteres", "warning");
+            return;
         }
-    
-        /**
-         * Busca productos por término
-         * @param {string} searchTerm - Término de búsqueda
-         */
-        async searchProducts(searchTerm) {
+
+        // Mostrar estado de carga
+        this.view.showMessage("Buscando productos...", "info");
+        
+        // Llamada al modelo con manejo de errores
+        const products = await this.model.searchProducts(trimmedTerm).catch(error => {
+            throw new Error(`Error en la búsqueda: ${error.message}`);
+        });
+
+        if (!products || products.length === 0) {
+            this.view.showMessage("No se encontraron resultados", "info");
+            this.view.showSearchResults([], trimmedTerm); // Limpiar resultados anteriores
+            return;
+        }
+
+        // Actualizar vista y URL
+        this.view.showSearchResults(products, trimmedTerm);
+        this.view.updateURL(`/busqueda?q=${encodeURIComponent(trimmedTerm)}`, {
+            searchTerm: trimmedTerm,
+            resultsCount: products.length
+        });
+
+        // Configurar eventos de los nuevos resultados
+        this.setupProductEvents();
+
+    } catch (error) {
+        console.error("Error en searchProducts:", error);
+        this.view.showMessage(error.message || "Error al buscar productos", "error");
+        
+        // Fallback: Mostrar vista vacía
+        this.view.showSearchResults([], searchTerm);
+    }
+}
+    /**
+     * Carga un producto basado en su slug
+     * @param {string} productSlug - Slug del producto
+     */
+    async loadProductBySlug(productSlug) {
         try {
-            // Validar el término de búsqueda
-            if (!searchTerm || searchTerm.trim().length < 3) {
-            this.view.showMessage("Por favor, ingresa al menos 3 caracteres para buscar", "warning")
-            return
+            const productId = await this.model.getProductIdBySlug(productSlug)
+            if (productId) {
+                await this.showProductDetails(productId)
+            } else {
+                this.view.showMessage("Producto no encontrado", "error")
+                this.view.showHomePage()
             }
-    
-            const products = await this.model.searchProducts(searchTerm)
-            this.view.showSearchResults(products, searchTerm)
-            this.setupProductEvents()
         } catch (error) {
-            console.error("Error al buscar productos:", error)
-            this.view.showMessage("Error al buscar productos", "error")
+            console.error("Error al cargar producto por slug:", error)
+            this.view.showMessage("Error al cargar el producto", "error")
         }
-        }
-    
-        /**
-         * Muestra los detalles de un producto
-         * @param {string} productId - ID del producto
-         */
-        async showProductDetails(productId) {
-        try {
-            const product = await this.model.getProductDetails(productId)
-    
-            if (!product) {
-            this.view.showMessage("Producto no encontrado", "error")
-            return
-            }
-    
-            this.view.showProductDetails(product)
-    
-            // Cargar y mostrar las opiniones
-            this.loadProductReviews(productId)
-    
-            // Agregar el formulario de opiniones
-            this.view.addReviewForm(productId, (reviewData) => this.handleReviewSubmit(reviewData))
-    
-            // Configurar eventos
-            this.setupProductEvents()
-        } catch (error) {
-            console.error("Error al mostrar detalles del producto:", error)
-            this.view.showMessage("Error al cargar los detalles del producto", "error")
-        }
-        }
-    
-        /**
-         * Carga las opiniones de un producto
-         * @param {string} productId - ID del producto
-         */
-        async loadProductReviews(productId) {
+    }
+
+    /**
+     * Crea un slug amigable para URLs
+     * @param {string} productName - Nombre del producto
+     * @returns {string} Slug generado
+     */
+    createProductSlug(productName) {
+        return productName
+            .toLowerCase()
+            .replace(/ /g, '-')
+            .replace(/[^\w-]+/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '')
+    }
+
+    /**
+     * Carga las opiniones de un producto
+     * @param {string} productId - ID del producto
+     */
+    async loadProductReviews(productId) {
         try {
             const reviews = await this.model.getProductReviews(productId)
             this.view.showProductReviews(reviews)
         } catch (error) {
             console.error("Error al cargar opiniones:", error)
-            // No mostrar mensaje de error para no interrumpir la experiencia del usuario
         }
-        }
-    
-        /**
-         * Maneja el envío de una opinión
-         * @param {Object} reviewData - Datos de la opinión
-         */
-        async handleReviewSubmit(reviewData) {
+    }
+
+    /**
+     * Maneja el envío de una opinión
+     * @param {Object} reviewData - Datos de la opinión
+     */
+    async handleReviewSubmit(reviewData) {
         try {
-            // Preparar los datos para enviar
             const opinionData = {
-            fk_id_productos: reviewData.productId,
-            fk_id_usuario: null, // En una implementación real, obtendríamos el ID del usuario autenticado
-            es_anonimo: reviewData.anonymous ? 1 : 0,
-            opinion: reviewData.opinion,
-            // La fecha se generará en el servidor
+                fk_id_productos: reviewData.productId,
+                fk_id_usuario: null,
+                es_anonimo: reviewData.anonymous ? 1 : 0,
+                opinion: reviewData.opinion,
             }
-    
-            // Validar que la opinión no esté vacía
+
             if (!opinionData.opinion) {
-            this.view.showMessage("Por favor, escribe tu opinión", "error")
-            return
+                this.view.showMessage("Por favor, escribe tu opinión", "error")
+                return
             }
-    
-            // Enviar la opinión
+
             const result = await this.model.submitProductReview(opinionData)
-    
+
             if (result.success) {
-            this.view.showMessage("¡Opinión enviada con éxito!", "success")
-    
-            // Limpiar el formulario
-            const opinionInput = document.getElementById("opinion")
-            const anonymousCheckbox = document.getElementById("anonimo")
-    
-            if (opinionInput) opinionInput.value = ""
-            if (anonymousCheckbox) anonymousCheckbox.checked = false
-    
-            // Recargar las opiniones
-            this.loadProductReviews(reviewData.productId)
+                this.view.showMessage("¡Opinión enviada con éxito!", "success")
+                document.getElementById("opinion").value = ""
+                document.getElementById("anonimo").checked = false
+                this.loadProductReviews(reviewData.productId)
             } else {
-            this.view.showMessage(result.error, "error")
+                this.view.showMessage(result.error, "error")
             }
         } catch (error) {
             console.error("Error al enviar opinión:", error)
             this.view.showMessage("Error al enviar la opinión", "error")
         }
-        }
-    
-        /**
-         * Configura los eventos para los productos
-         */
-        setupProductEvents() {
-        // Configurar eventos para las imágenes de productos
-        this.setupProductImageEvents()
-    
-        // Configurar eventos para los botones de agregar al carrito
-        this.setupAddToCartButtons()
-        }
-    
-        /**
-         * Configura los eventos para las imágenes de productos
-         */
-        setupProductImageEvents() {
-        this.view.setupProductImageEvents((event) => {
-            // Obtener el elemento que disparó el evento
-            const image = event.target
-            // Obtener el contenedor del producto (div padre)
-            const productContainer = image.closest("div")
-    
-            if (!productContainer) {
-            console.error("No se pudo encontrar el contenedor del producto")
-            return
-            }
-    
-            // Buscar el botón de comprar dentro del contenedor para obtener el ID del producto
-            const buyButton = productContainer.querySelector(".comprar")
-    
-            if (!buyButton) {
-            console.error("No se pudo encontrar el botón de comprar")
-            return
-            }
-    
-            // Obtener el ID del producto desde el atributo data-id del botón
-            const productId = buyButton.getAttribute("data-id")
-    
-            if (!productId) {
-            console.error("No se pudo obtener el ID del producto")
-            return
-            }
-    
-            // Mostrar los detalles del producto
-            this.showProductDetails(productId)
-        })
-        }
-    
-        /**
-         * Configura los eventos para los botones de agregar al carrito
-         */
-        setupAddToCartButtons() {
-        this.view.setupAddToCartButtons((event) => {
-            const button = event.target
-            const productId = button.getAttribute("data-id")
-    
-            if (productId) {
-            // Disparar un evento personalizado para agregar al carrito
-            window.dispatchEvent(
-                new CustomEvent("addToCart", {
-                detail: { productId },
-                }),
-            )
-            }
-        })
-        }
     }
-    
-    export default ProductController
-    
+
+    /**
+     * Configura los eventos para los productos
+     */
+    setupProductEvents() {
+        this.setupProductImageEvents()
+        this.setupAddToCartButtons()
+    }
+
+    /**
+     * Configura los eventos para las imágenes de productos
+     */
+    setupProductImageEvents() {
+        this.view.setupProductImageEvents((event) => {
+            const productContainer = event.target.closest("div")
+            if (!productContainer) return
+
+            const buyButton = productContainer.querySelector(".comprar")
+            if (!buyButton) return
+
+            const productId = buyButton.getAttribute("data-id")
+            if (productId) {
+                this.showProductDetails(productId)
+            }
+        })
+    }
+
+    /**
+     * Configura los eventos para los botones de agregar al carrito
+     */
+    setupAddToCartButtons() {
+        this.view.setupAddToCartButtons((event) => {
+            const productId = event.target.getAttribute("data-id")
+            if (productId) {
+                window.dispatchEvent(new CustomEvent("addToCart", {
+                    detail: { productId }
+                }))
+            }
+        })
+    }
+}
+
+export default ProductController
