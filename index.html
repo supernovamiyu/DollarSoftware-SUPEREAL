@@ -471,10 +471,218 @@
     <template id="pasarela-de-pagos-simulada">
         <section id="contenedor-pasarela-de-pagos">
             <div class="titulo-seccion">
-                <h4>Pasarela de pagos</h4>
+                <h4>Pasarela de Pagos</h4>
             </div>
             <div class="contenedor-formulario-pasarela-de-pago">
-                <form action=""></form>
+                <div class="resumen-compra">
+                    <h5>Resumen de compra</h5>
+                    <div id="resumen-productos">
+                        <!-- Aquí se mostrarán los productos del carrito -->
+                    </div>
+                    <div class="total-compra">
+                        <span>Total a pagar:</span>
+                        <span id="total-pagar" class="precio-total">$0.00</span>
+                    </div>
+                </div>
+                
+                <form id="formulario-pago" class="formulario-pago">
+                    <div class="metodos-pago">
+                        <h5>Método de pago</h5>
+                        <div class="opciones-pago">
+                            <label class="opcion-pago">
+                                <input type="radio" name="metodo-pago" value="tarjeta" checked>
+                                <span class="radio-personalizado"></span>
+                                <i class="fa-solid fa-credit-card"></i>
+                                Tarjeta de crédito/débito
+                            </label>
+                            <label class="opcion-pago">
+                                <input type="radio" name="metodo-pago" value="pse">
+                                <span class="radio-personalizado"></span>
+                                <i class="fa-solid fa-building-columns"></i>
+                                PSE
+                            </label>
+                            <label class="opcion-pago">
+                                <input type="radio" name="metodo-pago" value="efectivo">
+                                <span class="radio-personalizado"></span>
+                                <i class="fa-solid fa-money-bill-wave"></i>
+                                Efectivo
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="formulario-tarjeta" class="formulario-metodo-pago">
+                        <div class="tarjeta-simulada">
+                            <div class="tarjeta-frente">
+                                <div class="chip-tarjeta"></div>
+                                <div class="numero-tarjeta-display">•••• •••• •••• ••••</div>
+                                <div class="detalles-tarjeta">
+                                    <div class="titular-tarjeta-display">NOMBRE DEL TITULAR</div>
+                                    <div class="fecha-tarjeta-display">MM/AA</div>
+                                </div>
+                            </div>
+                            <div class="tarjeta-reverso">
+                                <div class="banda-magnetica"></div>
+                                <div class="cvv-container">
+                                    <div class="cvv-titulo">CVV</div>
+                                    <div class="cvv-display">•••</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="campos-tarjeta">
+                            <div class="campo-formulario">
+                                <label for="numero-tarjeta">Número de tarjeta</label>
+                                <div class="input-icon-wrapper">
+                                    <i class="fa-solid fa-credit-card input-icon"></i>
+                                    <input type="text" id="numero-tarjeta" placeholder="1234 5678 9012 3456" maxlength="19">
+                                </div>
+                                <span class="error-mensaje" id="error-numero-tarjeta"></span>
+                            </div>
+                            
+                            <div class="campo-formulario">
+                                <label for="titular-tarjeta">Nombre del titular</label>
+                                <div class="input-icon-wrapper">
+                                    <i class="fa-solid fa-user input-icon"></i>
+                                    <input type="text" id="titular-tarjeta" placeholder="Como aparece en la tarjeta">
+                                </div>
+                                <span class="error-mensaje" id="error-titular-tarjeta"></span>
+                            </div>
+                            
+                            <div class="campos-fila">
+                                <div class="campo-formulario campo-mitad">
+                                    <label for="fecha-vencimiento">Fecha de vencimiento</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-calendar input-icon"></i>
+                                        <input type="text" id="fecha-vencimiento" placeholder="MM/AA" maxlength="5">
+                                    </div>
+                                    <span class="error-mensaje" id="error-fecha-vencimiento"></span>
+                                </div>
+                                
+                                <div class="campo-formulario campo-mitad">
+                                    <label for="cvv">CVV</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-lock input-icon"></i>
+                                        <input type="text" id="cvv" placeholder="123" maxlength="4">
+                                    </div>
+                                    <span class="error-mensaje" id="error-cvv"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="formulario-pse" class="formulario-metodo-pago" style="display: none;">
+                        <div class="campo-formulario">
+                            <label for="banco">Seleccione su banco</label>
+                            <select id="banco">
+                                <option value="">Seleccione un banco</option>
+                                <option value="bancolombia">Bancolombia</option>
+                                <option value="davivienda">Davivienda</option>
+                                <option value="bbva">BBVA</option>
+                                <option value="popular">Banco Popular</option>
+                                <option value="bogota">Banco de Bogotá</option>
+                            </select>
+                            <span class="error-mensaje" id="error-banco"></span>
+                        </div>
+                        
+                        <div class="campo-formulario">
+                            <label for="tipo-persona">Tipo de persona</label>
+                            <select id="tipo-persona">
+                                <option value="natural">Persona Natural</option>
+                                <option value="juridica">Persona Jurídica</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="formulario-efectivo" class="formulario-metodo-pago" style="display: none;">
+                        <div class="campo-formulario">
+                            <label for="punto-pago">Punto de pago</label>
+                            <select id="punto-pago">
+                                <option value="">Seleccione un punto de pago</option>
+                                <option value="efecty">Efecty</option>
+                                <option value="baloto">Baloto</option>
+                                <option value="corresponsal">Corresponsal Bancario</option>
+                            </select>
+                            <span class="error-mensaje" id="error-punto-pago"></span>
+                        </div>
+                        
+                        <div class="instrucciones-efectivo">
+                            <p>Al seleccionar esta opción, generaremos un código de pago que podrá utilizar en el punto de pago seleccionado.</p>
+                            <p>Su pedido será procesado una vez confirmemos el pago.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="datos-facturacion">
+                        <h5>Datos de facturación</h5>
+                        
+                        <div class="campo-formulario">
+                            <label for="direccion">Dirección de facturación</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-location-dot input-icon"></i>
+                                <input type="text" id="direccion" placeholder="Dirección completa">
+                            </div>
+                            <span class="error-mensaje" id="error-direccion"></span>
+                        </div>
+                        
+                        <div class="campos-fila">
+                            <div class="campo-formulario campo-mitad">
+                                <label for="ciudad">Ciudad</label>
+                                <div class="input-icon-wrapper">
+                                    <i class="fa-solid fa-city input-icon"></i>
+                                    <input type="text" id="ciudad" placeholder="Ciudad">
+                                </div>
+                                <span class="error-mensaje" id="error-ciudad"></span>
+                            </div>
+                            
+                            <div class="campo-formulario campo-mitad">
+                                <label for="codigo-postal">Código postal</label>
+                                <div class="input-icon-wrapper">
+                                    <i class="fa-solid fa-envelope input-icon"></i>
+                                    <input type="text" id="codigo-postal" placeholder="Código postal">
+                                </div>
+                                <span class="error-mensaje" id="error-codigo-postal"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="terminos-condiciones">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="aceptar-terminos">
+                            <span class="checkmark"></span>
+                            Acepto los <a href="#" class="link-terminos">términos y condiciones</a>
+                        </label>
+                        <span class="error-mensaje" id="error-terminos"></span>
+                    </div>
+                    
+                    <div class="botones-accion">
+                        <button type="button" id="volver-carrito" class="boton-secundario">Volver al carrito</button>
+                        <button type="submit" id="realizar-pago" class="boton-primario">Realizar pago</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="procesando-pago" class="procesando-pago" style="display: none;">
+                <div class="spinner"></div>
+                <p>Procesando su pago...</p>
+                <p class="mensaje-espera">Por favor, no cierre esta ventana</p>
+            </div>
+            
+            <div id="pago-exitoso" class="resultado-pago" style="display: none;">
+                <div class="icono-resultado exito">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3>¡Pago realizado con éxito!</h3>
+                <p>Su pedido ha sido procesado correctamente.</p>
+                <p>Número de pedido: <span id="numero-pedido"></span></p>
+                <button type="button" id="volver-inicio" class="boton-primario">Volver al inicio</button>
+            </div>
+            
+            <div id="pago-fallido" class="resultado-pago" style="display: none;">
+                <div class="icono-resultado fallido">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <h3>Error en el pago</h3>
+                <p id="mensaje-error">Ha ocurrido un error al procesar su pago.</p>
+                <button type="button" id="intentar-nuevamente" class="boton-primario">Intentar nuevamente</button>
             </div>
         </section>
     </template>

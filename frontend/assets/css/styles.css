@@ -1603,3 +1603,587 @@ p.elemento-ubicacion-tiendas {
 .form-datos-personales button {
     margin-top: 10px;
 }
+
+
+/* Estilos para la pasarela de pagos */
+#contenedor-pasarela-de-pagos {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Lexend', sans-serif;
+}
+
+.titulo-seccion {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.contenedor-formulario-pasarela-de-pago {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+/* Estilos para el resumen de compra */
+.resumen-compra {
+    flex: 1;
+    min-width: 300px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.resumen-compra h5 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 18px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+#resumen-productos {
+    margin-bottom: 20px;
+}
+
+.producto-resumen {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.producto-resumen:last-child {
+    border-bottom: none;
+}
+
+.producto-info {
+    display: flex;
+    align-items: center;
+}
+
+.producto-imagen {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.producto-detalles {
+    flex: 1;
+}
+
+.producto-nombre {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.producto-cantidad {
+    font-size: 14px;
+    color: #666;
+}
+
+.producto-precio {
+    font-weight: 600;
+    color: #333;
+}
+
+.total-compra {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.precio-total {
+    color: #6e8efb;
+}
+
+/* Estilos para el formulario de pago */
+.formulario-pago {
+    flex: 2;
+    min-width: 400px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.metodos-pago h5, .datos-facturacion h5 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 18px;
+}
+
+.opciones-pago {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.opcion-pago {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+
+.opcion-pago:hover {
+    border-color: #6e8efb;
+}
+
+.opcion-pago input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-personalizado {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.opcion-pago input[type="radio"]:checked + .radio-personalizado {
+    border-color: #6e8efb;
+}
+
+.opcion-pago input[type="radio"]:checked + .radio-personalizado::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6e8efb;
+}
+
+.opcion-pago i {
+    margin-right: 10px;
+    color: #6e8efb;
+    font-size: 18px;
+}
+
+/* Estilos para la tarjeta simulada */
+.tarjeta-simulada {
+    width: 100%;
+    height: 200px;
+    perspective: 1000px;
+    margin-bottom: 30px;
+}
+
+.tarjeta-frente, .tarjeta-reverso {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.6s;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-frente {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tarjeta-reverso {
+    background: linear-gradient(135deg, #8a9af8, #b98ae0);
+    transform: rotateY(180deg);
+}
+
+.tarjeta-simulada.flip .tarjeta-frente {
+    transform: rotateY(180deg);
+}
+
+.tarjeta-simulada.flip .tarjeta-reverso {
+    transform: rotateY(0deg);
+}
+
+.chip-tarjeta {
+    width: 50px;
+    height: 40px;
+    background: linear-gradient(135deg, #ffd700, #ffcc00);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.numero-tarjeta-display {
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.detalles-tarjeta {
+    display: flex;
+    justify-content: space-between;
+}
+
+.titular-tarjeta-display {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.fecha-tarjeta-display {
+    font-size: 16px;
+}
+
+.banda-magnetica {
+    width: 100%;
+    height: 40px;
+    background-color: #333;
+    margin: 20px 0;
+}
+
+.cvv-container {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 80%;
+    margin: 0 auto;
+    text-align: right;
+}
+
+.cvv-titulo {
+    color: #333;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.cvv-display {
+    color: #333;
+    font-size: 16px;
+}
+
+/* Estilos para los campos del formulario */
+.campos-tarjeta {
+    margin-top: 20px;
+}
+
+.campo-formulario {
+    margin-bottom: 20px;
+}
+
+.campo-formulario label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 12px;
+    color: #6e8efb;
+}
+
+.campo-formulario input, 
+.campo-formulario select {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.campo-formulario input:focus, 
+.campo-formulario select:focus {
+    outline: none;
+    border-color: #6e8efb;
+}
+
+.campo-formulario select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%236e8efb" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.campos-fila {
+    display: flex;
+    gap: 20px;
+}
+
+.campo-mitad {
+    flex: 1;
+}
+
+.error-mensaje {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Estilos para las instrucciones de efectivo */
+.instrucciones-efectivo {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.instrucciones-efectivo p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Estilos para los términos y condiciones */
+.terminos-condiciones {
+    margin: 25px 0;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    border-color: #6e8efb;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #6e8efb;
+    border-color: #6e8efb;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.link-terminos {
+    color: #6e8efb;
+    text-decoration: none;
+}
+
+.link-terminos:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para los botones de acción */
+.botones-accion {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.boton-primario, .boton-secundario {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 16px;
+}
+
+.boton-primario {
+    background-color: #6e8efb;
+    color: white;
+}
+
+.boton-primario:hover {
+    background-color: #5a7af0;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(110, 142, 251, 0.3);
+}
+
+.boton-secundario {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.boton-secundario:hover {
+    background-color: #e0e0e0;
+}
+
+/* Estilos para las pantallas de procesamiento y resultado */
+.procesando-pago, .resultado-pago {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #6e8efb;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.mensaje-espera {
+    color: #666;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.icono-resultado {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 40px;
+}
+
+.exito {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.fallido {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.resultado-pago h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.resultado-pago p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.resultado-pago button {
+    margin-top: 20px;
+}
+
+#numero-pedido {
+    font-weight: 700;
+    color: #6e8efb;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .contenedor-formulario-pasarela-de-pago {
+        flex-direction: column;
+    }
+    
+    .formulario-pago, .resumen-compra {
+        min-width: 100%;
+    }
+    
+    .campos-fila {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .botones-accion {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .boton-secundario {
+        order: 2;
+    }
+    
+    .boton-primario {
+        order: 1;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.contenedor-formulario-pasarela-de-pago {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.tarjeta-simulada {
+    transition: transform 0.3s ease;
+}
+
+.tarjeta-simulada:hover {
+    transform: translateY(-5px);
+}
+
+.boton-primario, .boton-secundario {
+    transition: all 0.3s ease;
+}
