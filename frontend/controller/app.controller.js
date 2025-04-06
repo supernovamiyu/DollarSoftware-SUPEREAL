@@ -1,24 +1,111 @@
-    /**
-     * Controlador principal de la aplicación
-     */
-    class AppController {
+/**
+ * Controlador principal de la aplicación
+ */
+class AppController {
     /**
      * @param {Object} controllers - Objeto con los controladores de la aplicación
      */
     constructor(controllers) {
         this.controllers = controllers;
+        this.currentPath = window.location.pathname;
         this.setupGlobalEventListeners();
+        this.setupRouter();
     }
 
     /**
      * Inicializa la aplicación
      */
     init() {
-        // Mostrar la página de inicio por defecto
-        this.controllers.homeController.showHomePage();
-
-        // Inicializar el observador de cambios en el DOM
+        // Manejar la ruta inicial
+        this.handleRouteChange();
         this.initDOMObserver();
+    }
+
+    /**
+     * Configura el sistema de enrutamiento
+     */
+    setupRouter() {
+        // Manejar cambios de ruta (back/forward)
+        window.addEventListener('popstate', () => this.handleRouteChange());
+        
+        // Escuchar eventos personalizados de cambio de URL
+        window.addEventListener('urlChanged', () => this.handleRouteChange());
+    }
+
+    /**
+     * Maneja los cambios de ruta
+     */
+    handleRouteChange() {
+        const path = window.location.pathname;
+        const searchParams = new URLSearchParams(window.location.search);
+        
+        // Evitar manejar la misma ruta dos veces
+        if (path === this.currentPath) return;
+        
+        this.currentPath = path;
+        console.log(`Navegando a: ${path}`);
+
+        // Determinar qué vista mostrar basado en la ruta
+        if (path === '/' || path === '/inicio') {
+            this.controllers.homeController.showHomePage();
+        } 
+        else if (path === '/auth' || path === '/sesion') {
+            this.controllers.authController.showAuthOptions();
+        }
+        else if (path === '/login' || path === '/iniciar-sesion') {
+            this.controllers.authController.showLoginPage();
+        }
+        else if (path === '/registro') {
+            this.controllers.authController.showRegisterPage();
+        }
+        else if (path === '/carrito') {
+            this.controllers.cartController.showCart();
+        }
+        else if (path === '/ubicacion') {
+            this.controllers.locationController.showLocationPage();
+        }
+        else if (path === '/atencion-cliente') {
+            this.controllers.customerSupportController.showCustomerSupportPage();
+        }
+        else if (path.startsWith('/atencion-cliente/')) {
+            const helpType = path.split('/')[2];
+            this.controllers.customerSupportController.showHelpDetails(helpType);
+        }
+        else if (path.startsWith('/categoria/')) {
+            const categoryId = path.split('/')[2];
+            this.controllers.productController.showProductsByCategory(categoryId);
+        }
+        else if (path.startsWith('/busqueda')) {
+            const searchTerm = searchParams.get('q') || '';
+            this.controllers.productController.searchProducts(searchTerm);
+        }
+        else if (path.startsWith('/producto/')) {
+            const productName = path.split('/')[2];
+            this.controllers.productController.showProductDetails(decodeURIComponent(productName));
+        }
+        else {
+            // Ruta no encontrada - podrías mostrar una vista 404
+            console.warn(`Ruta no encontrada: ${path}`);
+            this.controllers.homeController.showHomePage();
+        }
+    }
+
+    /**
+     * Navega a una nueva ruta
+     * @param {string} path - Ruta de destino
+     * @param {Object} state - Estado para asociar a la ruta
+     */
+    navigateTo(path, state = {}) {
+        // Normalizar la ruta
+        if (!path.startsWith('/')) {
+            path = `/${path}`;
+        }
+
+        // Solo actualizar si es una nueva ruta
+        if (path !== this.currentPath) {
+            window.history.pushState(state, '', path);
+            this.handleRouteChange();
+        }
     }
 
     /**
@@ -27,41 +114,37 @@
     setupGlobalEventListeners() {
         // Event listeners para la navegación principal
         document.addEventListener("click", (event) => {
-        const target = event.target.closest("a");
-        if (!target) return;
+            const target = event.target.closest("a");
+            if (!target) return;
 
-        // Prevenir la navegación por defecto
-        if (target.getAttribute("href") === "#") {
-            event.preventDefault();
-        }
-
-        // Manejar los diferentes enlaces de navegación
-        if (target.getAttribute("onclick")) {
-            const onclickAttr = target.getAttribute("onclick");
-
-            if (onclickAttr.includes("mostrarPantallaInicio")) {
-            event.preventDefault();
-            this.controllers.homeController.showHomePage();
-            } else if (onclickAttr.includes("mostrarPantallaSesion")) {
-            event.preventDefault();
-            this.controllers.authController.showAuthOptions();
-            } else if (onclickAttr.includes("mostrarPantallaCarrito")) {
-            event.preventDefault();
-            this.controllers.cartController.showCart();
-            } else if (onclickAttr.includes("mostrarPantallaUbicacion")) {
-            event.preventDefault();
-            this.controllers.locationController.showLocationPage();
-            } else if (onclickAttr.includes("mostrarPantallaAtencionCliente")) {
-            event.preventDefault();
-            this.controllers.customerSupportController.showCustomerSupportPage();
-            } else if (onclickAttr.includes("mostrarPantallaInicioSesion")) {
-            event.preventDefault();
-            this.controllers.authController.showLoginPage();
-            } else if (onclickAttr.includes("mostrarPantallaRegistro")) {
-            event.preventDefault();
-            this.controllers.authController.showRegisterPage();
+            // Prevenir la navegación por defecto para enlaces internos
+            if (target.getAttribute("href") === "#") {
+                event.preventDefault();
             }
-        }
+
+            // Manejar navegación basada en onclick
+            if (target.getAttribute("onclick")) {
+                event.preventDefault();
+                const onclickAttr = target.getAttribute("onclick");
+
+                // Mapear funciones onclick a rutas
+                const routeMap = {
+                    'mostrarPantallaInicio': '/',
+                    'mostrarPantallaSesion': '/auth',
+                    'mostrarPantallaCarrito': '/carrito',
+                    'mostrarPantallaUbicacion': '/ubicacion',
+                    'mostrarPantallaAtencionCliente': '/atencion-cliente',
+                    'mostrarPantallaInicioSesion': '/login',
+                    'mostrarPantallaRegistro': '/registro'
+                };
+
+                for (const [func, route] of Object.entries(routeMap)) {
+                    if (onclickAttr.includes(func)) {
+                        this.navigateTo(route);
+                        break;
+                    }
+                }
+            }
         });
 
         // Event listener para la búsqueda
@@ -69,21 +152,21 @@
         const searchButton = document.getElementById("search-button");
 
         if (searchButton) {
-        searchButton.addEventListener("click", (event) => {
-            event.preventDefault();
-            if (searchBar) {
-            this.controllers.productController.searchProducts(searchBar.value);
-            }
-        });
+            searchButton.addEventListener("click", (event) => {
+                event.preventDefault();
+                if (searchBar && searchBar.value.trim()) {
+                    this.navigateTo(`/busqueda?q=${encodeURIComponent(searchBar.value.trim())}`);
+                }
+            });
         }
 
         if (searchBar) {
-        searchBar.addEventListener("keypress", (event) => {
-            if (event.key === "Enter") {
-            event.preventDefault();
-            this.controllers.productController.searchProducts(searchBar.value);
-            }
-        });
+            searchBar.addEventListener("keypress", (event) => {
+                if (event.key === "Enter" && searchBar.value.trim()) {
+                    event.preventDefault();
+                    this.navigateTo(`/busqueda?q=${encodeURIComponent(searchBar.value.trim())}`);
+                }
+            });
         }
     }
 
@@ -91,27 +174,20 @@
      * Inicializa el observador de cambios en el DOM
      */
     initDOMObserver() {
-        // Crear un nuevo observador
         const observer = new MutationObserver((mutations) => {
-        // Para cada mutación
-        mutations.forEach((mutation) => {
-            // Si se agregaron nodos
-            if (mutation.addedNodes.length) {
-            // Verificar si hay imágenes de productos y agregar event listeners
-            this.controllers.productController.setupProductImageEvents();
-
-            // Verificar si hay botones de agregar al carrito y agregar event listeners
-            this.controllers.cartController.setupAddToCartButtons();
-            }
-        });
+            mutations.forEach((mutation) => {
+                if (mutation.addedNodes.length) {
+                    this.controllers.productController.setupProductImageEvents();
+                    this.controllers.cartController.setupAddToCartButtons();
+                }
+            });
         });
 
-        // Configurar el observador para observar cambios en el contenedor principal
         const containerPrincipal = document.getElementById("container-principal");
         if (containerPrincipal) {
-        observer.observe(containerPrincipal, { childList: true, subtree: true });
+            observer.observe(containerPrincipal, { childList: true, subtree: true });
         }
     }
-    }
+}
 
-    export default AppController;
+export default AppController;
