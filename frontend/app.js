@@ -10,54 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const app = new AppController()
     app.init()
 
-    // Exponer funciones globales necesarias
+    // Exponer funciones globales necesarias para mantener compatibilidad con HTML existente
     window.mostrarPantallaSesion = (event) => {
       if (event) event.preventDefault()
       app.authController.handleUserIconClick()
     }
 
-    window.mostrarDetalleProducto = (productId) => {
-      app.productController.loadProductDetails(productId)
-    }
-
-    window.agregarAlCarrito = (productId) => {
-      app.cartController.addToCart(productId)
-    }
-
-    window.mostrarProductosDestacados = () => {
-      app.productController.loadFeaturedProducts()
-    }
-
-    window.mostrarDetallesAyuda = (helpType) => {
-      app.helpController.showHelpDetails(helpType)
-    }
-
-    window.initCarouselAfterTemplateLoad = () => {
-      app.carouselView.initCarouselAfterTemplateLoad()
-    }
-
-    // Crear una instancia global de Vista para compatibilidad con código existente
-    window.Vista = class Vista {
-      mostrarPlantilla(plantilla, destino) {
-        console.log(`Intentando mostrar plantilla: ${plantilla} en ${destino}`)
-        const baseView = new app.baseView.constructor()
-        const result = baseView.showTemplate(plantilla, destino)
-
-        // Si se muestra la plantilla de inicio, cargar productos destacados
-        if (result && plantilla === "plantilla-inicio") {
-          window.mostrarProductosDestacados()
-        }
-
-        return result
-      }
-    }
-
-    // Función global para mostrar mensajes
-    window.mostrarMensaje = (mensaje, tipo) => {
-      app.baseView.showMessage(mensaje, tipo)
-    }
-
-    // Compatibilidad con funciones existentes
     window.mostrarPantallaInicio = (event) => {
       if (event) event.preventDefault()
       app.loadHomePage()
@@ -80,12 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.mostrarPantallaInicioSesion = (event) => {
       if (event) event.preventDefault()
-      app.authController.showAuthScreen()
+      const baseView = new app.baseView.constructor()
+      baseView.showTemplate("plantilla-iniciar-sesion", "container-principal")
     }
 
     window.mostrarPantallaRegistro = (event) => {
       if (event) event.preventDefault()
-      // Mostrar la plantilla de registro
       const baseView = new app.baseView.constructor()
       baseView.showTemplate("plantilla-registro", "container-principal")
     }
@@ -98,10 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    // Función para cambiar slides del carrusel
+    window.changeSlide = (n) => {
+      if (app.carouselView) {
+        app.carouselView.changeSlide(n)
+      }
+    }
+
+    // Función global para mostrar mensajes
+    window.mostrarMensaje = (mensaje, tipo) => {
+      app.baseView.showMessage(mensaje, tipo)
+    }
+
     console.log("Aplicación inicializada correctamente")
   } catch (error) {
     console.error("Error al inicializar la aplicación:", error)
   }
 })
-
 
