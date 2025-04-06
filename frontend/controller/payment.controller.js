@@ -5,76 +5,78 @@ import { OrderModel } from '../model/order.model.js';
 import { PaymentView } from '../view/payment.view.js';
 import { CartController } from './cart.controller.js';
 
-export class PaymentController {
-    constructor() {
+    export class PaymentController {
+        constructor() {
         this.userModel = new UserModel();
         this.cartModel = new CartModel();
         this.orderModel = new OrderModel(this.userModel, this.cartModel);
         this.view = new PaymentView();
-    }
-
-    async showPaymentScreen() {
+        }
+        
+        async showPaymentScreen() {
         // Verificar si el usuario está autenticado
         if (!this.userModel.isLoggedIn()) {
-            const AuthController = require('./auth.controller.js').AuthController;
+            const AuthController = require('./AuthController.js').AuthController;
             const authController = new AuthController();
             authController.showAuthScreen();
             return;
         }
-
+        
         // Renderizar pantalla de pago
         if (this.view.renderPaymentScreen()) {
             try {
-                // Cargar datos del usuario
-                const userData = await this.userModel.getUserProfile();
-                this.view.fillUserData(userData);
-
-                // Cargar resumen del carrito
-                const cartItems = this.cartModel.getCart();
-                const total = this.cartModel.calculateTotal();
-                this.view.loadOrderSummary(cartItems, total);
-
-                // Configurar manejadores de eventos
-                this.view.setupEventListeners({
-                    backToCart: () => this.backToCart(),
-                    processPayment: (shippingData) => this.processPayment(shippingData),
-                    backToHome: () => this.backToHome()
-                });
+            // Cargar datos del usuario
+            const userData = await this.userModel.getUserProfile();
+            this.view.fillUserData(userData);
+            
+            // Cargar resumen del carrito
+            const cartItems = this.cartModel.getCart();
+            const total = this.cartModel.calculateTotal();
+            this.view.loadOrderSummary(cartItems, total);
+            
+            // Configurar manejadores de eventos
+            this.view.setupEventListeners({
+                backToCart: () => this.backToCart(),
+                processPayment: (shippingData) => this.processPayment(shippingData),
+                backToHome: () => this.backToHome()
+            });
             } catch (error) {
-                console.error("Error al cargar pantalla de pago:", error);
+            console.error("Error al cargar pantalla de pago:", error);
             }
         }
-    }
-
-    backToCart() {
+        }
+        
+        backToCart() {
         const cartController = new CartController();
         cartController.displayCart();
-    }
-
-    backToHome() {
+        }
+        
+        backToHome() {
         // Redirigir a la página de inicio
         window.location.href = '/';
-    }
-
-    async processPayment(shippingData) {
+        }
+        
+        async processPayment(shippingData) {
         try {
             // Mostrar pantalla de procesamiento
             this.view.showProcessingScreen();
-
+            
             // Crear pedido
             const orderData = await this.orderModel.createOrder(shippingData);
-
+            
             // Simular procesamiento de pago
             setTimeout(() => {
-                // Mostrar pantalla de éxito
-                this.view.showSuccessScreen(orderData.id_pedido);
-
-                // Limpiar carrito
-                this.cartModel.clearCart();
+            // Mostrar pantalla de éxito
+            this.view.showSuccessScreen(orderData.id_pedido);
+            
+            // Limpiar carrito
+            this.cartModel.clearCart();
             }, 2000);
         } catch (error) {
             console.error("Error al procesar pago:", error);
             this.view.showErrorScreen(error.message || "Ha ocurrido un error al procesar su pago");
         }
+        }
     }
-}
+    
+    
