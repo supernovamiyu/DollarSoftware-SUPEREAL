@@ -9,6 +9,8 @@
     
         // Mostrar el localizador de tiendas
         showStoreLocator() {
+        console.log("StoreController: Mostrando localizador de tiendas")
+    
         // Mostrar la plantilla
         const result = this.view.showStoreLocator()
     
@@ -22,6 +24,8 @@
     
         // Inicializar el mapa y configurar eventos
         initializeMap() {
+        console.log("StoreController: Inicializando mapa")
+    
         // Inicializar el mapa
         this.map = this.view.initMap()
     
@@ -36,6 +40,8 @@
     
         // Configurar eventos
         setupEvents() {
+        console.log("StoreController: Configurando eventos")
+    
         // Evento de cambio de ciudad
         const citySelect = document.querySelector("#ciudad")
         if (citySelect) {
@@ -47,6 +53,8 @@
             // Disparar el evento para cargar las zonas iniciales
             const event = new Event("change")
             citySelect.dispatchEvent(event)
+        } else {
+            console.error("No se encontró el selector de ciudad")
         }
     
         // Evento de envío del formulario
@@ -56,17 +64,23 @@
             e.preventDefault()
             this.searchStores()
             })
+        } else {
+            console.error("No se encontró el formulario de ubicación")
         }
         }
     
         // Actualizar las zonas según la ciudad seleccionada
         updateZones(city) {
+        console.log(`StoreController: Actualizando zonas para la ciudad ${city}`)
+    
         const zones = this.model.getZones(city)
         this.view.updateZoneOptions(city, zones)
         }
     
         // Buscar tiendas según la ciudad y zona seleccionadas
         searchStores() {
+        console.log("StoreController: Buscando tiendas")
+    
         const citySelect = document.querySelector("#ciudad")
         const zoneSelect = document.querySelector("#zona")
     
@@ -78,6 +92,8 @@
         const city = citySelect.value
         const zone = zoneSelect.value
     
+        console.log(`StoreController: Buscando tiendas en ${city}, zona ${zone}`)
+    
         // Obtener las tiendas
         const stores = this.model.getStores(city, zone)
     
@@ -88,3 +104,4 @@
     
     export { StoreController }
     
+  
