@@ -1,19 +1,57 @@
 // app.js - Punto de entrada principal de la aplicación
-import { CartController } from "./controller/cart.controller.js";
-import { AuthController } from "./controller/auth.controller.js";
-import { PaymentController } from "./controller/payment.controller.js";
+import { AppController } from "./controllers/AppController.js"
 
-// Inicializar controladores cuando el DOM esté cargado
+// Inicializar la aplicación cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
-    const cartController = new CartController();
-    const authController = new AuthController();
-    const paymentController = new PaymentController();
+  // Crear e inicializar el controlador principal
+  const app = new AppController()
+  app.init()
 
-  // Escuchar el evento de carrito cargado
-    document.addEventListener("carritoCargado", () => {
-    cartController.displayCart();
-    });
+  // Exponer funciones globales necesarias
+  window.mostrarPantallaSesion = (event) => {
+    if (event) event.preventDefault()
+    app.authController.handleUserIconClick()
+  }
 
-  // Disparar el evento para cargar el carrito inicialmente
-    document.dispatchEvent(new Event("carritoCargado"));
-});
+  window.mostrarDetalleProducto = (productId) => {
+    app.productController.loadProductDetails(productId)
+  }
+
+  window.agregarAlCarrito = (productId) => {
+    app.cartController.addToCart(productId)
+  }
+
+  window.mostrarProductosDestacados = () => {
+    app.productController.loadFeaturedProducts()
+  }
+
+  window.mostrarDetallesAyuda = (helpType) => {
+    app.helpController.showHelpDetails(helpType)
+  }
+
+  window.initCarouselAfterTemplateLoad = () => {
+    app.carouselView.initCarouselAfterTemplateLoad()
+  }
+
+  // Crear una instancia global de Vista para compatibilidad con código existente
+  window.Vista = class Vista {
+    mostrarPlantilla(plantilla, destino) {
+      const baseView = new app.baseView.constructor()
+      const result = baseView.showTemplate(plantilla, destino)
+
+      // Si se muestra la plantilla de inicio, cargar productos destacados
+      if (result && plantilla === "plantilla-inicio") {
+        window.mostrarProductosDestacados()
+      }
+
+      return result
+    }
+  }
+
+  // Función global para mostrar mensajes
+  window.mostrarMensaje = (mensaje, tipo) => {
+    app.baseView.showMessage(mensaje, tipo)
+  }
+})
+
+
