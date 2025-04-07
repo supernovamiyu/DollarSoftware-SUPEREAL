@@ -178,7 +178,6 @@ class AppController {
             mutations.forEach((mutation) => {
                 if (mutation.addedNodes.length) {
                     this.controllers.productController.setupProductImageEvents();
-                    this.controllers.cartController.setupAddToCartButtons();
                 }
             });
         });
