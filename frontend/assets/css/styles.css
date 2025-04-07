@@ -2187,3 +2187,18 @@ p.elemento-ubicacion-tiendas {
 .boton-primario, .boton-secundario {
     transition: all 0.3s ease;
 }
+
+.checkout-item-image {
+    width: 20%;
+}
+
+.checkout-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checkout-item-details h4 {
+    font-size: 100%;
+}
