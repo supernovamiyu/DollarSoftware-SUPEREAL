@@ -23,10 +23,26 @@
                 if (button && !button.disabled) {
                     const productId = button.getAttribute('data-id');
                     if (producId && this.pendingOperations.has(productId)) {
-                        await this.addToCart(productId);
+                        await this.safeAddToCart(productId, button);
                     }
                 }
             })
+        }
+
+        async safeAddToCart(productId, button) {
+            this.pendingOperations.add(productId);
+            const originalText = button.innerHTML;
+            
+            try {
+                button.disabled = true;
+                button.innerHTML = 'Agregando...';
+                
+                await this.addToCart(productId);
+            } finally {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                this.pendingOperations.delete(productId);
+            }
         }
     
         /**
