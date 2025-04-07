@@ -8,23 +8,25 @@
          * @param {Object} productModel - Modelo de productos
          */
         constructor(model, view, productModel) {
-        this.model = model
-        this.view = view
-        this.productModel = productModel
-    
-        // Configurar event listeners globales
-        this.setupGlobalEventListeners()
+            this.model = model
+            this.view = view
+            this.productModel = productModel
+            this.pendingOperations = new Set() // Conjunto para operaciones pendientes
+            
+            // Configuración inicial
+            this.setupEventListeners()
         }
     
-        /**
-         * Configura los event listeners globales
-         */
-        setupGlobalEventListeners() {
-        // Escuchar evento de agregar al carrito
-        window.addEventListener("addToCart", async (event) => {
-            const { productId } = event.detail
-            await this.addToCart(productId)
-        })
+        setupEventListeners() {
+            document.addEventListener('click', async (e) => {
+                const button = e.target.closest('.comprar');
+                if (button && !button.disabled) {
+                    const productId = button.getAttribute('data-id');
+                    if (producId && this.pendingOperations.has(productId)) {
+                        await this.addToCart(productId);
+                    }
+                }
+            })
         }
     
         /**
@@ -179,14 +181,26 @@
          * Configura los eventos para los botones de agregar al carrito
          */
         setupAddToCartButtons() {
-        document.querySelectorAll(".comprar").forEach((button) => {
-            button.addEventListener("click", async (event) => {
-            const productId = event.target.getAttribute("data-id")
+            // Remover listeners existentes primero para evitar duplicación
+            document.querySelectorAll(".comprar").forEach(button => {
+                button.removeEventListener("click", this.handleAddToCartClick);
+            });
+        
+            // Agregar el nuevo listener
+            document.querySelectorAll(".comprar").forEach(button => {
+                button.addEventListener("click", this.handleAddToCartClick.bind(this));
+            });
+        }
+        
+        // Nuevo método separado para manejar el clic
+        async handleAddToCartClick(event) {
+            event.preventDefault();
+            event.stopPropagation(); // Evitar propagación del evento
+            
+            const productId = event.target.getAttribute("data-id");
             if (productId) {
-                await this.addToCart(productId)
+                await this.addToCart(productId);
             }
-            })
-        })
         }
     }
     
