@@ -1,9 +1,9 @@
-    import BaseView from "./base.view.js"
+import BaseView from "./base.view.js"
 
-    /**
-     * Vista para los productos
-     */
-    class ProductView extends BaseView {
+/**
+ * Vista para los productos
+ */
+class ProductView extends BaseView {
     /**
      * Muestra los productos por categoría
      * @param {Array} products - Lista de productos
@@ -11,39 +11,39 @@
      */
     showProductsByCategory(products, categoryName) {
         if (this.showTemplate("plantilla-categorias-productos", "container-principal")) {
-        const categoryTitle = document.getElementById("titulo-seccion-categoria")
-        const productsContainer = document.getElementById("productos-categorias")
+            const categoryTitle = document.getElementById("titulo-seccion-categoria")
+            const productsContainer = document.getElementById("productos-categorias")
 
-        if (!categoryTitle || !productsContainer) {
-            console.error("No se encontraron los contenedores necesarios")
-            return
-        }
+            if (!categoryTitle || !productsContainer) {
+                console.error("No se encontraron los contenedores necesarios")
+                return
+            }
 
-        categoryTitle.innerHTML = `<h2 style="width: 100%; text-align: center">${categoryName}</h2>`
-        productsContainer.innerHTML = ""
+            categoryTitle.innerHTML = `<h2 style="width: 100%; text-align: center">${categoryName}</h2>`
+            productsContainer.innerHTML = ""
 
-        if (!products.length) {
-            productsContainer.innerHTML = "<p>No hay productos disponibles en esta categoría</p>"
-            return
-        }
+            if (!products.length) {
+                productsContainer.innerHTML = "<p>No hay productos disponibles en esta categoría</p>"
+                return
+            }
 
-        const productsHTML = products
-            .map((product) => {
-            return `
-            <div>
-                <img id="imagen-individual-producto" src="${product.imagen_url}" alt="${product.nombre_producto}" width="50%" height="auto" title="Ver los detalles del producto">
+            const productsHTML = products
+                .map((product) => {
+                    return `
+            <div class="contenedor-producto">
+                <img class="imagen-individual-producto" src="${product.imagen_url}" alt="${product.nombre_producto}" width="50%" height="auto" title="Ver los detalles del producto">
                 <h3>${product.nombre_producto}</h3>
                 <p>Precio: <br>$${product.precio}</p>
                 <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles}">Añadir al carrito</button>
             </div>
             `
-            })
-            .join("")
+                })
+                .join("")
 
-        productsContainer.innerHTML = productsHTML
+            productsContainer.innerHTML = productsHTML
 
-        // Actualizar la URL
-        this.updateURL(`/categoria/${products[0]?.id_categoria || ""}`)
+            // Actualizar la URL
+            this.updateURL(`/categoria/${products[0]?.id_categoria || ""}`)
         }
     }
 
@@ -54,77 +54,80 @@
      */
     showSearchResults(products, searchTerm) {
         // Validar el término de búsqueda primero
-        if (!searchTerm || typeof searchTerm !== 'string') {
-            this.showMessage("Término de búsqueda inválido", "error");
-            return;
+        if (!searchTerm || typeof searchTerm !== "string") {
+            this.showMessage("Término de búsqueda inválido", "error")
+            return
         }
-    
-        const trimmedSearchTerm = searchTerm.trim();
-        
+
+        const trimmedSearchTerm = searchTerm.trim()
+
         if (!this.showTemplate("plantilla-resultados-productos", "container-principal")) {
-            this.showMessage("Error al cargar la plantilla de resultados", "error");
-            return;
+            this.showMessage("Error al cargar la plantilla de resultados", "error")
+            return
         }
-    
-        const resultsContainer = document.getElementById("resultados-productos");
+
+        const resultsContainer = document.getElementById("resultados-productos")
         if (!resultsContainer) {
-            console.error("No se encontró el contenedor de resultados");
-            return;
+            console.error("No se encontró el contenedor de resultados")
+            return
         }
-    
+
         // Limpiar y mostrar estado inicial
-        resultsContainer.innerHTML = "<div class='loading'>Buscando productos...</div>";
-    
+        resultsContainer.innerHTML = "<div class='loading'>Buscando productos...</div>"
+
         // Simular pequeño retraso para evitar parpadeo
         setTimeout(() => {
-            resultsContainer.innerHTML = "";
-    
+            resultsContainer.innerHTML = ""
+
             if (!products || !Array.isArray(products)) {
-                this.showMessage("Error en los datos de productos", "error");
-                return;
+                this.showMessage("Error en los datos de productos", "error")
+                return
             }
-    
+
             if (products.length === 0) {
                 resultsContainer.innerHTML = `
-                    <div class="no-results">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <p>No se encontraron productos para "${trimmedSearchTerm}"</p>
-                    </div>
-                `;
-                return;
+            <div class="no-results">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <p>No se encontraron productos para "${trimmedSearchTerm}"</p>
+            </div>
+        `
+                return
             }
-    
+
             // Construir HTML de resultados
-            const productsHTML = products.map(product => `
-                <div class="producto-resultado">
-                    <img id="imagen-individual-producto" 
-                            src="${product.imagen_url || 'ruta/por/defecto.jpg'}" 
-                            alt="${product.nombre_producto}" 
-                            title="Ver detalles de ${product.nombre_producto}">
-                    <div class="info-producto">
-                        <h3>${product.nombre_producto}</h3>
-                        <p class="precio">$${product.precio?.toLocaleString() || 'N/A'}</p>
-                        <button class="comprar" 
-                                data-id="${product.id_productos}" 
-                                data-unidades="${product.unidades_disponibles || 0}">
-                            Añadir al carrito
-                        </button>
-                    </div>
+            const productsHTML = products
+                .map(
+                    (product) => `
+            <div class="contenedor-producto producto-resultado">
+                <img class="imagen-individual-producto" 
+                        src="${product.imagen_url || "ruta/por/defecto.jpg"}" 
+                        alt="${product.nombre_producto}" 
+                        title="Ver detalles de ${product.nombre_producto}">
+                <div class="info-producto">
+                    <h3>${product.nombre_producto}</h3>
+                    <p class="precio">$${product.precio?.toLocaleString() || "N/A"}</p>
+                    <button class="comprar" 
+                            data-id="${product.id_productos}" 
+                            data-unidades="${product.unidades_disponibles || 0}">
+                        Añadir al carrito
+                    </button>
                 </div>
-            `).join('');
-    
-            resultsContainer.innerHTML = productsHTML;
-            
+            </div>
+        `,
+                )
+                .join("")
+
+            resultsContainer.innerHTML = productsHTML
+
             // Actualizar URL después de renderizar
             this.updateURL(`/busqueda?q=${encodeURIComponent(trimmedSearchTerm)}`, {
                 searchTerm: trimmedSearchTerm,
-                resultsCount: products.length
-            });
-    
+                resultsCount: products.length,
+            })
+
             // DEBUG: Verificar en consola
-            console.log(`Mostrando ${products.length} resultados para:`, trimmedSearchTerm);
-    
-        }, 100); // Pequeño delay para mejor UX
+            console.log(`Mostrando ${products.length} resultados para:`, trimmedSearchTerm)
+        }, 100) // Pequeño delay para mejor UX
     }
 
     /**
@@ -135,8 +138,8 @@
         const containerPrincipal = document.getElementById("container-principal")
 
         if (!containerPrincipal) {
-        console.error("No se encontró el contenedor principal")
-        return
+            console.error("No se encontró el contenedor principal")
+            return
         }
 
         // Actualizar la URL
@@ -189,17 +192,17 @@
         let reviewsContainer = document.getElementById("opiniones-container")
 
         if (!reviewsContainer) {
-        reviewsContainer = document.createElement("div")
-        reviewsContainer.id = "opiniones-container"
-        reviewsContainer.className = "opiniones-container"
+            reviewsContainer = document.createElement("div")
+            reviewsContainer.id = "opiniones-container"
+            reviewsContainer.className = "opiniones-container"
 
-        const containerPrincipal = document.getElementById("container-principal")
-        if (containerPrincipal) {
-            containerPrincipal.appendChild(reviewsContainer)
-        } else {
-            console.error("No se encontró el contenedor principal")
-            return
-        }
+            const containerPrincipal = document.getElementById("container-principal")
+            if (containerPrincipal) {
+                containerPrincipal.appendChild(reviewsContainer)
+            } else {
+                console.error("No se encontró el contenedor principal")
+                return
+            }
         }
 
         reviewsContainer.innerHTML = "" // Limpiar el contenedor
@@ -212,11 +215,11 @@
 
         // Si no hay opiniones, mostrar mensaje
         if (!reviews || reviews.length === 0) {
-        const noReviews = document.createElement("p")
-        noReviews.className = "sin-opiniones"
-        noReviews.textContent = "Aún no hay opiniones para este producto. ¡Sé el primero en opinar!"
-        reviewsContainer.appendChild(noReviews)
-        return
+            const noReviews = document.createElement("p")
+            noReviews.className = "sin-opiniones"
+            noReviews.textContent = "Aún no hay opiniones para este producto. ¡Sé el primero en opinar!"
+            reviewsContainer.appendChild(noReviews)
+            return
         }
 
         // Crear lista de opiniones
@@ -229,51 +232,51 @@
 
         // Agregar cada opinión a la lista (limitado)
         reviewsToShow.forEach((review) => {
-        const reviewElement = document.createElement("div")
-        reviewElement.className = "opinion-item"
+            const reviewElement = document.createElement("div")
+            reviewElement.className = "opinion-item"
 
-        // Determinar el nombre a mostrar
-        const userName = review.es_anonimo === 1 ? "Usuario anónimo" : review.nombre_usuario || "Usuario"
+            // Determinar el nombre a mostrar
+            const userName = review.es_anonimo === 1 ? "Usuario anónimo" : review.nombre_usuario || "Usuario"
 
-        // Formatear la fecha
-        const date = new Date(review.fecha).toLocaleDateString("es-ES", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        })
+            // Formatear la fecha
+            const date = new Date(review.fecha).toLocaleDateString("es-ES", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            })
 
-        // Crear el HTML de la opinión
-        reviewElement.innerHTML = `
+            // Crear el HTML de la opinión
+            reviewElement.innerHTML = `
             <div class="opinion-header">
-            <span class="opinion-usuario">${userName}</span>
-            <span class="opinion-fecha">${date}</span>
+                <span class="opinion-usuario">${userName}</span>
+                <span class="opinion-fecha">${date}</span>
             </div>
             <div class="opinion-contenido">
-            <p>${review.opinion}</p>
+                <p>${review.opinion}</p>
             </div>
         `
 
-        reviewsList.appendChild(reviewElement)
+            reviewsList.appendChild(reviewElement)
         })
 
         reviewsContainer.appendChild(reviewsList)
 
         // Si hay más opiniones, mostrar botón "Ver más"
         if (hasMoreReviews) {
-        const showMoreBtn = document.createElement("button")
-        showMoreBtn.className = "boton-ver-mas"
-        showMoreBtn.textContent = `Ver más opiniones (${reviews.length - limit} restantes)`
+            const showMoreBtn = document.createElement("button")
+            showMoreBtn.className = "boton-ver-mas"
+            showMoreBtn.textContent = `Ver más opiniones (${reviews.length - limit} restantes)`
 
-        // Al hacer clic en "Ver más", mostrar todas las opiniones
-        showMoreBtn.addEventListener("click", () => {
-            // Eliminar el botón "Ver más"
-            showMoreBtn.remove()
+            // Al hacer clic en "Ver más", mostrar todas las opiniones
+            showMoreBtn.addEventListener("click", () => {
+                // Eliminar el botón "Ver más"
+                showMoreBtn.remove()
 
-            // Mostrar todas las opiniones
-            this.showAllReviews(reviews, reviewsList)
-        })
+                // Mostrar todas las opiniones
+                this.showAllReviews(reviews, reviewsList)
+            })
 
-        reviewsContainer.appendChild(showMoreBtn)
+            reviewsContainer.appendChild(showMoreBtn)
         }
     }
 
@@ -288,31 +291,31 @@
 
         // Mostrar todas las opiniones
         reviews.forEach((review) => {
-        const reviewElement = document.createElement("div")
-        reviewElement.className = "opinion-item"
+            const reviewElement = document.createElement("div")
+            reviewElement.className = "opinion-item"
 
-        // Determinar el nombre a mostrar
-        const userName = review.es_anonimo === 1 ? "Usuario anónimo" : review.nombre_usuario || "Usuario"
+            // Determinar el nombre a mostrar
+            const userName = review.es_anonimo === 1 ? "Usuario anónimo" : review.nombre_usuario || "Usuario"
 
-        // Formatear la fecha
-        const date = new Date(review.fecha).toLocaleDateString("es-ES", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        })
+            // Formatear la fecha
+            const date = new Date(review.fecha).toLocaleDateString("es-ES", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            })
 
-        // Crear el HTML de la opinión
-        reviewElement.innerHTML = `
+            // Crear el HTML de la opinión
+            reviewElement.innerHTML = `
             <div class="opinion-header">
-            <span class="opinion-usuario">${userName}</span>
-            <span class="opinion-fecha">${date}</span>
+                <span class="opinion-usuario">${userName}</span>
+                <span class="opinion-fecha">${date}</span>
             </div>
             <div class="opinion-contenido">
-            <p>${review.opinion}</p>
+                <p>${review.opinion}</p>
             </div>
         `
 
-        reviewsList.appendChild(reviewElement)
+            reviewsList.appendChild(reviewElement)
         })
     }
 
@@ -325,8 +328,8 @@
         const containerPrincipal = document.getElementById("container-principal")
 
         if (!containerPrincipal) {
-        console.error("No se encontró el contenedor principal")
-        return
+            console.error("No se encontró el contenedor principal")
+            return
         }
 
         // Crear el contenedor del formulario
@@ -354,20 +357,20 @@
 
         // Agregar evento de envío al formulario
         form.addEventListener("submit", (event) => {
-        event.preventDefault()
+            event.preventDefault()
 
-        const opinionInput = document.getElementById("opinion")
-        const anonymousCheckbox = document.getElementById("anonimo")
+            const opinionInput = document.getElementById("opinion")
+            const anonymousCheckbox = document.getElementById("anonimo")
 
-        if (opinionInput && anonymousCheckbox) {
-            const reviewData = {
-            productId,
-            opinion: opinionInput.value.trim(),
-            anonymous: anonymousCheckbox.checked,
+            if (opinionInput && anonymousCheckbox) {
+                const reviewData = {
+                    productId,
+                    opinion: opinionInput.value.trim(),
+                    anonymous: anonymousCheckbox.checked,
+                }
+
+                submitHandler(reviewData)
             }
-
-            submitHandler(reviewData)
-        }
         })
 
         formContainer.appendChild(form)
@@ -382,13 +385,13 @@
      */
     setupProductImageEvents(clickHandler) {
         // Seleccionar todas las imágenes de productos
-        document.querySelectorAll("#imagen-individual-producto").forEach((image) => {
-        // Eliminar cualquier event listener existente para evitar duplicados
-        image.removeEventListener("click", clickHandler)
-        // Agregar el nuevo event listener
-        image.addEventListener("click", clickHandler)
-        // Cambiar el cursor para indicar que es clickeable
-        image.style.cursor = "pointer"
+        document.querySelectorAll(".imagen-individual-producto").forEach((image) => {
+            // Eliminar cualquier event listener existente para evitar duplicados
+            image.removeEventListener("click", clickHandler)
+            // Agregar el nuevo event listener
+            image.addEventListener("click", clickHandler)
+            // Cambiar el cursor para indicar que es clickeable
+            image.style.cursor = "pointer"
         })
     }
 
@@ -399,10 +402,10 @@
     setupAddToCartButtons(clickHandler) {
         // Seleccionar todos los botones de comprar
         document.querySelectorAll(".comprar").forEach((button) => {
-        // Eliminar cualquier event listener existente para evitar duplicados
-        button.removeEventListener("click", clickHandler)
-        // Agregar el nuevo event listener
-        button.addEventListener("click", clickHandler)
+            // Eliminar cualquier event listener existente para evitar duplicados
+            button.removeEventListener("click", clickHandler)
+            // Agregar el nuevo event listener
+            button.addEventListener("click", clickHandler)
         })
     }
 
@@ -413,8 +416,8 @@
     showFeaturedProducts(products) {
         const featuredProductsContainer = document.getElementById("productos-populares")
         if (!featuredProductsContainer) {
-        console.error("No se encontró el contenedor de productos destacados")
-        return
+            console.error("No se encontró el contenedor de productos destacados")
+            return
         }
 
         featuredProductsContainer.innerHTML = ""
@@ -423,21 +426,21 @@
         const limitedProducts = products.slice(0, 4)
 
         const productsHTML = limitedProducts
-        .map((product) => {
-            return `
-        <div>
-            <img id="imagen-individual-producto" src="${product.imagen_url}" alt="Imagen del producto" width="50%" height="auto" title="Ver los detalles del producto">
+            .map((product) => {
+                return `
+        <div class="contenedor-producto">
+            <img class="imagen-individual-producto" src="${product.imagen_url}" alt="Imagen del producto" width="50%" height="auto" title="Ver los detalles del producto">
             <h3>${product.nombre_producto}</h3>
             <p>Precio: <br> $${product.precio}</p>
             <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles}">Añadir al carrito</button>
         </div>
         `
-        })
-        .join("")
+            })
+            .join("")
 
         featuredProductsContainer.innerHTML = productsHTML
     }
-    }
+}
 
-    export default ProductView
+export default ProductView
 

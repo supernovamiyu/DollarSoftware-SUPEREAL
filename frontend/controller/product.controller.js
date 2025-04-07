@@ -10,6 +10,9 @@ class ProductController {
         this.model = model
         this.view = view
         this.currentProductId = null
+
+        // Configurar delegación de eventos global para imágenes de productos
+        this.setupProductImageEvents()
     }
 
     /**
@@ -19,7 +22,7 @@ class ProductController {
         try {
             const products = await this.model.getFeaturedProducts()
             this.view.showFeaturedProducts(products)
-            this.setupProductEvents()
+            this.setupAddToCartButtons()
         } catch (error) {
             console.error("Error al mostrar productos destacados:", error)
             this.view.showMessage("Error al cargar los productos destacados", "error")
@@ -36,13 +39,13 @@ class ProductController {
             const categoryName = products.length > 0 ? products[0].nombre_categoria : "Categoría"
 
             this.view.showProductsByCategory(products, categoryName)
-            this.setupProductEvents()
-            
+            this.setupAddToCartButtons()
+
             // Actualizar URL
-            this.view.updateURL(`/categoria/${categoryId}`, { 
+            this.view.updateURL(`/categoria/${categoryId}`, {
                 categoryId,
-                categoryName 
-            });
+                categoryName,
+            })
         } catch (error) {
             console.error("Error al mostrar productos por categoría:", error)
             this.view.showMessage("Error al cargar los productos de esta categoría", "error")
@@ -50,51 +53,89 @@ class ProductController {
     }
 
     /**
- * Busca productos por término
- * @param {string} searchTerm - Término de búsqueda
- */
-async searchProducts(searchTerm) {
-    try {
-        // Validación robusta del término
-        const trimmedTerm = searchTerm ? searchTerm.trim() : '';
-        
-        if (trimmedTerm.length < 3) {
-            this.view.showMessage("Ingresa al menos 3 caracteres", "warning");
-            return;
+     * Busca productos por término
+     * @param {string} searchTerm - Término de búsqueda
+     */
+    async searchProducts(searchTerm) {
+        try {
+            // Validación robusta del término
+            const trimmedTerm = searchTerm ? searchTerm.trim() : ""
+
+            if (trimmedTerm.length < 3) {
+                this.view.showMessage("Ingresa al menos 3 caracteres", "warning")
+                return
+            }
+
+            // Mostrar estado de carga
+            this.view.showMessage("Buscando productos...", "info")
+
+            // Llamada al modelo con manejo de errores
+            const products = await this.model.searchProducts(trimmedTerm).catch((error) => {
+                throw new Error(`Error en la búsqueda: ${error.message}`)
+            })
+
+            if (!products || products.length === 0) {
+                this.view.showMessage("No se encontraron resultados", "info")
+                this.view.showSearchResults([], trimmedTerm) // Limpiar resultados anteriores
+                return
+            }
+
+            // Actualizar vista y URL
+            this.view.showSearchResults(products, trimmedTerm)
+            this.view.updateURL(`/busqueda?q=${encodeURIComponent(trimmedTerm)}`, {
+                searchTerm: trimmedTerm,
+                resultsCount: products.length,
+            })
+
+            // Configurar eventos de los nuevos resultados
+            this.setupAddToCartButtons()
+        } catch (error) {
+            console.error("Error en searchProducts:", error)
+            this.view.showMessage(error.message || "Error al buscar productos", "error")
+
+            // Fallback: Mostrar vista vacía
+            this.view.showSearchResults([], searchTerm)
         }
-
-        // Mostrar estado de carga
-        this.view.showMessage("Buscando productos...", "info");
-        
-        // Llamada al modelo con manejo de errores
-        const products = await this.model.searchProducts(trimmedTerm).catch(error => {
-            throw new Error(`Error en la búsqueda: ${error.message}`);
-        });
-
-        if (!products || products.length === 0) {
-            this.view.showMessage("No se encontraron resultados", "info");
-            this.view.showSearchResults([], trimmedTerm); // Limpiar resultados anteriores
-            return;
-        }
-
-        // Actualizar vista y URL
-        this.view.showSearchResults(products, trimmedTerm);
-        this.view.updateURL(`/busqueda?q=${encodeURIComponent(trimmedTerm)}`, {
-            searchTerm: trimmedTerm,
-            resultsCount: products.length
-        });
-
-        // Configurar eventos de los nuevos resultados
-        this.setupProductEvents();
-
-    } catch (error) {
-        console.error("Error en searchProducts:", error);
-        this.view.showMessage(error.message || "Error al buscar productos", "error");
-        
-        // Fallback: Mostrar vista vacía
-        this.view.showSearchResults([], searchTerm);
     }
-}
+
+    /**
+     * Muestra los detalles de un producto
+     * @param {string} productId - ID del producto
+     */
+    async showProductDetails(productId) {
+        try {
+            console.log(`Mostrando detalles del producto ID: ${productId}`)
+
+            // Guardar el ID del producto actual
+            this.currentProductId = productId
+
+            // Obtener los detalles del producto
+            const product = await this.model.getProductDetails(productId)
+
+            if (!product) {
+                this.view.showMessage("Producto no encontrado", "error")
+                return
+            }
+
+            // Mostrar los detalles del producto
+            this.view.showProductDetails(product)
+
+            // Cargar las opiniones del producto
+            this.loadProductReviews(productId)
+
+            // Agregar el formulario para enviar opiniones
+            this.view.addReviewForm(productId, (reviewData) => {
+                this.handleReviewSubmit(reviewData)
+            })
+
+            // Configurar eventos para los botones de agregar al carrito
+            this.setupAddToCartButtons()
+        } catch (error) {
+            console.error("Error al mostrar detalles del producto:", error)
+            this.view.showMessage("Error al cargar los detalles del producto", "error")
+        }
+    }
+
     /**
      * Carga un producto basado en su slug
      * @param {string} productSlug - Slug del producto
@@ -122,10 +163,10 @@ async searchProducts(searchTerm) {
     createProductSlug(productName) {
         return productName
             .toLowerCase()
-            .replace(/ /g, '-')
-            .replace(/[^\w-]+/g, '')
-            .replace(/-+/g, '-')
-            .replace(/^-+|-+$/g, '')
+            .replace(/ /g, "-")
+            .replace(/[^\w-]+/g, "")
+            .replace(/-+/g, "-")
+            .replace(/^-+|-+$/g, "")
     }
 
     /**
@@ -179,26 +220,41 @@ async searchProducts(searchTerm) {
      * Configura los eventos para los productos
      */
     setupProductEvents() {
-        this.setupProductImageEvents()
+        // Ya no necesitamos llamar a setupProductImageEvents aquí
+        // porque lo hacemos a nivel global en el constructor
         this.setupAddToCartButtons()
     }
 
     /**
-     * Configura los eventos para las imágenes de productos
+     * Configura los eventos de clic en las imágenes de productos
      */
     setupProductImageEvents() {
-        this.view.setupProductImageEvents((event) => {
-            const productContainer = event.target.closest("div")
+        // Usar delegación de eventos para manejar clics en imágenes de productos
+        document.addEventListener("click", (event) => {
+            // Verificar si el clic fue en una imagen de producto
+            const productImage = event.target.closest(".imagen-individual-producto")
+            if (!productImage) return
+
+            // Obtener el contenedor del producto
+            const productContainer = productImage.closest(".contenedor-producto")
             if (!productContainer) return
 
+            // Obtener el ID del producto desde el botón de compra
             const buyButton = productContainer.querySelector(".comprar")
             if (!buyButton) return
 
             const productId = buyButton.getAttribute("data-id")
             if (productId) {
+                // Prevenir comportamiento predeterminado si es un enlace
+                event.preventDefault()
+                console.log(`Clic en imagen de producto ID: ${productId}`)
+
+                // Mostrar detalles del producto
                 this.showProductDetails(productId)
             }
         })
+
+        console.log("Eventos de imágenes de productos configurados")
     }
 
     /**
@@ -208,12 +264,15 @@ async searchProducts(searchTerm) {
         this.view.setupAddToCartButtons((event) => {
             const productId = event.target.getAttribute("data-id")
             if (productId) {
-                window.dispatchEvent(new CustomEvent("addToCart", {
-                    detail: { productId }
-                }))
+                window.dispatchEvent(
+                    new CustomEvent("addToCart", {
+                        detail: { productId },
+                    }),
+                )
             }
         })
     }
 }
 
 export default ProductController
+
