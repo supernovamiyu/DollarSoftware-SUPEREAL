@@ -24,6 +24,7 @@ class CartController {
         await this.updateCartDisplay();
         
         this.isInitialized = true;
+        console.log('CartController inicializado');
     }
 
     /**
@@ -48,6 +49,46 @@ class CartController {
         // Evento para actualizar la vista del carrito
         window.addEventListener('cartUpdated', () => {
             this.updateCartDisplay();
+        });
+
+        // Configurar eventos del carrito directamente aquí
+        window.addEventListener('updateQuantity', async (e) => {
+            console.log('Evento updateQuantity recibido en controller:', e.detail);
+            const { productId, quantity } = e.detail;
+            await this.updateQuantity(productId, quantity);
+        });
+
+        window.addEventListener('removeItem', async (e) => {
+            console.log('Evento removeItem recibido en controller:', e.detail);
+            const { productId } = e.detail;
+            await this.removeItem(productId);
+        });
+
+        window.addEventListener('checkout', () => {
+            console.log('Evento checkout recibido en controller');
+            this.proceedToCheckout();
+        });
+        
+        // Configurar eventos del checkout
+        window.addEventListener('processPayment', () => {
+            console.log('Evento processPayment recibido en controller');
+            this.processPayment();
+        });
+
+        window.addEventListener('backToCart', () => {
+            console.log('Evento backToCart recibido en controller');
+            this.showCart();
+        });
+
+        window.addEventListener('backToHome', () => {
+            console.log('Evento backToHome recibido en controller');
+            window.dispatchEvent(new CustomEvent("showHomePage"));
+        });
+
+        window.addEventListener('tryAgain', () => {
+            console.log('Evento tryAgain recibido en controller');
+            document.getElementById("formulario-pago").style.display = "block";
+            document.getElementById("pago-fallido").style.display = "none";
         });
     }
 
@@ -111,6 +152,49 @@ class CartController {
     }
 
     /**
+     * Actualiza la cantidad de un producto en el carrito
+     * @param {string} productId - ID del producto
+     * @param {number} quantity - Nueva cantidad
+     */
+    async updateQuantity(productId, quantity) {
+        console.log(`Actualizando cantidad para producto ${productId} a ${quantity}`);
+        try {
+            const result = await this.model.updateQuantity(productId, quantity);
+            if (result.success) {
+                console.log('Cantidad actualizada con éxito');
+                await this.updateCartDisplay();
+            } else {
+                console.error('Error al actualizar cantidad:', result.error);
+                this.view.showMessage(result.error || "Error al actualizar cantidad", "error");
+            }
+        } catch (error) {
+            console.error("Error al actualizar cantidad:", error);
+            this.view.showMessage("Error al actualizar la cantidad del producto", "error");
+        }
+    }
+
+    /**
+     * Elimina un producto del carrito
+     * @param {string} productId - ID del producto
+     */
+    async removeItem(productId) {
+        console.log(`Eliminando producto ${productId}`);
+        try {
+            const result = await this.model.removeFromCart(productId);
+            if (result.success) {
+                this.view.showMessage("Producto eliminado del carrito", "success");
+                this.updateAddToCartButtons(productId);
+                await this.updateCartDisplay();
+            } else {
+                this.view.showMessage(result.error || "Error al eliminar producto", "error");
+            }
+        } catch (error) {
+            console.error("Error al eliminar producto:", error);
+            this.view.showMessage("Error al eliminar el producto del carrito", "error");
+        }
+    }
+
+    /**
      * Actualiza los botones de "Agregar al carrito" para un producto específico
      * @param {string} productId - ID del producto
      */
@@ -132,6 +216,7 @@ class CartController {
     async updateCartDisplay() {
         const cartItems = this.model.getCartItems();
         const total = this.model.getCartTotal();
+        console.log('Actualizando vista del carrito con', cartItems.length, 'productos');
         this.view.updateCartDisplay(cartItems, total);
     }
 
@@ -140,29 +225,6 @@ class CartController {
      */
     async showCart() {
         await this.updateCartDisplay();
-        
-        // Configurar eventos del carrito
-        this.view.setupCartEvents({
-            updateQuantity: async (productId, quantity) => {
-                const result = await this.model.updateQuantity(productId, quantity);
-                if (result.success) {
-                    this.updateCartDisplay();
-                } else {
-                    this.view.showMessage(result.error, "error");
-                }
-            },
-            removeItem: async (productId) => {
-                const result = await this.model.removeFromCart(productId);
-                if (result.success) {
-                    this.view.showMessage("Producto eliminado del carrito", "success");
-                    this.updateCartDisplay();
-                    this.updateAddToCartButtons(productId);
-                } else {
-                    this.view.showMessage(result.error, "error");
-                }
-            },
-            checkout: () => this.proceedToCheckout(),
-        });
     }
 
     /**
@@ -178,17 +240,7 @@ class CartController {
 
         const total = this.model.getCartTotal();
         this.view.showCheckout(cartItems, total);
-
-        // Configurar eventos del checkout
-        this.view.setupCheckoutFormEvents({
-            processPayment: () => this.processPayment(),
-            backToCart: () => this.showCart(),
-            backToHome: () => window.dispatchEvent(new CustomEvent("showHomePage")),
-            tryAgain: () => {
-                document.getElementById("formulario-pago").style.display = "block";
-                document.getElementById("pago-fallido").style.display = "none";
-            },
-        });
+        // Ya no llamamos a setupCheckoutFormEvents aquí para evitar duplicación
     }
 
     /**

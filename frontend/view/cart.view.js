@@ -1,9 +1,16 @@
 import BaseView from "./base.view.js";
+import NotificationUtils from "../utils/message.utils.js";
 
 /**
  * Vista para el carrito de compras (Versión mejorada)
  */
 class CartView extends BaseView {
+    constructor() {
+        super();
+        // Bandera para rastrear si los event listeners ya están configurados
+        this.eventListenersConfigured = false;
+    }
+
     /**
      * Actualiza la visualización del carrito
      * @param {Array} cartItems - Items del carrito
@@ -86,47 +93,91 @@ class CartView extends BaseView {
      * Configura las interacciones del carrito
      */
     setupCartInteraction() {
+        // Limpiar event listeners previos
+        this.removeCartEventListeners();
+
         // Configurar botones de cantidad
-        document.querySelectorAll('.quantity-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const productId = button.getAttribute('data-id');
-                const action = button.classList.contains('increase') ? 'increase' : 'decrease';
-                
-                // Encontrar el elemento de cantidad correspondiente
-                const quantityElement = button.parentElement.querySelector('.quantity');
-                let newQuantity = parseInt(quantityElement.textContent);
-                
-                newQuantity = action === 'increase' ? newQuantity + 1 : newQuantity - 1;
-                
-                // Disparar evento de actualización
-                if (newQuantity > 0) {
-                    window.dispatchEvent(new CustomEvent('updateQuantity', {
-                        detail: { productId, quantity: newQuantity }
-                    }));
-                }
-            });
+        document.querySelectorAll('.actualizar-cantidad-producto-carrito').forEach(button => {
+            button.addEventListener('click', this.handleQuantityButtonClick);
         });
 
         // Configurar botones de eliminar
-        document.querySelectorAll('.remove-item').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                const productId = button.getAttribute('data-id');
-                window.dispatchEvent(new CustomEvent('removeItem', {
-                    detail: { productId }
-                }));
-            });
+        document.querySelectorAll('.eliminar-producto-individual-carrito').forEach(button => {
+            button.addEventListener('click', this.handleRemoveButtonClick);
         });
 
         // Configurar botón de checkout
         const checkoutBtn = document.querySelector('.boton-proceder-al-pago');
         if (checkoutBtn) {
-            checkoutBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.dispatchEvent(new CustomEvent('checkout'));
-            });
+            checkoutBtn.addEventListener('click', this.handleCheckoutButtonClick);
         }
+    }
+
+    /**
+     * Elimina los event listeners del carrito para evitar duplicados
+     */
+    removeCartEventListeners() {
+        document.querySelectorAll('.actualizar-cantidad-producto-carrito').forEach(button => {
+            button.removeEventListener('click', this.handleQuantityButtonClick);
+        });
+
+        document.querySelectorAll('.eliminar-producto-individual-carrito').forEach(button => {
+            button.removeEventListener('click', this.handleRemoveButtonClick);
+        });
+
+        const checkoutBtn = document.querySelector('.boton-proceder-al-pago');
+        if (checkoutBtn) {
+            checkoutBtn.removeEventListener('click', this.handleCheckoutButtonClick);
+        }
+    }
+
+    /**
+     * Manejador para los botones de cantidad
+     */
+    handleQuantityButtonClick = (e) => {
+        e.stopPropagation();
+        const button = e.currentTarget;
+        const productId = button.getAttribute('data-id');
+        const action = button.getAttribute('data-action');
+        
+        // Encontrar el elemento de cantidad correspondiente
+        const quantityElement = button.parentElement.querySelector('.cantidad-producto-individual-carrito');
+        let newQuantity = parseInt(quantityElement.textContent);
+        
+        newQuantity = action === 'increase' ? newQuantity + 1 : newQuantity - 1;
+        
+        // Disparar evento de actualización
+        if (newQuantity > 0) {
+            // Actualizar la UI inmediatamente para mejor experiencia de usuario
+            quantityElement.textContent = newQuantity;
+            
+            // Disparar el evento para que el controlador actualice el modelo
+            window.dispatchEvent(new CustomEvent('updateQuantity', {
+                detail: { productId, quantity: newQuantity }
+            }));
+        }
+    }
+
+    /**
+     * Manejador para los botones de eliminar
+     */
+    handleRemoveButtonClick = (e) => {
+        e.preventDefault();
+        const button = e.currentTarget;
+        const productId = button.getAttribute('data-id');
+        
+        // Disparar el evento para que el controlador actualice el modelo
+        window.dispatchEvent(new CustomEvent('removeItem', {
+            detail: { productId }
+        }));
+    }
+
+    /**
+     * Manejador para el botón de checkout
+     */
+    handleCheckoutButtonClick = (e) => {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('checkout'));
     }
 
     /**
@@ -175,6 +226,9 @@ class CartView extends BaseView {
      * Configura los eventos del checkout
      */
     setupCheckoutEvents() {
+        // Limpiar event listeners previos
+        this.removeCheckoutEventListeners();
+
         // Configurar métodos de pago
         document.querySelectorAll('input[name="metodo-pago"]').forEach(radio => {
             radio.addEventListener('change', this.handlePaymentMethodChange);
@@ -186,33 +240,69 @@ class CartView extends BaseView {
         // Configurar formulario de pago
         const paymentForm = document.getElementById("formulario-pago");
         if (paymentForm) {
-            paymentForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                window.dispatchEvent(new CustomEvent('processPayment'));
-            });
+            paymentForm.addEventListener('submit', this.handlePaymentFormSubmit);
         }
 
         // Configurar botones de navegación
-        document.getElementById("volver-carrito")?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.dispatchEvent(new CustomEvent('backToCart'));
+        document.getElementById("volver-carrito")?.addEventListener('click', this.handleBackToCartClick);
+        document.getElementById("volver-inicio")?.addEventListener('click', this.handleBackToHomeClick);
+        document.getElementById("intentar-nuevamente")?.addEventListener('click', this.handleTryAgainClick);
+    }
+
+    /**
+     * Elimina los event listeners del checkout para evitar duplicados
+     */
+    removeCheckoutEventListeners() {
+        document.querySelectorAll('input[name="metodo-pago"]').forEach(radio => {
+            radio.removeEventListener('change', this.handlePaymentMethodChange);
         });
 
-        document.getElementById("volver-inicio")?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.dispatchEvent(new CustomEvent('backToHome'));
-        });
+        const paymentForm = document.getElementById("formulario-pago");
+        if (paymentForm) {
+            paymentForm.removeEventListener('submit', this.handlePaymentFormSubmit);
+        }
 
-        document.getElementById("intentar-nuevamente")?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.dispatchEvent(new CustomEvent('tryAgain'));
-        });
+        document.getElementById("volver-carrito")?.removeEventListener('click', this.handleBackToCartClick);
+        document.getElementById("volver-inicio")?.removeEventListener('click', this.handleBackToHomeClick);
+        document.getElementById("intentar-nuevamente")?.removeEventListener('click', this.handleTryAgainClick);
+    }
+
+    /**
+     * Manejador para el envío del formulario de pago
+     */
+    handlePaymentFormSubmit = (e) => {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('processPayment'));
+    }
+
+    /**
+     * Manejador para el botón de volver al carrito
+     */
+    handleBackToCartClick = (e) => {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('backToCart'));
+    }
+
+    /**
+     * Manejador para el botón de volver al inicio
+     */
+    handleBackToHomeClick = (e) => {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('backToHome'));
+    }
+
+    /**
+     * Manejador para el botón de intentar nuevamente
+     */
+    handleTryAgainClick = (e) => {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('tryAgain'));
     }
 
     /**
      * Maneja el cambio de método de pago
      */
-    handlePaymentMethodChange(e) {
+    handlePaymentMethodChange = (e) => {
         const method = e.target.value;
         document.querySelectorAll(".formulario-metodo-pago").forEach(form => {
             form.style.display = "none";
@@ -287,18 +377,8 @@ class CartView extends BaseView {
      * @param {Object} handlers - Manejadores de eventos
      */
     setupCartEvents(handlers) {
-        // Configurar eventos globales
-        window.addEventListener('updateQuantity', (e) => {
-            handlers.updateQuantity(e.detail.productId, e.detail.quantity);
-        });
-
-        window.addEventListener('removeItem', (e) => {
-            handlers.removeItem(e.detail.productId);
-        });
-
-        window.addEventListener('checkout', () => {
-            handlers.checkout();
-        });
+        // Este método ya no es necesario, ya que los eventos se configuran en setupGlobalEventListeners del controlador
+        console.log('setupCartEvents: Este método está obsoleto y no debería ser llamado');
     }
 
     /**
@@ -306,21 +386,36 @@ class CartView extends BaseView {
      * @param {Object} handlers - Manejadores de eventos
      */
     setupCheckoutFormEvents(handlers) {
-        window.addEventListener('processPayment', () => {
-            handlers.processPayment();
-        });
-
-        window.addEventListener('backToCart', () => {
-            handlers.backToCart();
-        });
-
-        window.addEventListener('backToHome', () => {
-            handlers.backToHome();
-        });
-
-        window.addEventListener('tryAgain', () => {
-            handlers.tryAgain();
-        });
+        // Almacenar los handlers para usarlos en los métodos de manejo de eventos
+        this.checkoutHandlers = handlers;
+        
+        // Los event listeners se configuran en setupCheckoutEvents
+    }
+    
+    /**
+     * Muestra un mensaje al usuario utilizando NotificationUtils
+     * @param {string} message - Mensaje a mostrar
+     * @param {string} type - Tipo de mensaje (success, error, info, warning)
+     */
+    showMessage(message, type = 'info') {
+        // Utilizar NotificationUtils para mostrar el mensaje
+        switch (type) {
+            case 'success':
+                NotificationUtils.showSuccess(message);
+                break;
+            case 'error':
+                NotificationUtils.showError(message);
+                break;
+            case 'warning':
+                NotificationUtils.showWarning(message);
+                break;
+            case 'info':
+                NotificationUtils.showInfo(message);
+                break;
+            default:
+                NotificationUtils.showMessage(message, type);
+                break;
+        }
     }
 }
 
