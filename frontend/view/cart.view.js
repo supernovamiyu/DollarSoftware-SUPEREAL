@@ -206,9 +206,9 @@ class CartView extends BaseView {
         summaryContainer.innerHTML = cartItems.map(item => `
             <div class="checkout-item">
                 <img src="${item.imagen_url}" 
-                     alt="${item.nombre_producto}" 
-                     class="checkout-item-image"
-                     onerror="this.src='img/default-product.png'">
+                        alt="${item.nombre_producto}" 
+                        class="checkout-item-image"
+                        onerror="this.src='img/default-product.png'">
                 <div class="checkout-item-details">
                     <h4>${item.nombre_producto}</h4>
                     <p>Cantidad: ${item.cantidad}</p>
