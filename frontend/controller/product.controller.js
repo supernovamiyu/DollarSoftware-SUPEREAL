@@ -11,9 +11,38 @@ class ProductController {
         this.view = view
         this.currentProductId = null
 
-        // Configurar delegación de eventos global para imágenes de productos
-        this.setupProductImageEvents()
+        // Configurar delegación de eventos globales para las imagenes de los productos
+        this.setupGlobalProductClickHandler();
+
     }
+    /**
+     *  Configura la delegación de eventos globales para las imagenes de los productos
+     */
+
+    setupGlobalProductClickHandler() {
+        document.body.addEventListener('click', (e) => {
+            // Verificar si el clic fue en una imagen del producto
+            const productImage = e.target.closest('.imagen-individual-producto');
+            if (!productImage) return
+
+            // Obtener el contenedor del producto
+            const productContainer = productImage.closest('.contenedor-producto')
+            if (!productContainer) return
+
+            // Obtener el ID del producto desde el boton de compra
+            const buyButton = productContainer.querySelector('.comprar');
+            if (!buyButton) return
+
+            const productId = buyButton.getAttribute('data-id')
+            if (productId) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.showProductDetails(productId)
+            }
+        })
+    }
+
+
 
     /**
      * Muestra los productos destacados
@@ -106,13 +135,10 @@ class ProductController {
         try {
             console.log(`Mostrando detalles del producto ID/Slug: ${productId}`)
 
-            // Guardar el ID del producto actual
-            this.currentProductId = productId
-
             // Obtener los detalles del producto
             const product = await this.model.getProductDetails(productId)
 
-            if (!product) {
+            if (!product || !product.nombre_producto) {
                 this.view.showMessage("Producto no encontrado", "error")
                 return
             }
@@ -132,7 +158,7 @@ class ProductController {
             this.setupAddToCartButtons()
         } catch (error) {
             console.error("Error al mostrar detalles del producto:", error)
-            // No mostrar mensaje de error aquí, ya que los detalles ya se mostraron
+            
         }
     }
 
@@ -223,38 +249,6 @@ class ProductController {
         // Ya no necesitamos llamar a setupProductImageEvents aquí
         // porque lo hacemos a nivel global en el constructor
         this.setupAddToCartButtons()
-    }
-
-    /**
-     * Configura los eventos de clic en las imágenes de productos
-     */
-    setupProductImageEvents() {
-        // Usar delegación de eventos para manejar clics en imágenes de productos
-        document.addEventListener("click", (event) => {
-            // Verificar si el clic fue en una imagen de producto
-            const productImage = event.target.closest(".imagen-individual-producto")
-            if (!productImage) return
-
-            // Obtener el contenedor del producto
-            const productContainer = productImage.closest(".contenedor-producto")
-            if (!productContainer) return
-
-            // Obtener el ID del producto desde el botón de compra
-            const buyButton = productContainer.querySelector(".comprar")
-            if (!buyButton) return
-
-            const productId = buyButton.getAttribute("data-id")
-            if (productId) {
-                // Prevenir comportamiento predeterminado si es un enlace
-                event.preventDefault()
-                console.log(`Clic en imagen de producto ID: ${productId}`)
-
-                // Mostrar detalles del producto
-                this.showProductDetails(productId)
-            }
-        })
-
-        console.log("Eventos de imágenes de productos configurados")
     }
 
     /**

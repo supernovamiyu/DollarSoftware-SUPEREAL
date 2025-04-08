@@ -170,23 +170,6 @@ class AppController {
         }
     }
 
-    /**
-     * Inicializa el observador de cambios en el DOM
-     */
-    initDOMObserver() {
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.addedNodes.length) {
-                    this.controllers.productController.setupProductImageEvents();
-                }
-            });
-        });
-
-        const containerPrincipal = document.getElementById("container-principal");
-        if (containerPrincipal) {
-            observer.observe(containerPrincipal, { childList: true, subtree: true });
-        }
-    }
 }
 
 export default AppController;

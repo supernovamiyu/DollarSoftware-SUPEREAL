@@ -380,22 +380,6 @@ class ProductView extends BaseView {
     }
 
     /**
-     * Configura los eventos para las imágenes de productos
-     * @param {Function} clickHandler - Función a ejecutar cuando se hace clic en una imagen
-     */
-    setupProductImageEvents(clickHandler) {
-        // Seleccionar todas las imágenes de productos
-        document.querySelectorAll(".imagen-individual-producto").forEach((image) => {
-            // Eliminar cualquier event listener existente para evitar duplicados
-            image.removeEventListener("click", clickHandler)
-            // Agregar el nuevo event listener
-            image.addEventListener("click", clickHandler)
-            // Cambiar el cursor para indicar que es clickeable
-            image.style.cursor = "pointer"
-        })
-    }
-
-    /**
      * Configura los eventos para los botones de agregar al carrito
      * @param {Function} clickHandler - Función a ejecutar cuando se hace clic en un botón
      */
