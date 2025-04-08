@@ -18,7 +18,6 @@ class AppController {
     init() {
         // Manejar la ruta inicial
         this.handleRouteChange();
-        this.initDOMObserver();
     }
 
     /**
