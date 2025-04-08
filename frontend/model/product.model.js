@@ -65,17 +65,17 @@
          * @returns {Promise<Object|null>} - Detalles del producto o null si no se encuentra
          */
         async getProductDetails(productId) {
-        try {
-            const response = await fetch(`http://localhost:3000/products/${productId}`)
-            if (!response.ok) {
-            throw new Error("Error al obtener detalles del producto")
+            try {
+                const response = await fetch(`http://localhost:3000/products/${productId}`)
+                if (!response.ok) {
+                    throw new Error("Error al obtener detalles del producto")
+                }
+                const data = await response.json()
+                return data
+            } catch (error) {
+                console.error("Error al obtener detalles del producto:", error)
+                return null
             }
-            const data = await response.json()
-            return data
-        } catch (error) {
-            console.error("Error al obtener detalles del producto:", error)
-            return null
-        }
         }
     
         /**
