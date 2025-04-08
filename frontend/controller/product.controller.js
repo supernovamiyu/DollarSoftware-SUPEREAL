@@ -138,7 +138,7 @@ class ProductController {
             // Obtener los detalles del producto
             const product = await this.model.getProductDetails(productId)
 
-            if (!product || typeof product !== "object") {
+            if (!product || typeof product !== 'object') {
                 this.view.showMessage("Producto no encontrado", "error")
                 console.error("Datos del producto incompletos: ", product)
                 return
