@@ -133,33 +133,33 @@ class ProductController {
      */
     async showProductDetails(productId) {
         try {
-            console.log(`Mostrando detalles del producto ID/Slug: ${productId}`)
-
-            // Obtener los detalles del producto
-            const product = await this.model.getProductDetails(productId)
-
-            if (!product || typeof product !== 'object') {
-                this.view.showMessage("Producto no encontrado", "error")
-                console.error("Datos del producto incompletos: ", product)
-                return
-            }
-
-            // Mostrar los detalles del producto
-            this.view.showProductDetails(product)
-
-            // Cargar las opiniones del producto
-            this.loadProductReviews(product.id_productos || productId)
-
-            // Agregar el formulario para enviar opiniones
-            this.view.addReviewForm(product.id_productos || productId, (reviewData) => {
-                this.handleReviewSubmit(reviewData)
-            })
-
-            // Configurar eventos para los botones de agregar al carrito
-            this.setupAddToCartButtons()
-        } catch (error) {
-            console.error("Error al mostrar detalles del producto:", error)
+            // Validación inicial
+            if (!productId) return;
+    
+            // Obtener datos
+            const product = await this.model.getProductDetails(productId);
             
+            // Validación exhaustiva
+            if (!product?.id_productos) {
+                console.error('Producto inválido:', product);
+                return;
+            }
+    
+            // Asegurar nombre (sin mostrar errores al usuario)
+            if (!product.nombre_producto) {
+                product.nombre_producto = `Producto ${product.id_productos}`;
+            }
+    
+            // Renderizar vista (sin actualizar URL aquí)
+            this.view.showProductDetails(product);
+    
+            // Configuraciones adicionales
+            this.loadProductReviews(product.id_productos);
+            this.setupAddToCartButtons();
+    
+        } catch (error) {
+            console.error("Error controlado:", error);
+            // No mostrar mensajes al usuario para evitar popups
         }
     }
 

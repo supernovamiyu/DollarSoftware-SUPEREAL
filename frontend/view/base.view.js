@@ -96,18 +96,25 @@
          * @param {string} url - Nueva URL
          */
         updateURL(url, state = {}) {
-            if (typeof url !== 'string') {
-                console.error('La URL debe ser un string');
-                return;
-            }
-        
-            const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
-            
-            if (window.location.pathname !== normalizedUrl) {
-                window.history.pushState(state, '', normalizedUrl);
-                window.dispatchEvent(new CustomEvent('urlChanged', {
-                    detail: { url: normalizedUrl, state }
-                }));
+            try {
+                if (typeof url !== 'string') return;
+                
+                const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
+                
+                // Solo actualizar si es diferente a la actual
+                if (window.location.pathname !== normalizedUrl) {
+                    window.history.pushState(state, '', normalizedUrl);
+                    // Disparar evento sin propagación de errores
+                    try {
+                        window.dispatchEvent(new CustomEvent('urlChanged', {
+                            detail: { url: normalizedUrl, state }
+                        }));
+                    } catch (e) {
+                        console.log('Evento urlChanged no crítico:', e);
+                    }
+                }
+            } catch (error) {
+                console.log('Error no crítico al actualizar URL:', error);
             }
         }
     }

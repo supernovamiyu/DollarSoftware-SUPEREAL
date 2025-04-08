@@ -135,6 +135,31 @@ class ProductView extends BaseView {
      * @param {Object} product - Datos del producto
      */
     showProductDetails(product) {
+
+            // Validación extrema y temprana
+        if (!product?.nombre_producto) {
+            console.log('Esperando datos completos del producto...');
+            return; // Salir silenciosamente si no hay nombre
+        }
+
+        // Generación de slug segura con operador de coalescencia nula
+        const safeSlug = () => {
+            const name = product.nombre_producto ?? 'producto-sin-nombre';
+            return name.toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w-]/g, '');
+        };
+
+        // Actualización condicional de URL
+        if (product.nombre_producto) {
+            try {
+                this.updateURL(`/producto/${safeSlug()}`);
+            } catch (error) {
+                console.error('Error actualizando URL:', error);
+                // Fallback silencioso
+                this.updateURL(`/producto/${product.id_productos}`);
+            }
+        }
         const containerPrincipal = document.getElementById("container-principal")
 
         if (!containerPrincipal) {
