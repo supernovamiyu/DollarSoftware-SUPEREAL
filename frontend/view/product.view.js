@@ -142,6 +142,45 @@ class ProductView extends BaseView {
             return; // Salir silenciosamente si no hay nombre
         }
 
+        const containerPrincipal = document.getElementById("container-principal")
+        
+        if (!containerPrincipal) {
+            console.error("No se encontró el contenedor principal")
+            return
+        }
+        containerPrincipal.innerHTML = `
+        <div class="contenedor-detalle-producto">
+        <div class="titulo-seccion">
+        <h4>${product.nombre_producto}</h4>
+        </div>
+        
+        <div class="contenido-detalle-producto">
+        <div class="imagen-detalle-producto">
+        <img src="${product.imagen_url}" alt="${product.nombre_producto}" width="100%" height="auto">
+        </div>
+            
+        <div class="info-detalle-producto">
+        <div class="precio-detalle-producto">
+        <h3>Precio:</h3>
+        <p>$${product.precio}</p>
+        </div>
+        
+        <div class="descripcion-detalle-producto">
+        <h3>Descripción:</h3>
+        <p>${product.descripcion || "Sin descripción disponible"}</p>
+        </div>
+        
+        <div class="acciones-detalle-producto">
+                        <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles || 0}">
+                        Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="opiniones-container"></div>
+        `;
+
         // Generación de slug segura con operador de coalescencia nula
         const safeSlug = () => {
             const name = product.nombre_producto ?? 'producto-sin-nombre';
@@ -149,7 +188,7 @@ class ProductView extends BaseView {
                 .replace(/\s+/g, '-')
                 .replace(/[^\w-]/g, '');
         };
-
+    
         // Actualización condicional de URL
         if (product.nombre_producto) {
             try {
@@ -160,50 +199,32 @@ class ProductView extends BaseView {
                 this.updateURL(`/producto/${product.id_productos}`);
             }
         }
-        const containerPrincipal = document.getElementById("container-principal")
-
-        if (!containerPrincipal) {
-            console.error("No se encontró el contenedor principal")
-            return
-        }
-
-        // Crear el contenido HTML para el detalle del producto
-        const contenidoHTML = `
-        <div class="contenedor-detalle-producto">
-            <div class="titulo-seccion">
-                <h4>${product.nombre_producto}</h4>
-            </div>
-            
-            <div class="contenido-detalle-producto">
-                <div class="imagen-detalle-producto">
-                    <img src="${product.imagen_url}" alt="${product.nombre_producto}" width="100%" height="auto">
-                </div>
-            
-            <div class="info-detalle-producto">
-                <div class="precio-detalle-producto">
-                    <h3>Precio:</h3>
-                    <p>$${product.precio}</p>
-                </div>
-                
-                <div class="descripcion-detalle-producto">
-                    <h3>Descripción:</h3>
-                    <p>${product.descripcion || "Sin descripción disponible"}</p>
-                </div>
-                
-                <div class="acciones-detalle-producto">
-                    <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles || 0}">
-                    Añadir al carrito
-                    </button>
-                </div>
-            </div>
-            </div>
-        </div>
-        `
-
-        // Mostrar el contenido en el contenedor principal
-        containerPrincipal.innerHTML = contenidoHTML
     }
-
+    /**
+     * Muestra un indicador de carga para las opiniones
+     */
+    showLoadingReviews() {
+        let reviewsContainer = document.getElementById("opiniones-container");
+        
+        if (!reviewsContainer) {
+            reviewsContainer = document.createElement("div");
+            reviewsContainer.id = "opiniones-container";
+            reviewsContainer.className = "opiniones-container";
+            
+            const containerPrincipal = document.getElementById("container-principal");
+            if (containerPrincipal) {
+                containerPrincipal.appendChild(reviewsContainer);
+            }
+        }
+        
+        reviewsContainer.innerHTML = `
+            <div class="loading-reviews">
+                <div class="spinner"></div>
+                <p>Cargando opiniones...</p>
+            </div>
+        `;
+    }
+    
     /**
      * Muestra las opiniones de un producto
      * @param {Array} reviews - Lista de opiniones

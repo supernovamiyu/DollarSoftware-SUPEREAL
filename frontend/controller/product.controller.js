@@ -202,10 +202,31 @@ class ProductController {
      */
     async loadProductReviews(productId) {
         try {
-            const reviews = await this.model.getProductReviews(productId)
-            this.view.showProductReviews(reviews)
+            // Validar ID del producto
+            if (!productId) {
+                console.error('ID de producto inválido para cargar opiniones');
+                return;
+            }
+    
+            // Mostrar estado de carga (opcional)
+            this.view.showLoadingReviews();
+    
+            // Obtener opiniones
+            const reviews = await this.model.getProductReviews(productId);
+            
+            // Validar respuesta
+            if (!Array.isArray(reviews)) {
+                console.error('Formato de opiniones inválido:', reviews);
+                this.view.showMessage("Error al cargar opiniones", "error");
+                return;
+            }
+    
+            // Mostrar opiniones
+            this.view.showProductReviews(reviews);
+            
         } catch (error) {
-            console.error("Error al cargar opiniones:", error)
+            console.error("Error al cargar opiniones:", error);
+            this.view.showMessage("Error al cargar las opiniones", "error");
         }
     }
 
