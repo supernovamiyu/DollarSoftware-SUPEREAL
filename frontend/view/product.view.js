@@ -31,7 +31,7 @@ class ProductView extends BaseView {
                 .map((product) => {
                     return `
             <div class="contenedor-producto">
-                <img class="imagen-individual-producto" src="${product.imagen_url}" alt="${product.nombre_producto}" width="50%" height="auto" title="Ver los detalles del producto">
+                <img style="cursor: pointer" class="imagen-individual-producto" src="${product.imagen_url}" alt="${product.nombre_producto}" width="50%" height="auto" title="Ver los detalles del producto">
                 <h3>${product.nombre_producto}</h3>
                 <p>Precio: <br>$${product.precio}</p>
                 <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles}">Añadir al carrito</button>
@@ -99,7 +99,7 @@ class ProductView extends BaseView {
                 .map(
                     (product) => `
             <div class="contenedor-producto producto-resultado">
-                <img class="imagen-individual-producto" 
+                <img style="cursor: pointer" class="imagen-individual-producto" 
                         src="${product.imagen_url || "ruta/por/defecto.jpg"}" 
                         alt="${product.nombre_producto}" 
                         title="Ver detalles de ${product.nombre_producto}">
@@ -410,7 +410,7 @@ class ProductView extends BaseView {
             .map((product) => {
                 return `
         <div class="contenedor-producto">
-            <img class="imagen-individual-producto" src="${product.imagen_url}" alt="Imagen del producto" width="50%" height="auto" title="Ver los detalles del producto">
+            <img style="cursor: pointer" class="imagen-individual-producto" src="${product.imagen_url}" alt="Imagen del producto" width="50%" height="auto" title="Ver los detalles del producto">
             <h3>${product.nombre_producto}</h3>
             <p>Precio: <br> $${product.precio}</p>
             <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles}">Añadir al carrito</button>
