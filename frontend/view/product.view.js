@@ -146,29 +146,29 @@ class ProductView extends BaseView {
         const contenidoHTML = `
         <div class="contenedor-detalle-producto">
             <div class="titulo-seccion">
-            <h4>${product.nombre_producto}</h4>
+                <h4>${product.nombre_producto}</h4>
             </div>
             
             <div class="contenido-detalle-producto">
-            <div class="imagen-detalle-producto">
-                <img src="${product.imagen_url}" alt="${product.nombre_producto}" width="100%" height="auto">
-            </div>
+                <div class="imagen-detalle-producto">
+                    <img src="${product.imagen_url}" alt="${product.nombre_producto}" width="100%" height="auto">
+                </div>
             
             <div class="info-detalle-producto">
                 <div class="precio-detalle-producto">
-                <h3>Precio:</h3>
-                <p>$${product.precio}</p>
+                    <h3>Precio:</h3>
+                    <p>$${product.precio}</p>
                 </div>
                 
                 <div class="descripcion-detalle-producto">
-                <h3>Descripción:</h3>
-                <p>${product.descripcion || "Sin descripción disponible"}</p>
+                    <h3>Descripción:</h3>
+                    <p>${product.descripcion || "Sin descripción disponible"}</p>
                 </div>
                 
                 <div class="acciones-detalle-producto">
-                <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles || 0}">
+                    <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles || 0}">
                     Añadir al carrito
-                </button>
+                    </button>
                 </div>
             </div>
             </div>
