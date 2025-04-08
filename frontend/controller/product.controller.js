@@ -100,11 +100,11 @@ class ProductController {
 
     /**
      * Muestra los detalles de un producto
-     * @param {string} productId - ID del producto
+     * @param {string} productId - ID del producto o slug del producto
      */
     async showProductDetails(productId) {
         try {
-            console.log(`Mostrando detalles del producto ID: ${productId}`)
+            console.log(`Mostrando detalles del producto ID/Slug: ${productId}`)
 
             // Guardar el ID del producto actual
             this.currentProductId = productId
@@ -121,10 +121,10 @@ class ProductController {
             this.view.showProductDetails(product)
 
             // Cargar las opiniones del producto
-            this.loadProductReviews(productId)
+            this.loadProductReviews(product.id_productos || productId)
 
             // Agregar el formulario para enviar opiniones
-            this.view.addReviewForm(productId, (reviewData) => {
+            this.view.addReviewForm(product.id_productos || productId, (reviewData) => {
                 this.handleReviewSubmit(reviewData)
             })
 
@@ -132,7 +132,7 @@ class ProductController {
             this.setupAddToCartButtons()
         } catch (error) {
             console.error("Error al mostrar detalles del producto:", error)
-            this.view.showMessage("Error al cargar los detalles del producto", "error")
+            // No mostrar mensaje de error aquí, ya que los detalles ya se mostraron
         }
     }
 
@@ -275,4 +275,3 @@ class ProductController {
 }
 
 export default ProductController
-
