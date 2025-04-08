@@ -40,17 +40,6 @@ class CartController {
             }
         })
 
-        // Evento personalizado para agregar al carrito
-        // PROBLEMA: Este evento está duplicando la adición al carrito
-        // ya que handleAddToCartClick ya llama a addToCart
-        // Comentamos o eliminamos este listener para evitar la duplicación
-        /*
-            window.addEventListener('addToCart', async (e) => {
-                const { productId } = e.detail;
-                await this.addToCart(productId);
-            });
-            */
-
         // Evento para actualizar la vista del carrito
         window.addEventListener("cartUpdated", () => {
             this.updateCartDisplay()

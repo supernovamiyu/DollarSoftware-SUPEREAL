@@ -233,7 +233,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.274);
 }
 
-#imagen-individual-producto {
+.imagen-individual-producto {
     cursor: pointer;
 }
 
