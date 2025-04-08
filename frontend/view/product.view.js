@@ -174,7 +174,7 @@ class ProductView extends BaseView {
             </div>
         </div>
         `
-        
+
         // Mostrar el contenido en el contenedor principal
         containerPrincipal.innerHTML = contenidoHTML
     }
