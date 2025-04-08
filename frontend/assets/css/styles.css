@@ -106,6 +106,7 @@ body {
     padding: 1%;
     width: 100%;
     text-align: center;
+    margin-bottom: 0;
 }
 
 .categoria-botones {
@@ -1611,12 +1612,6 @@ p.elemento-ubicacion-tiendas {
     margin: 0 auto;
     padding: 20px;
     font-family: 'Lexend', sans-serif;
-}
-
-.titulo-seccion {
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
 }
 
 .contenedor-formulario-pasarela-de-pago {
