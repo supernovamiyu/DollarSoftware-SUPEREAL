@@ -142,9 +142,6 @@ class ProductView extends BaseView {
             return
         }
 
-        // Actualizar la URL
-        this.updateURL(`/producto/${product.nombre_producto.replace(/ /g, "-").toLowerCase()}`)
-
         // Crear el contenido HTML para el detalle del producto
         const contenidoHTML = `
         <div class="contenedor-detalle-producto">
@@ -177,7 +174,7 @@ class ProductView extends BaseView {
             </div>
         </div>
         `
-
+        
         // Mostrar el contenido en el contenedor principal
         containerPrincipal.innerHTML = contenidoHTML
     }
