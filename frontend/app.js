@@ -99,14 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
     customerSupportController.showCustomerSupportPage()
   }
 
+  // Asegurarnos de que las funciones de navegación para autenticación estén correctamente definidas
   window.mostrarPantallaInicioSesion = (event) => {
     if (event) event.preventDefault()
-    authController.showLoginPage()
+    appController.navigateTo("/login")
   }
 
   window.mostrarPantallaRegistro = (event) => {
     if (event) event.preventDefault()
-    authController.showRegisterPage()
+    appController.navigateTo("/registro")
   }
 
   window.mostrarPantallaPerfil = (event) => {
@@ -117,4 +118,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Inicializar la vista por defecto
   homeController.showHomePage()
 })
-
