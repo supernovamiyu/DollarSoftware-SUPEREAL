@@ -11,7 +11,16 @@
     showProfilePage(user) {
         if (this.showTemplate("plantilla-perfil-usuario", "container-principal")) {
         this.updateProfileInfo(user)
+        // Mostrar la sección de gestión de pedidos por defecto
+        setTimeout(() => {
+            const defaultButton = document.getElementById("gestion-de-pedidos-boton-perfil")
+            if (defaultButton) {
+            defaultButton.click()
+            }
+        }, 100)
+        return true
         }
+        return false
     }
 
     /**
@@ -35,6 +44,8 @@
      * @param {string} sectionId - ID de la sección a mostrar
      */
     showProfileSection(sectionId) {
+        console.log("Mostrando sección:", sectionId)
+
         // Ocultar todas las secciones primero
         this.hideAllSections()
 
@@ -51,6 +62,19 @@
         const profileContainer = document.querySelector(".user-profile-container")
         if (profileContainer) {
             profileContainer.appendChild(section)
+        } else {
+            // Si no encuentra el contenedor específico, intentar con otro contenedor general
+            const generalContainer =
+            document.querySelector(".profile-content") || document.querySelector(".profile-container")
+            if (generalContainer) {
+            generalContainer.appendChild(section)
+            } else {
+            // Último recurso: agregar al final del contenedor principal
+            const mainContainer = document.getElementById("container-principal")
+            if (mainContainer) {
+                mainContainer.appendChild(section)
+            }
+            }
         }
 
         // Cargar el contenido según la sección
@@ -79,9 +103,10 @@
      * @param {string} activeSectionId - ID de la sección activa
      */
     updateButtonStyles(activeSectionId) {
-        const buttons = document.querySelectorAll(".user-option-button button")
+        const buttons = document.querySelectorAll(".profile-button, .user-option-button button")
         buttons.forEach((button) => {
-        if (this.getButtonSectionId(button.id) === activeSectionId) {
+        const buttonSectionId = this.getButtonSectionId(button.id || button.getAttribute("data-section"))
+        if (buttonSectionId === activeSectionId) {
             button.classList.add("active")
         } else {
             button.classList.remove("active")
@@ -91,20 +116,20 @@
 
     /**
      * Obtiene el ID de la sección correspondiente a un botón
-     * @param {string} buttonId - ID del botón
+     * @param {string} buttonId - ID del botón o atributo data-section
      * @returns {string} - ID de la sección
      */
     getButtonSectionId(buttonId) {
-        switch (buttonId) {
-        case "gestion-de-pedidos-boton-perfil":
-            return "seccion-gestion-pedidos"
-        case "historial-de-productos-boton-perfil":
-            return "seccion-historial-productos"
-        case "agregar-o-modificar-datos-boton-perfil":
-            return "seccion-modificar-datos"
-        default:
-            return ""
+        if (!buttonId) return ""
+
+        // Mapeo directo de IDs de botones a IDs de secciones
+        const buttonToSectionMap = {
+        "gestion-de-pedidos-boton-perfil": "seccion-gestion-pedidos",
+        "historial-de-productos-boton-perfil": "seccion-historial-productos",
+        "agregar-o-modificar-datos-boton-perfil": "seccion-modificar-datos",
         }
+
+        return buttonToSectionMap[buttonId] || ""
     }
 
     /**
@@ -237,11 +262,93 @@
      * @param {Function} buttonClickHandler - Manejador para los botones del perfil
      */
     setupProfileButtons(buttonClickHandler) {
-        const profileButtons = document.querySelectorAll(".user-option-button button")
-        profileButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            buttonClickHandler(button.id)
+        console.log("Configurando botones del perfil")
+
+        // Buscar botones por clase o por texto
+        const profileButtons = document.querySelectorAll(
+        ".profile-button, button:contains('Gestión de Pedidos'), button:contains('Historial de Productos'), button:contains('Agregar o modificar datos')",
+        )
+
+        if (profileButtons.length === 0) {
+        console.log("No se encontraron botones del perfil por clase o texto. Buscando por IDs específicos...")
+
+        // Intentar encontrar botones por IDs específicos
+        const buttonIds = [
+            "gestion-de-pedidos-boton-perfil",
+            "historial-de-productos-boton-perfil",
+            "agregar-o-modificar-datos-boton-perfil",
+        ]
+
+        buttonIds.forEach((id) => {
+            const button = document.getElementById(id)
+            if (button) {
+            console.log(`Botón encontrado: ${id}`)
+            button.removeEventListener("click", () => buttonClickHandler(id))
+            button.addEventListener("click", () => buttonClickHandler(id))
+            } else {
+            console.log(`Botón no encontrado: ${id}`)
+            }
         })
+
+        // Buscar por texto dentro de los botones
+        document.querySelectorAll("button").forEach((button) => {
+            const buttonText = button.textContent.trim()
+            let buttonId = null
+
+            if (buttonText === "Gestión de Pedidos") {
+            buttonId = "gestion-de-pedidos-boton-perfil"
+            button.id = buttonId
+            } else if (buttonText === "Historial de Productos") {
+            buttonId = "historial-de-productos-boton-perfil"
+            button.id = buttonId
+            } else if (buttonText === "Agregar o modificar datos") {
+            buttonId = "agregar-o-modificar-datos-boton-perfil"
+            button.id = buttonId
+            }
+
+            if (buttonId) {
+            console.log(`Asignando ID y evento a botón por texto: ${buttonText} -> ${buttonId}`)
+            button.removeEventListener("click", () => buttonClickHandler(buttonId))
+            button.addEventListener("click", () => buttonClickHandler(buttonId))
+            }
+        })
+        } else {
+        console.log(`Se encontraron ${profileButtons.length} botones del perfil`)
+
+        // Asignar IDs y eventos a los botones encontrados
+        profileButtons.forEach((button) => {
+            const buttonText = button.textContent.trim()
+            let buttonId = button.id
+
+            if (!buttonId) {
+            if (buttonText === "Gestión de Pedidos") {
+                buttonId = "gestion-de-pedidos-boton-perfil"
+            } else if (buttonText === "Historial de Productos") {
+                buttonId = "historial-de-productos-boton-perfil"
+            } else if (buttonText === "Agregar o modificar datos") {
+                buttonId = "agregar-o-modificar-datos-boton-perfil"
+            }
+
+            if (buttonId) {
+                button.id = buttonId
+            }
+            }
+
+            if (buttonId) {
+            console.log(`Configurando evento para botón: ${buttonId}`)
+            button.removeEventListener("click", () => buttonClickHandler(buttonId))
+            button.addEventListener("click", () => buttonClickHandler(buttonId))
+            }
+        })
+        }
+
+        // Agregar soporte para botones con data-section
+        document.querySelectorAll("[data-section]").forEach((button) => {
+        const sectionId = button.getAttribute("data-section")
+        if (sectionId) {
+            button.removeEventListener("click", () => buttonClickHandler(button.id || sectionId))
+            button.addEventListener("click", () => buttonClickHandler(button.id || sectionId))
+        }
         })
     }
 
@@ -270,4 +377,3 @@
     }
 
     export default ProfileView
-

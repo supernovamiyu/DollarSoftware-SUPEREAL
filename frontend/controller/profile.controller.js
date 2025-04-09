@@ -23,21 +23,50 @@
             return
         }
     
-        this.view.showProfilePage(user)
-        this.setupProfileEvents()
+        if (this.view.showProfilePage(user)) {
+            console.log("Perfil mostrado correctamente, configurando eventos...")
+            setTimeout(() => this.setupProfileEvents(), 200)
+        } else {
+            console.error("Error al mostrar el perfil de usuario")
+        }
         }
     
         /**
          * Configura los eventos para la página de perfil
          */
         setupProfileEvents() {
+        console.log("Configurando eventos del perfil")
+    
         // Configurar botones del perfil
-        this.view.setupProfileButtons((buttonId) => this.handleProfileButtonClick(buttonId))
+        this.view.setupProfileButtons((buttonId) => {
+            console.log("Botón clickeado:", buttonId)
+            this.handleProfileButtonClick(buttonId)
+        })
     
         // Configurar botón de cerrar sesión
-        document.getElementById("logoutButton")?.addEventListener("click", () => {
+        const logoutButton = document.getElementById("logoutButton")
+        if (logoutButton) {
+            console.log("Configurando botón de logout")
+            logoutButton.removeEventListener("click", () => window.dispatchEvent(new CustomEvent("logout")))
+            logoutButton.addEventListener("click", () => {
+            console.log("Cerrando sesión...")
             window.dispatchEvent(new CustomEvent("logout"))
-        })
+            })
+        } else {
+            console.log("Botón de logout no encontrado, buscando alternativas...")
+            // Buscar por texto
+            document.querySelectorAll("button").forEach((button) => {
+            if (button.textContent.trim() === "Cerrar Sesión") {
+                console.log("Botón de logout encontrado por texto")
+                button.id = "logoutButton"
+                button.removeEventListener("click", () => window.dispatchEvent(new CustomEvent("logout")))
+                button.addEventListener("click", () => {
+                console.log("Cerrando sesión...")
+                window.dispatchEvent(new CustomEvent("logout"))
+                })
+            }
+            })
+        }
         }
     
         /**
@@ -45,15 +74,22 @@
          * @param {string} buttonId - ID del botón
          */
         handleProfileButtonClick(buttonId) {
+        console.log("Manejando clic en botón:", buttonId)
+    
         // Obtener el ID de la sección correspondiente al botón
         const sectionId = this.getSectionIdFromButtonId(buttonId)
+        console.log("Sección correspondiente:", sectionId)
     
-        // Mostrar la sección
-        this.view.showProfileSection(sectionId)
+        if (sectionId) {
+            // Mostrar la sección
+            this.view.showProfileSection(sectionId)
     
-        // Si es la sección de modificar datos, configurar el formulario
-        if (sectionId === "seccion-modificar-datos") {
-            this.setupDataForm()
+            // Si es la sección de modificar datos, configurar el formulario
+            if (sectionId === "seccion-modificar-datos") {
+            setTimeout(() => this.setupDataForm(), 100)
+            }
+        } else {
+            console.error("No se pudo determinar la sección para el botón:", buttonId)
         }
         }
     
@@ -104,5 +140,4 @@
     }
     
     export default ProfileController
-    
     
