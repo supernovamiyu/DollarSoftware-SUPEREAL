@@ -29,8 +29,8 @@ class CartView extends BaseView {
             cartContainer.innerHTML = cartItems.length === 0
                     ? `
                     <div class="contenedor-carrito-vacio">
-                        <i class="fa-solid fa-face-frown imagen-carita-triste" style="color: #c4c6ca;"></i>
-                        <p class='carrito-vacio'>¡No hay productos en el carrito!</p>
+                        <i class="fa-solid fa-face-frown imagen-carita-triste elemento-carrito-vacio" style="color: #c4c6ca;"></i>
+                        <p class='carrito-vacio elemento-carrito-vacio'>¡No hay productos en el carrito!</p>
                     </div>`
                 : this.renderCartItems(cartItems, total);
             

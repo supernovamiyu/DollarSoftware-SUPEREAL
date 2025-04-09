@@ -2206,5 +2206,9 @@ p.elemento-ubicacion-tiendas {
 }
 
 .imagen-carita-triste {
-    font-size: 20vh;
+    font-size: 25vh;
+}
+
+.elemento-carrito-vacio {
+    margin: 15%;
 }
