@@ -2197,3 +2197,10 @@ p.elemento-ubicacion-tiendas {
 .checkout-item-details h4 {
     font-size: 100%;
 }
+
+.contenedor-carrito-vacio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
