@@ -467,6 +467,81 @@ class ProductView extends BaseView {
 
         featuredProductsContainer.innerHTML = productsHTML
     }
+    /**
+     * Elimina formularios de opinión existentes
+     */ 
+    removeExistingReviewForms()
+    {
+    const existingForms = document.querySelectorAll(".seccion-opiniones")
+    existingForms.forEach((form) => form.remove())
+    }
+
+    /**
+     * Agrega el formulario para enviar opiniones
+     * @param {string} productId - ID del producto
+     * @param {Function} submitHandler - Función para manejar el envío del formulario
+     */
+    addReviewForm(productId, submitHandler)
+    {
+    // Primero verificamos si ya existe un formulario
+    if (document.querySelector(".seccion-opiniones")) {
+        return; // Si ya existe, no agregamos otro
+    }
+
+    const containerPrincipal = document.getElementById("container-principal")
+
+    if (!containerPrincipal) {
+        console.error("No se encontró el contenedor principal")
+        return
+    }
+
+    // Crear el contenedor del formulario
+    const formContainer = document.createElement("div")
+    formContainer.className = "seccion-opiniones"
+
+    // Título del formulario
+    const formTitle = document.createElement("div")
+    formTitle.className = "titulo-seccion"
+    formTitle.innerHTML = "<h4>Deja tu opinión</h4>"
+    formContainer.appendChild(formTitle)
+
+    // Crear el formulario
+    const form = document.createElement("form")
+    form.id = "formulario-opiniones"
+    form.innerHTML = `
+    <textarea id="opinion" placeholder="Escribe tu opinión aquí..." required></textarea>
+    <div class="opciones-opinion">
+        <label class="checkbox-container">
+        <input type="checkbox" id="anonimo"> Quiero permanecer anónimo
+        </label>
+    </div>
+    <button type="submit" class="boton-enviar-opinion">Enviar Opinión</button>
+    `
+
+    // Agregar evento de envío al formulario
+    form.addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        const opinionInput = document.getElementById("opinion")
+        const anonymousCheckbox = document.getElementById("anonimo")
+
+        if (opinionInput && anonymousCheckbox) {
+        const reviewData = {
+            productId,
+            opinion: opinionInput.value.trim(),
+            anonymous: anonymousCheckbox.checked,
+        }
+
+        submitHandler(reviewData)
+        }
+    })
+
+    formContainer.appendChild(form)
+
+    // Agregar el formulario al contenedor principal
+    containerPrincipal.appendChild(formContainer)
+}
+
 }
 
 export default ProductView
