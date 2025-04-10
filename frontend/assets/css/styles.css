@@ -3,11 +3,12 @@ body {
 }
 
 .container{
-    max-width: 500px;
+    max-width: 1920px;
 }
 
 .carousel-container {
-    max-width: 500px;
+    max-width: 1920px;
+    height: 500px;
     position: relative;
     margin: auto;
     position: relative;
@@ -147,7 +148,9 @@ body {
                 0 0 10px rgb(170, 184, 255),
                 0 0 20px rgb(170, 184, 255);
 }
-
+.iconos-menu-navegacion{
+    margin: 10px;
+}
 .barra-navegacion{
     display: flex;
     width: 100%;
