@@ -148,23 +148,28 @@ body {
                 0 0 10px rgb(170, 184, 255),
                 0 0 20px rgb(170, 184, 255);
 }
-.iconos-menu-navegacion{
-    margin: 10px;
-}
+
 .barra-navegacion{
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
     background-color: rgb(113, 137, 255);
     align-items: center;
 }
 
 .barra-navegacion a{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     color: white;
     text-decoration: none;
-    margin: 0 5%;
-    width: fit-content;
+    width: 15%;
     height: auto;
+}
+
+
+.iconos-menu-navegacion {
+    font-size: 20%;
 }
 
 .barra-navegacion a:hover{
@@ -515,7 +520,6 @@ body {
     border: none;
     height: 30px;
     position: relative;
-    top: 0vh;
 }
 
 #search-icon:hover{
@@ -808,9 +812,6 @@ body {
     transition: ease-in .5s;
 }
 
-form {
-    margin-bottom: 5px;
-}
 
 #ciudades, #zonas {
     background-color: #e5e5e5;
