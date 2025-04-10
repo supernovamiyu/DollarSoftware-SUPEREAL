@@ -196,8 +196,11 @@ body {
 
 .social-media-links {
     display: flex;
+    width: 30%;
+    justify-content: space-around;
 }
 .social-media-link{
+    width: 30%;
     text-decoration: none;
     color: white;
     display: flex;
