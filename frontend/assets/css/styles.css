@@ -100,7 +100,7 @@ body {
 
 .menu-categorias{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
 }
 
 .titulo-seccion{
@@ -111,6 +111,7 @@ body {
 }
 
 .categoria-botones {
+    height: 85%;
     background-color: rgb(113, 137, 255);
     color: white;
     border: none !important;
@@ -129,7 +130,7 @@ body {
 }
 
 .categoria-botones p {
-    margin-top: 10%;
+    margin-bottom: 0;
 }
 
 
@@ -217,7 +218,7 @@ body {
 }
 #productos-populares {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     justify-content: space-around;
     margin: 0 5%;
 }
