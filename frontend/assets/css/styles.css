@@ -183,7 +183,7 @@ body {
     height: 15vh;
     background-color: rgb(113, 137, 255);
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
