@@ -193,9 +193,16 @@ body {
     font-size: 90%;
 }
 
+
+.social-media-links {
+    display: flex;
+}
 .social-media-link{
     text-decoration: none;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 #terms-and-conditions {
