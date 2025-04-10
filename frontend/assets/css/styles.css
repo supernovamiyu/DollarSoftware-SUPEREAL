@@ -511,7 +511,7 @@ body {
 }
 
 .search {
-    width: fit-content;
+    width: 90%;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -569,11 +569,16 @@ body {
 }
 
 .searchbar {
+    width: 15%;
+    height: 50px;
     display: flex;
+    position: absolute;
+    z-index: 3;
     align-items: center;
     justify-content: center;
+    border-radius: 0 0 45px 45px;
     background-color: rgb(113, 137, 255);
-    height: 51px;
+    margin: 0 41.86%;
 }
 
 .titulo-resultados-productos h2 {
