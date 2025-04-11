@@ -652,13 +652,13 @@ body {
 }
 
 .boton-ayuda-individual {
+    width: 70%;
     align-items: center;
     background-color: rgb(113 137 255);
     color: white;
     border: none;
     border-radius: 5vh;
     padding: 10%;
-    margin: 10%;
     font-size: 2vh;
 }
 
@@ -792,11 +792,11 @@ body {
 
 .titulo-aspectos-ayuda {
     text-align: center;
-    margin-bottom: 6%;
 }
 
 .grupo-botones-ayuda {
     display: grid;
+    justify-items: center;
     grid-template-columns: repeat(4, 1fr);
 }
 
