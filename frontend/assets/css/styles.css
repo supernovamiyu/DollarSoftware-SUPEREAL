@@ -171,7 +171,7 @@ body {
 
 
 .iconos-menu-navegacion {
-    font-size: 20%;
+    font-size: 4vh;
 }
 
 .barra-navegacion a:hover{
@@ -227,6 +227,11 @@ body {
     color: rgb(211, 211, 211);
     transition: .5s ease;
 }
+
+.social-media-text {
+    font-size: 1.75vh;
+}
+
 #productos-populares {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
