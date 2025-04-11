@@ -431,32 +431,33 @@
             <h4>Ubicación</h4>
         </div>
         <!---------  2. FORMULARIO PARA SELECCIONAR LA UBICACIÓN DONDE SE ENCUENTRA EL USUARIO - UBICACIÓN ---------------->
-
-        <form id="formulario-ubicacion">
-            <label for="ciudad">Selecciona tu ubicación:</label>
-            <select class="selector-ubicacion" id="ciudad">
-                <option value="bogota">Bogotá D.C</option>
-                <option value="medellin">Medellín</option>
-                <option value="cali">Cali</option>
-                <option value="barranquilla">Barranquilla</option>
-            </select>
+        <div class="location-container">
+            <form id="formulario-ubicacion">
+                <label for="ciudad">Selecciona tu ubicación:</label>
+                <select class="selector-ubicacion" id="ciudad">
+                    <option value="bogota">Bogotá D.C</option>
+                    <option value="medellin">Medellín</option>
+                    <option value="cali">Cali</option>
+                    <option value="barranquilla">Barranquilla</option>
+                </select>
+        
+                <label for="zona">Selecciona la zona:</label>
+                <select class="selector-ubicacion" id="zona"></select>
     
-            <label for="zona">Selecciona la zona:</label>
-            <select class="selector-ubicacion" id="zona"></select>
-
-        <!---------  3. BOTÓN PARA ENVIAR LOS DATOS DE LA UBICACIÓN Y DESPLEGAR EL MAPA CON LAS TIENDAS DISPONIBLES - UBICACIÓN ---------------->
-
-            <button id="buscar-tiendas"type="submit">Buscar Tiendas</button>
-        </form>
-
-        <!---------  4. MAPA QUE SE DESPLIEGA CUANDO EL USUARIO DA CLICK AL BOTÓN ANTERIOR, MOSTRANDO CADA TIENDA UBICADA DISPONIBLE - UBICACIÓN ---------------->
-
-        <div id="mapa"></div>
-        
-        <!----------- 5. DETALLES DE CADA TIENDA DISPONIBLE - UBICACIÓN ---------->
-        
-        <section id="detalles-tiendas">
-        </section>
+            <!---------  3. BOTÓN PARA ENVIAR LOS DATOS DE LA UBICACIÓN Y DESPLEGAR EL MAPA CON LAS TIENDAS DISPONIBLES - UBICACIÓN ---------------->
+    
+                <button id="buscar-tiendas"type="submit">Buscar Tiendas</button>
+            </form>
+    
+            <!---------  4. MAPA QUE SE DESPLIEGA CUANDO EL USUARIO DA CLICK AL BOTÓN ANTERIOR, MOSTRANDO CADA TIENDA UBICADA DISPONIBLE - UBICACIÓN ---------------->
+    
+            <div id="mapa"></div>
+            
+            <!----------- 5. DETALLES DE CADA TIENDA DISPONIBLE - UBICACIÓN ---------->
+            
+            <section id="detalles-tiendas">
+            </section>
+        </div>
     </template>
 
     <!------------------------------ AÑADIR PRODUCTOS - CARRITO DE COMPRAS --------->
