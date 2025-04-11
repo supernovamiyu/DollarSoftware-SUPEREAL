@@ -788,12 +788,14 @@ body {
 
 .titulo-aspectos-ayuda {
     text-align: center;
+    margin: 5vh 0 0 0;
 }
 
 .grupo-botones-ayuda {
     display: grid;
     justify-items: center;
     grid-template-columns: repeat(4, 1fr);
+    margin: 5vh 0 5vh 0;
 }
 
 .explicacion-ayuda {
