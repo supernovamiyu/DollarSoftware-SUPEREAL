@@ -170,8 +170,8 @@ body {
 }
 
 
-.iconos-menu-navegacion {
-    font-size: 4vh;
+.iconos-menu-navegacion  {
+    font-size: 4vh !important;
 }
 
 .barra-navegacion a:hover{
