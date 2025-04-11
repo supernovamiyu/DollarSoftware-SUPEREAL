@@ -527,7 +527,8 @@ body {
 }
 
 .search {
-    width: 90%;
+    width: 90% !important; /* Usar porcentaje del contenedor padre fijo */
+    max-width: 280px !important; /* Limitar el ancho máximo */
     display: flex;
     align-items: center;
     padding: 10px;
@@ -536,6 +537,21 @@ body {
     border: none;
     height: 30px;
     position: relative;
+    box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+    .searchbar {
+      width: 250px; /* Ligeramente más pequeño en móviles muy pequeños */
+    }
+
+    .search {
+        width: 230px;
+    }
+
+    .search-input {
+        width: 170px;
+    }
 }
 
 #search-icon:hover{
@@ -572,20 +588,22 @@ body {
                 0 0 32px rgb(170, 184, 255);
 }
 
-.search-input{
-    width: 70%;
-    height: 20%;
+.search-input {
+    flex: 1; /* Usar flex para que ocupe el espacio disponible */
+    min-width: 0; /* Permitir que se encoja si es necesario */
+    height: 20px;
     font-size: 16px;
-    font-family: 'Lexend', sans-serif;
+    font-family: "Lexend", sans-serif;
     color: grey;
     margin-left: 10px;
     outline: none;
     border: none;
     background: transparent;
+    box-sizing: border-box;
 }
 
 .searchbar {
-    width: 15%;
+    width: 300px !important; /* Ancho fijo en lugar de 15% */
     height: 50px;
     display: flex;
     position: absolute;
@@ -594,7 +612,10 @@ body {
     justify-content: center;
     border-radius: 0 0 45px 45px;
     background-color: rgb(113, 137, 255);
-    margin: 0 41.86%;
+    /* Centrar usando left y transform en lugar de margin */
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 !important; /* Eliminar los márgenes porcentuales */
 }
 
 .titulo-resultados-productos h2 {
