@@ -653,12 +653,13 @@ body {
 
 .boton-ayuda-individual {
     align-items: center;
-    background-color: rgba(113, 137, 255, 0.678);
+    background-color: rgb(113 137 255);
     color: white;
     border: none;
-    border-radius: 100%;
+    border-radius: 5vh;
     padding: 10%;
-    margin: 10%
+    margin: 10%;
+    font-size: 2vh;
 }
 
 .boton-ayuda-individual > .icono-ayuda-individual {
