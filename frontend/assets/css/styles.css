@@ -834,9 +834,11 @@ body {
     margin-bottom: 20px;
     border-radius: 20px;
     padding: 5px;
+    border: solid rgb(113, 137, 255);
 }
 
 .selector-ubicacion:hover {
+    border: solid rgb(113, 137, 255);
     background-color: #dddcdc;
     transition: ease-in .5s;
 }
