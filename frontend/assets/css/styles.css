@@ -805,7 +805,7 @@ body {
 .accordion-button:focus {
     z-index: 3;
     outline: 0;
-    box-shadow: 2px 2px 2px 2px rgb(113, 137, 255);
+    box-shadow: 4px 127px 400px -61px rgb(113, 137, 255);
 }
 
 /******* SECCIÓN DE UBICACIÓN ********/
