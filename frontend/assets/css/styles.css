@@ -640,10 +640,6 @@ body {
     font-size: 75%;
 }
 
-
-.seccion-atencion-cliente{
-    padding: 3vh;
-}
 .titulo-botones-ayuda {
     display: flex;
     flex-direction: row;
