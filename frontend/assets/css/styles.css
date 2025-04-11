@@ -219,7 +219,11 @@ body {
     color: rgb(211, 211, 211);
 }
 
-#youtube:hover, #instagram:hover, #facebook:hover {
+#youtube, #facebook, #instagram { 
+    font-size: 4vh;
+}
+
+.social-media-link:hover {
     color: rgb(211, 211, 211);
     transition: .5s ease;
 }
