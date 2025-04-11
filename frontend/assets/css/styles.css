@@ -106,6 +106,7 @@ body {
     padding: 1%;
     width: 100%;
     text-align: center;
+    margin-bottom: 0;
 }
 
 .categoria-botones {
@@ -1613,12 +1614,6 @@ p.elemento-ubicacion-tiendas {
     font-family: 'Lexend', sans-serif;
 }
 
-.titulo-seccion {
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
-}
-
 .contenedor-formulario-pasarela-de-pago {
     display: flex;
     flex-wrap: wrap;
@@ -2186,4 +2181,34 @@ p.elemento-ubicacion-tiendas {
 
 .boton-primario, .boton-secundario {
     transition: all 0.3s ease;
+}
+
+.checkout-item-image {
+    width: 20%;
+}
+
+.checkout-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checkout-item-details h4 {
+    font-size: 100%;
+}
+
+.contenedor-carrito-vacio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagen-carita-triste {
+    font-size: 25vh;
+}
+
+.elemento-carrito-vacio {
+    margin: 15%;
 }
