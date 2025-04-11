@@ -806,7 +806,9 @@ body {
 
 .location-container {
     display: grid;
+    align-items: center;
     grid-template-columns: repeat(3, 1fr);
+    margin: 10vh 0 10vh 0px;
 }
 
 .contenedor-vista-tiendas-disponibles {
@@ -865,7 +867,6 @@ body {
 #mapa {
     width: 100%;
     height: 400px;
-    margin-top: 20px;
 }
 
 #detalles-tiendas {
