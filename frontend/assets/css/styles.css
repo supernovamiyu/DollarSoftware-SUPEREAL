@@ -795,7 +795,7 @@ body {
     display: grid;
     justify-items: center;
     grid-template-columns: repeat(4, 1fr);
-    margin: 5vh 0 5vh 0;
+    margin: 15vh 0 15vh 0;
 }
 
 .explicacion-ayuda {
