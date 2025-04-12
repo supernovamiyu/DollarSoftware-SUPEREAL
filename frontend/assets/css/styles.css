@@ -239,8 +239,10 @@ body {
     transition: .5s ease;
 }
 
-.social-media-text {
-    font-size: 1.75vh;
+@media (max-width: 820px) {
+    .social-media-text {
+        display: none;
+    }
 }
 
 #productos-populares {
