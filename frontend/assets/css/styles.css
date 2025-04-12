@@ -619,15 +619,15 @@ body {
     .searchbar {
       width: 200px; /* Ligeramente más pequeño en móviles muy pequeños */
     }
-  
+    
     .search {
-      width: 230px;
+        width: 230px;
     }
-  
+    
     .search-input {
-      width: 170px;
+        width: 170px;
     }
-  }
+    }
 
 .titulo-resultados-productos h2 {
     text-align: center;
