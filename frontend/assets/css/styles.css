@@ -275,9 +275,15 @@ body {
 
 #productos-categorias {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     justify-content: space-around;
     margin-bottom: 5%;
+}
+
+@media (max-width: 880px) {
+    #productos-categorias {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 #productos-populares > div, #productos-categorias > div, #resultados-productos div {
@@ -725,7 +731,9 @@ body {
 
 @media (max-width: 880px) {
     .boton-ayuda-individual {
+        width: 80%;
         margin: 20px 0;
+        font-size: 18px;
     }
 }
 
