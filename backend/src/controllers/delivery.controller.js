@@ -46,7 +46,7 @@ const readUserDelivery = async (req, res) => {
         if (result[0]) {
             res.json(result[0]);
         } else {
-            res.stauts(404).json({ message: 'No hay pedidos asociados a este usuario :(' });
+            res.status(404).json({ message: 'No hay pedidos asociados a este usuario :(' });
         }
 
     } catch (err) {
