@@ -1640,15 +1640,6 @@ p.elemento-ubicacion-tiendas {
     background-color: #e04141;
 }
 
-/* Estilo para el nombre de usuario debajo del icono */
-.nombre-usuario {
-    display: block;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 5px;
-    color: white;
-}
-
 .user-option-button {
     list-style-type: none;
 }
