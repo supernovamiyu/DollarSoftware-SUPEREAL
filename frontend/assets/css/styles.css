@@ -141,8 +141,14 @@ body {
     margin-left: 7%;
 }
 
-.categoria-botones p {
+.categoria-botones .texto-descriptivo-boton-seccion-categorias {
     margin-bottom: 0;
+}
+
+@media (max-width: 550px) {
+    .categoria-botones .texto-descriptivo-boton-seccion-categorias{
+        font-size: 10px;
+    }
 }
 
 
@@ -180,6 +186,9 @@ body {
     height: auto;
 }
 
+.link-boton-inicio {
+    width: fit-content !important;
+}
 
 .iconos-menu-navegacion  {
     font-size: 4vh !important;
