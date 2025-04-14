@@ -50,32 +50,35 @@
      */
     async login(email, password) {
         try {
-        const response = await fetch("http://localhost:3000/auth/login", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ correo: email, contraseña: password }),
-        })
-
-        const data = await response.json()
-
-        if (!response.ok) {
-            throw new Error(data.mensaje || "Error al iniciar sesión")
-        }
-
-        // Guardar la sesión del usuario
-        this.currentUser = data.usuario
-        localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser))
-        localStorage.setItem("authToken", data.token)
-
-        return { success: true, user: data.usuario }
+            const response = await fetch("http://localhost:3000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ correo: email, contraseña: password }),
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+                throw new Error(data.mensaje || "Error al iniciar sesión");
+            }
+    
+            // Guardar la sesión del usuario
+            this.currentUser = data.usuario;
+            localStorage.setItem("sesionUsuario", JSON.stringify(this.currentUser));
+            localStorage.setItem("authToken", data.token);
+    
+            // Disparar evento de login exitoso
+            window.dispatchEvent(new CustomEvent("loginSuccess"));
+    
+            return { success: true, user: data.usuario };
         } catch (error) {
-        console.error("Error al iniciar sesión:", error)
-        return {
-            success: false,
-            error: error.message || "Error al iniciar sesión. Verifica tus credenciales.",
-        }
+            console.error("Error al iniciar sesión:", error);
+            return {
+                success: false,
+                error: error.message || "Error al iniciar sesión. Verifica tus credenciales.",
+            };
         }
     }
 

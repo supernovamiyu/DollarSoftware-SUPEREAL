@@ -1,189 +1,161 @@
+/**
+ * Controlador para la autenticación de usuarios
+ */
+class AuthController {
     /**
-     * Controlador para la autenticación
+     * @param {Object} model - Modelo de usuario
+     * @param {Object} view - Vista de autenticación
      */
-    class AuthController {
-        /**
-         * @param {Object} model - Modelo de usuario
-         * @param {Object} view - Vista de autenticación
-         */
-        constructor(model, view) {
-        this.model = model
-        this.view = view
+    constructor(model, view) {
+        this.model = model;
+        this.view = view;
+        this.setupEventListeners();
+    }
+
+    /**
+     * Configura los event listeners para la autenticación
+     */
+    setupEventListeners() {
+        // Configurar formulario de login
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = {
+                    correo: loginForm.correo.value,
+                    contraseña: loginForm.contraseña.value
+                };
+                this.handleLogin(formData);
+            });
         }
-    
-        /**
-         * Muestra las opciones de autenticación
-         */
-        showAuthOptions() {
-        if (this.model.isAuthenticated()) {
-            this.showProfilePage()
-        } else {
-            this.view.showAuthOptions()
-        }
-        }
-    
-        /**
-         * Muestra la página de inicio de sesión
-         */
-        showLoginPage() {
-        this.view.showLoginPage()
-        this.setupAuthForms()
-        }
-    
-        /**
-         * Muestra la página de registro
-         */
-        showRegisterPage() {
-        this.view.showRegisterPage()
-        this.setupAuthForms()
-        }
-    
-        /**
-         * Muestra la página de perfil del usuario
-         */
-        showProfilePage() {
-        const user = this.model.getCurrentUser()
-        this.view.showProfilePage(user)
-        this.setupLogoutButton()
-        }
-    
-        /**
-         * Configura los formularios de autenticación
-         */
-        setupAuthForms() {
-        this.view.setupAuthForms(
-            (event) => this.handleLogin(event),
-            (event) => this.handleRegister(event),
-        )
-        }
-    
-        /**
-         * Configura el botón de cerrar sesión
-         */
-        setupLogoutButton() {
-        this.view.setupLogoutButton(() => this.handleLogout())
-        }
-    
-        /**
-         * Maneja el inicio de sesión
-         * @param {Event} event - Evento del formulario
-         */
-        async handleLogin(event) {
-        event.preventDefault()
-        const form = event.target
-    
-        // Obtener los datos del formulario
-        const email = form.correo.value
-        const password = form.contraseña.value
-    
-        // Validar los datos
-        if (!email || !password) {
-            this.view.showFormError("login-error", "Por favor, completa todos los campos")
-            return
-        }
-    
-        // Mostrar indicador de carga
-        this.view.showMessage("Iniciando sesión...", "warning")
-    
-        // Llamar al modelo para iniciar sesión
-        const result = await this.model.login(email, password)
-    
-        if (result.success) {
-            // Actualizar la interfaz
-            this.view.updateUserInterface(result.user)
-    
-            // Mostrar mensaje de éxito
-            this.view.showMessage("¡Inicio de sesión exitoso!", "success")
-    
-            // Redirigir al perfil
-            setTimeout(() => {
-            this.showProfilePage()
-            }, 1000)
-        } else {
-            this.view.showFormError("login-error", result.error)
-        }
-        }
-    
-        /**
-         * Maneja el registro de usuario
-         * @param {Event} event - Evento del formulario
-         */
-        async handleRegister(event) {
-        event.preventDefault()
-        const form = event.target
-    
-        // Obtener los datos del formulario
-        const userData = {
-            nombre_completo: form.nombre_completo.value,
-            numero_identificacion: form.numero_identificacion.value,
-            correo: form.correo.value,
-            contraseña: form.contraseña.value,
-        }
-        const confirmarContraseña = form.confirmar_contraseña.value
-        const terminos = form.terminos.checked
-    
-        // Validar los datos
-        if (
-            !userData.nombre_completo ||
-            !userData.numero_identificacion ||
-            !userData.correo ||
-            !userData.contraseña ||
-            !confirmarContraseña
-        ) {
-            this.view.showFormError("registro-error", "Por favor, completa todos los campos")
-            return
-        }
-    
-        if (userData.contraseña !== confirmarContraseña) {
-            this.view.showFormError("registro-error", "Las contraseñas no coinciden")
-            return
-        }
-    
-        if (!terminos) {
-            this.view.showFormError("registro-error", "Debes aceptar los términos y condiciones")
-            return
-        }
-    
-        // Mostrar indicador de carga
-        this.view.showMessage("Creando cuenta...", "warning")
-    
-        // Llamar al modelo para registrar el usuario
-        const result = await this.model.register(userData)
-    
-        if (result.success) {
-            // Actualizar la interfaz
-            this.view.updateUserInterface(result.user)
-    
-            // Mostrar mensaje de éxito
-            this.view.showMessage("¡Cuenta creada exitosamente!", "success")
-    
-            // Redirigir al perfil
-            setTimeout(() => {
-            this.showProfilePage()
-            }, 1000)
-        } else {
-            this.view.showFormError("registro-error", result.error)
-        }
-        }
-    
-        /**
-         * Maneja el cierre de sesión
-         */
-        handleLogout() {
-        // Llamar al modelo para cerrar sesión
-        this.model.logout()
-    
-        // Actualizar la interfaz
-        this.view.updateUserInterface(null)
-    
-        // Mostrar mensaje de éxito
-        this.view.showMessage("Sesión cerrada correctamente", "success")
-    
-        // Redirigir a la página de inicio
-        window.dispatchEvent(new CustomEvent("showHomePage"))
+
+        // Configurar formulario de registro
+        const registroForm = document.getElementById('registro-form');
+        if (registroForm) {
+            registroForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = {
+                    nombre_completo: registroForm.nombre_completo.value,
+                    numero_identificacion: registroForm.numero_identificacion.value,
+                    correo: registroForm.correo.value,
+                    contraseña: registroForm.contraseña.value,
+                    confirmar_contraseña: registroForm.confirmar_contraseña.value
+                };
+                this.handleRegister(formData);
+            });
         }
     }
-    
-    export default AuthController
-    
-    
+
+    /**
+     * Muestra las opciones de autenticación (login/registro)
+     */
+    showAuthOptions() {
+        this.view.showTemplate('plantilla-sesion-registro', 'container-principal');
+    }
+
+    /**
+     * Muestra la página de login
+     */
+    showLoginPage() {
+        this.view.showTemplate('plantilla-iniciar-sesion', 'container-principal');
+        this.setupEventListeners(); // Reconfigurar eventos para el formulario recién cargado
+    }
+
+    /**
+     * Muestra la página de registro
+     */
+    showRegisterPage() {
+        this.view.showTemplate('plantilla-registro', 'container-principal');
+        this.setupEventListeners(); // Reconfigurar eventos para el formulario recién cargado
+    }
+
+    /**
+     * Maneja el proceso de login
+     * @param {Object} formData - Datos del formulario de login
+     */
+    async handleLogin(formData) {
+        try {
+            const result = await this.model.login(formData.correo, formData.contraseña);
+            
+            if (result.success) {
+                this.view.showMessage("Inicio de sesión exitoso", "success");
+                
+                // Redirigir al perfil después de 1 segundo (para que se vea el mensaje)
+                setTimeout(() => {
+                    window.dispatchEvent(new CustomEvent("navigateTo", { 
+                        detail: { path: "/perfil" } 
+                    }));
+                }, 1000);
+            } else {
+                this.view.showMessage(result.error, "error");
+                const errorElement = document.getElementById('login-error');
+                if (errorElement) {
+                    errorElement.textContent = result.error;
+                }
+            }
+        } catch (error) {
+            console.error("Error en el proceso de login:", error);
+            this.view.showMessage("Error en el proceso de autenticación", "error");
+        }
+    }
+
+    /**
+     * Maneja el proceso de registro
+     * @param {Object} formData - Datos del formulario de registro
+     */
+    async handleRegister(formData) {
+        // Validar que las contraseñas coincidan
+        if (formData.contraseña !== formData.confirmar_contraseña) {
+            this.view.showMessage("Las contraseñas no coinciden", "error");
+            const errorElement = document.getElementById('registro-error');
+            if (errorElement) {
+                errorElement.textContent = "Las contraseñas no coinciden";
+            }
+            return;
+        }
+
+        try {
+            // Eliminar el campo de confirmación antes de enviar al servidor
+            const { confirmar_contraseña, ...userData } = formData;
+            
+            const result = await this.model.register(userData);
+            
+            if (result.success) {
+                this.view.showMessage("Registro exitoso. Redirigiendo...", "success");
+                
+                // Redirigir al perfil después de 1.5 segundos
+                setTimeout(() => {
+                    window.dispatchEvent(new CustomEvent("navigateTo", { 
+                        detail: { path: "/perfil" } 
+                    }));
+                }, 1500);
+            } else {
+                this.view.showMessage(result.error, "error");
+                const errorElement = document.getElementById('registro-error');
+                if (errorElement) {
+                    errorElement.textContent = result.error;
+                }
+            }
+        } catch (error) {
+            console.error("Error en el proceso de registro:", error);
+            this.view.showMessage("Error en el proceso de registro", "error");
+        }
+    }
+
+    /**
+     * Maneja el cierre de sesión
+     */
+    handleLogout() {
+        this.model.logout();
+        this.view.showMessage("Sesión cerrada correctamente", "success");
+        
+        // Redirigir a la página de auth después de cerrar sesión
+        setTimeout(() => {
+            window.dispatchEvent(new CustomEvent("navigateTo", { 
+                detail: { path: "/auth" } 
+            }));
+        }, 1000);
+    }
+}
+
+export default AuthController;

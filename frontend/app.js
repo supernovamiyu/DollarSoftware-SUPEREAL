@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     locationController,
     customerSupportController,
     profileController,
+    userModel
   })
 
   // Iniciar la aplicación
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.mostrarPantallaPerfil = (event) => {
     if (event) event.preventDefault()
-    profileController.showProfilePage()
+    appController.navigateTo("/perfil")
   }
 
   // Inicializar la vista por defecto
