@@ -131,13 +131,34 @@ class UserModel {
 
     async getOrderProducts(orderId) {
         try {
-            const response = await fetch(`http://localhost:3000/delivery/pedido/${orderId}/productos`);
+            const response = await fetch(`http://localhost:3000/detail-delivery/${orderId}`);
+            
             if (!response.ok) {
                 throw new Error(`Error ${response.status}: ${await response.text()}`);
             }
-            return await response.json();
+            
+            const productDetail = await response.json();
+            
+            // Transformar los datos a un formato consistente
+            return Array.isArray(productDetail) ? 
+                productDetail.map(item => ({
+                    id: item.fk_id_producto,
+                    nombre: item.nombre_producto || `Producto ${item.fk_id_producto}`,
+                    precio: parseFloat(item.precio_unitario),
+                    cantidad: item.cantidad,
+                    imagen: item.imagen_url || 'frontend/assets/img/default-product.png',
+                    descripcion: item.descripcion || ''
+                })) : 
+                [{
+                    id: productDetail.fk_id_producto,
+                    nombre: productDetail.nombre_producto || `Producto ${productDetail.fk_id_producto}`,
+                    precio: parseFloat(productDetail.precio_unitario),
+                    cantidad: productDetail.cantidad,
+                    imagen: productDetail.imagen_url || 'frontend/assets/img/default-product.png',
+                    descripcion: productDetail.descripcion || ''
+                }];
         } catch (error) {
-            console.error("Error al obtener productos del pedido:", error);
+            console.error(`Error al obtener productos del pedido ${orderId}:`, error);
             return [];
         }
     }
@@ -208,24 +229,46 @@ class UserModel {
             if (!this.isAuthenticated()) {
                 throw new Error("Usuario no autenticado");
             }
-
-            const token = localStorage.getItem("authToken");
-            const response = await fetch(
-                `http://localhost:3000/users/${this.currentUser.id_usuario}/history`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("Error al obtener historial");
+    
+            // Obtener todos los pedidos del usuario
+            const userId = this.currentUser.id_usuario;
+            const ordersResponse = await fetch(`http://localhost:3000/delivery/usuario/${userId}`);
+            
+            if (!ordersResponse.ok) {
+                throw new Error("Error al obtener pedidos del usuario");
             }
-
-            return await response.json();
+            
+            const orders = await ordersResponse.json();
+            const validOrders = Array.isArray(orders) ? orders : [orders];
+            
+            // Obtener productos de todos los pedidos
+            const allProducts = await Promise.all(
+                validOrders.map(order => 
+                    this.getOrderProducts(order.id_pedido || order.id)
+                        .catch(e => {
+                            console.error(`Error obteniendo productos para pedido ${order.id_pedido}:`, e);
+                            return [];
+                        })
+                )
+            );
+            
+            // Aplanar el array y eliminar duplicados
+            const uniqueProducts = [];
+            const productIds = new Set();
+            
+            allProducts.flat().forEach(product => {
+                if (!productIds.has(product.id)) {
+                    productIds.add(product.id);
+                    uniqueProducts.push({
+                        ...product,
+                        fecha_visto: new Date().toISOString() // Fecha actual como valor por defecto
+                    });
+                }
+            });
+            
+            return uniqueProducts;
         } catch (error) {
-            console.error("Error al obtener historial:", error);
+            console.error("Error al obtener historial de productos:", error);
             return [];
         }
     }
