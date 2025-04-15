@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // 1. Configuración para servir archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+app.use(express.static(path.resolve(__dirname, '../../../')));
 
 // 2. Todas tus rutas API (se mantienen igual)
 app.use('/users', userRoutes);
@@ -42,7 +42,10 @@ app.use('/auth', authRoutes);
 
 // 3. Catch-all para SPA (DEBE IR AL FINAL)
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+    res.sendFile(path.resolve(__dirname, '../../../index.html'));
 });
+
+console.log('Ruta absoluta al index.html:', path.resolve(__dirname, '../../../index.html'));
+
 
 module.exports = app;
