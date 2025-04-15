@@ -779,36 +779,7 @@ body {
     background: rgba(128, 128, 128, 0.623);
 }
 
-.profile-details-container{
-    margin: 3vh;
-}
 
-.profile-photo{
-    width: 41%;
-    background-color: #0000001a;
-    padding: 16%;
-    border-radius: 100%;
-    float: left;
-}
-
-.profile-information{
-    padding: 3vh 0 3vh;
-    text-align: right;
-}
-
-.profile-options{
-    display: flex;
-    text-align: center;
-    gap: 1vh;
-}
-
-.profile-buttons-options {
-    background-color: #0000001a;
-    width: 45%;
-    padding: 1vh;
-    border-top-left-radius: 5vh;
-    border-top-right-radius: 5vh;
-}
 
 .help-img{
     display: flex;
@@ -1427,26 +1398,28 @@ p.elemento-ubicacion-tiendas {
 }
 
 /* Estilos para el perfil de usuario */
+
+
+.profile-button {
+    border: none;
+    border-radius: 20px;
+    padding: 15px;
+}
+.profile-button:hover {
+    transition: ease .5s;
+    background-color: rgba(56, 56, 56, 0.13);
+}
+
 .user-profile-container {
     position: relative;
     display: inline-block;
-}
-
-.user-profile-button {
-    display: flex;
-    align-items: center;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    color: inherit;
 }
 
 .user-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: #7e22ce;
+    background-color: #b885e6;
     color: white;
     display: flex;
     align-items: center;
@@ -1467,10 +1440,6 @@ p.elemento-ubicacion-tiendas {
 .dropdown-icon {
     font-size: 12px;
     transition: transform 0.2s;
-}
-
-.user-profile-button.active .dropdown-icon {
-    transform: rotate(180deg);
 }
 
 .user-dropdown-menu {
@@ -1578,11 +1547,6 @@ p.elemento-ubicacion-tiendas {
     background-color: white;
     text-align: center;
     flex-direction: column;
-}
-
-.user-profile-container h2 {
-    margin-bottom: 30px;
-    color: #333;
 }
 
 .user-info {
