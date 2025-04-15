@@ -1515,7 +1515,14 @@ p.elemento-ubicacion-tiendas {
     width: 16px;
     color: #7e22ce;
 }
-
+.table-responsive {
+    display: grid;
+    justify-content: center;
+    margin-bottom: 10vh;
+}
+.no-history {
+    text-align: center;
+}
 .logout-item {
     border-top: 1px solid #e9d5ff;
     margin-top: 8px;
