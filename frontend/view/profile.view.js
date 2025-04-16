@@ -257,13 +257,10 @@
                             <div class="history-product-card col-md-4 col-sm-6 mb-4">
                                 <div class="card h-100">
                                     <img src="${product.imagen || 'frontend/assets/img/default-product.png'}" 
-                                        alt="${product.nombre}" class="card-img-top history-product-image">
+                                        alt="${product.nombre}" class="img-fluid history-product-image">
                                     <div class="card-body">
                                         <h5 class="card-title">${product.nombre}</h5>
                                         <p class="card-text">Visto el ${new Date(product.fecha_visto || product.viewedAt).toLocaleDateString()}</p>
-                                        <button class="btn btn-outline-primary view-product-btn" data-product-id="${product.id}">
-                                            Ver Producto
-                                        </button>
                                     </div>
                                 </div>
                             </div>
