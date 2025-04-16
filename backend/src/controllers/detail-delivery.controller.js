@@ -17,8 +17,8 @@ const readDeliveryDetails = async (req, res) => {
         const [result] = await detailDeliveryModel.readDeliveryDetails(fk_id_pedido);
 
         // Verificar si se encontró el detalle del pedido
-        if (result[0]) {
-            res.json(result[0]);
+        if (result && result.length > 0) {
+            res.json(result);
         } else {
             res.status(404).json({ message: 'Detalle del pedido no encontrado :(. Por favor verifica el id del pedido en la base de datos' });
         }
