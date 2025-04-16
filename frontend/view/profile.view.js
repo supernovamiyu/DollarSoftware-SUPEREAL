@@ -292,7 +292,7 @@
          */
         createDataModificationHTML(user) {
             return `
-                <section id="contenedor-modificar-datos">
+                <section id="contenedor-modificar-datos" style="margin-bottom: 10vh;">
                     <div class="titulo-seccion">
                         <h4>Modificar datos personales</h4>
                     </div>
