@@ -6,7 +6,7 @@ const mysql2 = require('mysql2');
 
 // Buscar el detalle de un pedido en la base de datos
 const readDeliveryDetails = (fk_id_pedido) => {
-    const query = mysql2.format('SELECT * FROM detalle_pedido WHERE fk_id_pedido = ?;', [fk_id_pedido]);
+    const query = mysql2.format('SELECT dp.*, p.imagen_url, p.nombre_producto FROM detalle_pedido dp INNER JOIN productos p ON dp.fk_id_producto = p.id_productos WHERE dp.fk_id_pedido = ?;', [fk_id_pedido]);
     return database.promise().query(query);
 };
 
