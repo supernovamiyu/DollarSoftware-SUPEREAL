@@ -1,5 +1,32 @@
-// Importar el modelo de usuarios
+// Importar el modelo de usuarios y 
 const userModel = require('../models/user.model');
+const jwt = require('jsonwebtoken');
+
+
+const verifyToken = (req, res, next) => {
+
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: 'Token de autenticación requerido'
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        return res.status(403).json({
+            success: false,
+            message: 'Token de autenticación inválido o expirado'
+        })
+    }
+
+};
 
 ///////////////// C ****** R ****** U ****** D /////////////////
 
@@ -50,26 +77,94 @@ const createUser = async (req, res) => {
 };
 
 // Actualizar un usuario en la base de datos
+// Actualizar usuario
 const updateUser = async (req, res) => {
     try {
         const { id_usuario } = req.params;
         const { correo, contraseña, nombre_completo, numero_identificacion } = req.body;
 
-        // Validar que los campos obligatorios estén presentes
-        if (!correo || !contraseña || !nombre_completo || !numero_identificacion) {
-            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        // Verificación de autorización
+        if (req.user.id !== parseInt(id_usuario)) {
+            return res.status(403).json({ 
+                success: false,
+                message: 'No tienes permiso para modificar estos datos',
+                debug: {
+                    userIdInToken: req.user.id,
+                    userIdInRequest: id_usuario
+                }
+            });
         }
 
-        // Llamar al modelo para actualizar el usuario
-        await userModel.updateUser(id_usuario, correo, contraseña, nombre_completo, numero_identificacion);
+        // Validación de campos
+        if (!correo || !nombre_completo || !numero_identificacion) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Campos obligatorios faltantes',
+                required_fields: ['correo', 'nombre_completo', 'numero_identificacion']
+            });
+        }
 
-        // Enviar respuesta de éxito
-        res.json({ message: 'Usuario actualizado con éxito' });
+        // Actualización condicional
+        let updateResult;
+        if (contraseña) {
+            updateResult = await userModel.updateUser(
+                id_usuario,
+                correo,
+                contraseña,
+                nombre_completo,
+                numero_identificacion,
+            );
+        } else {
+            updateResult = await userModel.updateUserWithoutPassword(
+                id_usuario,
+                correo,
+                nombre_completo,
+                numero_identificacion,
+
+            );
+        }
+
+        // Obtener datos actualizados
+        const [updatedUser] = await userModel.readUser(id_usuario);
+        const { contraseña: _, ...userData } = updatedUser[0];
+
+        res.json({ 
+            success: true,
+            message: 'Usuario actualizado con éxito',
+            user: userData
+        });
+
     } catch (err) {
         console.error('Error en updateUser:', err);
-        res.status(500).json({ message: 'Error interno del servidor' });
+        
+        if (err.code === 'ER_DUP_ENTRY') {
+            // Extraer el campo duplicado del mensaje de error
+            let duplicatedField = 'datos';
+            const errorMessage = err.sqlMessage.toLowerCase();
+            
+            if (errorMessage.includes('correo')) {
+                duplicatedField = 'correo electrónico';
+            } else if (errorMessage.includes('numero_identificacion')) {
+                duplicatedField = 'número de identificación';
+            } else if (errorMessage.includes('telefono')) {
+                duplicatedField = 'teléfono';
+            }
+            
+            return res.status(409).json({ 
+                success: false,
+                message: `El ${duplicatedField} ya está en uso por otro usuario`,
+                duplicated_field: duplicatedField,
+                error_code: 'DUPLICATED_ENTRY'
+            });
+        }
+        
+        res.status(500).json({ 
+            success: false,
+            message: 'Error al actualizar usuario' 
+        });
     }
 };
+
 
 // Eliminar un usuario en la base de datos
 const deleteUser = async (req, res) => {
@@ -98,4 +193,5 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
+    verifyToken
 };
