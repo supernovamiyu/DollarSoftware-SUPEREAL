@@ -154,7 +154,7 @@ class AppController {
             // Extraer el ID del producto de la URL
             const productId = path.split("/").pop()
             if (productId) {
-                this.productController.showProductDetail(productId)
+                this.productController.showProductDetails(productId)
                 return
             }
         } else if (path.startsWith("/categoria/")) {
