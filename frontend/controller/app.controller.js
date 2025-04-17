@@ -1,200 +1,100 @@
-    /**
-     * Controlador principal de la aplicación
-     */
-    class AppController {
-    /**
-     * @param {Object} controllers - Objeto con los controladores de la aplicación
-     */
+class AppController {
     constructor(controllers) {
-        this.controllers = controllers;
-        this.currentPath = window.location.pathname;
-        this.setupGlobalEventListeners();
-        this.setupRouter();
+        this.homeController = controllers.homeController
+        this.authController = controllers.authController
+        this.productController = controllers.productController
+        this.cartController = controllers.cartController
+        this.locationController = controllers.locationController
+        this.customerSupportController = controllers.customerSupportController
+        this.profileController = controllers.profileController
+        this.userModel = controllers.userModel
+
+        // Mapa de rutas para facilitar la navegación
+        this.routes = {
+            "/": () => this.homeController.showHomePage(),
+            "/auth": () => this.authController.showAuthOptions(),
+            "/login": () => this.authController.showLoginPage(),
+            "/registro": () => this.authController.showRegisterPage(),
+            "/perfil": () => this.profileController.showProfilePage(),
+            "/carrito": () => this.cartController.showCart(),
+            "/ubicacion": () => this.locationController.showLocationPage(),
+            "/ayuda": () => this.customerSupportController.showCustomerSupportPage(),
+        }
     }
 
-    /**
-     * Inicializa la aplicación
-     */
     init() {
-        // Manejar la ruta inicial
-        this.handleRouteChange();
+        // Verificar si hay un usuario autenticado
+        this.checkAuthStatus()
+
+        // Configurar el manejo de eventos de navegación
+        this.setupNavigationEvents()
+
+        // Manejar la ruta inicial basada en la URL actual
+        this.handleInitialRoute()
     }
 
-    /**
-     * Configura el sistema de enrutamiento
-     */
-    setupRouter() {
-        // Manejar cambios de ruta (back/forward)
-        window.addEventListener("popstate", () => this.handleRouteChange());
-
-        // Escuchar eventos personalizados de cambio de URL
-        window.addEventListener("urlChanged", () => this.handleRouteChange());
-        
-        // Escuchar evento personalizado para navegación programática
-        window.addEventListener("navigateTo", (e) => {
-            this.navigateTo(e.detail.path, e.detail.state);
-        });
-        
-        // Escuchar evento de login exitoso
-        window.addEventListener("loginSuccess", () => {
-            this.navigateTo("/perfil");
-        });
+    checkAuthStatus() {
+        // Verificar si hay un token en localStorage
+        const token = localStorage.getItem("authToken")
+        if (token) {
+            this.userModel
+                .getCurrentUser()
+                .then((user) => {
+                    if (user) {
+                        // Actualizar la interfaz para un usuario autenticado
+                        this.authController.updateUserInterface(user)
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error al verificar el estado de autenticación:", error)
+                    // Si hay un error, eliminar el token
+                    localStorage.removeItem("authToken")
+                })
+        }
     }
 
-    /**
-     * Maneja los cambios de ruta
-     */
-    handleRouteChange() {
-        const path = window.location.pathname;
-        const searchParams = new URLSearchParams(window.location.search);
+    setupNavigationEvents() {
+        // Manejar el evento popstate (cuando el usuario usa los botones de navegación del navegador)
+        window.addEventListener("popstate", (event) => {
+            this.handleRoute(window.location.pathname)
+        })
+    }
 
-        // Evitar manejar la misma ruta dos veces
-        if (path === this.currentPath) return;
+    handleInitialRoute() {
+        // Obtener la ruta actual de la URL
+        const currentPath = window.location.pathname
 
-        this.currentPath = path;
-        console.log(`Navegando a: ${path}`);
+        // Manejar la ruta actual
+        this.handleRoute(currentPath)
+    }
 
-        // Determinar qué vista mostrar basado en la ruta
-        if (path === "/" || path === "/inicio") {
-            this.controllers.homeController.showHomePage();
-        } 
-        else if (path === "/auth" || path === "/sesion") {
-            this.controllers.authController.showAuthOptions();
-        } 
-        else if (path === "/login" || path === "/iniciar-sesion") {
-            this.controllers.authController.showLoginPage();
-        } 
-        else if (path === "/registro") {
-            this.controllers.authController.showRegisterPage();
-        } 
-        else if (path === "/carrito") {
-            this.controllers.cartController.showCart();
-        } 
-        else if (path === "/ubicacion") {
-            this.controllers.locationController.showLocationPage();
-        } 
-        else if (path === "/atencion-cliente") {
-            this.controllers.customerSupportController.showCustomerSupportPage();
-        } 
-        else if (path.startsWith("/atencion-cliente/")) {
-            const helpType = path.split("/")[2];
-            this.controllers.customerSupportController.showHelpDetails(helpType);
-        } 
-        else if (path.startsWith("/categoria/")) {
-            const categoryId = path.split("/")[2];
-            this.controllers.productController.showProductsByCategory(categoryId);
-        } 
-        else if (path.startsWith("/busqueda")) {
-            const searchTerm = searchParams.get("q") || "";
-            this.controllers.productController.searchProducts(searchTerm);
-        } 
-        else if (path.startsWith("/producto/")) {
-            const productName = path.split("/")[2];
-            this.controllers.productController.showProductDetails(decodeURIComponent(productName));
-        } else if (path === "/perfil" || path === "/mi-cuenta") {
-            // Verificar autenticación antes de mostrar el perfil
-            if (this.controllers.userModel.isAuthenticated()) {
-                this.controllers.profileController.showProfilePage();
-            } else {
-                // Redirigir a auth si no está autenticado
-                this.navigateTo("/auth");
-                // Mostrar mensaje usando authController
-                this.controllers.authController.showMessage("Debes iniciar sesión para acceder al perfil", "warning");
-            }
+    handleRoute(path) {
+        // Normalizar la ruta (eliminar barras finales, etc.)
+        const normalizedPath = path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path
+
+        // Buscar la función de manejo para esta ruta
+        const routeHandler = this.routes[normalizedPath]
+
+        if (routeHandler) {
+            // Si existe un manejador para esta ruta, ejecutarlo
+            routeHandler()
         } else {
-            // Ruta no encontrada - mostrar página de inicio
-            console.warn(`Ruta no encontrada: ${path}`);
-            this.controllers.homeController.showHomePage();
+            // Si no hay un manejador, mostrar la página de inicio por defecto
+            console.log(`Ruta no encontrada: ${normalizedPath}, redirigiendo a inicio`)
+            this.homeController.showHomePage()
+
+            // Actualizar la URL a la página de inicio
+            window.history.replaceState({}, "", "/")
         }
     }
 
-    /**
-     * Navega a una nueva ruta
-     * @param {string} path - Ruta de destino
-     * @param {Object} state - Estado para asociar a la ruta
-     */
-    navigateTo(path, state = {}) {
-        // Normalizar la ruta
-        if (!path.startsWith("/")) {
-            path = `/${path}`;
-        }
+    navigateTo(path) {
+        // Actualizar la URL sin recargar la página
+        window.history.pushState({}, "", path)
 
-        // Solo actualizar si es una nueva ruta
-        if (path !== this.currentPath) {
-            window.history.pushState(state, "", path);
-            this.handleRouteChange();
-        }
+        // Manejar la nueva ruta
+        this.handleRoute(path)
     }
+}
 
-    /**
-     * Configura los event listeners globales
-     */
-    setupGlobalEventListeners() {
-        // Event listeners para la navegación principal
-        document.addEventListener("click", (event) => {
-            const target = event.target.closest("a");
-            if (!target) return;
-
-            // Si el enlace tiene un manejador onclick específico, no interferir con él
-            if (target.hasAttribute("onclick")) {
-                // No prevenir el comportamiento por defecto aquí
-                // Solo manejar la navegación si no es un enlace de autenticación
-                const onclickAttr = target.getAttribute("onclick");
-                if (!onclickAttr.includes("mostrarPantallaInicioSesion") && 
-                    !onclickAttr.includes("mostrarPantallaRegistro")) {
-                    // Prevenir la navegación por defecto para otros enlaces internos
-                    if (target.getAttribute("href") === "#") {
-                        event.preventDefault();
-                    }
-
-                    // Mapear funciones onclick a rutas
-                    const routeMap = {
-                        mostrarPantallaInicio: "/",
-                        mostrarPantallaSesion: "/auth",
-                        mostrarPantallaCarrito: "/carrito",
-                        mostrarPantallaUbicacion: "/ubicacion",
-                        mostrarPantallaAtencionCliente: "/atencion-cliente",
-                        mostrarPantallaPerfil: "/perfil"
-                    };
-
-                    for (const [func, route] of Object.entries(routeMap)) {
-                        if (onclickAttr.includes(func)) {
-                            event.preventDefault();
-                            this.navigateTo(route);
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-
-        // Event listener para la búsqueda
-        const searchBar = document.getElementById("search-bar");
-        const searchButton = document.getElementById("search-button");
-
-        if (searchButton) {
-            searchButton.addEventListener("click", (event) => {
-                event.preventDefault();
-                if (searchBar && searchBar.value.trim()) {
-                    this.navigateTo(`/busqueda?q=${encodeURIComponent(searchBar.value.trim())}`);
-                }
-            });
-        }
-
-        if (searchBar) {
-            searchBar.addEventListener("keypress", (event) => {
-                if (event.key === "Enter" && searchBar.value.trim()) {
-                    event.preventDefault();
-                    this.navigateTo(`/busqueda?q=${encodeURIComponent(searchBar.value.trim())}`);
-                }
-            });
-        }
-
-        // Escuchar evento de logout para redirigir a auth
-        window.addEventListener("logout", () => {
-            this.navigateTo("/auth");
-        });
-    }
-    }
-
-    export default AppController;
+export default AppController
