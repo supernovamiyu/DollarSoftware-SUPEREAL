@@ -49,14 +49,14 @@ app.use("/api/auth", authRoutes)
 // 3. Servir el index.html para todas las rutas de navegación
 app.get("*", (req, res) => {
   // Verificar si la solicitud es para un archivo estático
-    const ext = path.extname(req.path)
-    if (ext && ext !== "") {
-        // Si es un archivo con extensión que no se encontró, devolver 404
-        return res.status(404).send("Archivo no encontrado")
-    }
+  const ext = path.extname(req.path)
+  if (ext && ext !== "") {
+    // Si es un archivo con extensión que no se encontró, devolver 404
+    return res.status(404).send("Archivo no encontrado")
+  }
 
   // Para rutas de navegación, enviar el index.html
-    res.sendFile(path.join(rootPath, "index.html"))
+  res.sendFile(path.join(rootPath, "index.html"))
 })
 
 console.log("Ruta absoluta al index.html:", path.join(rootPath, "index.html"))

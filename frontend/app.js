@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.mostrarPantallaAtencionCliente = (event) => {
     if (event) event.preventDefault()
-    appController.navigateTo("/atencion-cliente") // Asegúrate de que esta ruta sea correcta
+    appController.navigateTo("/atencion-cliente")
   }
 
   // Asegurarnos de que las funciones de navegación para autenticación estén correctamente definidas

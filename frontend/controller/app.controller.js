@@ -19,6 +19,13 @@ class AppController {
             "/carrito": () => this.cartController.showCart(),
             "/ubicacion": () => this.locationController.showLocationPage(),
             "/atencion-cliente": () => this.customerSupportController.showCustomerSupportPage(),
+            // Añadir rutas específicas para cada sección de atención al cliente
+            "/atencion-cliente/manejo-pagina": () => this.customerSupportController.showHelpSection("manejo-pagina"),
+            "/atencion-cliente/gestion-pedidos": () => this.customerSupportController.showHelpSection("gestion-pedidos"),
+            "/atencion-cliente/navegacion-productos": () =>
+                this.customerSupportController.showHelpSection("navegacion-productos"),
+            "/atencion-cliente/cuenta-ultracommerce": () =>
+                this.customerSupportController.showHelpSection("cuenta-ultracommerce"),
         }
     }
 
@@ -52,32 +59,66 @@ class AppController {
     }
 
     setupNavigationHandlers() {
-        // Obtener todos los enlaces de navegación
-        const navLinks = document.querySelectorAll(".barra-navegacion a")
+        // Configurar después de que el DOM esté completamente cargado
+        const setupHandlers = () => {
+            // Obtener todos los enlaces de navegación
+            const navLinks = document.querySelectorAll(".barra-navegacion a")
 
-        // Configurar cada enlace para usar el sistema de rutas
-        navLinks.forEach((link) => {
-            link.addEventListener("click", (event) => {
-                event.preventDefault()
+            // Configurar cada enlace para usar el sistema de rutas
+            navLinks.forEach((link) => {
+                link.addEventListener("click", (event) => {
+                    event.preventDefault()
 
-                // Determinar la ruta basada en el atributo onclick
-                let route = "/"
-                if (link.getAttribute("onclick")?.includes("mostrarPantallaUbicacion")) {
-                    route = "/ubicacion"
-                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaAtencionCliente")) {
-                    route = "/atencion-cliente"
-                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaInicio")) {
-                    route = "/"
-                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaCarrito")) {
-                    route = "/carrito"
-                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaSesion")) {
-                    route = "/auth"
-                }
+                    // Determinar la ruta basada en el atributo onclick
+                    let route = "/"
+                    if (link.getAttribute("onclick")?.includes("mostrarPantallaUbicacion")) {
+                        route = "/ubicacion"
+                    } else if (link.getAttribute("onclick")?.includes("mostrarPantallaAtencionCliente")) {
+                        route = "/atencion-cliente"
+                    } else if (link.getAttribute("onclick")?.includes("mostrarPantallaInicio")) {
+                        route = "/"
+                    } else if (link.getAttribute("onclick")?.includes("mostrarPantallaCarrito")) {
+                        route = "/carrito"
+                    } else if (link.getAttribute("onclick")?.includes("mostrarPantallaSesion")) {
+                        route = "/auth"
+                    }
 
-                // Navegar a la ruta
-                this.navigateTo(route)
+                    // Navegar a la ruta
+                    this.navigateTo(route)
+                })
             })
-        })
+
+            // Configurar los botones de ayuda en la sección de atención al cliente
+            this.setupHelpSectionButtons()
+        }
+
+        // Intentar configurar inmediatamente
+        setupHandlers()
+
+        // También configurar cuando el DOM esté completamente cargado
+        document.addEventListener("DOMContentLoaded", setupHandlers)
+    }
+
+    setupHelpSectionButtons() {
+        // Buscar todos los botones de ayuda
+        const helpButtons = document.querySelectorAll(".boton-ayuda-individual")
+
+        if (helpButtons.length > 0) {
+            console.log("Configurando botones de sección de ayuda:", helpButtons.length)
+
+            helpButtons.forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    event.preventDefault()
+
+                    // Obtener el tipo de ayuda del atributo data-ayuda
+                    const helpType = button.getAttribute("data-ayuda")
+                    if (helpType) {
+                        // Navegar a la ruta específica de esa sección de ayuda
+                        this.navigateTo(`/atencion-cliente/${helpType}`)
+                    }
+                })
+            })
+        }
     }
 
     handleInitialRoute() {
@@ -123,6 +164,14 @@ class AppController {
                 this.productController.showProductsByCategory(category)
                 return
             }
+        } else if (path.startsWith("/atencion-cliente/")) {
+            // Si es una ruta de atención al cliente pero no está en las rutas conocidas
+            // Extraer la sección de ayuda
+            const helpSection = path.split("/").pop()
+            if (helpSection) {
+                this.customerSupportController.showHelpSection(helpSection)
+                return
+            }
         }
 
         // Si no se puede determinar la ruta, mostrar la página de inicio
@@ -143,3 +192,4 @@ class AppController {
 }
 
 export default AppController
+
