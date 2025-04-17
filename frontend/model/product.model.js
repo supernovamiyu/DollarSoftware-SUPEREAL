@@ -66,15 +66,19 @@
          */
         async getProductDetails(productId) {
             try {
-                const response = await fetch(`http://localhost:3000/api/products/${productId}`)
+                const response = await fetch(`http://localhost:3000/api/products/${productId}`);
                 if (!response.ok) {
-                    throw new Error("Error al obtener detalles del producto")
+                    throw new Error("Error al obtener detalles del producto");
                 }
-                const data = await response.json()
-                return data
+                const data = await response.json();
+                
+                // Debug: Verificar los datos recibidos
+                console.log("Datos del producto recibidos:", data);
+                
+                return data;
             } catch (error) {
-                console.error("Error al obtener detalles del producto:", error)
-                return null
+                console.error("Error al obtener detalles del producto:", error);
+                return null;
             }
         }
     

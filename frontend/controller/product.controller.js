@@ -104,33 +104,35 @@ class ProductController {
             if (!productIdentifier) {
                 throw new Error("Identificador de producto no proporcionado");
             }
-
+    
             // Intento 1: Buscar directamente por ID (si es numérico)
             if (/^\d+$/.test(productIdentifier)) {
                 const product = await this.model.getProductDetails(productIdentifier);
                 if (product?.id_productos) {
+                    console.log("Producto encontrado por ID:", product); // Debug
                     await this.displayProductDetails(product);
                     return;
                 }
             }
-
+    
             // Intento 2: Buscar por slug en caché
             const cachedProduct = this.findProductInCache(productIdentifier);
             if (cachedProduct) {
+                console.log("Producto encontrado en caché:", cachedProduct); // Debug
                 await this.displayProductDetails(cachedProduct);
                 return;
             }
-
+    
             // Intento 3: Buscar en productos destacados
             const featuredProducts = await this.model.getFeaturedProducts();
             this.cacheProducts(featuredProducts);
             const featuredMatch = this.findProductInCache(productIdentifier);
             if (featuredMatch) {
+                console.log("Producto encontrado en destacados:", featuredMatch); // Debug
                 await this.displayProductDetails(featuredMatch);
                 return;
             }
-
-            // Si no se encuentra en ningún lado
+    
             this.view.showMessage("Producto no encontrado", "error");
             window.dispatchEvent(new CustomEvent("navigateTo", { detail: { path: "/" } }));
         } catch (error) {
@@ -156,18 +158,30 @@ class ProductController {
     }
 
     async displayProductDetails(product) {
-        // Actualizar caché
-        this.cacheProducts([product]);
-
+        // Verificar primero si hay descripción en el producto original
+        const hasDescription = product.descripcion && product.descripcion.trim() !== "";
+        
+        const productWithDefaults = {
+            ...product, // Esto mantiene todos los campos originales
+            descripcion: hasDescription ? product.descripcion : "Descripción no disponible",
+            precio: product.precio || "0",
+            unidades_disponibles: product.unidades_disponibles || 0,
+            imagen_url: product.imagen_url || "img/default-product.png"
+        };
+    
+        console.log("Datos completos del producto:", productWithDefaults);
+        // Actualizar caché con los datos completos
+        this.cacheProducts([productWithDefaults]);
+    
         // Mostrar detalles
-        this.view.showProductDetails(product);
+        this.view.showProductDetails(productWithDefaults);
         
         // Actualizar URL con slug
-        const productSlug = this.createProductSlug(product.nombre_producto);
+        const productSlug = this.createProductSlug(productWithDefaults.nombre_producto);
         this.view.updateURL(`/producto/${productSlug}`);
-
+    
         // Configuraciones adicionales
-        await this.loadProductReviews(product.id_productos);
+        await this.loadProductReviews(productWithDefaults.id_productos);
         this.setupAddToCartButtons();
     }
 
