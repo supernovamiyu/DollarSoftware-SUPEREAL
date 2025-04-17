@@ -82,6 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
+  // Configurar el formulario de búsqueda
+  setupSearchForm(productController)
+
   // Reemplazar las funciones globales existentes con funciones que usan el sistema de rutas
   window.mostrarPantallaInicio = (event) => {
     if (event) event.preventDefault()
@@ -130,3 +133,53 @@ document.addEventListener("DOMContentLoaded", () => {
     authView.updateUserInterface(user)
   }
 })
+
+/**
+ * Configura el formulario de búsqueda
+ * @param {Object} productController - Controlador de productos
+ */
+function setupSearchForm(productController) {
+  // Configurar el formulario de búsqueda cuando el DOM esté listo
+  const setupForm = () => {
+    const searchForm = document.querySelector(".search form")
+    const searchInput = document.getElementById("search-bar")
+
+    if (searchForm && searchInput) {
+      console.log("Configurando formulario de búsqueda")
+
+      // Eliminar event listeners previos para evitar duplicados
+      const newForm = searchForm.cloneNode(true)
+      searchForm.parentNode.replaceChild(newForm, searchForm)
+
+      // Obtener la nueva referencia al input
+      const newSearchInput = document.getElementById("search-bar")
+
+      // Agregar event listener al nuevo formulario
+      newForm.addEventListener("submit", (event) => {
+        event.preventDefault()
+        const searchTerm = newSearchInput.value.trim()
+
+        console.log("Búsqueda enviada:", searchTerm)
+
+        if (searchTerm.length >= 3) {
+          productController.searchProducts(searchTerm)
+        } else {
+          window.mostrarMensaje("Ingresa al menos 3 caracteres para buscar", "warning")
+        }
+      })
+    } else {
+      console.warn("Formulario de búsqueda no encontrado, intentando de nuevo en 500ms")
+      setTimeout(setupForm, 500) // Reintentar si no se encuentra el formulario
+    }
+  }
+
+  // Intentar configurar el formulario inmediatamente
+  setupForm()
+
+  // También configurar cuando cambie la URL (para asegurar que funcione después de navegar)
+  window.addEventListener("popstate", setupForm)
+  window.addEventListener("urlChanged", setupForm)
+
+  // Configurar después de cada navegación
+  document.addEventListener("DOMContentLoaded", setupForm)
+}
