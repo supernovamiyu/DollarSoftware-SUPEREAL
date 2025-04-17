@@ -43,8 +43,14 @@ class ProductController {
                 throw new Error("Formato de productos inválido");
             }
             
-            this.cacheProducts(products);
-            this.view.showFeaturedProducts(products);
+            // Asegurar que cada producto tenga descripción
+            const productsWithDescriptions = products.map(product => ({
+                ...product,
+                descripcion: product.descripcion || "Descripción breve no disponible"
+            }));
+            
+            this.cacheProducts(productsWithDescriptions);
+            this.view.showFeaturedProducts(productsWithDescriptions);
             this.setupAddToCartButtons();
         } catch (error) {
             console.error("Error al mostrar productos destacados:", error);

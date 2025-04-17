@@ -18,7 +18,7 @@ const getSimilarProducts = (searchTerm) => {
 
 // Buscar productos destacados en la base de datos
 const getFeaturedProducts = () => {
-    const query = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, fk_id_categoria, imagen_url FROM productos WHERE destacado = 1;`;
+    const query = `SELECT id_productos, nombre_producto, precio, unidades_disponibles, descripcion, fk_id_categoria, imagen_url FROM productos WHERE destacado = 1;`;
     return database.promise().query(query);
 };
 
