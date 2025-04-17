@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     locationController,
     customerSupportController,
     profileController,
-    userModel
+    userModel,
   })
 
   // Iniciar la aplicación
@@ -70,34 +70,34 @@ document.addEventListener("DOMContentLoaded", () => {
   window.mostrarMensaje = baseView.showMessage.bind(baseView)
 
   // Configurar eventos personalizados
-  window.addEventListener("showHomePage", () => homeController.showHomePage())
-  window.addEventListener("showAuthOptions", () => authController.showAuthOptions())
+  window.addEventListener("showHomePage", () => appController.navigateTo("/"))
+  window.addEventListener("showAuthOptions", () => appController.navigateTo("/auth"))
   window.addEventListener("logout", () => authController.handleLogout())
 
-  // Reemplazar las funciones globales existentes
+  // Reemplazar las funciones globales existentes con funciones que usan el sistema de rutas
   window.mostrarPantallaInicio = (event) => {
     if (event) event.preventDefault()
-    homeController.showHomePage()
+    appController.navigateTo("/")
   }
 
   window.mostrarPantallaSesion = (event) => {
     if (event) event.preventDefault()
-    authController.showAuthOptions()
+    appController.navigateTo("/auth")
   }
 
   window.mostrarPantallaCarrito = (event) => {
     if (event) event.preventDefault()
-    cartController.showCart()
+    appController.navigateTo("/carrito")
   }
 
   window.mostrarPantallaUbicacion = (event) => {
     if (event) event.preventDefault()
-    locationController.showLocationPage()
+    appController.navigateTo("/ubicacion")
   }
 
   window.mostrarPantallaAtencionCliente = (event) => {
     if (event) event.preventDefault()
-    customerSupportController.showCustomerSupportPage()
+    appController.navigateTo("/ayuda")
   }
 
   // Asegurarnos de que las funciones de navegación para autenticación estén correctamente definidas
@@ -116,6 +116,5 @@ document.addEventListener("DOMContentLoaded", () => {
     appController.navigateTo("/perfil")
   }
 
-  // Inicializar la vista por defecto
-  homeController.showHomePage()
+
 })

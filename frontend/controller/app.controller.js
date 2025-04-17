@@ -18,7 +18,7 @@ class AppController {
             "/perfil": () => this.profileController.showProfilePage(),
             "/carrito": () => this.cartController.showCart(),
             "/ubicacion": () => this.locationController.showLocationPage(),
-            "/ayuda": () => this.customerSupportController.showCustomerSupportPage(),
+            "/atencion-cliente": () => this.customerSupportController.showCustomerSupportPage(),
         }
     }
 
@@ -58,6 +58,38 @@ class AppController {
         window.addEventListener("popstate", (event) => {
             this.handleRoute(window.location.pathname)
         })
+
+        // Reemplazar los manejadores de eventos de navegación existentes
+        this.setupNavigationHandlers()
+    }
+
+    setupNavigationHandlers() {
+        // Obtener todos los enlaces de navegación
+        const navLinks = document.querySelectorAll(".barra-navegacion a")
+
+        // Configurar cada enlace para usar el sistema de rutas
+        navLinks.forEach((link) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault()
+
+                // Determinar la ruta basada en el atributo onclick
+                let route = "/"
+                if (link.getAttribute("onclick")?.includes("mostrarPantallaUbicacion")) {
+                    route = "/ubicacion"
+                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaAtencionCliente")) {
+                    route = "/atencion-cliente"
+                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaInicio")) {
+                    route = "/"
+                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaCarrito")) {
+                    route = "/carrito"
+                } else if (link.getAttribute("onclick")?.includes("mostrarPantallaSesion")) {
+                    route = "/auth"
+                }
+
+                // Navegar a la ruta
+                this.navigateTo(route)
+            })
+        })
     }
 
     handleInitialRoute() {
@@ -78,14 +110,37 @@ class AppController {
         if (routeHandler) {
             // Si existe un manejador para esta ruta, ejecutarlo
             routeHandler()
+            console.log(`Navegando a: ${normalizedPath}`)
         } else {
-            // Si no hay un manejador, mostrar la página de inicio por defecto
-            console.log(`Ruta no encontrada: ${normalizedPath}, redirigiendo a inicio`)
-            this.homeController.showHomePage()
-
-            // Actualizar la URL a la página de inicio
-            window.history.replaceState({}, "", "/")
+            // Si no hay un manejador específico, intentar determinar la ruta
+            this.handleUnknownRoute(normalizedPath)
         }
+    }
+
+    handleUnknownRoute(path) {
+        // Intentar determinar la ruta basada en patrones
+        if (path.startsWith("/producto/")) {
+            // Extraer el ID del producto de la URL
+            const productId = path.split("/").pop()
+            if (productId) {
+                this.productController.showProductDetail(productId)
+                return
+            }
+        } else if (path.startsWith("/categoria/")) {
+            // Extraer la categoría de la URL
+            const category = path.split("/").pop()
+            if (category) {
+                this.productController.showProductsByCategory(category)
+                return
+            }
+        }
+
+        // Si no se puede determinar la ruta, mostrar la página de inicio
+        console.log(`Ruta no encontrada: ${path}, redirigiendo a inicio`)
+        this.homeController.showHomePage()
+
+        // Actualizar la URL a la página de inicio sin recargar
+        window.history.replaceState({}, "", "/")
     }
 
     navigateTo(path) {
