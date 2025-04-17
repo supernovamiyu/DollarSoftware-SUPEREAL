@@ -27,16 +27,14 @@ import ProfileController from "./controller/profile.controller.js"
 // Inicializar la aplicación cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
   // Inicializar modelos
-  const userModel = new UserModel()
+  const userModel = window.UserModel || new UserModel()
 
-  // Verificación de sesión iniciada
+  window.userModel = userModel;
 
-  if (userModel.isAuthenticated()) {
-
-    const user = userModel.getCurrentUser();
-    console.log('Usuario autenticado al cargar: ', user)
+  console.log("Estado inicial de autenticación:", userModel.isAuthenticated());
   
-  }
+  console.log("Usuario actual:", userModel.getCurrentUser());
+  
   const productModel = new ProductModel()
   const cartModel = new CartModel()
   const locationModel = new LocationModel()
@@ -141,11 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
     appController.navigateTo("/perfil")
   }
 
-  // Verificar si hay un usuario autenticado al cargar la página
-  if (userModel.isAuthenticated()) {
-    const user = userModel.getCurrentUser()
-    authView.updateUserInterface(user)
-  }
+    // Verificar autenticación después de cada navegación
+    window.addEventListener("popstate", () => {
+      appController.syncAuthState();
+  });
+
+  window.addEventListener("navigateTo", () => {
+      setTimeout(() => appController.syncAuthState(), 50);
+  });
 })
 
 /**

@@ -37,13 +37,9 @@ class AppController {
     checkAuthStatus() {
         if (this.userModel.isAuthenticated()) {
             const user = this.userModel.getCurrentUser();
-            console.log('Usuario autenticado encontrado: ', user);
+            console.log("Usuario autenticado:", user);
             this.authController.view.updateUserInterface(user);
-
-            // Actualizar todos los controladores que necesiten el usuario
             this.profileController.view.updateProfileInfo(user);
-        } else {
-            console.log('No hay usuario autenticado.');
         }
     }
 
@@ -104,21 +100,22 @@ class AppController {
 
     handleRoute(path) {
         const normalizedPath = path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
-        
-        // Verificar autenticación para rutas protegidas
+        console.log("Manejando ruta:", normalizedPath);
+
+        // Rutas protegidas
         const protectedRoutes = ["/perfil", "/carrito"];
         if (protectedRoutes.includes(normalizedPath)) {
             if (!this.userModel.isAuthenticated()) {
-                console.log("Usuario no autenticado, redirigiendo a /auth");
+                console.log("Redirigiendo a auth");
                 this.navigateTo("/auth");
                 return;
             }
         }
 
-        // Verificar si está intentando acceder a auth estando autenticado
-        if (normalizedPath === "/auth" || normalizedPath === "/login" || normalizedPath === "/registro") {
+        // Redirigir autenticados que intentan acceder a login/register
+        if (["/auth", "/login", "/registro"].includes(normalizedPath)) {
             if (this.userModel.isAuthenticated()) {
-                console.log("Usuario ya autenticado, redirigiendo a /perfil");
+                console.log("Redirigiendo a perfil");
                 this.navigateTo("/perfil");
                 return;
             }

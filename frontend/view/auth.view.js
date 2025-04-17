@@ -55,41 +55,45 @@
      * Actualiza la interfaz según el estado de autenticación
      * @param {Object|null} user - Datos del usuario o null si no hay sesión
      */
+    /**
+     * Actualiza la interfaz según el estado de autenticación
+     * @param {Object|null} user - Datos del usuario o null si no hay sesión
+     */
     updateUserInterface(user) {
-        // Obtener el icono de usuario
-        const userIcon = document.querySelector(".fa-user")
+        // Obtener todos los elementos que muestran el estado de autenticación
+        const authElements = {
+            userIcon: document.querySelector(".fa-user"),
+            userNameElement: document.querySelector(".nombre-usuario"),
+            userNavInfo: document.querySelector(".user-nav-info")
+        };
 
         if (user) {
-        // Si hay un usuario autenticado, mostrar su nombre debajo del icono
-        if (userIcon) {
-            // Verificar si ya existe el contenedor del nombre
-            let userNameElement = userIcon.parentElement.querySelector(".nombre-usuario")
-
-            if (!userNameElement) {
-            // Crear el elemento para mostrar el nombre
-            userNameElement = document.createElement("span")
-            userNameElement.className = "nombre-usuario"
-            userNameElement.style.display = "block"
-            userNameElement.style.fontSize = "12px"
-            userNameElement.style.textAlign = "center"
-            userNameElement.style.marginTop = "5px"
-            userNameElement.style.color = "white"
-
-            // Insertar después del icono
-            userIcon.parentElement.appendChild(userNameElement)
+            // Actualizar nombre en la barra de navegación
+            if (authElements.userNavInfo) {
+                authElements.userNavInfo.textContent = user.nombre_completo.split(" ")[0];
             }
 
-            // Actualizar el texto con el nombre del usuario
-            userNameElement.textContent = user.nombre_completo.split(" ")[0]
-        }
+            // Actualizar icono de usuario
+            if (authElements.userIcon) {
+                let userNameElement = authElements.userIcon.parentElement.querySelector(".nombre-usuario");
+                
+                if (!userNameElement) {
+                    userNameElement = document.createElement("span");
+                    userNameElement.className = "nombre-usuario";
+                    // ... estilos ...
+                    authElements.userIcon.parentElement.appendChild(userNameElement);
+                }
+                userNameElement.textContent = user.nombre_completo.split(" ")[0];
+            }
         } else {
-        // Si no hay usuario autenticado, eliminar el nombre si existe
-        if (userIcon) {
-            const userNameElement = userIcon.parentElement.querySelector(".nombre-usuario")
-            if (userNameElement) {
-            userNameElement.remove()
+            // Limpiar información de usuario
+            if (authElements.userNavInfo) {
+                authElements.userNavInfo.textContent = "Cuenta Personal";
             }
-        }
+
+            if (authElements.userNameElement) {
+                authElements.userNameElement.remove();
+            }
         }
     }
 

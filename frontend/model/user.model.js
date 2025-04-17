@@ -6,16 +6,17 @@ class UserModel {
     }
 
     initSession() {
-        const savedSession = localStorage.getItem('sessionUsuario');
-        const savedToken = localStorage.getItem('authToken');
+        const savedSession = localStorage.getItem("sesionUsuario");
+        const savedToken = localStorage.getItem("authToken");
+        
         if (savedSession && savedToken) {
             try {
                 this.currentUser = JSON.parse(savedSession);
                 this.token = savedToken;
-                console.log('Sesión recuperada: ', this.currentUser);
+                console.log("Sesión recuperada:", this.currentUser);
                 return true;
             } catch (error) {
-                console.error('Error al recuperar la sesión:', error);
+                console.error("Error al recuperar la sesión:", error);
                 this.clearSession();
                 return false;
             }
@@ -26,8 +27,8 @@ class UserModel {
     clearSession() {
         this.currentUser = null;
         this.token = null;
-        localStorage.removeItem('sessionUsuario');
-        localStorage.removeItem('authToken')
+        localStorage.removeItem("sesionUsuario");
+        localStorage.removeItem("authToken");
     }
 
     getCurrentUser() {
