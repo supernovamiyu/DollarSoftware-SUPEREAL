@@ -29,7 +29,7 @@ class UserModel {
 
     async login(email, password) {
         try {
-            const response = await fetch("http://localhost:3000/auth/login", {
+            const response = await fetch("http://localhost:3000/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,7 +62,7 @@ class UserModel {
 
     async register(userData) {
         try {
-            const response = await fetch("http://localhost:3000/auth/register", {
+            const response = await fetch("http://localhost:3000/api/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -101,7 +101,7 @@ class UserModel {
         try {
             const token = localStorage.getItem("authToken");
             const response = await fetch(
-                `http://localhost:3000/users/${this.currentUser.id_usuario}`,
+                `http://localhost:3000/api/users/${this.currentUser.id_usuario}`,
                 {
                     method: "PUT",
                     headers: {
@@ -131,7 +131,7 @@ class UserModel {
 
     async getOrderProducts(orderId) {
         try {
-            const response = await fetch(`http://localhost:3000/detail-delivery/${orderId}`);
+            const response = await fetch(`http://localhost:3000/api/detail-delivery/${orderId}`);
             
             if (!response.ok) {
                 throw new Error(`Error ${response.status}: ${await response.text()}`);
@@ -172,7 +172,7 @@ class UserModel {
             const userId = this.currentUser.id_usuario;
             console.log(`Obteniendo pedidos para usuario ID: ${userId}`);
             
-            const response = await fetch(`http://localhost:3000/delivery/usuario/${userId}`);
+            const response = await fetch(`http://localhost:3000/api/delivery/usuario/${userId}`);
             
             if (response.status === 404) {
                 return [];
@@ -232,7 +232,7 @@ class UserModel {
     
             // Obtener todos los pedidos del usuario
             const userId = this.currentUser.id_usuario;
-            const ordersResponse = await fetch(`http://localhost:3000/delivery/usuario/${userId}`);
+            const ordersResponse = await fetch(`http://localhost:3000/api/delivery/usuario/${userId}`);
             
             if (!ordersResponse.ok) {
                 throw new Error("Error al obtener pedidos del usuario");
@@ -276,7 +276,7 @@ class UserModel {
     async getOrderDetails(orderId) {
         try {
             const response = await fetch(
-                `http://localhost:3000/delivery/idPedidos/${orderId}`
+                `http://localhost:3000/api/delivery/idPedidos/${orderId}`
             );
 
             if (!response.ok) {

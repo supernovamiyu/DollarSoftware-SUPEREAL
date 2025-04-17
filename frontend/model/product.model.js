@@ -8,7 +8,7 @@
          */
         async getFeaturedProducts() {
         try {
-            const response = await fetch("http://localhost:3000/products/destacados")
+            const response = await fetch("http://localhost:3000/api/products/destacados")
             if (!response.ok) {
             throw new Error("Error al obtener productos destacados")
             }
@@ -27,7 +27,7 @@
          */
         async getProductsByCategory(categoryId) {
         try {
-            const response = await fetch(`http://localhost:3000/products/categoria/${categoryId}`)
+            const response = await fetch(`http://localhost:3000/api/products/categoria/${categoryId}`)
             if (!response.ok) {
             throw new Error("Error al obtener productos por categoría")
             }
@@ -47,7 +47,7 @@
         async searchProducts(searchTerm) {
         try {
             const encodedSearchTerm = encodeURIComponent(searchTerm)
-            const response = await fetch(`http://localhost:3000/products/search/${encodedSearchTerm}`)
+            const response = await fetch(`http://localhost:3000/api/products/search/${encodedSearchTerm}`)
             if (!response.ok) {
             throw new Error("Error al buscar productos")
             }
@@ -66,7 +66,7 @@
          */
         async getProductDetails(productId) {
             try {
-                const response = await fetch(`http://localhost:3000/products/${productId}`)
+                const response = await fetch(`http://localhost:3000/api/products/${productId}`)
                 if (!response.ok) {
                     throw new Error("Error al obtener detalles del producto")
                 }
@@ -85,7 +85,7 @@
          */
         async getProductReviews(productId) {
             try {
-                const response = await fetch(`http://localhost:3000/opinions/${productId}`)
+                const response = await fetch(`http://localhost:3000/api/opinions/${productId}`)
                 if (!response.ok) {
                 throw new Error("Error al obtener opiniones del producto")
                 }
@@ -104,7 +104,7 @@
          */
         async submitProductReview(reviewData) {
         try {
-            const response = await fetch("http://localhost:3000/opinions", {
+            const response = await fetch("http://localhost:3000/api/opinions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
