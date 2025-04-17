@@ -103,7 +103,7 @@ class AppController {
         console.log("Manejando ruta:", normalizedPath);
 
         // Rutas protegidas
-        const protectedRoutes = ["/perfil", "/carrito"];
+        const protectedRoutes = ["/perfil"];
         if (protectedRoutes.includes(normalizedPath)) {
             if (!this.userModel.isAuthenticated()) {
                 console.log("Redirigiendo a auth");
