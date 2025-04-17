@@ -81,7 +81,7 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const { id_usuario } = req.params;
-        const { correo, contraseña, nombre_completo, numero_identificacion } = req.body;
+        const { correo, contraseña, nombre_completo } = req.body;
 
         // Verificación de autorización
         if (req.user.id !== parseInt(id_usuario)) {
@@ -96,11 +96,11 @@ const updateUser = async (req, res) => {
         }
 
         // Validación de campos
-        if (!correo || !nombre_completo || !numero_identificacion) {
+        if (!correo || !nombre_completo) {
             return res.status(400).json({ 
                 success: false,
                 message: 'Campos obligatorios faltantes',
-                required_fields: ['correo', 'nombre_completo', 'numero_identificacion']
+                required_fields: ['correo', 'nombre_completo']
             });
         }
 
@@ -112,15 +112,12 @@ const updateUser = async (req, res) => {
                 correo,
                 contraseña,
                 nombre_completo,
-                numero_identificacion,
             );
         } else {
             updateResult = await userModel.updateUserWithoutPassword(
                 id_usuario,
                 correo,
                 nombre_completo,
-                numero_identificacion,
-
             );
         }
 
@@ -144,8 +141,6 @@ const updateUser = async (req, res) => {
             
             if (errorMessage.includes('correo')) {
                 duplicatedField = 'correo electrónico';
-            } else if (errorMessage.includes('numero_identificacion')) {
-                duplicatedField = 'número de identificación';
             } else if (errorMessage.includes('telefono')) {
                 duplicatedField = 'teléfono';
             }

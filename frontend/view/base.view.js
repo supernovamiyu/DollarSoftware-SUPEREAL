@@ -1,33 +1,30 @@
     /**
      * Vista base que proporciona funcionalidad común para todas las vistas
      */
-    class BaseView {
-        /**
-         * Muestra una plantilla en un contenedor
-         * @param {string} templateId - ID de la plantilla
-         * @param {string} containerId - ID del contenedor
-         * @returns {boolean} - true si se mostró correctamente, false en caso contrario
-         */
-        showTemplate(templateId, containerId) {
-        try {
-            const template = document.getElementById(templateId)
-            const container = document.getElementById(containerId)
-    
-            if (!template || !container) {
-            console.error(`No se encontró la plantilla ${templateId} o el contenedor ${containerId}`)
-            return false
-            }
-    
-            const content = document.importNode(template.content, true)
-            container.innerHTML = ""
-            container.appendChild(content)
-    
+class BaseView {
+    constructor() {
+        // Initialize common properties or methods for all views
+    }
+
+    /**
+     * Muestra una plantilla HTML en un contenedor específico.
+     * @param {string} templateId - ID de la plantilla a mostrar.
+     * @param {string} containerId - ID del contenedor donde se mostrará la plantilla.
+     * @returns {boolean} - True si la plantilla se mostró correctamente, false en caso contrario.
+     */
+    showTemplate(templateId, containerId) {
+        const template = document.getElementById(templateId)
+        const container = document.getElementById(containerId)
+
+        if (template && container) {
+            container.innerHTML = template.innerHTML
             return true
-        } catch (error) {
-            console.error("Error al mostrar la plantilla:", error)
+        } else {
+            console.error(`Template "${templateId}" or container "${containerId}" not found.`)
             return false
         }
-        }
+    }
+
     
         /**
          * Muestra un mensaje de notificación

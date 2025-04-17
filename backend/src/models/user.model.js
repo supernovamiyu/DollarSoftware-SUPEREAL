@@ -20,10 +20,10 @@ const createUser = (correo, contraseña, nombre_completo, numero_identificacion)
 }
 
 // Actualizar un usuario en la base de datos
-const updateUser = (id_usuario, correo, contraseña, nombre_completo, numero_identificacion) => {
+const updateUser = (id_usuario, correo, contraseña, nombre_completo) => {
     const query = mysql2.format(
-        "UPDATE usuarios SET correo=?, contraseña=?, nombre_completo=?, numero_identificacion=? WHERE id_usuario=?;",
-        [correo, contraseña, nombre_completo, numero_identificacion, id_usuario],
+        "UPDATE usuarios SET correo=?, contraseña=?, nombre_completo=? WHERE id_usuario=?;",
+        [correo, contraseña, nombre_completo, id_usuario],
     )
     return database.promise().query(query)
 }
