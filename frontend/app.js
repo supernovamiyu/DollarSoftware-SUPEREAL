@@ -74,6 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("showAuthOptions", () => appController.navigateTo("/auth"))
   window.addEventListener("logout", () => authController.handleLogout())
 
+  // AÑADIR ESTE LISTENER PARA EL EVENTO navigateTo
+  window.addEventListener("navigateTo", (event) => {
+    if (event.detail && event.detail.path) {
+      console.log("Navegando a través de evento:", event.detail.path)
+      appController.navigateTo(event.detail.path)
+    }
+  })
+
   // Reemplazar las funciones globales existentes con funciones que usan el sistema de rutas
   window.mostrarPantallaInicio = (event) => {
     if (event) event.preventDefault()
@@ -97,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.mostrarPantallaAtencionCliente = (event) => {
     if (event) event.preventDefault()
-    appController.navigateTo("/ayuda")
+    appController.navigateTo("/atencion-cliente") // Asegúrate de que esta ruta sea correcta
   }
 
   // Asegurarnos de que las funciones de navegación para autenticación estén correctamente definidas
@@ -116,5 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
     appController.navigateTo("/perfil")
   }
 
-
+  // Verificar si hay un usuario autenticado al cargar la página
+  if (userModel.isAuthenticated()) {
+    const user = userModel.getCurrentUser()
+    authView.updateUserInterface(user)
+  }
 })

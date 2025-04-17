@@ -34,22 +34,10 @@ class AppController {
     }
 
     checkAuthStatus() {
-        // Verificar si hay un token en localStorage
-        const token = localStorage.getItem("authToken")
-        if (token) {
-            this.userModel
-                .getCurrentUser()
-                .then((user) => {
-                    if (user) {
-                        // Actualizar la interfaz para un usuario autenticado
-                        this.authController.updateUserInterface(user)
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error al verificar el estado de autenticación:", error)
-                    // Si hay un error, eliminar el token
-                    localStorage.removeItem("authToken")
-                })
+        // Verificar si hay un usuario autenticado
+        if (this.userModel.isAuthenticated()) {
+            const user = this.userModel.getCurrentUser()
+            this.authController.view.updateUserInterface(user)
         }
     }
 
@@ -103,6 +91,8 @@ class AppController {
     handleRoute(path) {
         // Normalizar la ruta (eliminar barras finales, etc.)
         const normalizedPath = path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path
+
+        console.log("Manejando ruta:", normalizedPath)
 
         // Buscar la función de manejo para esta ruta
         const routeHandler = this.routes[normalizedPath]
