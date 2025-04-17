@@ -92,9 +92,6 @@
             return
             }
     
-            // Mostrar estado de carga
-            this.view.showMessage("Buscando productos...", "info")
-    
             // Llamada al modelo con manejo de errores
             const products = await this.model.searchProducts(trimmedTerm).catch((error) => {
             throw new Error(`Error en la búsqueda: ${error.message}`)
