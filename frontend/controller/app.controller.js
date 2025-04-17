@@ -36,8 +36,14 @@ class AppController {
 
     checkAuthStatus() {
         if (this.userModel.isAuthenticated()) {
-            const user = this.userModel.getCurrentUser()
-            this.authController.view.updateUserInterface(user)
+            const user = this.userModel.getCurrentUser();
+            console.log('Usuario autenticado encontrado: ', user);
+            this.authController.view.updateUserInterface(user);
+
+            // Actualizar todos los controladores que necesiten el usuario
+            this.profileController.view.updateProfileInfo(user);
+        } else {
+            console.log('No hay usuario autenticado.');
         }
     }
 
@@ -97,17 +103,58 @@ class AppController {
     }
 
     handleRoute(path) {
-        const normalizedPath = path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path
-        console.log("Manejando ruta:", normalizedPath)
+        const normalizedPath = path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
+        
+        // Verificar autenticación para rutas protegidas
+        const protectedRoutes = ["/perfil", "/carrito"];
+        if (protectedRoutes.includes(normalizedPath)) {
+            if (!this.userModel.isAuthenticated()) {
+                console.log("Usuario no autenticado, redirigiendo a /auth");
+                this.navigateTo("/auth");
+                return;
+            }
+        }
 
-        const routeHandler = this.routes[normalizedPath]
+        // Verificar si está intentando acceder a auth estando autenticado
+        if (normalizedPath === "/auth" || normalizedPath === "/login" || normalizedPath === "/registro") {
+            if (this.userModel.isAuthenticated()) {
+                console.log("Usuario ya autenticado, redirigiendo a /perfil");
+                this.navigateTo("/perfil");
+                return;
+            }
+        }
+
+        const routeHandler = this.routes[normalizedPath];
         if (routeHandler) {
-            routeHandler()
-            console.log(`Navegando a: ${normalizedPath}`)
+            routeHandler();
         } else {
-            this.handleUnknownRoute(normalizedPath)
+            this.handleUnknownRoute(normalizedPath);
         }
     }
+
+    syncAuthState() {
+        const isAuthenticated = this.userModel.isAuthenticated();
+        const user = isAuthenticated ? this.userModel.getCurrentUser() : null;
+        
+        // Actualizar todas las vistas que necesitan el estado de autenticación
+        this.authController.view.updateUserInterface(user);
+        this.profileController.view.updateProfileInfo(user);
+        
+        // Actualizar la barra de navegación
+        this.updateNavbarAuthState(user);
+    }
+
+    updateNavbarAuthState(user) {
+        const userNavElement = document.querySelector(".user-nav-info");
+        if (userNavElement) {
+            if (user) {
+                userNavElement.textContent = user.nombre_completo.split(" ")[0];
+            } else {
+                userNavElement.textContent = "Cuenta Personal";
+            }
+        }
+    }
+
 
     handleUnknownRoute(path) {
         if (path.startsWith("/producto/")) {

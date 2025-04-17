@@ -9,40 +9,45 @@ class ProfileController {
     }
 
     async showProfilePage() {
+        // Verificación más robusta de autenticación
         if (!this.model.isAuthenticated()) {
+            console.warn("Intento de acceso a perfil sin autenticación");
+            
+            // Mostrar mensaje solo si no estamos ya en la página de auth
+            if (!window.location.pathname.includes("/auth")) {
+                this.view.showMessage("Debes iniciar sesión para acceder al perfil", "warning");
+            }
+            
             window.dispatchEvent(
                 new CustomEvent("navigateTo", {
                     detail: { path: "/auth" },
-                }),
-            )
-            return
+                })
+            );
+            return;
         }
 
-        const user = this.model.getCurrentUser()
-        console.log("Mostrando perfil para usuario:", user) // Log adicional
+        const user = this.model.getCurrentUser();
+        console.log("Mostrando perfil para:", user); // Debug
 
         if (this.view.showProfilePage(user)) {
             try {
-                await this.loadUserData()
-                this.setupProfileEvents()
-                // Eliminamos esta línea para evitar configurar el formulario antes de tiempo
-                // this.setupDataForm()
-
-                if (this.userOrders.length === 0) {
-                    this.view.showMessage("No tienes pedidos registrados", "info")
-                }
-
+                await this.loadUserData();
+                this.setupProfileEvents();
+                
+                // Forzar actualización de la UI
+                this.view.updateProfileInfo(user);
+                
+                // Mostrar sección por defecto
                 setTimeout(() => {
-                    this.handleProfileButtonClick("gestion-de-pedidos-boton-perfil")
-                }, 100)
+                    this.handleProfileButtonClick("gestion-de-pedidos-boton-perfil");
+                }, 100);
             } catch (error) {
-                console.error("Error al cargar perfil:", error)
-                this.view.showMessage("Error al cargar datos del perfil", "error")
-                this.setupProfileEvents()
+                console.error("Error al cargar perfil:", error);
+                this.view.showMessage("Error al cargar datos del perfil", "error");
             }
         }
     }
-
+    
     async loadUserData() {
         try {
             this.userOrders = await this.model.getUserOrders()

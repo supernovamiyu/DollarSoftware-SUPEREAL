@@ -73,34 +73,37 @@ class AuthController {
      * Maneja el proceso de login
      * @param {Object} formData - Datos del formulario de login
      */
-    async handleLogin(formData) {
-        try {
-            const result = await this.model.login(formData.correo, formData.contraseña)
+// En auth.controller.js
+async handleLogin(formData) {
+    try {
+        const result = await this.model.login(formData.correo, formData.contraseña);
 
-            if (result.success) {
-                this.view.showMessage("Inicio de sesión exitoso", "success")
-                this.view.updateUserInterface(result.user)
+        if (result.success) {
+            this.view.showMessage("Inicio de sesión exitoso", "success");
+            
+            // Actualizar toda la UI con el nuevo usuario
+            const user = this.model.getCurrentUser();
+            this.view.updateUserInterface(user);
+            
+            // Forzar actualización en todos los controladores
+            window.dispatchEvent(new CustomEvent("userLoggedIn", { detail: user }));
 
-                // Redirigir al perfil después de 1 segundo (para que se vea el mensaje)
-                setTimeout(() => {
-                    window.dispatchEvent(
-                        new CustomEvent("navigateTo", {
-                            detail: { path: "/perfil" },
-                        }),
-                    )
-                }, 1000)
-            } else {
-                this.view.showMessage(result.error, "error")
-                const errorElement = document.getElementById("login-error")
-                if (errorElement) {
-                    errorElement.textContent = result.error
-                }
-            }
-        } catch (error) {
-            console.error("Error en el proceso de login:", error)
-            this.view.showMessage("Error en el proceso de autenticación", "error")
+            // Redirigir al perfil
+            setTimeout(() => {
+                window.dispatchEvent(
+                    new CustomEvent("navigateTo", {
+                        detail: { path: "/perfil" },
+                    })
+                );
+            }, 1000);
+        } else {
+            this.view.showMessage(result.error, "error");
         }
+    } catch (error) {
+        console.error("Error en el proceso de login:", error);
+        this.view.showMessage("Error en el proceso de autenticación", "error");
     }
+}
 
     /**
      * Maneja el proceso de registro

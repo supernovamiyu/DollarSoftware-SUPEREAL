@@ -28,6 +28,15 @@ import ProfileController from "./controller/profile.controller.js"
 document.addEventListener("DOMContentLoaded", () => {
   // Inicializar modelos
   const userModel = new UserModel()
+
+  // Verificación de sesión iniciada
+
+  if (userModel.isAuthenticated()) {
+
+    const user = userModel.getCurrentUser();
+    console.log('Usuario autenticado al cargar: ', user)
+  
+  }
   const productModel = new ProductModel()
   const cartModel = new CartModel()
   const locationModel = new LocationModel()
@@ -74,11 +83,16 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("showAuthOptions", () => appController.navigateTo("/auth"))
   window.addEventListener("logout", () => authController.handleLogout())
 
-  // AÑADIR ESTE LISTENER PARA EL EVENTO navigateTo
-  window.addEventListener("navigateTo", (event) => {
+  // Configurar evento para verificar autenticación en cada navegación
+  window.addEventListener('navigateTo', (event) => {
     if (event.detail && event.detail.path) {
-      console.log("Navegando a través de evento:", event.detail.path)
-      appController.navigateTo(event.detail.path)
+      console.log('Navegando a: ', event.detail.path);
+      appController.navigateTo(event.detail.path);
+
+      // Verificar autenticación después de navegar
+      setTimeout(() => {
+        appController.checkAuthStatus();
+      }, 100)
     }
   })
 
