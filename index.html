@@ -234,7 +234,7 @@
                             <input type="checkbox" id="recordar" name="recordar">
                             <label for="recordar">Recordarme</label>
                         </div>
-                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                        <a href="#" class="forgot-password" onclick="mostrarPantallaRecuperacion(event)">¿Olvidaste tu contraseña?</a>
                     </div>
                     <div id="login-error" class="error-message"></div>
                     <button type="submit" class="auth-button primary-button">
@@ -686,6 +686,128 @@
             </div>
         </section>
     </template>
+
+    <!-------------- RECUPERACIÓN DE CONTRASEÑAS --------------->
+    <template id="plantilla-recuperar-contrasena">
+        <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+            <a href="#" onclick="mostrarPantallaInicio(event)">
+                <img src="frontend/assets/img/logo-moradito.png" alt="Logo Ultra Commerce" class="auth-logo">
+            </a>
+            <h1>Recuperar Contraseña</h1>
+            <p class="auth-description">
+                Sigue los pasos para recuperar el acceso a tu cuenta.
+            </p>
+            </div>
+            
+            <!-- Paso 1: Solicitar correo electrónico -->
+            <div id="paso-email" class="recovery-step active">
+            <form id="form-solicitar-codigo" class="auth-form">
+                <div class="form-group">
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-envelope input-icon"></i>
+                    <input type="email" id="correo-recuperacion" name="correo" class="form-input" 
+                    placeholder="Correo electrónico" required>
+                </div>
+                </div>
+                <div id="email-error" class="error-message"></div>
+                <button type="submit" id="form-solicitar-codigo-btn" class="auth-button primary-button">
+                <i class="fa-solid fa-paper-plane"></i>
+                Continuar
+                </button>
+            </form>
+            </div>
+            
+            <!-- Paso 2: Nueva contraseña -->
+            <div id="paso-password" class="recovery-step">
+            <form id="form-nueva-password" class="auth-form">
+                <div class="form-group">
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="nueva-password" name="nueva-password" class="form-input" 
+                    placeholder="Nueva contraseña" required>
+                    <button type="button" id="toggle-password" class="toggle-password">
+                    <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                </div>
+                <div class="form-group">
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="confirmar-password" name="confirmar-password" class="form-input" 
+                    placeholder="Confirmar contraseña" required>
+                </div>
+                </div>
+                <div class="password-requirements">
+                <p>La contraseña debe contener:</p>
+                <ul>
+                    <li id="req-length"><i class="fa-solid fa-circle"></i> Al menos 8 caracteres</li>
+                    <li id="req-uppercase"><i class="fa-solid fa-circle"></i> Al menos una mayúscula</li>
+                    <li id="req-lowercase"><i class="fa-solid fa-circle"></i> Al menos una minúscula</li>
+                    <li id="req-number"><i class="fa-solid fa-circle"></i> Al menos un número</li>
+                </ul>
+                </div>
+                <div id="password-error" class="error-message"></div>
+                <button type="submit" id="form-nueva-password-btn" class="auth-button primary-button">
+                <i class="fa-solid fa-check"></i>
+                Continuar
+                </button>
+            </form>
+            </div>
+            
+            <!-- Paso 3: Verificación de código -->
+            <div id="paso-codigo" class="recovery-step">
+            <form id="form-verificar-codigo" class="auth-form">
+                <div class="verification-info">
+                <i class="fa-solid fa-envelope-circle-check verification-icon"></i>
+                <p>Hemos enviado un código de verificación a tu correo electrónico.</p>
+                <p class="email-display" id="email-display"></p>
+                </div>
+                <div class="form-group verification-code-group">
+                <input type="text" maxlength="1" class="verification-input" data-index="0">
+                <input type="text" maxlength="1" class="verification-input" data-index="1">
+                <input type="text" maxlength="1" class="verification-input" data-index="2">
+                <input type="text" maxlength="1" class="verification-input" data-index="3">
+                <input type="text" maxlength="1" class="verification-input" data-index="4">
+                <input type="text" maxlength="1" class="verification-input" data-index="5">
+                </div>
+                <div id="codigo-error" class="error-message"></div>
+                <div class="resend-code">
+                <span id="countdown-timer">Reenviar código en <span id="countdown">60</span>s</span>
+                <button type="button" id="resend-code" class="text-button" disabled>
+                    Reenviar código
+                </button>
+                </div>
+                <button type="submit" id="form-verificar-codigo-btn" class="auth-button primary-button">
+                <i class="fa-solid fa-check-double"></i>
+                Verificar código
+                </button>
+            </form>
+            </div>
+            
+            <!-- Paso 4: Éxito -->
+            <div id="paso-exito" class="recovery-step">
+            <div class="success-message">
+                <i class="fa-solid fa-circle-check success-icon"></i>
+                <h2>¡Contraseña actualizada!</h2>
+                <p>Tu contraseña ha sido actualizada correctamente.</p>
+                <button type="button" id="ir-a-perfil" class="auth-button primary-button">
+                <i class="fa-solid fa-user"></i>
+                Ir a mi perfil
+                </button>
+            </div>
+            </div>
+            
+            <div class="auth-footer">
+            <a href="#" onclick="mostrarPantallaInicioSesion(event)" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Volver a inicio de sesión
+            </a>
+            </div>
+        </div>
+        </div>
+    </template>
+
     <!-----------------Enlaces JS------------------->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script type="module" src="/frontend/app.js"></script>

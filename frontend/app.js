@@ -3,6 +3,7 @@ import UserModel from "./model/user.model.js"
 import ProductModel from "./model/product.model.js"
 import CartModel from "./model/cart.model.js"
 import LocationModel from "./model/location.model.js"
+import RecoveryModel from "./model/recovery.model.js"
 
 // Importar vistas
 import BaseView from "./view/base.view.js"
@@ -13,6 +14,7 @@ import CartView from "./view/cart.view.js"
 import LocationView from "./view/location.view.js"
 import CustomerSupportView from "./view/help.view.js"
 import ProfileView from "./view/profile.view.js"
+import RecoveryView from "./view/recovery.view.js"
 
 // Importar controladores
 import AppController from "./controller/app.controller.js"
@@ -23,6 +25,7 @@ import HomeController from "./controller/home.controller.js"
 import LocationController from "./controller/location.controller.js"
 import CustomerSupportController from "./controller/help.controller.js"
 import ProfileController from "./controller/profile.controller.js"
+import RecoveryController from "./controller/recovery.controller.js"
 
 // Inicializar la aplicación cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
@@ -38,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const productModel = new ProductModel()
   const cartModel = new CartModel()
   const locationModel = new LocationModel()
+  const recoveryModel = new RecoveryModel()
 
   // Inicializar vistas
   const baseView = new BaseView()
@@ -48,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const locationView = new LocationView()
   const customerSupportView = new CustomerSupportView()
   const profileView = new ProfileView()
+  const recoveryView = new RecoveryView()
 
   // Inicializar controladores
   const productController = new ProductController(productModel, productView)
@@ -57,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const locationController = new LocationController(locationModel, locationView)
   const customerSupportController = new CustomerSupportController(customerSupportView)
   const profileController = new ProfileController(userModel, profileView)
-
+  const recoveryController = new RecoveryController(recoveryModel, RecoveryView)
   // Inicializar el controlador principal
   const appController = new AppController({
     homeController,

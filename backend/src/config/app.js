@@ -46,6 +46,7 @@ app.use("/api/delivery", deliveryRoutes)
 app.use("/api/opinions", opinionsRoutes)
 app.use("/api/auth", authRoutes)
 
+
 // 3. Servir el index.html para todas las rutas de navegación
 app.get("*", (req, res) => {
   // Verificar si la solicitud es para un archivo estático
