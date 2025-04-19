@@ -723,6 +723,25 @@ class CartView extends BaseView {
 
         // Hacer scroll al inicio para asegurar que el usuario vea el mensaje
         window.scrollTo({ top: 0, behavior: "smooth" })
+        const successContainer = document.getElementById("pago-exitoso");
+        if (successContainer) {
+            const downloadBtn = document.createElement("button");
+            downloadBtn.className = "auth-button primary-button";
+            downloadBtn.style.marginTop = "15px";
+            downloadBtn.innerHTML = '<i class="fa fa-download"></i> Descargar factura';
+            downloadBtn.addEventListener("click", () => {
+                // Disparar evento para generar PDF
+                window.dispatchEvent(new CustomEvent("downloadInvoice", { 
+                    detail: { result } 
+                }));
+            });
+            
+            const buttonsContainer = successContainer.querySelector(".botones-navegacion");
+            if (buttonsContainer) {
+                buttonsContainer.appendChild(downloadBtn);
+            }
+        }
+    
     }
 
     /**
@@ -739,6 +758,25 @@ class CartView extends BaseView {
 
         // Hacer scroll al inicio para asegurar que el usuario vea el mensaje
         window.scrollTo({ top: 0, behavior: "smooth" })
+    
+        const failureContainer = document.getElementById("pago-fallido");
+        if (failureContainer) {
+            const downloadBtn = document.createElement("button");
+            downloadBtn.className = "auth-button primary-button";
+            downloadBtn.style.marginTop = "15px";
+            downloadBtn.innerHTML = '<i class="fa fa-download"></i> Descargar volante';
+            downloadBtn.addEventListener("click", () => {
+                // Disparar evento para generar PDF
+                window.dispatchEvent(new CustomEvent("downloadFailedTransaction", { 
+                    detail: { error: message } 
+                }));
+            });
+            
+            const buttonsContainer = failureContainer.querySelector(".botones-navegacion");
+            if (buttonsContainer) {
+                buttonsContainer.insertBefore(downloadBtn, buttonsContainer.firstChild);
+            }
+        }
     }
 
     /**

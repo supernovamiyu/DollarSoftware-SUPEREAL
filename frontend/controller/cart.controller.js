@@ -1,3 +1,5 @@
+const { jsPDF } = window.jspdf;
+
 /**
  * Controlador para el carrito de compras (Versión mejorada)
  */
@@ -96,6 +98,15 @@ class CartController {
             console.log("Evento changePaymentMethod recibido en controller", e.detail)
             this.view.showPaymentMethodForm(e.detail.method)
         })
+
+        // Configurar eventos de descarga de PDF
+        window.addEventListener("downloadInvoice", (e) => {
+            this.generateInvoicePDF(e.detail.result);
+        });
+
+        window.addEventListener("downloadFailedTransaction", (e) => {
+            this.generateFailedTransactionPDF({ error: e.detail.error });
+        });
     }
 
     /**
@@ -291,9 +302,17 @@ class CartController {
      * @param {Object} result - Resultado del pago
      */
     async handlePaymentSuccess(result) {
+        const cartItems = [...this.model.getCartItems()];;
+        const total = this.model.getCartTotal();
+
+        console.log(cartItems);
+
         this.view.showPaymentSuccess(result);
         await this.model.clearCart();
         window.dispatchEvent(new CustomEvent("cartUpdated"));
+        
+        // Generar factura PDF
+        this.generateInvoicePDF(result, cartItems, total);
     }
 
     /**
@@ -302,7 +321,176 @@ class CartController {
      */
     handlePaymentFailure(result) {
         this.view.showPaymentFailure(result.error || "Error desconocido al procesar el pago");
+        
+        // Generar volante de transacción fallida
+        this.generateFailedTransactionPDF(result);
     }
-}
+    // Generar facturas 
+    generateInvoicePDF(paymentResult, cartItems, total) {
+        const now = new Date();
+        const doc = new jsPDF();
+        
+        // Configuración inicial
+        doc.setProperties({
+            title: `Factura ${paymentResult.transactionId || '000000'}`,
+            subject: 'Compra en Ultra Commerce',
+            author: 'Dollar Software'
+        });
+    
+        // Encabezado
+        doc.setFontSize(22);
+        doc.setTextColor(113, 137, 255);
+        doc.text('FACTURA DE COMPRA', 105, 20, { align: 'center' });
+        
+        // Información de la factura
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        doc.text(`N°: ${paymentResult.transactionId || '000000'}`, 15, 30);
+        doc.text(`Fecha: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 15, 36);
+        
+        // Logo
+        try {
+            const logoUrl = '/frontend/assets/img/logo-moradito.png';
+            doc.addImage(logoUrl, 'PNG', 160, 20, 30, 15);
+        } catch (e) {
+            console.log('Error al cargar el logo:', e);
+        }
+        
+        // Línea separadora
+        doc.setDrawColor(113, 137, 255);
+        doc.setLineWidth(0.5);
+        doc.line(15, 45, 195, 45);
+        
+        // Detalles de productos
+        doc.setFontSize(14);
+        doc.text('Detalles de la compra', 15, 55);
+        
+        // Preparamos los datos para la tabla
+        const headers = [['Producto', 'Cantidad', 'Precio Unitario', 'Subtotal']];
+        const data = cartItems.map(item => [
+            item.nombre_producto.substring(0, 30), // Limitar longitud del nombre
+            item.cantidad,
+            `$${Number(item.precio).toFixed(2)}`,
+            `$${(Number(item.precio) * item.cantidad).toFixed(2)}`
+        ]);
+        
+        // Añadimos la tabla
+        doc.autoTable({
+            startY: 60,
+            head: headers,
+            body: data,
+            theme: 'grid',
+            headStyles: {
+                fillColor: [113, 137, 255],
+                textColor: [255, 255, 255],
+                fontStyle: 'bold'
+            },
+            columnStyles: {
+                0: { cellWidth: 'auto' },
+                1: { cellWidth: 20 },
+                2: { cellWidth: 30 },
+                3: { cellWidth: 30 }
+            },
+            styles: {
+                fontSize: 10,
+                cellPadding: 3,
+                overflow: 'linebreak'
+            },
+            didDrawPage: function(data) {
+                // Footer en cada página
+                doc.setFontSize(8);
+                doc.setTextColor(150);
+                doc.text(
+                    `Página ${data.pageCount}`,
+                    data.settings.margin.left,
+                    doc.internal.pageSize.height - 10
+                );
+            }
+        });
+        
+        // Total
+        const finalY = doc.lastAutoTable.finalY + 15;
+        doc.setFontSize(12);
+        doc.text('Subtotal:', 150, finalY);
+        doc.text(`$${total.toFixed(2)}`, 170, finalY);
+        
+        // IVA (ejemplo con 19%)
+        const iva = total * 0.19;
+        doc.text('IVA (19%):', 150, finalY + 8);
+        doc.text(`$${iva.toFixed(2)}`, 170, finalY + 8);
+        
+        // Total final
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.text('TOTAL:', 150, finalY + 20);
+        doc.text(`$${(total + iva).toFixed(2)}`, 170, finalY + 20);
+        
+        // Método de pago
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text(`Método de pago: ${paymentResult.method || 'Tarjeta de crédito'}`, 15, finalY + 30);
+        
+        // Pie de página
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        doc.text('Gracias por su compra - Dollar Software Ultra Commerce', 105, 280, { align: 'center' });
+        doc.text('Si tiene alguna pregunta, contacte a: atencioncliente@dollarsoftware.com', 105, 285, { align: 'center' });
+        
+        // Guardar PDF
+        doc.save(`factura_${paymentResult.transactionId || now.getTime()}.pdf`);
+    }
+        
+        // Generar volantes de transacción fallida
+
+        generateFailedTransactionPDF(paymentResult) {
+            const now = new Date();
+            const doc = new jsPDF();
+            
+            // Encabezado
+            doc.setFontSize(22);
+            doc.setTextColor(255, 0, 0);
+            doc.text('TRANSACCIÓN NO COMPLETADA', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Fecha: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 15, 30);
+            
+            // Logo
+            doc.addImage('/frontend/assets/img/logo-moradito.png', 'PNG', 160, 20, 30, 15);
+            
+            // Línea separadora
+            doc.setDrawColor(255, 0, 0);
+            doc.setLineWidth(0.5);
+            doc.line(15, 45, 195, 45);
+            
+            // Mensaje de error
+            doc.setFontSize(14);
+            doc.text('Detalles del error:', 15, 55);
+            doc.setFontSize(12);
+            
+            const errorMessage = paymentResult.error || 'Error desconocido al procesar el pago';
+            const splitMessage = doc.splitTextToSize(errorMessage, 180);
+            doc.text(splitMessage, 15, 65);
+            
+            // Instrucciones
+            doc.setFontSize(14);
+            doc.text('¿Qué puedes hacer?', 15, 85);
+            doc.setFontSize(12);
+            doc.text('1. Verifica los datos de tu método de pago', 15, 95);
+            doc.text('2. Intenta nuevamente con otra tarjeta o método', 15, 105);
+            doc.text('3. Contacta a tu banco para verificar el problema', 15, 115);
+            doc.text('4. Si el problema persiste, contáctanos', 15, 125);
+            
+            // Pie de página
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Dollar Software Ultra Commerce - Atención al cliente', 105, 280, { align: 'center' });
+            
+            // Guardar PDF
+            doc.save(`volante_error_pago_${now.getTime()}.pdf`);
+        }
+
+    }
+
 
 export default CartController
