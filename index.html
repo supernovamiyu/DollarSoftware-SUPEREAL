@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Dollar Software - Ultra Commerce</title>
-    <link rel="stylesheet" href="frontend/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="frontend/assets/css/styles.css">
+    <link rel="stylesheet" href="/frontend/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/frontend/assets/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
@@ -26,12 +26,12 @@
 
         <header class="encabezado">
             <nav class="barra-navegacion">
-                <a href="#" onclick="mostrarPantallaUbicacion(event)"><i id="icono-ubicacion" class="fa-solid fa-location-dot fa-2xl"></i></a>
-                <a href="#" onclick="mostrarPantallaAtencionCliente(event)"><i class="fa-solid fa-headphones-simple fa-2xl"></i></a>
-                <a href="#" onclick="mostrarPantallaInicio(event)"><img id="boton-inicio" class="imgLogo" src="frontend/assets/img/logo.svg"
+                <a href="#" onclick="mostrarPantallaUbicacion(event)"><i id="icono-ubicacion" class="fa-solid fa-location-dot fa-2xl iconos-menu-navegacion"></i><span class="texto-descriptivo-seccion-navegacion">Establecer Ubicación</span></a>
+                <a href="#" onclick="mostrarPantallaAtencionCliente(event)"><i class="fa-solid fa-headphones-simple fa-2xl iconos-menu-navegacion"></i><span class="texto-descriptivo-seccion-navegacion">Atención al Cliente</span></a>
+                <a href="#" onclick="mostrarPantallaInicio(event)" class="link-boton-inicio"><img id="boton-inicio" class="imgLogo" src="/frontend/assets/img/logo.svg"
                         alt="Logo de la empresa"></a>
-                <a href="#" onclick="mostrarPantallaCarrito(event)"><i class="fa-solid fa-cart-shopping fa-2xl"></i></a>
-                <a href="#" onclick="mostrarPantallaSesion(event)"><i class="fa-solid fa-user fa-2xl"></i></a>
+                <a href="#" onclick="mostrarPantallaCarrito(event)"><i class="fa-solid fa-cart-shopping fa-2xl iconos-menu-navegacion"></i><span class="texto-descriptivo-seccion-navegacion">Carrito de Compras</span></a>
+                <a href="#" onclick="mostrarPantallaSesion(event)"><i class="fa-solid fa-user fa-2xl iconos-menu-navegacion"></i><span class="texto-descriptivo-seccion-navegacion">Cuenta Personal</span></a>
             </nav>
         </header>
 
@@ -57,11 +57,11 @@
 
         <footer class="social-media-section">
             <div class="social-media-container">
-                <a id="terms-and-conditions" href="https://gamma.app/docs/Terminos-y-Condiciones-de-Uso-de-DollarSoftware-Ultracommerce-3iu2yecr0apfd4v" target="_blank">@ Todos los derechos reservados</a>
+                <a id="terms-and-conditions" href="https://gamma.app/docs/Terminos-y-Condiciones-de-Uso-de-DollarSoftware-Ultracommerce-3iu2yecr0apfd4v" target="_blank"><span class="social-media-text-terms-and-conditions">Términos y Condiciones</span></a>
                 <div class="social-media-links">
-                    <a class="social-media-link" href="https://www.youtube.com/"><i id="youtube" class="fa-brands fa-youtube fa-xl"></i></a>
-                    <a class="social-media-link" href="https://www.instagram.com/"><i id="instagram" class="fa-brands fa-instagram fa-xl"></i></a>
-                    <a class="social-media-link" href="https://www.facebook.com/?locale=es_LA"><i id="facebook" class="fa-brands fa-facebook fa-xl"></i></a>
+                    <a class="social-media-link" href="https://www.youtube.com/"><i id="youtube" class="fa-brands fa-youtube fa-xl"></i><span class="social-media-text">Youtube</span></a>
+                    <a class="social-media-link" href="https://www.instagram.com/"><i id="instagram" class="fa-brands fa-instagram fa-xl"></i><span class="social-media-text">Instagram</span></a>
+                    <a class="social-media-link" href="https://www.facebook.com/?locale=es_LA"><i id="facebook" class="fa-brands fa-facebook fa-xl"></i><span class="social-media-text">Facebook</span></a>
                 </div>
             </div>
         </footer>
@@ -79,13 +79,13 @@
 
         <div class="carousel-container">
             <div class="carousel-slide">
-                <img src="frontend/assets/img/carousel_image.png" alt="Imagen con información del descuento 1">
+                <img src="frontend/assets/img/carousel_image.png" class="img-fluid" alt="Imagen con información del descuento 1">
             </div>
             <div class="carousel-slide">
-                <img src="frontend/assets/img/discount-two.jpg" alt="Imagen con información del descuento 2">
+                <img src="frontend/assets/img/discount-two.jpg" class="img-fluid" alt="Imagen con información del descuento 2">
             </div>
             <div class="carousel-slide">
-                <img src="frontend/assets/img/discount-three.jpeg" alt="Imagen con información del descuento 3">
+                <img src="frontend/assets/img/discount-three.png" class="img-fluid" alt="Imagen con información del descuento 3">
             </div>
             <a class="previous" onclick="changeSlide(-1)" style="text-decoration: none;">&#10094;</a>
             <a class="next" onclick="changeSlide(1)" style="text-decoration: none;">&#10095;</a>
@@ -99,27 +99,27 @@
         <section class="menu-categorias">
             <button class="categoria-botones" data-categoria ="ROP" onclick="mostrarPantallaCategoriasProductos(event)">
                 <i class="fa-solid fa-shirt"></i>
-                <p>Ropa</p>
+                <p class="texto-descriptivo-boton-seccion-categorias">Ropa</p>
             </button>
             <button class="categoria-botones" data-categoria ="TEC" onclick="mostrarPantallaCategoriasProductos(event)">
                 <i class="fa-solid fa-desktop"></i>
-                <p>Tecnología</p>
+                <p class="texto-descriptivo-boton-seccion-categorias">Tecnología</p>
             </button>
             <button class="categoria-botones" data-categoria ="CAL" onclick="mostrarPantallaCategoriasProductos(event)">
                 <i class="fa-solid fa-shoe-prints"></i>
-                <p>Calzado</p>
+                <p class="texto-descriptivo-boton-seccion-categorias">Calzado</p>
             </button>
             <button class="categoria-botones" data-categoria ="SAU" onclick="mostrarPantallaCategoriasProductos(event)">
                 <i class="fa-solid fa-pills"></i>
-                <p>Salud</p>
+                <p class="texto-descriptivo-boton-seccion-categorias">Salud</p>
             </button>
             <button class="categoria-botones" data-categoria ="PAP" onclick="mostrarPantallaCategoriasProductos(event)">
                 <i class="fa-solid fa-book"></i>
-                <p>Papelería</p>
+                <p class="texto-descriptivo-boton-seccion-categorias">Papelería</p>
             </button>
             <button class="categoria-botones" data-categoria ="VIV" onclick="mostrarPantallaCategoriasProductos(event)">
                 <i class="fa-solid fa-apple-whole"></i>
-                <p>Víveres</p>
+                <p class="texto-descriptivo-boton-seccion-categorias">Víveres</p>
             </button>
         </section>
 
@@ -234,7 +234,7 @@
                             <input type="checkbox" id="recordar" name="recordar">
                             <label for="recordar">Recordarme</label>
                         </div>
-                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                        <a href="#" class="forgot-password" onclick="mostrarPantallaRecuperacion(event)">¿Olvidaste tu contraseña?</a>
                     </div>
                     <div id="login-error" class="error-message"></div>
                     <button type="submit" class="auth-button primary-button">
@@ -329,22 +329,22 @@
 
     <template id="plantilla-perfil-usuario">
         <div class="user-profile-container">
-            <h2>Perfil de Usuario</h2>
+            <h2 class="titulo-seccion">Perfil de Usuario</h2>
             <div class="user-info">
                 <div class="user-info-avatar">
                     <span id="userInfoInitial">U</span>
                 </div>
                 <div class="user-info-name" id="userInfoName">Nombre Completo</div>
                 <div class="user-info-email" id="userInfoEmail">usuario@ejemplo.com</div>
-            <ul class="user-options-buttons">
-                <li class="user-option-button"><button id="gestion-de-pedidos-boton-perfil">Gestión de Pedidos</button></li>
-                <li class="user-option-button"><button id="historial-de-productos-boton-perfil">Historial de Productos</button></li>
-                <li class="user-option-button"><button id="agregar-o-modificar-datos-boton-perfil">Agregar o modificar datos</button></li>
-            </ul>
+                <div class="user-options-buttons">
+                    <button id="gestion-de-pedidos-boton-perfil" class="profile-button">Gestión de Pedidos</button>
+                    <button id="historial-de-productos-boton-perfil" class="profile-button">Historial de Productos</button>
+                    <button id="agregar-o-modificar-datos-boton-perfil" class="profile-button">Agregar o modificar datos</button>
+                </div>
             </div>
-        </div>
-        <div class="user-logout-button">
-            <button id="logoutButton">Cerrar Sesión</button>
+            <div class="user-logout-button">
+                <button id="logoutButton">Cerrar Sesión</button>
+            </div>
         </div>
     </template>
 
@@ -431,32 +431,33 @@
             <h4>Ubicación</h4>
         </div>
         <!---------  2. FORMULARIO PARA SELECCIONAR LA UBICACIÓN DONDE SE ENCUENTRA EL USUARIO - UBICACIÓN ---------------->
-
-        <form id="formulario-ubicacion">
-            <label for="ciudad">Ciudad:</label>
-            <select class="selector-ubicacion" id="ciudad">
-                <option value="bogota">Bogotá D.C</option>
-                <option value="medellin">Medellín</option>
-                <option value="cali">Cali</option>
-                <option value="barranquilla">Barranquilla</option>
-            </select>
+        <div class="location-container">
+            <form id="formulario-ubicacion">
+                <label for="ciudad">Selecciona tu ubicación:</label>
+                <select class="selector-ubicacion" id="ciudad">
+                    <option value="bogota">Bogotá D.C</option>
+                    <option value="medellin">Medellín</option>
+                    <option value="cali">Cali</option>
+                    <option value="barranquilla">Barranquilla</option>
+                </select>
+        
+                <label for="zona">Selecciona la zona:</label>
+                <select class="selector-ubicacion" id="zona"></select>
     
-            <label for="zona">Zona:</label>
-            <select class="selector-ubicacion" id="zona"></select>
-
-        <!---------  3. BOTÓN PARA ENVIAR LOS DATOS DE LA UBICACIÓN Y DESPLEGAR EL MAPA CON LAS TIENDAS DISPONIBLES - UBICACIÓN ---------------->
-
-            <button id="buscar-tiendas"type="submit">Buscar Tiendas</button>
-        </form>
-
-        <!---------  4. MAPA QUE SE DESPLIEGA CUANDO EL USUARIO DA CLICK AL BOTÓN ANTERIOR, MOSTRANDO CADA TIENDA UBICADA DISPONIBLE - UBICACIÓN ---------------->
-
-        <div id="mapa"></div>
-        
-        <!----------- 5. DETALLES DE CADA TIENDA DISPONIBLE - UBICACIÓN ---------->
-        
-        <section id="detalles-tiendas">
-        </section>
+            <!---------  3. BOTÓN PARA ENVIAR LOS DATOS DE LA UBICACIÓN Y DESPLEGAR EL MAPA CON LAS TIENDAS DISPONIBLES - UBICACIÓN ---------------->
+    
+                <button id="buscar-tiendas"type="submit">Buscar Tiendas</button>
+            </form>
+    
+            <!---------  4. MAPA QUE SE DESPLIEGA CUANDO EL USUARIO DA CLICK AL BOTÓN ANTERIOR, MOSTRANDO CADA TIENDA UBICADA DISPONIBLE - UBICACIÓN ---------------->
+    
+            <div id="mapa"></div>
+            
+            <!----------- 5. DETALLES DE CADA TIENDA DISPONIBLE - UBICACIÓN ---------->
+            
+            <section id="detalles-tiendas">
+            </section>
+        </div>
     </template>
 
     <!------------------------------ AÑADIR PRODUCTOS - CARRITO DE COMPRAS --------->
@@ -685,8 +686,131 @@
             </div>
         </section>
     </template>
+
+    <!-------------- RECUPERACIÓN DE CONTRASEÑAS --------------->
+    <template id="plantilla-recuperar-contrasena">
+        <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+            <a href="#" onclick="mostrarPantallaInicio(event)">
+                <img src="frontend/assets/img/logo-moradito.png" alt="Logo Ultra Commerce" class="auth-logo">
+            </a>
+            <h1>Recuperar Contraseña</h1>
+            <p class="auth-description">
+                Sigue los pasos para recuperar el acceso a tu cuenta.
+            </p>
+            </div>
+            
+            <!-- Paso 1: Solicitar correo electrónico -->
+            <div id="paso-email" class="recovery-step active">
+            <form id="form-solicitar-codigo" class="auth-form">
+                <div class="form-group">
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-envelope input-icon"></i>
+                    <input type="email" id="correo-recuperacion" name="correo" class="form-input" 
+                    placeholder="Correo electrónico" required>
+                </div>
+                </div>
+                <div id="email-error" class="error-message"></div>
+                <button type="submit" id="form-solicitar-codigo-btn" class="auth-button primary-button">
+                <i class="fa-solid fa-paper-plane"></i>
+                Continuar
+                </button>
+            </form>
+            </div>
+            
+            <!-- Paso 2: Nueva contraseña -->
+            <div id="paso-password" class="recovery-step">
+            <form id="form-nueva-password" class="auth-form">
+                <div class="form-group">
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="nueva-password" name="nueva-password" class="form-input" 
+                    placeholder="Nueva contraseña" required>
+                    <button type="button" id="toggle-password" class="toggle-password">
+                    <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                </div>
+                <div class="form-group">
+                <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="confirmar-password" name="confirmar-password" class="form-input" 
+                    placeholder="Confirmar contraseña" required>
+                </div>
+                </div>
+                <div class="password-requirements">
+                <p>La contraseña debe contener:</p>
+                <ul>
+                    <li id="req-length"><i class="fa-solid fa-circle"></i> Al menos 8 caracteres</li>
+                    <li id="req-uppercase"><i class="fa-solid fa-circle"></i> Al menos una mayúscula</li>
+                    <li id="req-lowercase"><i class="fa-solid fa-circle"></i> Al menos una minúscula</li>
+                    <li id="req-number"><i class="fa-solid fa-circle"></i> Al menos un número</li>
+                </ul>
+                </div>
+                <div id="password-error" class="error-message"></div>
+                <button type="submit" id="form-nueva-password-btn" class="auth-button primary-button">
+                <i class="fa-solid fa-check"></i>
+                Continuar
+                </button>
+            </form>
+            </div>
+            
+            <!-- Paso 3: Verificación de código -->
+            <div id="paso-codigo" class="recovery-step">
+            <form id="form-verificar-codigo" class="auth-form">
+                <div class="verification-info">
+                <i class="fa-solid fa-envelope-circle-check verification-icon"></i>
+                <p>Hemos enviado un código de verificación a tu correo electrónico.</p>
+                <p class="email-display" id="email-display"></p>
+                </div>
+                <div class="form-group verification-code-group">
+                <input type="text" maxlength="1" class="verification-input" data-index="0">
+                <input type="text" maxlength="1" class="verification-input" data-index="1">
+                <input type="text" maxlength="1" class="verification-input" data-index="2">
+                <input type="text" maxlength="1" class="verification-input" data-index="3">
+                <input type="text" maxlength="1" class="verification-input" data-index="4">
+                <input type="text" maxlength="1" class="verification-input" data-index="5">
+                </div>
+                <div id="codigo-error" class="error-message"></div>
+                <div class="resend-code">
+                <span id="countdown-timer">Reenviar código en <span id="countdown">60</span>s</span>
+                <button type="button" id="resend-code" class="text-button" disabled>
+                    Reenviar código
+                </button>
+                </div>
+                <button type="submit" id="form-verificar-codigo-btn" class="auth-button primary-button">
+                <i class="fa-solid fa-check-double"></i>
+                Verificar código
+                </button>
+            </form>
+            </div>
+            
+            <!-- Paso 4: Éxito -->
+            <div id="paso-exito" class="recovery-step">
+            <div class="success-message">
+                <i class="fa-solid fa-circle-check success-icon"></i>
+                <h2>¡Contraseña actualizada!</h2>
+                <p>Tu contraseña ha sido actualizada correctamente.</p>
+                <button type="button" id="ir-a-perfil" class="auth-button primary-button">
+                <i class="fa-solid fa-user"></i>
+                Ir a mi perfil
+                </button>
+            </div>
+            </div>
+            
+            <div class="auth-footer">
+            <a href="#" onclick="mostrarPantallaInicioSesion(event)" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Volver a inicio de sesión
+            </a>
+            </div>
+        </div>
+        </div>
+    </template>
+
     <!-----------------Enlaces JS------------------->
-    <script type="module" src="./frontend/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script type="module" src="/frontend/app.js"></script>
 </body>
 
 </html>

@@ -7,7 +7,7 @@
         this.slideIndex = 1
         this.slideInterval = null
         this.transitionTime = 200 // Tiempo de transición en ms
-        this.autoSlideTime = 5000 // Tiempo entre slides automáticos en ms
+        this.autoSlideTime = 2000 // Tiempo entre slides automáticos en ms
         this.initialized = false
     }
 

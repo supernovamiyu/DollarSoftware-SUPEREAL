@@ -1,6 +1,7 @@
 // Importar el modelo de usuarios y dependencias necesarias
 const userModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
 
 // Función para iniciar sesión
 const login = async (req, res) => {
@@ -25,8 +26,24 @@ const login = async (req, res) => {
             });
         }
 
-        // Verificar la contraseña (comparación simple para desarrollo)
-        const passwordMatch = contraseña === usuario.contraseña;
+        // Verificar si la contraseña está hasheada (comienza con $2a$, $2b$ o $2y$)
+        const isHashed = /^\$2[aby]\$\d+\$/.test(usuario.contraseña);
+        
+        let passwordMatch = false;
+        
+        if (isHashed) {
+            // Si está hasheada, usar bcrypt.compare
+            passwordMatch = await bcrypt.compare(contraseña, usuario.contraseña);
+        } else {
+            // Si no está hasheada, usar comparación directa (para compatibilidad)
+            passwordMatch = contraseña === usuario.contraseña;
+            
+            // Opcional: Actualizar a hash para mayor seguridad
+            if (passwordMatch) {
+                console.log(`Actualizando contraseña de texto plano a hash para usuario: ${correo}`);
+                await updateToHashedPassword(usuario.id_usuario, contraseña);
+            }
+        }
 
         if (!passwordMatch) {
             return res.status(401).json({ 
@@ -60,6 +77,19 @@ const login = async (req, res) => {
     }
 };
 
+// Función auxiliar para actualizar contraseñas de texto plano a hash
+async function updateToHashedPassword(userId, plainPassword) {
+    try {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+        
+        // Actualizar la contraseña en la base de datos
+        await userModel.updatePassword(userId, hashedPassword);
+    } catch (error) {
+        console.error('Error al actualizar a contraseña hasheada:', error);
+    }
+}
+
 // Función para registrar un nuevo usuario
 const register = async (req, res) => {
     try {
@@ -81,10 +111,14 @@ const register = async (req, res) => {
             });
         }
 
-        // Crear el usuario
+        // Hashear la contraseña antes de guardarla
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(contraseña, saltRounds);
+
+        // Crear el usuario con la contraseña hasheada
         const [result] = await userModel.createUser(
             correo, 
-            contraseña, 
+            hashedPassword, 
             nombre_completo, 
             numero_identificacion
         );
@@ -114,7 +148,6 @@ const register = async (req, res) => {
         res.status(500).json({ mensaje: 'Error interno del servidor' });
     }
 };
-
 // Función para obtener el perfil del usuario autenticado
 const getProfile = async (req, res) => {
     try {

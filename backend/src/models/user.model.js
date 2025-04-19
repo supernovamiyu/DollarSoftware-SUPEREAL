@@ -20,10 +20,10 @@ const createUser = (correo, contraseña, nombre_completo, numero_identificacion)
 }
 
 // Actualizar un usuario en la base de datos
-const updateUser = (id_usuario, correo, contraseña, nombre_completo, numero_identificacion) => {
+const updateUser = (id_usuario, correo, contraseña, nombre_completo) => {
     const query = mysql2.format(
-        "UPDATE usuarios SET correo=?, contraseña=?, nombre_completo=?, numero_identificacion=? WHERE id_usuario=?;",
-        [correo, contraseña, nombre_completo, numero_identificacion, id_usuario],
+        "UPDATE usuarios SET correo=?, contraseña=?, nombre_completo=? WHERE id_usuario=?;",
+        [correo, contraseña, nombre_completo, id_usuario],
     )
     return database.promise().query(query)
 }
@@ -40,6 +40,16 @@ const findByEmail = (correo) => {
     return database.promise().query(query);
 };
 
+// Actualizar solo la contraseña de un usuario
+const updatePassword = (id_usuario, hashedPassword) => {
+    const query = mysql2.format(
+        "UPDATE usuarios SET contraseña=? WHERE id_usuario=?;",
+        [hashedPassword, id_usuario]
+    );
+    return database.promise().query(query);
+};
+
+
 // Exportar las funciones para usarlas en otros archivos
 module.exports = {
     readUser,
@@ -47,5 +57,6 @@ module.exports = {
     updateUser,
     deleteUser,
     findByEmail,
+    updatePassword
 }
 

@@ -135,44 +135,53 @@ class ProductView extends BaseView {
      * @param {Object} product - Datos del producto
      */
     showProductDetails(product) {
-
-            // Validación extrema y temprana
-        if (!product?.nombre_producto) {
-            console.log('Esperando datos completos del producto...');
-            return; // Salir silenciosamente si no hay nombre
+        // Validación más completa
+        if (!product || !product.id_productos || !product.nombre_producto) {
+            console.error('Datos del producto incompletos:', product);
+            this.showMessage("Error al cargar los detalles del producto", "error");
+            return;
         }
-
-        const containerPrincipal = document.getElementById("container-principal")
-        
+    
+        const containerPrincipal = document.getElementById("container-principal");
         if (!containerPrincipal) {
-            console.error("No se encontró el contenedor principal")
-            return
+            console.error("No se encontró el contenedor principal");
+            return;
         }
+    
+        // Asegurar que la descripción tenga un valor
+        const safeDescription = product.descripcion || 
+                              "Este producto no tiene descripción disponible.";
+    
         containerPrincipal.innerHTML = `
         <div class="contenedor-detalle-producto">
-        <div class="titulo-seccion">
-        <h4>${product.nombre_producto}</h4>
-        </div>
-        
-        <div class="contenido-detalle-producto">
-        <div class="imagen-detalle-producto">
-        <img src="${product.imagen_url}" alt="${product.nombre_producto}" width="100%" height="auto">
-        </div>
+            <div class="titulo-seccion">
+                <h4>${product.nombre_producto}</h4>
+            </div>
             
-        <div class="info-detalle-producto">
-        <div class="precio-detalle-producto">
-        <h3>Precio:</h3>
-        <p>$${product.precio}</p>
-        </div>
-        
-        <div class="descripcion-detalle-producto">
-        <h3>Descripción:</h3>
-        <p>${product.descripcion || "Sin descripción disponible"}</p>
-        </div>
-        
-        <div class="acciones-detalle-producto">
-                        <button class="comprar" data-id="${product.id_productos}" data-unidades-disponibles="${product.unidades_disponibles || 0}">
-                        Añadir al carrito
+            <div class="contenido-detalle-producto">
+                <div class="imagen-detalle-producto">
+                    <img src="${product.imagen_url}" 
+                         alt="${product.nombre_producto}" 
+                         onerror="this.src='img/default-product.png'"
+                         width="100%" height="auto">
+                </div>
+                    
+                <div class="info-detalle-producto">
+                    <div class="precio-detalle-producto">
+                        <h3>Precio:</h3>
+                        <p>$${product.precio}</p>
+                    </div>
+                    
+                    <div class="descripcion-detalle-producto">
+                        <h3>Descripción:</h3>
+                        <p>${safeDescription}</p>
+                    </div>
+                    
+                    <div class="acciones-detalle-producto">
+                        <button class="comprar" 
+                                data-id="${product.id_productos}" 
+                                data-unidades-disponibles="${product.unidades_disponibles}">
+                            Añadir al carrito
                         </button>
                     </div>
                 </div>
@@ -180,26 +189,8 @@ class ProductView extends BaseView {
         </div>
         <div id="opiniones-container"></div>
         `;
-
-        // Generación de slug segura con operador de coalescencia nula
-        const safeSlug = () => {
-            const name = product.nombre_producto ?? 'producto-sin-nombre';
-            return name.toLowerCase()
-                .replace(/\s+/g, '-')
-                .replace(/[^\w-]/g, '');
-        };
-    
-        // Actualización condicional de URL
-        if (product.nombre_producto) {
-            try {
-                this.updateURL(`/producto/${safeSlug()}`);
-            } catch (error) {
-                console.error('Error actualizando URL:', error);
-                // Fallback silencioso
-                this.updateURL(`/producto/${product.id_productos}`);
-            }
-        }
     }
+    
     /**
      * Muestra un indicador de carga para las opiniones
      */

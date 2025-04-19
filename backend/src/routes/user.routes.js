@@ -13,7 +13,8 @@ router.get('/:id_usuario', userController.readUser);
 router.post('/', userController.createUser);
 
 // Actualizar un usuario por ID
-router.put('/:id_usuario', userController.updateUser);
+// Ruta protegida por el middleware verifyToken
+router.put('/:id_usuario', userController.verifyToken, userController.updateUser);
 
 // Eliminar un usuario por ID
 router.delete('/:id_usuario', userController.deleteUser);
