@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
     service: "gmail", // Puedes usar otros servicios como 'outlook', 'yahoo', etc.
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        pass: process.env.EMAIL_PASSWORD,
     },
 })
 
@@ -19,7 +19,7 @@ const sendVerificationCode = async (email, code) => {
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
             <div style="text-align: center; margin-bottom: 20px;">
-            <img src="https://tudominio.com/frontend/assets/img/logo-moradito.png" alt="Ultra Commerce Logo" style="max-width: 150px;">
+            <img src="../../frontend/assets/img/logo-moradito.png" alt="Ultra Commerce Logo" style="max-width: 150px;">
             </div>
             <h2 style="color: #6610f2; text-align: center;">Código de verificación</h2>
             <p>Has solicitado restablecer tu contraseña en Ultra Commerce.</p>
