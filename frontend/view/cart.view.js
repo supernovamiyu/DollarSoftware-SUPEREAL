@@ -683,10 +683,19 @@ class CartView extends BaseView {
      * Muestra el procesamiento de pago
      */
     showProcessingPayment() {
+        // Ocultar el formulario de pago
         document.getElementById("formulario-pago").style.display = "none"
-        document.getElementById("procesando-pago").style.display = "flex"
+
+        // Mostrar el indicador de procesamiento
+        const processingElement = document.getElementById("procesando-pago")
+        processingElement.style.display = "flex"
+
+        // Asegurarnos que los otros estados estén ocultos
         document.getElementById("pago-exitoso").style.display = "none"
         document.getElementById("pago-fallido").style.display = "none"
+
+        // Hacer scroll al inicio para asegurar que el usuario vea el indicador
+        window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     /**
@@ -694,7 +703,10 @@ class CartView extends BaseView {
      * @param {Object} result - Resultado del pago
      */
     showPaymentSuccess(result) {
+        // Ocultar el procesamiento
         document.getElementById("procesando-pago").style.display = "none"
+
+        // Mostrar el éxito
         document.getElementById("pago-exitoso").style.display = "block"
 
         // Mostrar ID de transacción
@@ -708,6 +720,9 @@ class CartView extends BaseView {
         const timestamp = new Date(result.timestamp || Date.now())
         document.getElementById("fecha-hora-pedido").textContent =
             timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString()
+
+        // Hacer scroll al inicio para asegurar que el usuario vea el mensaje
+        window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     /**
@@ -715,9 +730,15 @@ class CartView extends BaseView {
      * @param {string} message - Mensaje de error
      */
     showPaymentFailure(message) {
+        // Ocultar el procesamiento
         document.getElementById("procesando-pago").style.display = "none"
+
+        // Mostrar el error
         document.getElementById("pago-fallido").style.display = "block"
         document.getElementById("mensaje-error").textContent = message
+
+        // Hacer scroll al inicio para asegurar que el usuario vea el mensaje
+        window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     /**
