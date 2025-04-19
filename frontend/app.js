@@ -31,13 +31,11 @@ import RecoveryController from "./controller/recovery.controller.js"
 document.addEventListener("DOMContentLoaded", () => {
   // Inicializar modelos
   const userModel = window.UserModel || new UserModel()
+  window.userModel = userModel
 
-  window.userModel = userModel;
+  console.log("Estado inicial de autenticación:", userModel.isAuthenticated())
+  console.log("Usuario actual:", userModel.getCurrentUser())
 
-  console.log("Estado inicial de autenticación:", userModel.isAuthenticated());
-  
-  console.log("Usuario actual:", userModel.getCurrentUser());
-  
   const productModel = new ProductModel()
   const cartModel = new CartModel()
   const locationModel = new LocationModel()
@@ -62,7 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const locationController = new LocationController(locationModel, locationView)
   const customerSupportController = new CustomerSupportController(customerSupportView)
   const profileController = new ProfileController(userModel, profileView)
-  const recoveryController = new RecoveryController(recoveryModel, RecoveryView)
+  const recoveryController = new RecoveryController(recoveryModel, recoveryView)
+
   // Inicializar el controlador principal
   const appController = new AppController({
     homeController,
@@ -72,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     locationController,
     customerSupportController,
     profileController,
+    recoveryController, // Añadir el controlador de recuperación
     userModel,
   })
 
@@ -87,14 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("logout", () => authController.handleLogout())
 
   // Configurar evento para verificar autenticación en cada navegación
-  window.addEventListener('navigateTo', (event) => {
+  window.addEventListener("navigateTo", (event) => {
     if (event.detail && event.detail.path) {
-      console.log('Navegando a: ', event.detail.path);
-      appController.navigateTo(event.detail.path);
+      console.log("Navegando a: ", event.detail.path)
+      appController.navigateTo(event.detail.path)
 
       // Verificar autenticación después de navegar
       setTimeout(() => {
-        appController.checkAuthStatus();
+        appController.checkAuthStatus()
       }, 100)
     }
   })
@@ -144,14 +144,20 @@ document.addEventListener("DOMContentLoaded", () => {
     appController.navigateTo("/perfil")
   }
 
-    // Verificar autenticación después de cada navegación
-    window.addEventListener("popstate", () => {
-      appController.syncAuthState();
-  });
+  // Añadir función para mostrar la pantalla de recuperación de contraseña
+  window.mostrarPantallaRecuperacion = (event) => {
+    if (event) event.preventDefault()
+    appController.navigateTo("/recuperar-contrasena")
+  }
+
+  // Verificar autenticación después de cada navegación
+  window.addEventListener("popstate", () => {
+    appController.syncAuthState()
+  })
 
   window.addEventListener("navigateTo", () => {
-      setTimeout(() => appController.syncAuthState(), 50);
-  });
+    setTimeout(() => appController.syncAuthState(), 50)
+  })
 })
 
 /**

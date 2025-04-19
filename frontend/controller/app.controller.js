@@ -7,6 +7,7 @@ class AppController {
         this.locationController = controllers.locationController
         this.customerSupportController = controllers.customerSupportController
         this.profileController = controllers.profileController
+        this.recoveryController = controllers.recoveryController // Añadir el controlador de recuperación
         this.userModel = controllers.userModel
 
         // Mapa de rutas para facilitar la navegación
@@ -25,21 +26,39 @@ class AppController {
                 this.customerSupportController.showHelpSection("navegacion-productos"),
             "/atencion-cliente/cuenta-ultracommerce": () =>
                 this.customerSupportController.showHelpSection("cuenta-ultracommerce"),
+            "/recuperar-contrasena": () => this.recoveryController.showRecoveryPage(), // Añadir ruta para recuperación
+        }
+
+        // Mapa para convertir secciones a rutas
+        this.sectionToRoute = {
+            "manejo-pagina": "/atencion-cliente/manejo-pagina",
+            "gestion-pedidos": "/atencion-cliente/gestion-pedidos",
+            "navegacion-productos": "/atencion-cliente/navegacion-productos",
+            "cuenta-ultracommerce": "/atencion-cliente/cuenta-ultracommerce",
         }
     }
 
     init() {
+        console.log("Inicializando AppController")
+
+        // Verificar si hay un usuario autenticado
         this.checkAuthStatus()
+
+        // Configurar el manejo de eventos de navegación
         this.setupNavigationEvents()
+
+        // Manejar la ruta inicial basada en la URL actual
         this.handleInitialRoute()
     }
 
     checkAuthStatus() {
         if (this.userModel.isAuthenticated()) {
-            const user = this.userModel.getCurrentUser();
-            console.log("Usuario autenticado:", user);
-            this.authController.view.updateUserInterface(user);
-            this.profileController.view.updateProfileInfo(user);
+            const user = this.userModel.getCurrentUser()
+            console.log("Usuario autenticado:", user)
+            this.authController.view.updateUserInterface(user)
+            if (this.profileController && this.profileController.view) {
+                this.profileController.view.updateProfileInfo(user)
+            }
         }
     }
 
@@ -53,6 +72,8 @@ class AppController {
     setupNavigationHandlers() {
         const setupHandlers = () => {
             const navLinks = document.querySelectorAll(".barra-navegacion a")
+            console.log(`Configurando ${navLinks.length} enlaces de navegación`)
+
             navLinks.forEach((link) => {
                 link.addEventListener("click", (event) => {
                     event.preventDefault()
@@ -81,6 +102,8 @@ class AppController {
     setupHelpSectionButtons() {
         const helpButtons = document.querySelectorAll(".boton-ayuda-individual")
         if (helpButtons.length > 0) {
+            console.log("Configurando botones de sección de ayuda:", helpButtons.length)
+
             helpButtons.forEach((button) => {
                 button.addEventListener("click", (event) => {
                     event.preventDefault()
@@ -95,63 +118,66 @@ class AppController {
 
     handleInitialRoute() {
         const currentPath = window.location.pathname
+        console.log("Ruta inicial:", currentPath)
+
         this.handleRoute(currentPath)
     }
 
     handleRoute(path) {
-        const normalizedPath = path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
-        console.log("Manejando ruta:", normalizedPath);
+        const normalizedPath = path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path
+        console.log("Manejando ruta:", normalizedPath)
 
         // Rutas protegidas
-        const protectedRoutes = ["/perfil"];
+        const protectedRoutes = ["/perfil"]
         if (protectedRoutes.includes(normalizedPath)) {
             if (!this.userModel.isAuthenticated()) {
-                console.log("Redirigiendo a auth");
-                this.navigateTo("/auth");
-                return;
+                console.log("Redirigiendo a auth")
+                this.navigateTo("/auth")
+                return
             }
         }
 
         // Redirigir autenticados que intentan acceder a login/register
         if (["/auth", "/login", "/registro"].includes(normalizedPath)) {
             if (this.userModel.isAuthenticated()) {
-                console.log("Redirigiendo a perfil");
-                this.navigateTo("/perfil");
-                return;
+                console.log("Redirigiendo a perfil")
+                this.navigateTo("/perfil")
+                return
             }
         }
 
-        const routeHandler = this.routes[normalizedPath];
+        const routeHandler = this.routes[normalizedPath]
         if (routeHandler) {
-            routeHandler();
+            routeHandler()
         } else {
-            this.handleUnknownRoute(normalizedPath);
+            this.handleUnknownRoute(normalizedPath)
         }
     }
 
     syncAuthState() {
-        const isAuthenticated = this.userModel.isAuthenticated();
-        const user = isAuthenticated ? this.userModel.getCurrentUser() : null;
-        
+        const isAuthenticated = this.userModel.isAuthenticated()
+        const user = isAuthenticated ? this.userModel.getCurrentUser() : null
+
         // Actualizar todas las vistas que necesitan el estado de autenticación
-        this.authController.view.updateUserInterface(user);
-        this.profileController.view.updateProfileInfo(user);
-        
+        this.authController.view.updateUserInterface(user)
+        if (this.profileController && this.profileController.view) {
+            this.profileController.view.updateProfileInfo(user)
+        }
+
         // Actualizar la barra de navegación
-        this.updateNavbarAuthState(user);
+        this.updateNavbarAuthState(user)
     }
 
     updateNavbarAuthState(user) {
-        const userNavElement = document.querySelector(".user-nav-info");
+        const userNavElement = document.querySelector(".user-nav-info")
         if (userNavElement) {
             if (user) {
-                userNavElement.textContent = user.nombre_completo.split(" ")[0];
+                userNavElement.textContent = user.nombre_completo.split(" ")[0]
             } else {
-                userNavElement.textContent = "Cuenta Personal";
+                userNavElement.textContent = "Cuenta Personal"
             }
         }
     }
-
 
     handleUnknownRoute(path) {
         if (path.startsWith("/producto/")) {
