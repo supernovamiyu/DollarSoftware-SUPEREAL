@@ -350,7 +350,7 @@ class CartView extends BaseView {
         return `
             <div id="formulario-paypal" class="formulario-metodo-pago">
                 <div class="paypal-logo">
-                    <i class="fa fa-paypal"></i> PayPal
+                    <i class="fa-brands fa-paypal"></i> PayPal
                 </div>
                 
                 <form id="paypal-form" class="payment-form">
