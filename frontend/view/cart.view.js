@@ -193,6 +193,7 @@ class CartView extends BaseView {
         if (this.showTemplate("pasarela-de-pagos-simulada", "container-principal")) {
             this.renderCheckoutSummary(cartItems, total);
             this.setupCheckoutEvents();
+            this.setupCardSimulation();
         }
     }
 
@@ -318,32 +319,71 @@ class CartView extends BaseView {
      * Configura la simulación de la tarjeta de crédito
      */
     setupCardSimulation() {
-        const cardNumber = document.getElementById("numero-tarjeta");
-        const cardHolder = document.getElementById("titular-tarjeta");
-        const expiryDate = document.getElementById("fecha-vencimiento");
         const cvv = document.getElementById("cvv");
+        const tarjeta = document.querySelector(".tarjeta-simulada");
 
-        if (cardNumber) {
-            cardNumber.addEventListener('input', this.updateCardDisplay);
-            cardNumber.addEventListener('keypress', this.formatCardNumber);
-        }
-
-        if (cardHolder) {
-            cardHolder.addEventListener('input', this.updateCardDisplay);
-        }
-
-        if (expiryDate) {
-            expiryDate.addEventListener('input', this.updateCardDisplay);
-            expiryDate.addEventListener('keypress', this.formatExpiryDate);
-        }
-
-        if (cvv) {
-            cvv.addEventListener('input', this.updateCardDisplay);
-            cvv.addEventListener('focus', () => {
-                document.querySelector(".tarjeta-simulada").classList.add("flipped");
+        if (cvv && tarjeta) {
+            // Voltear al enfocar el CVV
+            cvv.addEventListener("focus", () => {
+                tarjeta.classList.add("flipped");
+                console.log("CVV focus - tarjeta debería voltearse");
             });
-            cvv.addEventListener('blur', () => {
-                document.querySelector(".tarjeta-simulada").classList.remove("flipped");
+
+            // Volver a posición original al salir del CVV
+            cvv.addEventListener("blur", () => {
+                tarjeta.classList.remove("flipped");
+                console.log("CVV blur - tarjeta debería volver a posición normal");
+            });
+
+            // Actualizar datos en tiempo real
+            this.setupCardInputEvents();
+        }
+    }
+
+    setupCardInputEvents() {
+        // Número de tarjeta
+        const numeroTarjeta = document.getElementById("numero-tarjeta");
+        const numeroDisplay = document.querySelector(".numero-tarjeta-display");
+
+        if (numeroTarjeta && numeroDisplay) {
+            numeroTarjeta.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/\s/g, '');
+                let formatted = value.replace(/(\d{4})/g, '$1 ').trim();
+                numeroDisplay.textContent = formatted || '•••• •••• •••• ••••';
+            });
+        }
+
+        // Nombre del titular
+        const titularTarjeta = document.getElementById("titular-tarjeta");
+        const titularDisplay = document.querySelector(".titular-tarjeta-display");
+
+        if (titularTarjeta && titularDisplay) {
+            titularTarjeta.addEventListener("input", (e) => {
+                titularDisplay.textContent = e.target.value.toUpperCase() || 'NOMBRE DEL TITULAR';
+            });
+        }
+
+        // Fecha de vencimiento
+        const fechaVencimiento = document.getElementById("fecha-vencimiento");
+        const fechaDisplay = document.querySelector(".fecha-tarjeta-display");
+
+        if (fechaVencimiento && fechaDisplay) {
+            fechaVencimiento.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                fechaDisplay.textContent = value || 'MM/AA';
+            });
+        }
+
+        // CVV
+        const cvvInput = document.getElementById("cvv");
+        const cvvDisplay = document.querySelector(".cvv-display");
+
+        if (cvvInput && cvvDisplay) {
+            cvvInput.addEventListener("input", (e) => {
+                cvvDisplay.textContent = '•'.repeat(e.target.value.length) || '•••';
             });
         }
     }

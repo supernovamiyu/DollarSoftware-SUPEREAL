@@ -1724,7 +1724,7 @@ p.elemento-ubicacion-tiendas {
 
 
 /* Estilos para la pasarela de pagos */
-#contenedor-pasarela-de-pagos {
+#contenedor-pasarela-de-pagos{
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
@@ -1900,19 +1900,23 @@ p.elemento-ubicacion-tiendas {
 .tarjeta-simulada {
     width: 100%;
     height: 200px;
+    position: relative;
     perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
     margin-bottom: 30px;
 }
 
-.tarjeta-frente, .tarjeta-reverso {
+.tarjeta-frente,
+.tarjeta-reverso {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
     backface-visibility: hidden;
+    /* Oculta la parte trasera durante la rotación */
     border-radius: 15px;
     padding: 20px;
     box-sizing: border-box;
-    transition: transform 0.6s;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -1922,20 +1926,21 @@ p.elemento-ubicacion-tiendas {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transform: rotateY(0deg);
 }
 
 .tarjeta-reverso {
     background: linear-gradient(135deg, #8a9af8, #b98ae0);
+    transform: rotateY(180deg); /* Comienza girado */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tarjeta-simulada.flipped {
     transform: rotateY(180deg);
 }
 
-.tarjeta-simulada.flip .tarjeta-frente {
-    transform: rotateY(180deg);
-}
-
-.tarjeta-simulada.flip .tarjeta-reverso {
-    transform: rotateY(0deg);
-}
 
 .chip-tarjeta {
     width: 50px;

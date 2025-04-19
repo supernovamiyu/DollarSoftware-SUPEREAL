@@ -234,7 +234,6 @@ class CartController {
 
         const total = this.model.getCartTotal()
         this.view.showCheckout(cartItems, total)
-        // Ya no llamamos a setupCheckoutFormEvents aquí para evitar duplicación
     }
 
     /**
