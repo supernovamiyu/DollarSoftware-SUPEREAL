@@ -1216,6 +1216,11 @@ p.elemento-ubicacion-tiendas {
     transform: translateY(-2px);
 }
 
+#intentar-nuevamente {
+    background-color: #6e8efb;
+    color: white;
+}
+
 .secondary-button {
     background-color: #f0f0f0;
     color: #333;
