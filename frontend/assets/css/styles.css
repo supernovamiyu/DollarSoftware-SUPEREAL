@@ -1727,10 +1727,10 @@ p.elemento-ubicacion-tiendas {
 
 /* Contenedor principal de la pasarela */
 .pasarela-pagos-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 2000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    font-family: "Lexend", sans-serif;
 }
 
 /* Título de la pasarela */
