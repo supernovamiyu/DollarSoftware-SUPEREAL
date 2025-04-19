@@ -40,6 +40,16 @@ const findByEmail = (correo) => {
     return database.promise().query(query);
 };
 
+// Actualizar solo la contraseña de un usuario
+const updatePassword = (id_usuario, hashedPassword) => {
+    const query = mysql2.format(
+        "UPDATE usuarios SET contraseña=? WHERE id_usuario=?;",
+        [hashedPassword, id_usuario]
+    );
+    return database.promise().query(query);
+};
+
+
 // Exportar las funciones para usarlas en otros archivos
 module.exports = {
     readUser,
@@ -47,5 +57,6 @@ module.exports = {
     updateUser,
     deleteUser,
     findByEmail,
+    updatePassword
 }
 
