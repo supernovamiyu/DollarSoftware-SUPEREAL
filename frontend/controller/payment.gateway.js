@@ -13,7 +13,7 @@ class PaymentGateway {
             paypal: {
                 name: "PayPal",
                 fields: ["email", "password"],
-                icon: "fa-paypal",
+                icon: "fa-brands fa-paypal",
             },
             transfer: {
                 name: "Transferencia bancaria",
