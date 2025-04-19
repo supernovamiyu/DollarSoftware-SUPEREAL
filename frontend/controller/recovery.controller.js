@@ -71,9 +71,8 @@ class RecoveryController {
 
             // Configurar inputs de código de verificación
             this.view.setupVerificationInputs((code) => {
-                // Opcional: auto-submit cuando se complete el código
-                // this.verificationCode = code
-                // this.handleCodeSubmit()
+                this.verificationCode = code
+                this.handleCodeSubmit()
             })
 
             // Botón de reenvío de código

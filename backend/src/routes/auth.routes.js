@@ -32,7 +32,6 @@ router.post("/check-email", async (req, res) => {
         const exists = await recoveryController.checkEmail(email);
 
         return res.json({
-            message: 'El correo existe en la base de datos',
             success: true,
             exists,
         });
