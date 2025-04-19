@@ -348,6 +348,11 @@ class CartController {
         doc.text(`N°: ${paymentResult.transactionId || '000000'}`, 15, 30);
         doc.text(`Fecha: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 15, 36);
         
+        // Mostrar leyenda de precios con IVA incluido
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.text('* Todos los precios incluyen IVA (19%)', 15, 50);
+        
         // Logo
         try {
             const logoUrl = '/frontend/assets/img/logo-moradito.png';
@@ -366,11 +371,11 @@ class CartController {
         doc.text('Detalles de la compra', 15, 55);
         
         // Preparamos los datos para la tabla
-        const headers = [['Producto', 'Cantidad', 'Precio Unitario', 'Subtotal']];
+        const headers = [['Producto', 'Cantidad', 'Precio (IVA incluido)', 'Subtotal']];
         const data = cartItems.map(item => [
-            item.nombre_producto.substring(0, 30), // Limitar longitud del nombre
+            item.nombre_producto.substring(0, 30),
             item.cantidad,
-            `$${Number(item.precio).toFixed(2)}`,
+            `$${Number(item.precio).toFixed(2)}`, // Precio ya incluye IVA
             `$${(Number(item.precio) * item.cantidad).toFixed(2)}`
         ]);
         
@@ -408,22 +413,27 @@ class CartController {
             }
         });
         
-        // Total
+        // Sección de totales (modificada)
         const finalY = doc.lastAutoTable.finalY + 15;
-        doc.setFontSize(12);
-        doc.text('Subtotal:', 150, finalY);
-        doc.text(`$${total.toFixed(2)}`, 170, finalY);
+            
+        // Desglose del IVA
+        const base = total / 1.19;
+        const iva = total - base; 
         
-        // IVA (ejemplo con 19%)
-        const iva = total * 0.19;
+        doc.setFontSize(10);
+        doc.text('Desglose de impuestos:', 15, finalY);
+        
+        doc.text('Subtotal:', 150, finalY);
+        doc.text(`$${base.toFixed(2)}`, 170, finalY);
+        
         doc.text('IVA (19%):', 150, finalY + 8);
         doc.text(`$${iva.toFixed(2)}`, 170, finalY + 8);
         
-        // Total final
+        // Total
         doc.setFontSize(14);
         doc.setFont(undefined, 'bold');
         doc.text('TOTAL:', 150, finalY + 20);
-        doc.text(`$${(total + iva).toFixed(2)}`, 170, finalY + 20);
+        doc.text(`$${total.toFixed(2)}`, 170, finalY + 20);
         
         // Método de pago
         doc.setFontSize(10);
