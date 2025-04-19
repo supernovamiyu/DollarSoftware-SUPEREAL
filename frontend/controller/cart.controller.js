@@ -7,8 +7,15 @@ class CartController {
         this.view = view
         this.productModel = productModel
         this.isInitialized = false
-
-        this.init()
+        
+        // Importar la pasarela de pagos
+        import('./payment.gateway.js').then(module => {
+            this.paymentGateway = new module.default();
+            this.init();
+        }).catch(error => {
+            console.error("Error al cargar la pasarela de pagos:", error);
+            this.init();
+        });
     }
 
     /**
@@ -64,9 +71,9 @@ class CartController {
         })
 
         // Configurar eventos del checkout
-        window.addEventListener("processPayment", () => {
-            console.log("Evento processPayment recibido en controller")
-            this.processPayment()
+        window.addEventListener("processPayment", (e) => {
+            console.log("Evento processPayment recibido en controller", e.detail)
+            this.processPayment(e.detail)
         })
 
         window.addEventListener("backToCart", () => {
@@ -81,8 +88,13 @@ class CartController {
 
         window.addEventListener("tryAgain", () => {
             console.log("Evento tryAgain recibido en controller")
-            document.getElementById("formulario-pago").style.display = "block"
-            document.getElementById("pago-fallido").style.display = "none"
+            this.view.showCheckoutForm()
+        })
+        
+        // Nuevo evento para cambiar método de pago
+        window.addEventListener("changePaymentMethod", (e) => {
+            console.log("Evento changePaymentMethod recibido en controller", e.detail)
+            this.view.showPaymentMethodForm(e.detail.method)
         })
     }
 
@@ -233,52 +245,64 @@ class CartController {
         }
 
         const total = this.model.getCartTotal()
-        this.view.showCheckout(cartItems, total)
-        // Ya no llamamos a setupCheckoutFormEvents aquí para evitar duplicación
+        
+        // Pasar los métodos de pago disponibles a la vista
+        const paymentMethods = this.paymentGateway ? this.paymentGateway.getPaymentMethods() : null;
+        const testCards = this.paymentGateway ? this.paymentGateway.getTestCards() : null;
+        const banks = this.paymentGateway ? this.paymentGateway.getBanks() : null;
+        
+        this.view.showCheckout(cartItems, total, paymentMethods, testCards, banks)
     }
 
     /**
      * Procesa el pago
+     * @param {Object} paymentData - Datos del pago
      */
-    async processPayment() {
-        this.view.showProcessingPayment()
+    async processPayment(paymentData) {
+        if (!this.paymentGateway) {
+            this.view.showMessage("Error: Pasarela de pagos no disponible", "error");
+            return;
+        }
+        
+        this.view.showProcessingPayment();
 
-        // Simular procesamiento de pago
-        setTimeout(async () => {
-            const success = Math.random() > 0.3 // 70% de probabilidad de éxito
-
-            if (success) {
-                await this.handlePaymentSuccess()
+        try {
+            // Usar la pasarela de pagos para procesar el pago
+            const result = await this.paymentGateway.processPayment(
+                paymentData.formData, 
+                paymentData.method
+            );
+            
+            if (result.success) {
+                await this.handlePaymentSuccess(result);
             } else {
-                this.handlePaymentFailure()
+                this.handlePaymentFailure(result);
             }
-        }, 3000)
+        } catch (error) {
+            console.error("Error al procesar el pago:", error);
+            this.handlePaymentFailure({
+                error: "Error inesperado al procesar el pago. Por favor, inténtalo de nuevo."
+            });
+        }
     }
 
     /**
      * Maneja el pago exitoso
+     * @param {Object} result - Resultado del pago
      */
-    async handlePaymentSuccess() {
-        this.view.showPaymentSuccess()
-        await this.model.clearCart()
-        window.dispatchEvent(new CustomEvent("cartUpdated"))
+    async handlePaymentSuccess(result) {
+        this.view.showPaymentSuccess(result);
+        await this.model.clearCart();
+        window.dispatchEvent(new CustomEvent("cartUpdated"));
     }
 
     /**
      * Maneja el pago fallido
+     * @param {Object} result - Resultado del pago
      */
-    handlePaymentFailure() {
-        const errorMessages = [
-            "La transacción fue rechazada por el banco emisor.",
-            "Fondos insuficientes en la cuenta.",
-            "La tarjeta ha expirado.",
-            "Error de comunicación con la entidad bancaria.",
-            "La tarjeta ha sido reportada como perdida o robada.",
-        ]
-        const errorMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)]
-        this.view.showPaymentFailure(errorMessage)
+    handlePaymentFailure(result) {
+        this.view.showPaymentFailure(result.error || "Error desconocido al procesar el pago");
     }
 }
 
 export default CartController
-
