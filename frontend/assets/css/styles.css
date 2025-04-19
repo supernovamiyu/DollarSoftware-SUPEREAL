@@ -319,6 +319,7 @@ body {
 }
 
 #contenedor-productos-carrito p {
+    margin-top: 10vh;
     text-align: center;
 }
 .contenedor-producto-unico-carrito {
@@ -414,6 +415,14 @@ body {
     align-items: center;
 }
 
+.contenedor-carrito-vacio {
+    margin: 20vh 0 20vh 0;
+    text-align: center;
+}
+
+.imagen-carita-triste {
+    font-size: 30vh;
+}
 .titulo-total-compra-carrito {
     margin: 0; 
     font-size: 18px;
@@ -2420,4 +2429,38 @@ p.elemento-ubicacion-tiendas {
     80% {
         transform: translateX(5px);
     }
+}
+
+/* Estilos para los botones de descarga */
+.download-btn {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+    background-color: #3a7bc8;
+}
+
+.download-btn i {
+    font-size: 16px;
+}
+
+/* Estilos específicos para el botón en mensaje de error */
+.pago-fallido .download-btn {
+    background-color: #f44336;
+}
+
+.pago-fallido .download-btn:hover {
+    background-color: #d32f2f;
 }
