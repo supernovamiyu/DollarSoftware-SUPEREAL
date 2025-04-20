@@ -8,6 +8,7 @@ class CartController {
         this.model = model
         this.view = view
         this.productModel = productModel
+        this.userModel = userModel
         this.isInitialized = false
         
         // Importar la pasarela de pagos
@@ -320,7 +321,7 @@ class CartController {
             // Verificar si el usuario está registrado
             const isRegistered = await this.model.verifyUserEmail(email);
             
-            // Recolectar todos los datos de entrega
+            // Recolectar datos de entrega
             const deliveryDetails = {
                 email,
                 isRegistered,
@@ -343,16 +344,23 @@ class CartController {
             this.view.showProcessingPayment();
             
             // Procesar pago
-            const result = await this.paymentGateway.processPayment(
+            const paymentResult = await this.paymentGateway.processPayment(
                 paymentData.formData, 
                 paymentData.method,
                 { deliveryDetails }
             );
             
-            if (result.success) {
-                await this.handlePaymentSuccess(result, deliveryDetails);
+            if (paymentResult.success) {
+                // Crear el pedido en la base de datos
+                const orderResult = await this.createOrder(paymentResult, deliveryDetails);
+                
+                if (orderResult.success) {
+                    await this.handlePaymentSuccess(orderResult, deliveryDetails);
+                } else {
+                    this.handlePaymentFailure(orderResult.error);
+                }
             } else {
-                this.handlePaymentFailure(result);
+                this.handlePaymentFailure(paymentResult.error);
             }
         } catch (error) {
             console.error("Error en processPayment:", error);
@@ -371,22 +379,30 @@ class CartController {
         const cartItems = [...this.model.getCartItems()];
         const total = this.model.getCartTotal();
         
-        // Generar factura con detalles de envío
+        // Generar factura PDF
         await this.generateInvoicePDF(result, cartItems, total, deliveryDetails);
         
         // Limpiar carrito
         await this.model.clearCart();
         window.dispatchEvent(new CustomEvent("cartUpdated"));
         
-        // Mostrar mensaje según tipo de usuario
-        const message = deliveryDetails.isRegistered
-            ? "Pedido confirmado. Hemos enviado los detalles a tu correo. Puedes hacer seguimiento desde tu perfil."
-            : "Pedido confirmado. Hemos enviado la factura a tu correo.";
-        
-        this.view.showMessage(message, "success");
-        
-        // Mostrar éxito en la vista
-        this.view.showPaymentSuccess(result, deliveryDetails.isRegistered);
+        // Comportamiento diferente según tipo de usuario
+        if (deliveryDetails.isRegistered) {
+            // Para usuarios registrados
+            this.view.showMessage("Pedido confirmado. Puedes hacer seguimiento desde tu perfil.", "success");
+            
+            // Ocultar opción de descarga (ya está en su perfil)
+            this.view.showPaymentSuccess(result, true);
+            
+            // Disparar evento para actualizar pedidos en perfil
+            window.dispatchEvent(new CustomEvent("userOrderCreated"));
+        } else {
+            // Para usuarios no registrados
+            this.view.showMessage("Pedido confirmado. Se ha descargado tu factura.", "success");
+            
+            // Mostrar botón de descarga por si necesitan otra copia
+            this.view.showPaymentSuccess(result, false);
+        }
     }
     
     /**
@@ -602,7 +618,71 @@ class CartController {
             // Guardar PDF
             doc.save(`volante_error_pago_${now.getTime()}.pdf`);
         }
-
+        
+        async createOrder(paymentResult, deliveryDetails) {
+            try {
+                const cartItems = this.model.getCartItems();
+                const total = this.model.getCartTotal();
+                const subtotal = total / 1.19; // Asumiendo 19% de IVA
+                const impuesto = total - subtotal;
+                
+                // Datos básicos del pedido
+                const orderData = {
+                    fk_id_metodo_envio: deliveryDetails.method === 'HOME_DELIVERY' ? 'EAD' : 'RET',
+                    fecha_de_pedido: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                    fk_id_ciudad: deliveryDetails.city,
+                    direccion: deliveryDetails.address || 'Recogida en tienda: ' + deliveryDetails.store,
+                    fk_id_estado_envio: 'PRE', // Estado inicial: Pendiente
+                    subtotal: subtotal.toFixed(2),
+                    impuesto: impuesto.toFixed(2),
+                    total: total.toFixed(2),
+                    vigencia_factura: '30 días'
+                };
+        
+                // Para usuarios registrados
+                if (deliveryDetails.isRegistered) {
+                    // Obtener el ID del usuario desde el modelo de usuario
+                    const user = this.userModel.getCurrentUser();
+                    if (!user) {
+                        throw new Error("Usuario no autenticado");
+                    }
+                    orderData.fk_id_usuario = user.id_usuario;
+                    
+                    const response = await fetch('http://localhost:3000/api/delivery/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(orderData)
+                    });
+        
+                    if (!response.ok) {
+                        throw new Error('Error al crear el pedido');
+                    }
+        
+                    return { 
+                        success: true,
+                        orderData: await response.json()
+                    };
+                } 
+                // Para usuarios no registrados
+                else {
+                    return { 
+                        success: true,
+                        orderData: {
+                            ...orderData,
+                            id_pedido: 'TEMP-' + Date.now() // ID temporal
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error('Error al crear pedido:', error);
+                return {
+                    success: false,
+                    error: error.message || 'Error al crear el pedido'
+                };
+            }
+        }
     }
 
 

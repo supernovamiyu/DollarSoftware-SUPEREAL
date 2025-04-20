@@ -255,24 +255,16 @@ class CartModel {
      */
     async verifyUserEmail(email) {
         try {
-            const response = await fetch('http://localhost:3000/api/auth/check-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            });
-
+            const response = await fetch('http://localhost:3000/api/delivery/correo/' + encodeURIComponent(email));
+            
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status}`);
             }
-
+    
             const data = await response.json();
-            return data.exists;
+            return data.length > 0; // Retorna true si hay pedidos asociados a este email
         } catch (error) {
             console.error('Error al verificar el email:', error);
-            
-            // Fallback: Si hay error, asumir que no está registrado pero permitir continuar
             return false;
         }
     }

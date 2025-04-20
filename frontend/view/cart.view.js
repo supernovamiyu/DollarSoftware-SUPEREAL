@@ -703,59 +703,41 @@ class CartView extends BaseView {
      * @param {Object} result - Resultado del pago
      */
     showPaymentSuccess(result, isRegistered) {
+        // Ocultar elementos de procesamiento
         document.getElementById("procesando-pago").style.display = "none";
-        document.getElementById("pago-exitoso").style.display = "block";
-    
-        // Mostrar ID de transacción
-        document.getElementById("numero-pedido").textContent =
-            result.transactionId ||
-            Math.floor(Math.random() * 1000000)
-                .toString()
-                .padStart(6, "0");
-    
-        // Mostrar fecha y hora
-        const timestamp = new Date(result.timestamp || Date.now());
-        document.getElementById("fecha-hora-pedido").textContent =
-            timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString();
-    
-        // Mensaje adicional según tipo de usuario
-        const messageElement = document.createElement("p");
-        messageElement.className = "detalles-estado";
-        messageElement.style.marginTop = "10px";
+        
+        // Mostrar sección de éxito
+        const successSection = document.getElementById("pago-exitoso");
+        successSection.style.display = "block";
+        
+        // Configurar mensaje según tipo de usuario
+        const messageElement = document.getElementById("mensaje-exito");
         
         if (isRegistered) {
-            messageElement.innerHTML = 
-                'Puedes hacer seguimiento de tu pedido desde tu <a href="#" onclick="mostrarPantallaSesion(event)">perfil de usuario</a>.';
+            messageElement.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>Pedido registrado correctamente. N° ${result.orderData.id_pedido}</span>
+                <p>Puedes ver el detalle en <a href="#" onclick="window.dispatchEvent(new CustomEvent('navigateTo', {detail: {path: '/profile'}}))">tu perfil</a></p>
+            `;
+            
+            // Ocultar botón de descarga para usuarios registrados
+            document.getElementById("descargar-factura-btn").style.display = "none";
         } else {
-            messageElement.textContent = 
-                'Para consultas sobre tu pedido, contáctanos a atencioncliente@dollarsoftware.com';
+            messageElement.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>Pedido completado. N° ${result.orderData.id_pedido}</span>
+                <p>Hemos enviado los detalles a tu correo electrónico</p>
+            `;
+            
+            // Mostrar botón de descarga para no registrados
+            document.getElementById("descargar-factura-btn").style.display = "block";
+            document.getElementById("descargar-factura-btn").onclick = () => {
+                this.generateInvoicePDF(result, this.controller.model.getCartItems(), this.controller.model.getCartTotal(), deliveryDetails);
+            };
         }
         
-        const detailsContainer = document.querySelector(".detalles-estado");
-        if (detailsContainer) {
-            detailsContainer.appendChild(messageElement);
-        }
-    
-        // Botón de descarga
-        const successContainer = document.getElementById("pago-exitoso");
-        if (successContainer) {
-            const downloadBtn = document.createElement("button");
-            downloadBtn.className = "auth-button primary-button";
-            downloadBtn.style.marginTop = "15px";
-            downloadBtn.innerHTML = '<i class="fa fa-download"></i> Descargar factura';
-            downloadBtn.addEventListener("click", () => {
-                window.dispatchEvent(new CustomEvent("downloadInvoice", { 
-                    detail: { result } 
-                }));
-            });
-            
-            const buttonsContainer = successContainer.querySelector(".botones-navegacion");
-            if (buttonsContainer) {
-                buttonsContainer.appendChild(downloadBtn);
-            }
-        }
-    
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        // Configurar número de pedido
+        document.getElementById("numero-pedido").textContent = result.orderData.id_pedido;
     }
     
 

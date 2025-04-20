@@ -185,7 +185,6 @@ class ProfileView extends BaseView {
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Dirección</th>
-                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -193,17 +192,11 @@ class ProfileView extends BaseView {
                     .map(
                         (order) => `
                                 <tr>
-                                    <td>${order.id_pedido || "N/A"}</td>
-                                    <td>${new Date(order.fecha_pedido).toLocaleDateString()}</td>
-                                    <td>$${order.total.toFixed(2)}</td>
+                                    <td>${order.id || "N/A"}</td>
+                                    <td>${order.fecha_pedido || "Fecha no disponible"}</td>
+                                    <td>${order.total || "$0"}</td>
                                     <td>${this.getOrderStatusBadge(order.estado)}</td>
-                                    <td>${order.direccion_entrega}</td>
-                                    <td>
-                                        <button class="btn btn-primary view-order-btn" 
-                                                data-order-id="${order.id_pedido}">
-                                            Ver Detalles
-                                        </button>
-                                    </td>
+                                    <td>${order.direccion || "No especificada"}</td>
                                 </tr>
                                 `,
                     )

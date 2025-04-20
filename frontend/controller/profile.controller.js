@@ -4,7 +4,6 @@ class ProfileController {
         this.view = view
         this.currentSection = null
         this.userOrders = []
-        this.userHistory = []
         this.view.controller = this
     }
 
@@ -52,18 +51,10 @@ class ProfileController {
         try {
             this.userOrders = await this.model.getUserOrders()
             console.log("Pedidos cargados:", this.userOrders)
-
-            try {
-                this.userHistory = await this.model.getProductHistory()
-                console.log("Historial cargado:", this.userHistory)
-            } catch (historyError) {
-                console.warn("No se pudo cargar el historial:", historyError)
-                this.userHistory = []
-            }
         } catch (error) {
             console.error("Error al cargar datos del usuario:", error)
             this.userOrders = []
-            this.userHistory = []
+
             throw error
         }
     }
@@ -82,12 +73,7 @@ class ProfileController {
 
         document.addEventListener("profileSectionLoaded", (e) => {
             const sectionId = e.detail
-            if (sectionId === "seccion-gestion-pedidos") {
-                this.setupOrderEvents()
-            } else if (sectionId === "seccion-historial-productos") {
-                this.setupHistoryEvents()
-            } else if (sectionId === "seccion-modificar-datos") {
-                // Configuramos el formulario DESPUÉS de que la sección se haya cargado
+            if (sectionId === "seccion-modificar-datos") {
                 this.setupDataForm()
             }
         })
@@ -118,45 +104,6 @@ class ProfileController {
                     }),
                 )
             }, 300)
-        }
-    }
-
-    setupOrderEvents() {
-        document.querySelectorAll(".view-order-btn").forEach((button) => {
-            button.addEventListener("click", (e) => {
-                const orderId = e.target.getAttribute("data-order-id")
-                this.viewOrderDetails(orderId)
-            })
-        })
-    }
-
-    setupHistoryEvents() {
-        document.querySelectorAll(".view-product-btn").forEach((button) => {
-            button.addEventListener("click", (e) => {
-                const productId = e.target.getAttribute("data-product-id")
-                this.viewProductDetails(productId)
-            })
-        })
-    }
-
-    async viewOrderDetails(orderId) {
-        try {
-            const order =
-                this.userOrders.find((o) => o.id_pedido === orderId || o.id === orderId || o.id_peddo === orderId) ||
-                (await this.model.getOrderDetails(orderId))
-
-            if (order) {
-                // Asegurar que los productos estén disponibles
-                if (!order.productos || order.productos.length === 0) {
-                    order.productos = await this.model.getOrderProducts(orderId)
-                }
-                this.view.showOrderDetailsModal(order)
-            } else {
-                throw new Error("Pedido no encontrado")
-            }
-        } catch (error) {
-            console.error("Error al ver detalles del pedido:", error)
-            this.view.showMessage("Error al cargar detalles del pedido", "error")
         }
     }
 
@@ -224,7 +171,6 @@ class ProfileController {
                 const section = document.getElementById("seccion-gestion-pedidos")
                 if (section) {
                     section.innerHTML = this.view.createOrderManagementHTML(this.userOrders)
-                    this.setupOrderEvents()
                 }
             }
             return true

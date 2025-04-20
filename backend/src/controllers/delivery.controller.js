@@ -43,8 +43,8 @@ const readUserDelivery = async (req, res) => {
         const [result] = await deliveryModel.readUserDelivery(fk_id_usuario);
 
         // Verificar si se encontraron pedidos asociados al usuario
-        if (result[0]) {
-            res.json(result[0]);
+        if (result.length > 0) {
+            res.json(result);
         } else {
             res.status(404).json({ message: 'No hay pedidos asociados a este usuario :(' });
         }
