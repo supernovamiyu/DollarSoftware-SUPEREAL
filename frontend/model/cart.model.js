@@ -247,6 +247,36 @@ class CartModel {
         );
         return product ? product.cantidad : 0;
     }
+    
+    /**
+     * Verifica si un email está registrado en el sistema
+     * @param {string} email - Email a verificar
+     * @returns {Promise<boolean>} - True si el email está registrado
+     */
+    async verifyUserEmail(email) {
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/check-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.exists;
+        } catch (error) {
+            console.error('Error al verificar el email:', error);
+            
+            // Fallback: Si hay error, asumir que no está registrado pero permitir continuar
+            return false;
+        }
+    }
+
 }
 
 export default CartModel;

@@ -203,15 +203,15 @@ class CartView extends BaseView {
      * @param {Array} banks - Bancos disponibles
      */
     showCheckout(cartItems, total, paymentMethods, testCards, banks) {
-        // Guardar datos para uso posterior
-        this.paymentMethods = paymentMethods || {}
-        this.testCards = testCards || {}
-        this.banks = banks || []
-
         if (this.showTemplate("pasarela-de-pagos-simulada", "container-principal")) {
-            this.renderCheckoutSummary(cartItems, total)
-            this.renderPaymentMethods()
-            this.setupCheckoutEvents()
+            this.paymentMethods = paymentMethods || {};
+            this.testCards = testCards || {};
+            this.banks = banks || [];
+            
+            this.renderCheckoutSummary(cartItems, total);
+            this.renderPaymentMethods();
+            this.setupCheckoutEvents();
+            this.setupDeliveryMethodEvents(); 
         }
     }
 
@@ -804,6 +804,27 @@ class CartView extends BaseView {
                 break
         }
     }
+    setupDeliveryMethodEvents() {
+        // Configura eventos para los radio buttons
+        document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const deliveryDetails = document.getElementById('deliveryDetails');
+                deliveryDetails.style.display = e.target.value === 'HOME_DELIVERY' ? 'block' : 'none';
+            });
+        });
+        
+        // Configura el botón de validación
+        document.getElementById('validateEmailBtn')?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('deliveryEmail');
+            if (emailInput) {
+                window.dispatchEvent(new CustomEvent("validateDeliveryEmail", {
+                    detail: { email: emailInput.value }
+                }));
+            }
+        });
+    }
 }
+
 
 export default CartView
