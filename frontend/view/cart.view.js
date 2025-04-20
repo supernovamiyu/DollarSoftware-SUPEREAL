@@ -702,27 +702,41 @@ class CartView extends BaseView {
      * Muestra el pago exitoso
      * @param {Object} result - Resultado del pago
      */
-    showPaymentSuccess(result) {
-        // Ocultar el procesamiento
-        document.getElementById("procesando-pago").style.display = "none"
-
-        // Mostrar el éxito
-        document.getElementById("pago-exitoso").style.display = "block"
-
+    showPaymentSuccess(result, isRegistered) {
+        document.getElementById("procesando-pago").style.display = "none";
+        document.getElementById("pago-exitoso").style.display = "block";
+    
         // Mostrar ID de transacción
         document.getElementById("numero-pedido").textContent =
             result.transactionId ||
             Math.floor(Math.random() * 1000000)
                 .toString()
-                .padStart(6, "0")
-
+                .padStart(6, "0");
+    
         // Mostrar fecha y hora
-        const timestamp = new Date(result.timestamp || Date.now())
+        const timestamp = new Date(result.timestamp || Date.now());
         document.getElementById("fecha-hora-pedido").textContent =
-            timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString()
-
-        // Hacer scroll al inicio para asegurar que el usuario vea el mensaje
-        window.scrollTo({ top: 0, behavior: "smooth" })
+            timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString();
+    
+        // Mensaje adicional según tipo de usuario
+        const messageElement = document.createElement("p");
+        messageElement.className = "detalles-estado";
+        messageElement.style.marginTop = "10px";
+        
+        if (isRegistered) {
+            messageElement.innerHTML = 
+                'Puedes hacer seguimiento de tu pedido desde tu <a href="#" onclick="mostrarPantallaSesion(event)">perfil de usuario</a>.';
+        } else {
+            messageElement.textContent = 
+                'Para consultas sobre tu pedido, contáctanos a atencioncliente@dollarsoftware.com';
+        }
+        
+        const detailsContainer = document.querySelector(".detalles-estado");
+        if (detailsContainer) {
+            detailsContainer.appendChild(messageElement);
+        }
+    
+        // Botón de descarga
         const successContainer = document.getElementById("pago-exitoso");
         if (successContainer) {
             const downloadBtn = document.createElement("button");
@@ -730,7 +744,6 @@ class CartView extends BaseView {
             downloadBtn.style.marginTop = "15px";
             downloadBtn.innerHTML = '<i class="fa fa-download"></i> Descargar factura';
             downloadBtn.addEventListener("click", () => {
-                // Disparar evento para generar PDF
                 window.dispatchEvent(new CustomEvent("downloadInvoice", { 
                     detail: { result } 
                 }));
@@ -742,7 +755,9 @@ class CartView extends BaseView {
             }
         }
     
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    
 
     /**
      * Muestra el pago fallido
@@ -805,25 +820,65 @@ class CartView extends BaseView {
         }
     }
     setupDeliveryMethodEvents() {
-        // Configura eventos para los radio buttons
+        // Mostrar/ocultar campos según método seleccionado
         document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
-                const deliveryDetails = document.getElementById('deliveryDetails');
-                deliveryDetails.style.display = e.target.value === 'HOME_DELIVERY' ? 'block' : 'none';
+                const isHomeDelivery = e.target.value === 'HOME_DELIVERY';
+                document.getElementById('homeDeliveryFields').style.display = 
+                    isHomeDelivery ? 'block' : 'none';
+                document.getElementById('storePickupFields').style.display = 
+                    isHomeDelivery ? 'none' : 'block';
             });
         });
         
-        // Configura el botón de validación
-        document.getElementById('validateEmailBtn')?.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const emailInput = document.getElementById('deliveryEmail');
-            if (emailInput) {
-                window.dispatchEvent(new CustomEvent("validateDeliveryEmail", {
-                    detail: { email: emailInput.value }
-                }));
+        // Inicializar visibilidad
+        document.getElementById('homeDeliveryFields').style.display = 'none';
+        document.getElementById('storePickupFields').style.display = 'block';
+        
+        // Configurar dependencia ciudad-tienda
+        document.getElementById('pickupCity')?.addEventListener('change', (e) => {
+            const city = e.target.value;
+            const storeSelect = document.getElementById('pickupStore');
+            
+            if (city) {
+                // Simular carga de tiendas según ciudad
+                storeSelect.innerHTML = '<option value="">Cargando tiendas...</option>';
+                storeSelect.disabled = true;
+                
+                setTimeout(() => {
+                    const stores = this.getStoresByCity(city); // Método ficticio
+                    storeSelect.innerHTML = stores.map(store => 
+                        `<option value="${store.id}">${store.name}</option>`
+                    ).join('');
+                    storeSelect.disabled = false;
+                }, 500);
+            } else {
+                storeSelect.innerHTML = '<option value="">Selecciona primero una ciudad</option>';
+                storeSelect.disabled = true;
             }
         });
     }
+
+    getStoresByCity(cityCode) {
+        const stores = {
+            'BOG': [
+                { id: 'bog-1', name: 'Tienda Principal - Centro' },
+                { id: 'bog-2', name: 'Tienda Norte - Usaquén' },
+                { id: 'bog-3', name: 'Tienda Sur - Restrepo' }
+            ],
+            'MED': [
+                { id: 'med-1', name: 'Tienda El Poblado' },
+                { id: 'med-2', name: 'Tienda Laureles' }
+            ],
+            'CAL': [
+                { id: 'cal-1', name: 'Tienda Granada' },
+                { id: 'cal-2', name: 'Tienda San Fernando' }
+            ]
+        };
+        
+        return stores[cityCode] || [];
+    }
+
 }
 
 

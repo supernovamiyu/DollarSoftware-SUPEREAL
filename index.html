@@ -487,41 +487,65 @@
         
                 <!-- Formulario de pago -->
                 <div class="formulario-pago" id="formulario-pago">
-                    <div class="formulario-pago" id="formulario-pago">
-                        <div class="delivery-method-section">
-                            <h3 class="titulo-seccion">Metodo de recepcion</h3>
-                            <div class="delivery-options">
-                                <label class="delivery-option">
-                                    <input type="radio" name="deliveryMethod" value="STORE_PICKUP" checked>
-                                    <i class="fas fa-store"></i>
-                                    <p class="text-delivery-option">Recoger en tienda</p>
-                                </label>
-                                <label class="delivery-option">
-                                    <input type="radio" name="deliveryMethod" value="HOME_DELIVERY">
-                                    <i class="fas fa-truck"></i>
-                                    <p class="text-delivery-option">Envio a domicilio</p>
-                                </label>
+                    <div class="delivery-method-section">
+                        <h3 class="titulo-seccion">Método de recepción</h3>
+                        <div class="delivery-options">
+                            <label class="delivery-option">
+                                <input type="radio" name="deliveryMethod" value="STORE_PICKUP" checked>
+                                <i class="fas fa-store"></i>
+                                <p class="text-delivery-option">Recoger en tienda</p>
+                            </label>
+                            <label class="delivery-option">
+                                <input type="radio" name="deliveryMethod" value="HOME_DELIVERY">
+                                <i class="fas fa-truck"></i>
+                                <p class="text-delivery-option">Envío a domicilio</p>
+                            </label>
+                        </div>
+                        
+                        <!-- Contenedor para los detalles de entrega -->
+                        <div id="deliveryDetails" class="delivery-details">
+                            <!-- Campos comunes para todos los usuarios -->
+                            <div class="form-group">
+                                <label for="deliveryEmail">Correo electrónico</label>
+                                <input type="email" id="deliveryEmail" placeholder="Ingresa tu correo para recibir la factura" required>
                             </div>
-                            <div id="deliveryDetails">
+                            
+                            <!-- Campos para Recoger en Tienda -->
+                            <div id="storePickupFields">
                                 <div class="form-group">
-                                    <label for="deliveryEmail">Correo electrónico</label>
-                                    <input type="email" id="deliveryEmail" placeholder="Ingresa tu correo para validar">
-                                    <button type="button" id="validateEmailBtn" class="btn-validate">Validar correo</button>
-                                    <div id="emailValidationResult"></div>
+                                    <label for="pickupCity">Ciudad</label>
+                                    <select id="pickupCity" required>
+                                        <option value="">Selecciona una ciudad</option>
+                                        <option value="BOG">Bogotá</option>
+                                        <option value="MED">Medellín</option>
+                                        <option value="CAL">Cali</option>
+                                    </select>
                                 </div>
-                                <div id="registeredUserFields">
-                                    <div class="form-group">
-                                        <label for="deliveryAddress">Dirección de envío</label>
-                                        <input type="text" id="deliveryAddress" placeholder="Carrera 0 #2-2">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="deliveryCity">Ciudad</label>
-                                        <select id="deliveryCity">
-                                            <option value="BOG">Bogotá</option>
-                                            <option value="MED">Medellín</option>
-                                            <option value="CAL">Cali</option>
-                                        </select>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="pickupStore">Tienda</label>
+                                    <select id="pickupStore" disabled required>
+                                        <option value="">Selecciona primero una ciudad</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Campos para Envío a Domicilio -->
+                            <div id="homeDeliveryFields">
+                                <div class="form-group">
+                                    <label for="deliveryAddress">Dirección de envío</label>
+                                    <input type="text" id="deliveryAddress" placeholder="Carrera 0 #2-2" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryCity">Ciudad</label>
+                                    <select id="deliveryCity" required>
+                                        <option value="BOG">Bogotá</option>
+                                        <option value="MED">Medellín</option>
+                                        <option value="CAL">Cali</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryPhone">Teléfono de contacto</label>
+                                    <input type="tel" id="deliveryPhone" placeholder="+57 300 123 4567" required>
                                 </div>
                             </div>
                         </div>
@@ -584,7 +608,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
     </template>
 
     <!-------------- RECUPERACIÓN DE CONTRASEÑAS --------------->

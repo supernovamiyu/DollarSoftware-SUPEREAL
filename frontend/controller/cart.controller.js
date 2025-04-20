@@ -311,45 +311,46 @@ class CartController {
      */
     async processPayment(paymentData) {
         try {
-            // Obtener método de recepción de forma segura
             const deliveryMethodRadio = document.querySelector('input[name="deliveryMethod"]:checked');
             const deliveryMethod = deliveryMethodRadio ? deliveryMethodRadio.value : 'STORE_PICKUP';
-            const isHomeDelivery = deliveryMethod === 'HOME_DELIVERY';
             
-            // Datos de envío si aplica
-            let deliveryDetails = null;
-            if (isHomeDelivery) {
-                const emailInput = document.getElementById('deliveryEmail');
-                const email = emailInput ? emailInput.value : null;
-                
-                if (!email) {
-                    this.view.showMessage("Por favor ingresa un correo electrónico", "error");
-                    return;
-                }
-                
-                // Usar el método existente checkUserEmail
-                const isRegistered = await this.model.checkUserEmail(email);
-                
-                deliveryDetails = {
-                    email,
-                    isRegistered,
-                    address: isRegistered ? document.getElementById('deliveryAddress')?.value : null,
-                    city: isRegistered ? document.getElementById('deliveryCity')?.value : null
-                };
-            }
+            // Obtener datos del formulario
+            const email = document.getElementById('deliveryEmail').value;
+            
+            // Verificar si el usuario está registrado
+            const isRegistered = await this.model.verifyUserEmail(email);
+            
+            // Recolectar todos los datos de entrega
+            const deliveryDetails = {
+                email,
+                isRegistered,
+                method: deliveryMethod,
+                address: deliveryMethod === 'HOME_DELIVERY' 
+                    ? document.getElementById('deliveryAddress').value 
+                    : null,
+                city: deliveryMethod === 'HOME_DELIVERY'
+                    ? document.getElementById('deliveryCity').value
+                    : document.getElementById('pickupCity').value,
+                store: deliveryMethod === 'STORE_PICKUP'
+                    ? document.getElementById('pickupStore').value
+                    : null,
+                phone: deliveryMethod === 'HOME_DELIVERY'
+                    ? document.getElementById('deliveryPhone').value
+                    : null
+            };
             
             // Mostrar procesamiento de pago
             this.view.showProcessingPayment();
             
-            // Procesar pago con los detalles
+            // Procesar pago
             const result = await this.paymentGateway.processPayment(
                 paymentData.formData, 
                 paymentData.method,
-                { deliveryMethod, deliveryDetails }
+                { deliveryDetails }
             );
             
             if (result.success) {
-                await this.handlePaymentSuccess(result, deliveryMethod, deliveryDetails);
+                await this.handlePaymentSuccess(result, deliveryDetails);
             } else {
                 this.handlePaymentFailure(result);
             }
@@ -360,39 +361,34 @@ class CartController {
             });
         }
     }
+    
 
     /**
      * Maneja el pago exitoso
      * @param {Object} result - Resultado del pago
      */
-    async handlePaymentSuccess(result, deliveryMethod, deliveryDetails) {
+    async handlePaymentSuccess(result, deliveryDetails) {
         const cartItems = [...this.model.getCartItems()];
         const total = this.model.getCartTotal();
         
         // Generar factura con detalles de envío
-        await this.generateInvoicePDF(result, cartItems, total, deliveryMethod, deliveryDetails);
+        await this.generateInvoicePDF(result, cartItems, total, deliveryDetails);
         
         // Limpiar carrito
         await this.model.clearCart();
         window.dispatchEvent(new CustomEvent("cartUpdated"));
         
-        // Mostrar mensaje final según tipo de usuario
-        if (deliveryMethod === 'HOME_DELIVERY' && deliveryDetails && !deliveryDetails.isRegistered) {
-            this.view.showMessage("Pedido confirmado. Recibirás los detalles por correo.", "success");
-        } else {
-            this.view.showMessage("Pedido confirmado. Puedes hacer seguimiento desde tu cuenta.", "success");
-        }
+        // Mostrar mensaje según tipo de usuario
+        const message = deliveryDetails.isRegistered
+            ? "Pedido confirmado. Hemos enviado los detalles a tu correo. Puedes hacer seguimiento desde tu perfil."
+            : "Pedido confirmado. Hemos enviado la factura a tu correo.";
         
-        // Redirigir a login si es usuario registrado pero no está logueado
-        if (deliveryDetails?.isRegistered && !this.userModel.isAuthenticated()) {
-            setTimeout(() => {
-                this.view.showMessage("Inicia sesión para hacer seguimiento a tu pedido", "info");
-                window.dispatchEvent(new CustomEvent("navigateTo", { detail: { path: "/login" } }));
-            }, 3000);
-        }
+        this.view.showMessage(message, "success");
+        
+        // Mostrar éxito en la vista
+        this.view.showPaymentSuccess(result, deliveryDetails.isRegistered);
     }
     
-
     /**
      * Maneja el pago fallido
      * @param {Object} result - Resultado del pago
@@ -404,8 +400,7 @@ class CartController {
         this.generateFailedTransactionPDF(result);
     }
     // Generar facturas 
-    generateInvoicePDF(paymentResult, cartItems, total, deliveryMethod, deliveryDetails) {
-        
+    generateInvoicePDF(paymentResult, cartItems, total, deliveryDetails) {
         const now = new Date();
         const doc = new jsPDF();
         
@@ -454,7 +449,7 @@ class CartController {
         const data = cartItems.map(item => [
             item.nombre_producto.substring(0, 30),
             item.cantidad,
-            `$${Number(item.precio).toFixed(2)}`, // Precio ya incluye IVA
+            `$${Number(item.precio).toFixed(2)}`,
             `$${(Number(item.precio) * item.cantidad).toFixed(2)}`
         ]);
         
@@ -492,7 +487,7 @@ class CartController {
             }
         });
         
-        // Sección de totales (modificada)
+        // Sección de totales
         const finalY = doc.lastAutoTable.finalY + 15;
             
         // Desglose del IVA
@@ -519,6 +514,35 @@ class CartController {
         doc.setFont(undefined, 'normal');
         doc.text(`Método de pago: ${paymentResult.method || 'Tarjeta de crédito'}`, 15, finalY + 30);
         
+        // Sección de envío
+        const deliveryY = finalY + 40;
+        doc.setFontSize(12);
+        doc.text('Información de envío:', 15, deliveryY);
+    
+        if (deliveryDetails && deliveryDetails.method === 'STORE_PICKUP') {
+            doc.text('Método: Recogida en tienda', 15, deliveryY + 8);
+            doc.text(`Ubicación: ${deliveryDetails.store || 'No especificada'}, ${deliveryDetails.city || 'No especificada'}`, 15, deliveryY + 16);
+        } else if (deliveryDetails && deliveryDetails.method === 'HOME_DELIVERY') {
+            doc.text('Método: Envío a domicilio', 15, deliveryY + 8);
+            doc.text(`Dirección: ${deliveryDetails.address || 'No especificada'}, ${deliveryDetails.city || 'No especificada'}`, 15, deliveryY + 16);
+            doc.text(`Teléfono: ${deliveryDetails.phone || 'No especificado'}`, 15, deliveryY + 24);
+        }
+        
+        // Mensaje según tipo de usuario
+        const messageY = deliveryY + (deliveryDetails?.method === 'STORE_PICKUP' ? 24 : 32);
+        doc.setFontSize(10);
+        
+        if (deliveryDetails?.isRegistered) {
+            doc.setTextColor(0, 100, 0); // Verde oscuro
+            doc.text('Puedes hacer seguimiento de tu pedido desde tu perfil de usuario.', 15, messageY);
+        } else {
+            doc.setTextColor(100, 100, 100); // Gris
+            doc.text('Para consultas sobre tu pedido, contáctanos a atencioncliente@dollarsoftware.com', 15, messageY);
+        }
+        
+        // Restaurar color
+        doc.setTextColor(0, 0, 0);
+        
         // Pie de página
         doc.setFontSize(8);
         doc.setTextColor(100, 100, 100);
@@ -527,26 +551,6 @@ class CartController {
         
         // Guardar PDF
         doc.save(`factura_${paymentResult.transactionId || now.getTime()}.pdf`);
-        
-       // Agregar sección de envío
-        if (deliveryMethod && deliveryDetails) {
-            const deliveryY = doc.lastAutoTable.finalY + 30;
-            doc.setFontSize(12);
-            doc.text('Información de envío:', 15, deliveryY);
-
-            if (deliveryMethod === 'STORE_PICKUP') {
-                doc.text('Método: Recogida en tienda', 15, deliveryY + 8);
-                doc.text('Ubicación: Carrera 0 #2-2, Bogotá', 15, deliveryY + 16);
-            } else {
-                doc.text('Método: Envío a domicilio', 15, deliveryY + 8);
-                if (deliveryDetails.isRegistered) {
-                    doc.text(`Dirección: ${deliveryDetails.address}, ${deliveryDetails.city}`, 15, deliveryY + 16);
-                    doc.text(`Contacto: ${deliveryDetails.email}`, 15, deliveryY + 24);
-                } else {
-                    doc.text('* Los detalles de envío serán enviados al correo proporcionado', 15, deliveryY + 16);
-                }
-            }
-        }
     }
         
         // Generar volantes de transacción fallida
