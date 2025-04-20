@@ -1325,11 +1325,13 @@ p.elemento-ubicacion-tiendas {
     top: 50%;
     transform: translateY(-50%);
     color: #6e8efb;
+    margin: 0 20px 0 0;   
 }
 
 .form-input {
     width: 100%;
-    padding: 14px 14px 14px 45px;
+    padding: 14px 14px 14px;
+    padding-left: 45px !important;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     font-size: 16px;
@@ -2017,6 +2019,10 @@ p.elemento-ubicacion-tiendas {
     outline: none;
 }
 
+#terminos {
+width: fit-content;
+}
+
 .form-row {
     display: flex;
     gap: 15px;
@@ -2287,9 +2293,6 @@ p.elemento-ubicacion-tiendas {
     color: #495057;
 }
 
-.input-icon-wrapper {
-    position: relative;
-}
 
 /* Verificación de código */
 .verification-info {
