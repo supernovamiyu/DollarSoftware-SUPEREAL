@@ -2470,3 +2470,82 @@ p.elemento-ubicacion-tiendas {
 .pago-fallido .download-btn:hover {
     background-color: #d32f2f;
 }
+
+/* Sección de método de recepción */
+.delivery-method-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.section-title {
+    margin-top: 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.delivery-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.delivery-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.text-delivery-option{
+    font-family: 'Lexend', sans-serif;
+    margin-bottom: 0;
+}
+.delivery-option:hover {
+    border-color: #6e8efb;
+}
+
+.delivery-option input[type="radio"]:checked + & {
+    background-color: #f0f7ff;
+    border-color: #6e8efb;
+}
+
+/* Botón de validación */
+.btn-validate {
+    padding: 8px 15px;
+    background-color: #6e8efb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-validate:hover {
+    background-color: #5c7df0;
+}
+
+/* Mensajes de validación */
+#emailValidationResult {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+#emailValidationResult .error {
+    color: #dc3545;
+}
+
+#emailValidationResult .success {
+    color: #28a745;
+}
+
+#emailValidationResult .info {
+    color: #17a2b8;
+}
+
