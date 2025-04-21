@@ -21,7 +21,10 @@ const createOpinionProduct = (es_anonimo, opinion, fk_id_productos) => {
 // Actualizar una opinión de un producto en la base de datos
 
 const updateOpinionProduct = (id_opinion, es_anonimo, opinion, fk_id_productos) => {
-    const query = mysql2.format('UPDATE opiniones SET es_anonimo = ?, opinion = ?, fk_id_productos = ? WHERE id_opinion = ?;', [es_anonimo, opinion, fk_id_productos, id_opinion]);
+    const query = mysql2.format(
+        'UPDATE opiniones SET es_anonimo = ?, opinion = ?, fk_id_productos = ? WHERE id_opinion = ?;',
+        [es_anonimo, opinion, fk_id_productos, id_opinion]
+    );
     return database.promise().query(query);
 };
 
