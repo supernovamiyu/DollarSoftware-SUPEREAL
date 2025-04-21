@@ -59,12 +59,9 @@ class CartController {
     setupGlobalEventListeners() {
         // Delegación de eventos para los botones "comprar"
         document.addEventListener("click", async (e) => {
-            const addToCartBtn = e.target.closest(".comprar")
-            if (addToCartBtn) {
-                e.preventDefault()
-                await this.handleAddToCartClick(addToCartBtn)
-            }
-        })
+            const addToCartBtn = e.target.closest(".comprar");
+
+        });
 
         // Evento para actualizar la vista del carrito
         window.addEventListener("cartUpdated", () => {
