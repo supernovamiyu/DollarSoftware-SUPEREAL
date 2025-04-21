@@ -300,54 +300,64 @@ class CartController {
      */
     async processPayment(paymentData) {
         try {
-            const deliveryMethodRadio = document.querySelector('input[name="deliveryMethod"]:checked')
-            const deliveryMethod = deliveryMethodRadio ? deliveryMethodRadio.value : "STORE_PICKUP"
-
-            // Obtener datos del formulario
-            const email = document.getElementById("deliveryEmail").value
-
+            const deliveryMethodRadio = document.querySelector('input[name="deliveryMethod"]:checked');
+            const deliveryMethod = deliveryMethodRadio ? deliveryMethodRadio.value : "STORE_PICKUP";
+    
+            // Validar datos del formulario
+            const email = document.getElementById("deliveryEmail").value;
+            if (!email) {
+                throw new Error('El correo electrónico es requerido');
+            }
+    
             // Verificar si el usuario está registrado
-            const isRegistered = await this.model.verifyUserEmail(email)
-
+            const userVerification = await this.model.verifyUserEmail(email);
+            
             // Recolectar datos de entrega
             const deliveryDetails = {
                 email,
-                isRegistered,
+                isRegistered: userVerification, // Pasamos toda la respuesta de verificación
                 method: deliveryMethod,
                 address: deliveryMethod === "HOME_DELIVERY" ? document.getElementById("deliveryAddress").value : null,
-                city:
-                    deliveryMethod === "HOME_DELIVERY"
-                        ? document.getElementById("deliveryCity").value
-                        : document.getElementById("pickupCity").value,
+                city: deliveryMethod === "HOME_DELIVERY" 
+                    ? document.getElementById("deliveryCity").value 
+                    : document.getElementById("pickupCity").value,
                 store: deliveryMethod === "STORE_PICKUP" ? document.getElementById("pickupStore").value : null,
                 phone: deliveryMethod === "HOME_DELIVERY" ? document.getElementById("deliveryPhone").value : null,
+            };
+    
+            // Validar datos de entrega según el método
+            if (deliveryMethod === "HOME_DELIVERY" && !deliveryDetails.address) {
+                throw new Error('La dirección de entrega es requerida');
             }
-
+    
             // Mostrar procesamiento de pago
-            this.view.showProcessingPayment()
-
+            this.view.showProcessingPayment();
+    
             // Procesar pago
-            const paymentResult = await this.paymentGateway.processPayment(paymentData.formData, paymentData.method, {
-                deliveryDetails,
-            })
-
-            if (paymentResult.success) {
-                // Crear el pedido en la base de datos
-                const orderResult = await this.createOrder(paymentResult, deliveryDetails)
-
-                if (orderResult.success) {
-                    await this.handlePaymentSuccess(orderResult, deliveryDetails)
-                } else {
-                    this.handlePaymentFailure(orderResult.error)
-                }
-            } else {
-                this.handlePaymentFailure(paymentResult.error)
+            const paymentResult = await this.paymentGateway.processPayment(
+                paymentData.formData, 
+                paymentData.method, 
+                { deliveryDetails }
+            );
+    
+            if (!paymentResult.success) {
+                throw new Error(paymentResult.error || 'Error al procesar el pago');
             }
+    
+            // Crear el pedido en la base de datos
+            const orderResult = await this.createOrder(paymentResult, deliveryDetails);
+    
+            if (!orderResult.success) {
+                throw new Error(orderResult.error || 'Error al crear el pedido');
+            }
+    
+            await this.handlePaymentSuccess(orderResult, deliveryDetails);
+            return { success: true, order: orderResult.orderData };
+    
         } catch (error) {
-            console.error("Error en processPayment:", error)
-            this.handlePaymentFailure({
-                error: error.message || "Error al procesar el pago",
-            })
+            console.error("Error en processPayment:", error);
+            this.handlePaymentFailure(error.message || "Error al procesar el pago");
+            return { success: false, error: error.message };
         }
     }
 
@@ -605,11 +615,16 @@ class CartController {
 
     async createOrder(paymentResult, deliveryDetails) {
         try {
-            const cartItems = this.model.getCartItems()
-            const total = this.model.getCartTotal()
-            const subtotal = total / 1.19 // Asumiendo 19% de IVA
-            const impuesto = total - subtotal
-
+            const cartItems = this.model.getCartItems();
+            const total = this.model.getCartTotal();
+            const subtotal = total / 1.19;
+            const impuesto = total - subtotal;
+    
+            // Validación básica
+            if (!deliveryDetails || !paymentResult) {
+                throw new Error('Datos de entrega o pago no proporcionados');
+            }
+    
             // Datos básicos del pedido
             const orderData = {
                 fk_id_metodo_envio: deliveryDetails.method === "HOME_DELIVERY" ? "EAD" : "RET",
@@ -621,50 +636,67 @@ class CartController {
                 impuesto: impuesto.toFixed(2),
                 total: total.toFixed(2),
                 vigencia_factura: "30 días",
-            }
-
+            };
+    
             // Para usuarios registrados
-            if (deliveryDetails.isRegistered) {
-                // Obtener el ID del usuario desde el modelo de usuario
-                const user = await this.model.verifyUserEmail(deliveryDetails.email)
-                if (!user) {
-                    throw new Error("Usuario no autenticado")
+            if (deliveryDetails.isRegistered && deliveryDetails.isRegistered.ok) {
+                try {
+                    const user = deliveryDetails.isRegistered; // Ya verificamos el usuario en processPayment
+                    
+                    if (!user || !user.id_usuario) {
+                        throw new Error('No se pudo obtener información del usuario');
+                    }
+    
+                    orderData.fk_id_usuario = user.id_usuario;
+    
+                    const response = await fetch("http://localhost:3000/api/delivery/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(orderData),
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.message || "Error al crear el pedido");
+                    }
+    
+                    return {
+                        success: true,
+                        orderData: await response.json(),
+                    };
+                } catch (error) {
+                    console.error('Error al crear pedido para usuario registrado:', error);
+                    return {
+                        success: false,
+                        error: error.message || 'Error al crear el pedido'
+                    };
                 }
-                orderData.fk_id_usuario = user.id_usuario
-
-                const response = await fetch("http://localhost:3000/api/delivery/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(orderData),
-                })
-
-                if (!response.ok) {
-                    throw new Error("Error al crear el pedido")
-                }
-
-                return {
-                    success: true,
-                    orderData: await response.json(),
-                }
-            }
-            // Para usuarios no registrados
-            else {
+            } else {
+                // Usuario no registrado
+                console.log("Creando pedido temporal para usuario no registrado");
+                
+                const tempId = "TEMP-" + Date.now().toString(16);
+                
                 return {
                     success: true,
                     orderData: {
                         ...orderData,
-                        id_pedido: "TEMP-" + Date.now(), // ID temporal
+                        id_pedido: tempId,
+                        email: deliveryDetails.email,
+                        fecha_creacion: new Date().toISOString(),
+                        metodo_pago: paymentResult.method || "Tarjeta",
+                        estado: "Completado (local)"
                     },
-                }
+                };
             }
         } catch (error) {
-            console.error("Error al crear pedido:", error)
+            console.error('Error general al crear pedido:', error);
             return {
                 success: false,
-                error: error.message || "Error al crear el pedido",
-            }
+                error: error.message || 'Error al crear el pedido'
+            };
         }
     }
 }
