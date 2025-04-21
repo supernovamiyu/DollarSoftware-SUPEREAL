@@ -182,11 +182,35 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const findByEmail = async (req, res) => {
+    try {
+        const { correo } = req.params;
+
+        if (!correo) {
+            return res.status(400).json({  message: 'El correo electrónico es obligatorio' });
+        }
+
+        // Llamar al modelo para buscar el usuario por email
+        const [result] = await userModel.findByEmail(correo)
+
+        // Verificar si se encontró el usuario
+        if (result[0]) {
+            res.json(result[0]);
+        } else {
+            res.json({ message: 'Usuario no encontrado :(' });
+        }
+    } catch (err) {
+        console.error('Error en readUser:', err);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+}
+
 // Exportar las funciones para usarlas en otros archivos
 module.exports = {
     readUser,
     createUser,
     updateUser,
     deleteUser,
-    verifyToken
+    verifyToken,
+    findByEmail
 };

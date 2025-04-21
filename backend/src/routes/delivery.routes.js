@@ -12,9 +12,6 @@ router.get('/idPedido/:id_pedido', deliveryController.readIdDelivery);
 // Obtener los pedidos asociados al usuario
 router.get('/usuario/:fk_id_usuario', deliveryController.readUserDelivery);
 
-// Obtener pedidos por correo electrónico
-router.get('/correo/:correo', deliveryController.readDeliveryByEmail);
-
 // Crear un nuevo pedido
 router.post('/', deliveryController.createUserDelivery);
 

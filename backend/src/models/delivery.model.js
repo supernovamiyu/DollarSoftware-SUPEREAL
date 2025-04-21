@@ -17,7 +17,6 @@ const readUserDelivery = (fk_id_usuario) => {
     return database.promise().query(query);
 }
 
-
 // Crear un pedido en la base de datos
 const createUserDelivery = (fk_id_usuario, fk_id_metodo_envio, fecha_de_pedido, fk_id_ciudad, direccion, fk_id_estado_envio, subtotal, impuesto, total, vigencia_factura) => {
     const query = mysql2.format(
@@ -42,15 +41,6 @@ const deleteUserDelivery = (id_pedido) => {
     return database.promise().query(query);
 };
 
-// Buscar los pedidos asociados a un usuario por correo electrónico
-const readDeliveryByEmail = (correo) => {
-    const query = mysql2.format(`
-        SELECT p.id_pedido, p.fk_id_metodo_envio, p.fecha_de_pedido, p.fk_id_ciudad, p.direccion, p.fk_id_estado_envio, p.total, p.vigencia_factura, u.correo, u.nombre_completo FROM pedidos p INNER JOIN usuarios u ON p.fk_id_usuario = u.id_usuario WHERE u.correo = ?;
-    `, [correo]);
-    
-    return database.promise().query(query);
-};
-
 // Exportar las funciones para usarlas en otros archivos
 module.exports = {
     readIdDelivery,
@@ -58,5 +48,4 @@ module.exports = {
     createUserDelivery,
     updateUserDelivery,
     deleteUserDelivery,
-    readDeliveryByEmail
 };

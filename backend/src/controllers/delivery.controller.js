@@ -119,32 +119,6 @@ const deleteUserDelivery = async (req, res) => {
     }
 };
 
-// Obtener pedidos por correo electrónico
-const readDeliveryByEmail = async (req, res) => {
-    try {
-        const { correo } = req.params;
-        
-        // Validar que el correo venga en los parámetros
-        if (!correo) {
-            return res.status(400).json({ error: 'Se requiere el parámetro correo' });
-        }
-        
-        // Ejecutar la consulta
-        const [results] = await deliveryModel.readDeliveryByEmail(correo);
-        
-        // Verificar si se encontraron resultados
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'No se encontraron pedidos para este correo electrónico' });
-        }
-        
-        // Devolver los resultados
-        res.status(200).json(results);
-        
-    } catch (error) {
-        console.error('Error al obtener pedidos por correo:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-};
 
 // Exportar las funciones para usarlas en otros archivos
 module.exports = {
@@ -153,5 +127,4 @@ module.exports = {
     createUserDelivery,
     updateUserDelivery,
     deleteUserDelivery,
-    readDeliveryByEmail
 };

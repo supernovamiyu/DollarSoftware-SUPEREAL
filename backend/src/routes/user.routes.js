@@ -9,6 +9,9 @@ const router = Router();
 // Obtener un usuario por ID
 router.get('/:id_usuario', userController.readUser);
 
+// Obtener un usuario por su correo electrónico
+router.get('/email/:correo', userController.findByEmail)
+
 // Crear un nuevo usuario
 router.post('/', userController.createUser);
 

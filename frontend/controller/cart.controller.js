@@ -4,11 +4,12 @@ const { jsPDF } = window.jspdf
  * Controlador para el carrito de compras (Versión mejorada)
  */
 class CartController {
-    constructor(model, view, productModel, userModel) {
+    constructor(model, view, productModel, userModel, cartModel) {
         this.model = model
         this.view = view
         this.productModel = productModel
         this.userModel = userModel
+        this.cartModel = cartModel
         this.isInitialized = false
 
         // Importar la pasarela de pagos
@@ -625,7 +626,7 @@ class CartController {
             // Para usuarios registrados
             if (deliveryDetails.isRegistered) {
                 // Obtener el ID del usuario desde el modelo de usuario
-                const user = this.userModel.getCurrentUser()
+                const user = await this.model.verifyUserEmail(deliveryDetails.email)
                 if (!user) {
                     throw new Error("Usuario no autenticado")
                 }
