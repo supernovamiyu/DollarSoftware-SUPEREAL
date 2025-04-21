@@ -258,11 +258,11 @@ class CartModel {
             const response = await fetch('http://localhost:3000/api/users/email/' + encodeURIComponent(email));
             
             if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
+                return false;
             }
-    
+            
             const userData = await response.json();
-            return userData;
+            return userData; // Devuelve directamente los datos del usuario
             
         } catch (error) {
             console.error('Error al verificar el email:', error);

@@ -310,12 +310,12 @@ class CartController {
             }
     
             // Verificar si el usuario está registrado
-            const userVerification = await this.model.verifyUserEmail(email);
+            const userData = await this.model.verifyUserEmail(email);
             
             // Recolectar datos de entrega
             const deliveryDetails = {
                 email,
-                isRegistered: userVerification, // Pasamos toda la respuesta de verificación
+                isRegistered: userData, // Pasamos toda la respuesta de verificación
                 method: deliveryMethod,
                 address: deliveryMethod === "HOME_DELIVERY" ? document.getElementById("deliveryAddress").value : null,
                 city: deliveryMethod === "HOME_DELIVERY" 
@@ -639,7 +639,9 @@ class CartController {
             };
     
             // Para usuarios registrados
-            if (deliveryDetails.isRegistered && deliveryDetails.isRegistered.ok) {
+            if (deliveryDetails.isRegistered && deliveryDetails.isRegistered.id_usuario) {
+                
+                orderData.fk_id_usuario = deliveryDetails.isRegistered.id_usuario
                 try {
                     const user = deliveryDetails.isRegistered; 
                     
