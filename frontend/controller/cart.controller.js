@@ -10,19 +10,15 @@ class CartController {
         this.productModel = productModel
         this.userModel = userModel
         this.isInitialized = false
-
+        
         // Importar la pasarela de pagos
-        import("./payment.gateway.js")
-            .then((module) => {
-                this.paymentGateway = new module.default()
-                // Inicializar el controlador pero sin mostrar el carrito
-                this.initWithoutDisplay()
-            })
-            .catch((error) => {
-                console.error("Error al cargar la pasarela de pagos:", error)
-                // Inicializar el controlador incluso si falla la carga de la pasarela
-                this.initWithoutDisplay()
-            })
+        import('./payment.gateway.js').then(module => {
+            this.paymentGateway = new module.default();
+            this.init();
+        }).catch(error => {
+            console.error("Error al cargar la pasarela de pagos:", error);
+            this.init();
+        });
     }
 
     /**

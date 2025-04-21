@@ -120,12 +120,7 @@ class AppController {
         const currentPath = window.location.pathname
         console.log("Ruta inicial:", currentPath)
 
-        // Si la ruta es la raíz o está vacía, mostrar la página de inicio
-        if (currentPath === "/" || currentPath === "") {
-            this.homeController.showHomePage()
-        } else {
-            this.handleRoute(currentPath)
-        }
+        this.handleRoute(currentPath)
     }
 
     handleRoute(path) {
