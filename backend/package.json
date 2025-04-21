@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon src/config/server.js"
+    "dev": "nodemon src/config/server.js",
+    "test": "jest",
+    "test:watch": "jest ---watchAll",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
