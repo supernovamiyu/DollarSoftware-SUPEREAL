@@ -10,15 +10,17 @@ class CartController {
         this.productModel = productModel
         this.userModel = userModel
         this.isInitialized = false
-        
-        // Importar la pasarela de pagos
-        import('./payment.gateway.js').then(module => {
-            this.paymentGateway = new module.default();
-            this.init();
-        }).catch(error => {
-            console.error("Error al cargar la pasarela de pagos:", error);
-            this.init();
-        });
+
+        // Importar la pasarela de pagos sin inicializar automáticamente
+        import("./payment.gateway.js")
+            .then((module) => {
+                this.paymentGateway = new module.default()
+                // No inicializar automáticamente
+            })
+            .catch((error) => {
+                console.error("Error al cargar la pasarela de pagos:", error)
+                // No inicializar automáticamente
+            })
     }
 
     /**
