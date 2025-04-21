@@ -641,7 +641,7 @@ class CartController {
             // Para usuarios registrados
             if (deliveryDetails.isRegistered && deliveryDetails.isRegistered.ok) {
                 try {
-                    const user = deliveryDetails.isRegistered; // Ya verificamos el usuario en processPayment
+                    const user = deliveryDetails.isRegistered; 
                     
                     if (!user || !user.id_usuario) {
                         throw new Error('No se pudo obtener información del usuario');
