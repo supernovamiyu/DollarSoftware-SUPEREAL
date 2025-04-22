@@ -79,11 +79,11 @@ describe('RecoveryController', () => {
         it('debería mostrar error si el correo no es válido', async () => {
             document.body.innerHTML = `
         <form id="form-solicitar-codigo">
-          <input id="correo-recuperacion" value="correo-invalido">
-          <button id="form-solicitar-codigo-btn"></button>
+            <input id="correo-recuperacion" value="correo-invalido">
+            <button id="form-solicitar-codigo-btn"></button>
         </form>
         <div id="email-error"></div>
-      `;
+        `;
 
             await controller.handleEmailSubmit();
 
@@ -97,11 +97,11 @@ describe('RecoveryController', () => {
             const email = "test@example.com";
             document.body.innerHTML = `
         <form id="form-solicitar-codigo">
-          <input id="correo-recuperacion" value="${email}">
-          <button id="form-solicitar-codigo-btn"></button>
+            <input id="correo-recuperacion" value="${email}">
+            <button id="form-solicitar-codigo-btn"></button>
         </form>
         <div id="email-error"></div>
-      `;
+        `;
 
             mockModel.checkUserEmail.mockResolvedValue(true);
 
@@ -126,11 +126,11 @@ describe('RecoveryController', () => {
             const email = "test@example.com";
             document.body.innerHTML = `
         <form id="form-solicitar-codigo">
-          <input id="correo-recuperacion" value="${email}">
-          <button id="form-solicitar-codigo-btn"></button>
+            <input id="correo-recuperacion" value="${email}">
+            <button id="form-solicitar-codigo-btn"></button>
         </form>
         <div id="email-error"></div>
-      `;
+        `;
 
             mockModel.checkUserEmail.mockResolvedValue(false);
 
@@ -146,11 +146,11 @@ describe('RecoveryController', () => {
             const email = "test@example.com";
             document.body.innerHTML = `
         <form id="form-solicitar-codigo">
-          <input id="correo-recuperacion" value="${email}">
-          <button id="form-solicitar-codigo-btn"></button>
+            <input id="correo-recuperacion" value="${email}">
+            <button id="form-solicitar-codigo-btn"></button>
         </form>
         <div id="email-error"></div>
-      `;
+        `;
 
             mockModel.checkUserEmail.mockRejectedValue(new Error("Error de red"));
 
@@ -168,12 +168,12 @@ describe('RecoveryController', () => {
             controller.recoveryEmail = "test@example.com";
             document.body.innerHTML = `
         <form id="form-nueva-password">
-          <input id="nueva-password" value="Password1">
-          <input id="confirmar-password" value="Password1">
-          <button id="form-nueva-password-btn"></button>
+            <input id="nueva-password" value="Password1">
+            <input id="confirmar-password" value="Password1">
+            <button id="form-nueva-password-btn"></button>
         </form>
         <div id="password-error"></div>
-      `;
+        `;
         });
 
         it('debería mostrar error si la contraseña no cumple los requisitos', async () => {
@@ -240,16 +240,16 @@ describe('RecoveryController', () => {
             controller.newPassword = "Password1";
             document.body.innerHTML = `
         <form id="form-verificar-codigo">
-          <input class="verification-input" value="1">
-          <input class="verification-input" value="2">
-          <input class="verification-input" value="3">
-          <input class="verification-input" value="4">
-          <input class="verification-input" value="5">
-          <input class="verification-input" value="6">
-          <button id="form-verificar-codigo-btn"></button>
+            <input class="verification-input" value="1">
+            <input class="verification-input" value="2">
+            <input class="verification-input" value="3">
+            <input class="verification-input" value="4">
+            <input class="verification-input" value="5">
+            <input class="verification-input" value="6">
+            <button id="form-verificar-codigo-btn"></button>
         </form>
         <div id="codigo-error"></div>
-      `;
+        `;
         });
 
         it('debería mostrar error si el código no está completo', async () => {
@@ -344,7 +344,7 @@ describe('RecoveryController', () => {
             document.body.innerHTML = `
         <button id="resend-code">Reenviar código</button>
         <div id="codigo-error"></div>
-      `;
+        `;
         });
 
         it('debería reenviar el código correctamente', async () => {
@@ -381,7 +381,7 @@ describe('RecoveryController', () => {
         <input id="nueva-password" type="password">
         <input id="confirmar-password" type="password">
         <button id="toggle-password"><i class="fa-solid fa-eye"></i></button>
-      `;
+        `;
 
             controller.togglePasswordVisibility();
             expect(document.getElementById("nueva-password").type).toBe("text");
