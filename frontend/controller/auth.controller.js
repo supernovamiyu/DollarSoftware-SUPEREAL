@@ -89,13 +89,12 @@ async handleLogin(formData) {
             window.dispatchEvent(new CustomEvent("userLoggedIn", { detail: user }));
 
             // Redirigir al perfil
-            setTimeout(() => {
-                window.dispatchEvent(
-                    new CustomEvent("navigateTo", {
-                        detail: { path: "/perfil" },
-                    })
-                );
-            }, 1000);
+            window.dispatchEvent(
+                new CustomEvent("navigateTo", {
+                    detail: { path: "/perfil" },
+                })
+            );
+
         } else {
             this.view.showMessage(result.error, "error");
         }
@@ -130,14 +129,12 @@ async handleLogin(formData) {
                 this.view.showMessage("Registro exitoso. Redirigiendo...", "success")
                 this.view.updateUserInterface(result.user)
 
-                // Redirigir al perfil después de 1.5 segundos
-                setTimeout(() => {
-                    window.dispatchEvent(
-                        new CustomEvent("navigateTo", {
-                            detail: { path: "/perfil" },
-                        }),
-                    )
-                }, 1500)
+                window.dispatchEvent(
+                    new CustomEvent("navigateTo", {
+                        detail: { path: "/perfil" },
+                    }),
+                )
+
             } else {
                 this.view.showMessage(result.error, "error")
                 const errorElement = document.getElementById("registro-error")
@@ -160,13 +157,12 @@ async handleLogin(formData) {
         this.view.showMessage("Sesión cerrada correctamente", "success")
 
         // Redirigir a la página de auth después de cerrar sesión
-        setTimeout(() => {
-            window.dispatchEvent(
-                new CustomEvent("navigateTo", {
-                    detail: { path: "/auth" },
-                }),
-            )
-        }, 1000)
+        window.dispatchEvent(
+            new CustomEvent("navigateTo", {
+                detail: { path: "/auth" },
+            }),
+        )
+
     }
 }
 
