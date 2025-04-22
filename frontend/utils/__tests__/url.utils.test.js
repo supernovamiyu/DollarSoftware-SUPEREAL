@@ -1,4 +1,3 @@
-// url.utils.test.js
 import URLUtils from '../url.utils';
 
 describe('URLUtils', () => {
