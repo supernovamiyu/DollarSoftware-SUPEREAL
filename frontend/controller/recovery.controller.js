@@ -1,4 +1,3 @@
-// frontend/controller/recovery.controller.js
 
 /**
  * Controlador para la recuperación de contraseña
