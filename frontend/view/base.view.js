@@ -94,7 +94,10 @@ class BaseView {
          */
         updateURL(url, state = {}) {
             try {
-                if (typeof url !== 'string') return;
+                if (typeof url !== 'string') {
+                    console.log('Error no crítico al actualizar URL: URL inválida')
+                    return;
+                }
                 
                 const normalizedUrl = url.startsWith('/') ? url : `/${url}`;
                 
