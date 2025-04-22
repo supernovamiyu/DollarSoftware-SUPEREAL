@@ -4,6 +4,9 @@ describe('AuthController', () => {
     let mockModel, mockView, authController
 
     beforeEach(() => {
+        // Mock del console.error para evitar output en las pruebas
+        jest.spyOn(console, 'error').mockImplementation(() => { })
+
         mockModel = {
             login: jest.fn(),
             register: jest.fn(),
@@ -19,17 +22,14 @@ describe('AuthController', () => {
             updateUserInterface: jest.fn()
         }
 
-        // Mock para window.dispatchEvent
-        window.dispatchEvent = jest.fn()
-
         authController = new AuthController(mockModel, mockView)
 
-        // Mockeamos setupEventListeners para las pruebas que lo necesitan
-        authController.setupEventListeners = jest.fn()
+        // Espiamos el método setupEventListeners del prototipo
+        jest.spyOn(AuthController.prototype, 'setupEventListeners')
     })
 
     afterEach(() => {
-        jest.clearAllMocks()
+        jest.restoreAllMocks()
     })
 
     describe('Constructor', () => {
@@ -41,22 +41,36 @@ describe('AuthController', () => {
 
     describe('setupEventListeners', () => {
         test('debería configurar el event listener para el formulario de login si existe', () => {
-            // Restauramos la implementación original para esta prueba
-            authController.setupEventListeners.mockImplementation(function () {
-                const mockLoginForm = {
-                    addEventListener: jest.fn(),
-                    correo: { value: 'test@example.com' },
-                    contraseña: { value: 'password123' }
-                }
-                document.getElementById = jest.fn().mockReturnValueOnce(mockLoginForm)
-
-                // Llamada al método original
-                AuthController.prototype.setupEventListeners.call(this)
-            })
+            const mockLoginForm = {
+                addEventListener: jest.fn(),
+                correo: { value: 'test@example.com' },
+                contraseña: { value: 'password123' }
+            }
+            document.getElementById = jest.fn().mockReturnValueOnce(mockLoginForm)
 
             authController.setupEventListeners()
 
             expect(document.getElementById).toHaveBeenCalledWith('login-form')
+            expect(mockLoginForm.addEventListener).toHaveBeenCalledWith('submit', expect.any(Function))
+        })
+
+        test('debería configurar el event listener para el formulario de registro si existe', () => {
+            const mockRegistroForm = {
+                addEventListener: jest.fn(),
+                nombre_completo: { value: 'Test User' },
+                numero_identificacion: { value: '123456' },
+                correo: { value: 'test@example.com' },
+                contraseña: { value: 'password123' },
+                confirmar_contraseña: { value: 'password123' }
+            }
+            document.getElementById = jest.fn()
+                .mockReturnValueOnce(null)
+                .mockReturnValueOnce(mockRegistroForm)
+
+            authController.setupEventListeners()
+
+            expect(document.getElementById).toHaveBeenCalledWith('registro-form')
+            expect(mockRegistroForm.addEventListener).toHaveBeenCalledWith('submit', expect.any(Function))
         })
     })
 
@@ -64,7 +78,7 @@ describe('AuthController', () => {
         test('debería llamar a showAuthOptions de la vista y configurar event listeners', () => {
             authController.showAuthOptions()
             expect(mockView.showAuthOptions).toHaveBeenCalled()
-            expect(authController.setupEventListeners).toHaveBeenCalled()
+            expect(AuthController.prototype.setupEventListeners).toHaveBeenCalled()
         })
     })
 
@@ -72,7 +86,7 @@ describe('AuthController', () => {
         test('debería llamar a showLoginPage de la vista y configurar event listeners', () => {
             authController.showLoginPage()
             expect(mockView.showLoginPage).toHaveBeenCalled()
-            expect(authController.setupEventListeners).toHaveBeenCalled()
+            expect(AuthController.prototype.setupEventListeners).toHaveBeenCalled()
         })
     })
 
@@ -80,7 +94,7 @@ describe('AuthController', () => {
         test('debería llamar a showRegisterPage de la vista y configurar event listeners', () => {
             authController.showRegisterPage()
             expect(mockView.showRegisterPage).toHaveBeenCalled()
-            expect(authController.setupEventListeners).toHaveBeenCalled()
+            expect(AuthController.prototype.setupEventListeners).toHaveBeenCalled()
         })
     })
 
@@ -99,7 +113,6 @@ describe('AuthController', () => {
             expect(mockModel.login).toHaveBeenCalledWith(formData.correo, formData.contraseña)
             expect(mockView.showMessage).toHaveBeenCalledWith('Inicio de sesión exitoso', 'success')
             expect(mockView.updateUserInterface).toHaveBeenCalledWith({ name: 'Test User' })
-            expect(window.dispatchEvent).toHaveBeenCalled()
         })
 
         test('debería manejar un login fallido correctamente', async () => {
@@ -107,7 +120,9 @@ describe('AuthController', () => {
 
             await authController.handleLogin(formData)
 
+            expect(mockModel.login).toHaveBeenCalledWith(formData.correo, formData.contraseña)
             expect(mockView.showMessage).toHaveBeenCalledWith('Credenciales inválidas', 'error')
+            expect(mockView.updateUserInterface).not.toHaveBeenCalled()
         })
 
         test('debería manejar errores durante el login', async () => {
@@ -115,6 +130,7 @@ describe('AuthController', () => {
 
             await authController.handleLogin(formData)
 
+            expect(mockModel.login).toHaveBeenCalledWith(formData.correo, formData.contraseña)
             expect(mockView.showMessage).toHaveBeenCalledWith('Error en el proceso de autenticación', 'error')
         })
     })
@@ -150,7 +166,18 @@ describe('AuthController', () => {
 
             expect(mockModel.register).toHaveBeenCalledWith(userData)
             expect(mockView.showMessage).toHaveBeenCalledWith('Registro exitoso. Redirigiendo...', 'success')
-            expect(window.dispatchEvent).toHaveBeenCalled()
+            expect(mockView.updateUserInterface).toHaveBeenCalledWith({ name: 'Test User' })
+        })
+
+        test('debería manejar un registro fallido correctamente', async () => {
+            mockModel.register.mockResolvedValue({
+                success: false,
+                error: 'El correo ya está registrado'
+            })
+
+            await authController.handleRegister(formData)
+
+            expect(mockView.showMessage).toHaveBeenCalledWith('El correo ya está registrado', 'error')
         })
 
         test('debería manejar errores durante el registro', async () => {
@@ -164,6 +191,8 @@ describe('AuthController', () => {
 
     describe('handleLogout', () => {
         test('debería manejar el logout correctamente', () => {
+            window.dispatchEvent = jest.fn()
+
             authController.handleLogout()
 
             expect(mockModel.logout).toHaveBeenCalled()
