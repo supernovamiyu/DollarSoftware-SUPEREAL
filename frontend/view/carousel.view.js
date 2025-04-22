@@ -123,43 +123,22 @@
 
     // Mostrar el slide correspondiente con transición
     showSlides(n) {
-        const slides = document.querySelectorAll(".carousel-slide")
-        const dots = document.querySelectorAll(".carousel-dot")
-
-        // Si no hay slides, salir
-        if (slides.length === 0) return
-
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dots = document.querySelectorAll(".carousel-dot");
+        
+        if (slides.length === 0) return;
+        
         // Validar el índice
-        if (n > slides.length) {
-        this.slideIndex = 1
-        }
-        if (n < 1) {
-        this.slideIndex = slides.length
-        }
-
-        // Ocultar todos los slides con transición
-        for (let i = 0; i < slides.length; i++) {
-        slides[i].classList.remove("active")
-        slides[i].classList.add("inactive")
-        }
-
-        // Actualizar los indicadores
-        if (dots.length > 0) {
-        for (let i = 0; i < dots.length; i++) {
-            dots[i].classList.remove("active")
-        }
-        dots[this.slideIndex - 1].classList.add("active")
-        }
-
-        // Mostrar el slide actual con transición
-        if (slides.length > 0 && this.slideIndex > 0 && this.slideIndex <= slides.length) {
-        setTimeout(() => {
-            slides[this.slideIndex - 1].classList.remove("inactive")
-            slides[this.slideIndex - 1].classList.add("active")
-        }, 50) // Pequeño retraso para que la transición sea visible
-        } else {
-        console.error("Índice de slide inválido o no hay slides disponibles.")
-        }
+        this.slideIndex = this.normalizeSlideIndex(n, slides.length);
+        
+        // Ocultar todos los slides
+        this.hideAllSlides(slides);
+        
+        // Actualizar indicadores
+        this.updateDots(dots);
+        
+        // Mostrar slide actual
+        this.showCurrentSlide(slides[this.slideIndex - 1]);
     }
 
     // Avanzar al siguiente slide automáticamente
@@ -200,7 +179,35 @@
         this.initialized = false // Reiniciar el estado
         this.tryInitCarousel()
     }
+
+    normalizeSlideIndex(n, slidesLength) {
+        if (n > slidesLength) return 1;
+        if (n < 1) return slidesLength;
+            return n;
+        }
+
+    hideAllSlides(slides) {
+        slides.forEach(slide => {
+            slide.classList.remove("active");
+            slide.classList.add("inactive");
+        });
     }
+
+    updateDots(dots) {
+        if (dots.length > 0) {
+            dots.forEach(dot => dot.classList.remove("active"));
+            dots[this.slideIndex - 1]?.classList.add("active");
+        }
+    }
+
+    showCurrentSlide(slide) {
+        if (!slide) return;
+        setTimeout(() => {
+            slide.classList.remove("inactive");
+            slide.classList.add("active");
+        }, this.transitionDelay);
+    }
+}
 
     export { CarouselView }
 
