@@ -1,4 +1,3 @@
-// __tests__/customer-support.view.test.js
 
 import CustomerSupportView from '../help.view.js';
 
