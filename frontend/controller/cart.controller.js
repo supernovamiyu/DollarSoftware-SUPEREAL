@@ -1,4 +1,3 @@
-const { jsPDF } = window.jspdf
 
 /**
  * Controlador para el carrito de compras (Versión mejorada)
@@ -407,6 +406,7 @@ class CartController {
     }
     // Generar facturas
     generateInvoicePDF(paymentResult, cartItems, total, deliveryDetails) {
+        const jsPDF = window.jspdf.jsPDF
         const now = new Date()
         const doc = new jsPDF()
 
@@ -566,6 +566,7 @@ class CartController {
     // Generar volantes de transacción fallida
 
     generateFailedTransactionPDF(paymentResult) {
+        const jsPDF = window.jspdf.jsPDF
         const now = new Date()
         const doc = new jsPDF()
 
