@@ -226,11 +226,11 @@ class RecoveryView extends BaseView {
      */
     getButtonIcon(buttonId) {
         const icons = {
-            "form-solicitar-codigo-btn": "paper-plane",
-            "form-nueva-password-btn": "check",
-            "form-verificar-codigo-btn": "check-double",
+            "form-solicitar-codigo-btn": "fa-paper-plane",  // Agregar fa-
+            "form-nueva-password-btn": "fa-check",          // Agregar fa-
+            "form-verificar-codigo-btn": "fa-check-double", // Agregar fa-
         }
-        return icons[buttonId] || "check"
+        return icons[buttonId] || "fa-check"
     }
 
     /**
