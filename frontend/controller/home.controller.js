@@ -26,9 +26,12 @@
          */
         setupCategoryButtons() {
         this.view.setupCategoryButtons((event) => {
-            const categoryId = event.target.closest("button").getAttribute("data-categoria")
-            if (categoryId) {
-            this.productController.showProductsByCategory(categoryId)
+            const button = event.target.closest('button');
+            if (button) {
+                const categoryId = event.target.closest("button").getAttribute("data-categoria")
+                if (categoryId) {
+                this.productController.showProductsByCategory(categoryId)
+                }
             }
         })
         }
