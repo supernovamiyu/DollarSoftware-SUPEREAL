@@ -209,11 +209,12 @@ class UserModel {
                 'CAN': 'cancelado'
             };
 
+            const { fecha_de_pedido, ...restoPedido } = pedido;
+
             return {
-                ...pedido,
+                ...restoPedido,
                 id_pedido: pedido.id_pedido || pedido.id,
                 fecha_pedido: pedido.fecha_de_pedido || pedido.fecha,
-                productos: productos,
                 total: pedido.total || productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0),
                 estado: estadoMap[pedido.fk_id_estado_envio] || pedido.fk_id_estado_envio || 'pendiente',
                 direccion_entrega: pedido.direccion || 'No especificada'
