@@ -2,10 +2,11 @@
 const databaseConnection = require('../config/database');
 const bcrypt = require('bcrypt');
 
-// Almacenamiento temporal de códigos (en producción, usar la base de datos)
-const verificationCodes = new Map();
-
 class RecoveryModel {
+    constructor() {
+        this.verificationCodes = new Map();
+    }
+
     /**
      * Verifica si existe un usuario con el correo proporcionado
      * @param {string} email - Correo electrónico a verificar
@@ -36,7 +37,7 @@ class RecoveryModel {
     async saveVerificationCode(email, code, expirationMinutes = 10) {
         try {
             // Guardar el código con tiempo de expiración
-            verificationCodes.set(email, {
+            this.verificationCodes.set(email, {
                 code,
                 expiresAt: Date.now() + expirationMinutes * 60 * 1000
             });
@@ -55,14 +56,14 @@ class RecoveryModel {
      */
     async verifyCode(email, code) {
         try {
-            const storedData = verificationCodes.get(email);
+            const storedData = this.verificationCodes.get(email);
 
             if (!storedData) {
                 return false;
             }
 
             if (Date.now() > storedData.expiresAt) {
-                verificationCodes.delete(email);
+                this.verificationCodes.delete(email);
                 return false;
             }
 
@@ -97,7 +98,7 @@ class RecoveryModel {
                         resolve(false);
                     } else {
                         // Eliminar el código de verificación
-                        verificationCodes.delete(email);
+                        this.verificationCodes.delete(email);
                         resolve(true);
                     }
                 });
@@ -115,7 +116,7 @@ class RecoveryModel {
      */
     async deleteVerificationCode(email) {
         try {
-            verificationCodes.delete(email);
+            this.verificationCodes.delete(email);
             return true;
         } catch (error) {
             console.error("Error al eliminar el código:", error);
