@@ -120,27 +120,29 @@ class CartModel {
                 error: "Operación en curso para este producto"
             };
         }
-
+    
         this.pendingOperations.set(productId, true);
-
+    
         try {
             while (this.lock) {
                 await new Promise(resolve => setTimeout(resolve, 50));
             }
             this.lock = true;
-
+    
             const productIndex = this.cartItems.findIndex(item => 
                 String(item.id_productos) === String(productId)
             );
-
+    
             if (productIndex === -1) {
                 throw new Error("Producto no encontrado en el carrito");
             }
-
+    
             if (quantity <= 0) {
-                return await this.removeFromCart(productId);
+                this.cartItems.splice(productIndex, 1);
+                this.saveCart();
+                return { success: true };
             }
-
+    
             this.cartItems[productIndex].cantidad = quantity;
             this.saveCart();
             return { success: true };
