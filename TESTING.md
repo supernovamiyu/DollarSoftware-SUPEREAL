@@ -2618,3 +2618,1364 @@ Ran all test suites matching /view\\__tests__\\recovery.view.test.js/i.
 
 
 
+###  Backend
+
+#### Casos de Prueba del Backend
+
+##### Controladores
+
+###### AuthController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/auth.controller.test.js           
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/auth.controller.test.js
+
+  console.log
+    Actualizando contraseña de texto plano a hash para usuario: test@test.com
+
+      at Object.log [as login] (src/controllers/auth.controller.js:43:25)
+
+  console.error
+    Error al verificar token: Error: Token inválido
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\auth.controller.test.js:269:23)
+        at C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-mock\build\index.js:397:39
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-mock\build\index.js:404:13)
+        at Object.mockConstructor [as verify] (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-mock\build\index.js:148:19)
+        at Object.verify [as verifyToken] (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\auth.controller.js:197:29)
+        at Object.verifyToken (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\auth.controller.test.js:272:28)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      203 |         next();
+      204 |     } catch (err) {
+    > 205 |         console.error('Error al verificar token:', err);
+          |                 ^
+      206 |         return res.status(401).json({ 
+      207 |             mensaje: 'No autorizado. Token inválido' 
+      208 |         });
+
+      at Object.error [as verifyToken] (src/controllers/auth.controller.js:205:17)
+      at Object.verifyToken (src/controllers/__tests__/auth.controller.test.js:272:28)
+
+ PASS  src/controllers/__tests__/auth.controller.test.js
+  Auth Controller                                                                                                                                                                      
+    login
+      √ debería retornar error 400 si faltan credenciales (4 ms)                                                                                                                       
+      √ debería retornar error 401 si el usuario no existe (1 ms)                                                                                                                      
+      √ debería retornar error 401 si la contraseña no coincide (texto plano) (1 ms)                                                                                                   
+      √ debería retornar error 401 si la contraseña no coincide (hash) (1 ms)                                                                                                          
+      √ debería generar token y retornar usuario si las credenciales son correctas (texto plano) (38 ms)                                                                               
+      √ debería generar token y retornar usuario si las credenciales son correctas (hash) (1 ms)                                                                                       
+    register                                                                                                                                                                           
+      √ debería retornar error 400 si faltan campos obligatorios (1 ms)                                                                                                                
+      √ debería retornar error 400 si el correo ya existe (2 ms)                                                                                                                       
+      √ debería crear usuario y retornar token si los datos son válidos (1 ms)                                                                                                         
+    getProfile                                                                                                                                                                         
+      √ debería retornar error 404 si el usuario no existe (1 ms)                                                                                                                      
+      √ debería retornar los datos del usuario si existe (1 ms)                                                                                                                        
+    verifyToken                                                                                                                                                                        
+      √ debería retornar error 401 si no hay token                                                                                                                                     
+      √ debería retornar error 401 si el token es inválido (37 ms)                                                                                                                     
+      √ debería llamar a next() si el token es válido                                                                                                                                  
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       14 passed, 14 total                                                                                                                                                       
+Snapshots:   0 total
+Time:        2.625 s
+Ran all test suites matching /src\\controllers\\__tests__\\auth.controller.test.js/i.
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Login**               | `login()`               | Faltan credenciales                                                                 | Error 400 - Campos obligatorios                                                   |
+|                         |                         | Usuario no existe                                                                   | Error 401 - Credenciales incorrectas                                              |
+|                         |                         | Contraseña incorrecta (texto plano)                                                 | Error 401 - Credenciales incorrectas                                              |
+|                         |                         | Contraseña incorrecta (hash)                                                       | Error 401 - Credenciales incorrectas                                              |
+|                         |                         | Credenciales correctas (texto plano)                                               | Genera token, actualiza hash, retorna usuario                                     |
+|                         |                         | Credenciales correctas (hash)                                                      | Genera token, retorna usuario                                                     |
+| **Registro**            | `register()`            | Faltan campos obligatorios                                                         | Error 400 - Campos obligatorios                                                   |
+|                         |                         | Correo ya existe                                                                   | Error 400 - Correo ya registrado                                                  |
+|                         |                         | Datos válidos                                                                      | Crea usuario (con hash), genera token, retorna 201                                |
+| **Perfil**              | `getProfile()`          | Usuario no existe                                                                  | Error 404 - Usuario no encontrado                                                 |
+|                         |                         | Usuario existe                                                                     | Retorna datos de usuario (sin contraseña)                                         |
+| **Verificación Token**  | `verifyToken()`         | No hay token                                                                       | Error 401 - Token no proporcionado                                                |
+|                         |                         | Token inválido                                                                     | Error 401 - Token inválido                                                        |
+|                         |                         | Token válido                                                                       | Asigna datos de usuario al request y llama a next()                               |
+
+###### CategoryController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/category.controller.test.js       
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/category.controller.test.js
+
+  console.error
+    Error en readCategory: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\category.controller.test.js:63:58)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      24 |         }
+      25 |     } catch (err) {
+    > 26 |         console.error('Error en readCategory:', err);
+         |                 ^
+      27 |         res.status(500).json({ message: 'Error interno del servidor' });
+      28 |     }
+      29 | };
+
+      at Object.error [as readCategory] (src/controllers/category.controller.js:26:17)
+      at Object.<anonymous> (src/controllers/__tests__/category.controller.test.js:65:13)
+
+  console.error                                                                                                                                                                        
+    Error en createCategory: Error: DB Error                                                                                                                                           
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\category.controller.test.js:100:60)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      45 |         res.json({ message: 'Categoría creada con éxito' });
+      46 |     } catch (err) {
+    > 47 |         console.error('Error en createCategory:', err);
+         |                 ^
+      48 |         res.status(500).json({ message: 'Error interno del servidor' });
+      49 |     }
+      50 | };
+
+      at Object.error [as createCategory] (src/controllers/category.controller.js:47:17)
+      at Object.<anonymous> (src/controllers/__tests__/category.controller.test.js:102:13)
+
+  console.error
+    Error en updateCategory: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\category.controller.test.js:140:60)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      67 |         res.json({ message: 'Categoría actualizada con éxito' });
+      68 |     } catch (err) {
+    > 69 |         console.error('Error en updateCategory:', err);
+         |                 ^
+      70 |         res.status(500).json({ message: 'Error interno del servidor' });
+      71 |     }
+      72 | };
+
+      at Object.error [as updateCategory] (src/controllers/category.controller.js:69:17)
+      at Object.<anonymous> (src/controllers/__tests__/category.controller.test.js:142:13)
+
+  console.error                                                                                                                                                                        
+    Error en deleteCategory: Error: DB Error                                                                                                                                           
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\category.controller.test.js:177:60)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      88 |         res.json({ message: 'Categoría eliminada con éxito' });
+      89 |     } catch (err) {
+    > 90 |         console.error('Error en deleteCategory:', err);
+         |                 ^
+      91 |         res.status(500).json({ message: 'Error interno del servidor' });
+      92 |     }
+      93 | };
+
+      at Object.error [as deleteCategory] (src/controllers/category.controller.js:90:17)
+      at Object.<anonymous> (src/controllers/__tests__/category.controller.test.js:179:13)
+
+ PASS  src/controllers/__tests__/category.controller.test.js
+  Category Controller                                                                                                                                                                  
+    readCategory                                                                                                                                                                       
+      √ debe retornar un error HTTP tipo 400 si hace falta el id de la categoria (4 ms)                                                                                                
+      √ debe retornar un error 404 si la categoría no se encuentra (1 ms)                                                                                                              
+      √ debe retornar la categoría si fue encontrada (1 ms)                                                                                                                            
+      √ debe manejar los errores en el servidor (56 ms)                                                                                                                                
+    createCategory                                                                                                                                                                     
+      √ debe retornar error 400 si alguno de los campos falta por diligenciar (1 ms)                                                                                                   
+      √ debe crear una categorí y retornar success                                                                                                                                     
+      √ debe manejar los errores en el servidor (4 ms)                                                                                                                                 
+    updateCategory                                                                                                                                                                     
+      √ sdebe retornar error 400 si alguno de los campos falta por diligenciar (1 ms)                                                                                                  
+      √ debe actualizar la categoría y retornar success (4 ms)                                                                                                                         
+      √ debe manejar los errores internos del servidor (6 ms)                                                                                                                          
+    deleteCategory                                                                                                                                                                     
+      √ debe retornar error 400 si el id de la categoría falta (1 ms)                                                                                                                  
+      √ debe borrar la categoría y retornar success                                                                                                                                    
+      √ debe manejar los errores internos del servidor (3 ms)                                                                                                                          
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       13 passed, 13 total                                                                                                                                                       
+Snapshots:   0 total
+Time:        0.617 s, estimated 2 s
+Ran all test suites matching /src\\controllers\\__tests__\\category.controller.test.js/i.
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**             | `readCategory()`        | Falta ID de categoría                                                               | Retorna error 400 (ID obligatorio)                                                |
+|                         |                         | Categoría no encontrada                                                             | Retorna error 404                                                                 |
+|                         |                         | Categoría encontrada                                                                | Retorna objeto de categoría                                                       |
+|                         |                         | Error de servidor                                                                   | Retorna error 500                                                                 |
+| **Creación**            | `createCategory()`      | Campos faltantes                                                                    | Retorna error 400 (campos obligatorios)                                           |
+|                         |                         | Creación exitosa                                                                    | Retorna mensaje de éxito                                                          |
+|                         |                         | Error de servidor                                                                   | Retorna error 500                                                                 |
+| **Actualización**       | `updateCategory()`      | Campos faltantes                                                                    | Retorna error 400 (campos obligatorios)                                           |
+|                         |                         | Actualización exitosa                                                               | Retorna mensaje de éxito                                                          |
+|                         |                         | Error de servidor                                                                   | Retorna error 500                                                                 |
+| **Eliminación**         | `deleteCategory()`      | Falta ID de categoría                                                               | Retorna error 400 (ID obligatorio)                                                |
+|                         |                         | Eliminación exitosa                                                                 | Retorna mensaje de éxito                                                          |
+|                         |                         | Error de servidor                                                                   | Retorna error 500                                                                 |
+
+
+###### CityController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/city.controller.test.js           
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/city.controller.test.js
+
+  console.error
+    Error en readCity: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\city.controller.test.js:66:50)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      24 |         }
+      25 |     } catch (err) {
+    > 26 |         console.error('Error en readCity:', err);
+         |                 ^
+      27 |         res.status(500).json({ message: 'Error interno del servidor' });
+      28 |     }
+      29 | };
+
+      at Object.error [as readCity] (src/controllers/city.controller.js:26:17)
+      at Object.<anonymous> (src/controllers/__tests__/city.controller.test.js:68:13)
+
+  console.error                                                                                                                                                                        
+    Error en createCity: Error: DB Error                                                                                                                                               
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\city.controller.test.js:102:52)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      45 |         res.json({ message: 'Ciudad creada con éxito' });
+      46 |     } catch (err) {
+    > 47 |         console.error('Error en createCity:', err);
+         |                 ^
+      48 |         res.status(500).json({ message: 'Error interno del servidor' });
+      49 |     }
+      50 | };
+
+      at Object.error [as createCity] (src/controllers/city.controller.js:47:17)
+      at Object.<anonymous> (src/controllers/__tests__/city.controller.test.js:104:13)
+
+  console.error                                                                                                                                                                        
+    Error en updateCity: Error: DB Error                                                                                                                                               
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\city.controller.test.js:140:52)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      67 |         res.json({ message: 'Ciudad actualizada con éxito' });
+      68 |     } catch (err) {
+    > 69 |         console.error('Error en updateCity:', err);
+         |                 ^
+      70 |         res.status(500).json({ message: 'Error interno del servidor' });
+      71 |     }
+      72 | };
+
+      at Object.error [as updateCity] (src/controllers/city.controller.js:69:17)
+      at Object.<anonymous> (src/controllers/__tests__/city.controller.test.js:142:13)
+
+  console.error                                                                                                                                                                        
+    Error en deleteCity: Error: DB Error                                                                                                                                               
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\city.controller.test.js:176:52)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      88 |         res.json({ message: 'Ciudad eliminada con éxito' });
+      89 |     } catch (err) {
+    > 90 |         console.error('Error en deleteCity:', err);
+         |                 ^
+      91 |         res.status(500).json({ message: 'Error interno del servidor' });
+      92 |     }
+      93 | };
+
+      at Object.error [as deleteCity] (src/controllers/city.controller.js:90:17)
+      at Object.<anonymous> (src/controllers/__tests__/city.controller.test.js:178:13)
+
+ PASS  src/controllers/__tests__/city.controller.test.js
+  City Controller                                                                                                                                                                      
+    readCity                                                                                                                                                                           
+      √ debe retornar error 400 si el id de la ciudad falta (4 ms)                                                                                                                     
+      √ debe retornar error 404 si la ciudad no existe (1 ms)                                                                                                                          
+      √ debe retornar la ciudad si es encontrada (1 ms)                                                                                                                                
+      √ debe manejar los errores internos del servidor (48 ms)                                                                                                                         
+    createCity                                                                                                                                                                         
+      √ debe retornar error 400 si algun campo falta (1 ms)                                                                                                                            
+      √ debe crear una ciudad y mostrar un mensaje de éxito (1 ms)                                                                                                                     
+      √ debe manejar los errores internos del servidor (6 ms)                                                                                                                          
+    updateCity                                                                                                                                                                         
+      √ debe retornar error 400 si alguno de los campos falta (1 ms)                                                                                                                   
+      √ debe actualizar la ciudad y retornar un mensaje de éxito (1 ms)                                                                                                                
+      √ debe manejar los errores internos del servidor (4 ms)                                                                                                                          
+    deleteCity                                                                                                                                                                         
+      √ debe retornar error 400 si el id de la ciudad falta (1 ms)                                                                                                                     
+      √ debe borrar una ciudad y retornar un mensaje de éxito (1 ms)                                                                                                                   
+      √ debe manejar los errores internos del servidor (5 ms)                                                                                                                          
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       13 passed, 13 total                                                                                                                                                       
+Snapshots:   0 total
+Time:        0.653 s, estimated 2 s
+Ran all test suites matching /src\\controllers\\__tests__\\city.controller.test.js/i.
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**             | `readCity()`            | ID de ciudad faltante                                                               | Retorna error 400 (ID obligatorio)                                                |
+|                         |                         | Ciudad no encontrada                                                                | Retorna error 404                                                                 |
+|                         |                         | Ciudad encontrada                                                                   | Retorna objeto ciudad (ej. Madrid)                                                |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+| **Creación**            | `createCity()`          | Campos faltantes                                                                    | Retorna error 400 (campos obligatorios)                                           |
+|                         |                         | Datos válidos (ej. Barcelona)                                                       | Crea ciudad y retorna mensaje de éxito                                            |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+| **Actualización**       | `updateCity()`          | Campos faltantes                                                                    | Retorna error 400 (campos obligatorios)                                           |
+|                         |                         | Datos válidos (ej. Valencia)                                                        | Actualiza ciudad y retorna mensaje de éxito                                       |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+| **Eliminación**         | `deleteCity()`          | ID de ciudad faltante                                                               | Retorna error 400 (ID obligatorio)                                                |
+|                         |                         | ID válido (ej. 1)                                                                   | Elimina ciudad y retorna mensaje de éxito                                         |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+
+###### DeliveryStateController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/delivery-state.model.test.js 
+
+> backend@1.0.0 test
+> jest src/models/__tests__/delivery-state.model.test.js
+
+ PASS  src/models/__tests__/delivery-state.model.test.js
+  Pruebas para el CRUD de estados de pedido
+    readDeliveryState                                                                                                                                                                  
+      √ debe llamar a la consulta correcta para leer un estado de pedido (4 ms)                                                                                                        
+      √ debe manejar errores de la base de datos (20 ms)                                                                                                                               
+    createDeliveryState                                                                                                                                                                
+      √ debe crear un nuevo estado de pedido correctamente (2 ms)                                                                                                                      
+      √ debe manejar errores al crear un estado de pedido                                                                                                                              
+    updateDeliveryState                                                                                                                                                                
+      √ debe actualizar un estado de pedido correctamente (1 ms)                                                                                                                       
+      √ debe manejar errores al actualizar un estado de pedido (2 ms)                                                                                                                  
+    deleteDeliveryState                                                                                                                                                                
+      √ debe eliminar un estado de pedido correctamente (1 ms)                                                                                                                         
+      √ debe manejar errores al eliminar un estado de pedido (1 ms)                                                                                                                    
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       8 passed, 8 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.57 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\delivery-state.model.test.js/i.
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**             | `readDeliveryState()`   | No se proporciona ID                                                                | Devuelve 400 (ID obligatorio)                                                    |
+|                         |                         | Estado no existe                                                                    | Devuelve 404 (No encontrado)                                                     |
+|                         |                         | Estado existe                                                                       | Devuelve el estado (200 OK)                                                      |
+|                         |                         | Error en el modelo                                                                  | Devuelve 500 (Error servidor)                                                    |
+| **Creación**            | `createDeliveryState()` | Faltan campos obligatorios                                                         | Devuelve 400 (Campos obligatorios)                                               |
+|                         |                         | Datos válidos                                                                       | Crea estado y devuelve 200 (Éxito)                                               |
+|                         |                         | Error en el modelo                                                                  | Devuelve 500 (Error servidor)                                                    |
+| **Actualización**       | `updateDeliveryState()` | Faltan campos obligatorios                                                         | Devuelve 400 (Campos obligatorios)                                               |
+|                         |                         | Datos válidos                                                                       | Actualiza estado y devuelve 200 (Éxito)                                          |
+|                         |                         | Error en el modelo                                                                  | Devuelve 500 (Error servidor)                                                    |
+| **Eliminación**         | `deleteDeliveryState()` | No se proporciona ID                                                                | Devuelve 400 (ID obligatorio)                                                    |
+|                         |                         | ID válido                                                                           | Elimina estado y devuelve 200 (Éxito)                                            |
+|                         |                         | Error en el modelo                                                                  | Devuelve 500 (Error servidor)                                                    |
+
+###### DeliveryController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/delivery.controller.test.js       
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/delivery.controller.test.js
+
+  console.error
+    Error en readIdDelivery: Error: Error de DB
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\delivery.controller.test.js:66:60)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      24 |         }
+      25 |     } catch (err) {
+    > 26 |         console.error('Error en readIdDelivery:', err);
+         |                 ^
+      27 |         res.status(500).json({ message: 'Error interno del servidor' });
+      28 |     }
+      29 | };
+
+      at Object.error [as readIdDelivery] (src/controllers/delivery.controller.js:26:17)
+      at Object.<anonymous> (src/controllers/__tests__/delivery.controller.test.js:68:13)
+
+  console.error                                                                                                                                                                        
+    Error en readUserDelivery: Error: Error de DB                                                                                                                                      
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\delivery.controller.test.js:109:62)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      51 |
+      52 |     } catch (err) {
+    > 53 |         console.error('Error en readUserDelivery:', err);
+         |                 ^
+      54 |         res.status(500).json({ message: 'Error interno del servidor' });
+      55 |     }
+      56 | };
+
+      at Object.error [as readUserDelivery] (src/controllers/delivery.controller.js:53:17)
+      at Object.<anonymous> (src/controllers/__tests__/delivery.controller.test.js:111:13)
+
+  console.error
+    Error en createUserDelivery: Error: Error de DB
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\delivery.controller.test.js:156:64)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      72 |         res.json({ message: 'Pedido creado con éxito' });
+      73 |     } catch (err) {
+    > 74 |         console.error('Error en createUserDelivery:', err);
+         |                 ^
+      75 |         res.status(500).json({ message: 'Error interno del servidor' });
+      76 |     }
+      77 | };
+
+      at Object.error [as createUserDelivery] (src/controllers/delivery.controller.js:74:17)
+      at Object.<anonymous> (src/controllers/__tests__/delivery.controller.test.js:158:13)
+
+  console.error
+    Error en updateUserDelivery: Error: Error de DB
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\delivery.controller.test.js:205:64)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      94 |         res.json({ message: 'Pedido actualizado con éxito' });
+      95 |     } catch (err) {
+    > 96 |         console.error('Error en updateUserDelivery:', err);
+         |                 ^
+      97 |         res.status(500).json({ message: 'Error interno del servidor' });
+      98 |     }
+      99 | };
+
+      at Object.error [as updateUserDelivery] (src/controllers/delivery.controller.js:96:17)
+      at Object.<anonymous> (src/controllers/__tests__/delivery.controller.test.js:207:13)
+
+  console.error                                                                                                                                                                        
+    Error en deleteUserDelivery: Error: Error de DB                                                                                                                                    
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\delivery.controller.test.js:237:64)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      115 |         res.json({ message: 'Pedido eliminado con éxito' });
+      116 |     } catch (err) {
+    > 117 |         console.error('Error en deleteUserDelivery:', err);
+          |                 ^
+      118 |         res.status(500).json({ message: 'Error interno del servidor' });
+      119 |     }
+      120 | };
+
+      at Object.error [as deleteUserDelivery] (src/controllers/delivery.controller.js:117:17)
+      at Object.<anonymous> (src/controllers/__tests__/delivery.controller.test.js:239:13)
+
+ PASS  src/controllers/__tests__/delivery.controller.test.js
+  Delivery Controller
+    readIdDelivery                                                                                                                                                                     
+      √ debe retornar 400 si no se proporciona id_pedido (5 ms)                                                                                                                        
+      √ debe retornar 404 si el pedido no existe (3 ms)                                                                                                                                
+      √ debe retornar el pedido si existe (1 ms)                                                                                                                                       
+      √ debe manejar errores internos (70 ms)                                                                                                                                          
+    readUserDelivery                                                                                                                                                                   
+      √ debe retornar 400 si no se proporciona fk_id_usuario (2 ms)                                                                                                                    
+      √ debe retornar 404 si no hay pedidos para el usuario (1 ms)                                                                                                                     
+      √ debe retornar los pedidos del usuario si existen (2 ms)                                                                                                                        
+      √ debe manejar errores internos (11 ms)                                                                                                                                          
+    createUserDelivery                                                                                                                                                                 
+      √ debe retornar 400 si faltan campos obligatorios (2 ms)                                                                                                                         
+      √ debe crear el pedido si todos los campos son válidos (1 ms)                                                                                                                    
+      √ debe manejar errores internos (5 ms)                                                                                                                                           
+    updateUserDelivery                                                                                                                                                                 
+      √ debe retornar 400 si faltan campos obligatorios (1 ms)                                                                                                                         
+      √ debe actualizar el pedido si todos los campos son válidos (1 ms)                                                                                                               
+      √ debe manejar errores internos (6 ms)                                                                                                                                           
+    deleteUserDelivery                                                                                                                                                                 
+      √ debe retornar 400 si no se proporciona id_pedido (1 ms)                                                                                                                        
+      √ debe eliminar el pedido si el ID es válido (1 ms)                                                                                                                              
+      √ debe manejar errores internos (4 ms)                                                                                                                                           
+
+Test Suites: 1 passed, 1 total
+Tests:       17 passed, 17 total
+Snapshots:   0 total
+Time:        0.674 s, estimated 2 s
+Ran all test suites matching /src\\controllers\\__tests__\\delivery.controller.test.js/i.
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**             | `readIdDelivery()`      | No se proporciona ID de pedido                                                      | Retorna error 400 (ID obligatorio)                                                |
+|                         |                         | Pedido no existe                                                                    | Retorna error 404                                                                 |
+|                         |                         | Pedido existe                                                                       | Retorna datos del pedido                                                          |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+|                         | `readUserDelivery()`    | No se proporciona ID de usuario                                                     | Retorna error 400 (ID obligatorio)                                                |
+|                         |                         | Usuario no tiene pedidos                                                            | Retorna error 404                                                                 |
+|                         |                         | Usuario tiene pedidos                                                               | Retorna lista de pedidos                                                          |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+| **Creación**            | `createUserDelivery()`  | Faltan campos obligatorios                                                          | Retorna error 400 (campos requeridos)                                             |
+|                         |                         | Todos los campos válidos                                                            | Crea pedido y retorna éxito                                                       |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+| **Actualización**       | `updateUserDelivery()`  | Faltan campos obligatorios                                                          | Retorna error 400 (campos requeridos)                                             |
+|                         |                         | Todos los campos válidos                                                            | Actualiza pedido y retorna éxito                                                  |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+| **Eliminación**         | `deleteUserDelivery()`  | No se proporciona ID de pedido                                                      | Retorna error 400 (ID obligatorio)                                                |
+|                         |                         | ID de pedido válido                                                                 | Elimina pedido y retorna éxito                                                    |
+|                         |                         | Error de base de datos                                                              | Retorna error 500                                                                 |
+
+###### DetailDeliveryController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/detail-delivery.controller.test.js
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/detail-delivery.controller.test.js
+
+  console.error
+    Error en readDeliveryDetails: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\detail-delivery.controller.test.js:66:71)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      24 |         }
+      25 |     } catch (err) {
+    > 26 |         console.error('Error en readDeliveryDetails:', err);
+         |                 ^
+      27 |         res.status(500).json({ message: 'Error interno del servidor' });
+      28 |     }
+      29 | };
+
+      at Object.error [as readDeliveryDetails] (src/controllers/detail-delivery.controller.js:26:17)
+      at Object.<anonymous> (src/controllers/__tests__/detail-delivery.controller.test.js:68:13)
+
+  console.error                                                                                                                                                                        
+    Error en createDeliveryDetails: Error: DB Error                                                                                                                                    
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\detail-delivery.controller.test.js:111:73)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      45 |         res.json({ message: 'Detalle del pedido asignado con éxito' });
+      46 |     } catch (err) {
+    > 47 |         console.error('Error en createDeliveryDetails:', err);
+         |                 ^
+      48 |         res.status(500).json({ message: 'Error interno del servidor' });
+      49 |     }
+      50 | };
+
+      at Object.error [as createDeliveryDetails] (src/controllers/detail-delivery.controller.js:47:17)
+      at Object.<anonymous> (src/controllers/__tests__/detail-delivery.controller.test.js:113:13)
+
+  console.error
+    Error en updateDeliveryDetails: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\detail-delivery.controller.test.js:159:73)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      67 |         res.json({ message: 'Detalle del pedido actualizado con éxito' });
+      68 |     } catch (err) {
+    > 69 |         console.error('Error en updateDeliveryDetails:', err);
+         |                 ^
+      70 |         res.status(500).json({ message: 'Error interno del servidor' });
+      71 |     }
+      72 | };
+
+      at Object.error [as updateDeliveryDetails] (src/controllers/detail-delivery.controller.js:69:17)
+      at Object.<anonymous> (src/controllers/__tests__/detail-delivery.controller.test.js:161:13)
+
+  console.error                                                                                                                                                                        
+    Error en deleteDeliveryDetails: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\detail-delivery.controller.test.js:194:73)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      88 |         res.json({ message: 'Detalle del pedido eliminado con éxito' });
+      89 |     } catch (err) {
+    > 90 |         console.error('Error en deleteDeliveryDetails:', err);
+         |                 ^
+      91 |         res.status(500).json({ message: 'Error interno del servidor' });
+      92 |     }
+      93 | };
+
+      at Object.error [as deleteDeliveryDetails] (src/controllers/detail-delivery.controller.js:90:17)
+      at Object.<anonymous> (src/controllers/__tests__/detail-delivery.controller.test.js:196:13)
+
+ PASS  src/controllers/__tests__/detail-delivery.controller.test.js
+  Detail Delivery Controller                                                                                                                                                           
+    readDeliveryDetails                                                                                                                                                                
+      √ debe retornar error 400 si fk_id_pedido falta (3 ms)                                                                                                                           
+      √ debe retornar error 404 si el detalle del pedido no se encuentra (1 ms)                                                                                                        
+      √ debe retornar el detalle del pedido si se encuentra (1 ms)                                                                                                                     
+      √ debe retornar error interno en el servidor (51 ms)                                                                                                                             
+    createDeliveryDetails                                                                                                                                                              
+      √ debe retornar error 400 si un campo falta (1 ms)                                                                                                                               
+      √ debe crear el detalle del pedido y mostrar un mensaje de éxito (1 ms)                                                                                                          
+      √ debe retornar error interno en el servidor (5 ms)                                                                                                                              
+    updateDeliveryDetails                                                                                                                                                              
+      √ debe retornar error 400 si algún campo hace falta (4 ms)                                                                                                                       
+      √ debe actualizar el detalle del pedido y mostrar un mensaje de éxito (1 ms)                                                                                                     
+      √ debe retornar error interno en el servidor (4 ms)                                                                                                                              
+    deleteDeliveryDetails                                                                                                                                                              
+      √ retornar error 400 si fk_id_pedido falta (1 ms)                                                                                                                                
+      √ debe borrar el detalle del pedido y mostrar mensaje de éxito (1 ms)                                                                                                            
+      √ debe retornar error interno en el servidor (4 ms)                                                                                                                              
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       13 passed, 13 total                                                                                                                                                       
+Snapshots:   0 total
+Time:        0.6 s, estimated 2 s
+Ran all test suites matching /src\\controllers\\__tests__\\detail-delivery.controller.test.js/i.
+
+| Categoría               | Método Probado               | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**            | `readDeliveryDetails()`      | Falta `fk_id_pedido`                                                                | Error 400: ID obligatorio                                                        |
+|                         |                              | Detalle no encontrado                                                               | Error 404: Mensaje descriptivo                                                   |
+|                         |                              | Detalle encontrado                                                                  | Retorna datos del detalle                                                        |
+|                         |                              | Error de base de datos                                                              | Error 500: Error interno                                                         |
+| **Creación**           | `createDeliveryDetails()`    | Campos incompletos                                                                  | Error 400: Todos los campos son obligatorios                                     |
+|                         |                              | Creación exitosa                                                                    | Mensaje de éxito                                                                 |
+|                         |                              | Error de base de datos                                                              | Error 500: Error interno                                                         |
+| **Actualización**      | `updateDeliveryDetails()`    | Campos incompletos                                                                  | Error 400: Todos los campos son obligatorios                                     |
+|                         |                              | Actualización exitosa                                                               | Mensaje de éxito                                                                 |
+|                         |                              | Error de base de datos                                                              | Error 500: Error interno                                                         |
+| **Eliminación**        | `deleteDeliveryDetails()`    | Falta `fk_id_pedido`                                                                | Error 400: ID obligatorio                                                        |
+|                         |                              | Eliminación exitosa                                                                 | Mensaje de éxito                                                                 |
+|                         |                              | Error de base de datos                                                              | Error 500: Error interno                                                         |
+
+###### OpinionsController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/opinions.controller.test.js      
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/opinions.controller.test.js
+
+ PASS  src/controllers/__tests__/opinions.controller.test.js
+  Opinions Controller
+    readOpinionProduct                                                                                                                                                                 
+      √ debería devolver 400 si falta el ID del producto (4 ms)                                                                                                                        
+      √ debería devolver la opinión si se encuentra (1 ms)
+    createOpinionProduct                                                                                                                                                               
+      √ debería crear la opinión correctamente (1 ms)                                                                                                                                  
+    updateOpinionProduct                                                                                                                                                               
+      √ debería actualizar la opinión correctamente                                                                                                                                    
+    deleteOpinionProduct                                                                                                                                                               
+      √ debería eliminar la opinión correctamente (1 ms)                                                                                                                               
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       5 passed, 5 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.532 s, estimated 1 s
+Ran all test suites matching /src\\controllers\\__tests__\\opinions.controller.test.js/i.
+
+
+| Categoría               | Método Probado               | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**             | `readOpinionProduct()`       | Falta ID de producto                                                                | Devuelve error 400 (ID obligatorio)                                               |
+|                         |                              | ID de producto válido                                                               | Devuelve la opinión encontrada                                                    |
+| **Creación**            | `createOpinionProduct()`     | Datos completos (anónimo, opinión, ID producto)                                    | Crea la opinión y devuelve mensaje de éxito                                       |
+| **Actualización**       | `updateOpinionProduct()`     | Datos completos (ID opinión, anónimo, nueva opinión, ID producto)                  | Actualiza la opinión y devuelve mensaje de éxito                                  |
+| **Eliminación**         | `deleteOpinionProduct()`     | ID de opinión válido                                                                | Elimina la opinión y devuelve mensaje de éxito                                    |
+
+###### ProductController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/product.controller.test.js                                                      
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/product.controller.test.js
+
+  console.error
+    Error en getAllProducts: Error: Error de base de datos
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\product.controller.test.js:60:31)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      10 |         res.json(result);
+      11 |     } catch (err) {
+    > 12 |         console.error('Error en getAllProducts:', err);
+         |                 ^
+      13 |         res.status(500).json({ message: 'Error interno del servidor' });
+      14 |     }
+      15 | };
+
+      at error (src/controllers/product.controller.js:12:17)
+      at Object.<anonymous> (src/controllers/__tests__/product.controller.test.js:63:13)
+
+  console.error
+    Error: Error: Error de prueba
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\product.controller.test.js:272:31)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      140 | // Función para manejar errores
+      141 | const errorHandler = (err, req, res, next) => {
+    > 142 |     console.error('Error:', err);
+          |             ^
+      143 |     res.status(500).json({ message: 'Error interno del servidor' });
+      144 | };
+      145 |
+
+      at error (src/controllers/product.controller.js:142:13)
+      at Object.errorHandler (src/controllers/__tests__/product.controller.test.js:274:13)
+
+ PASS  src/controllers/__tests__/product.controller.test.js
+  Product Controller                                                                                                                                                                   
+    getAllProducts                                                                                                                                                                     
+      √ debería devolver todos los productos (4 ms)                                                                                                                                    
+      √ debería manejar errores correctamente (56 ms)                                                                                                                                  
+    getSimilarProducts                                                                                                                                                                 
+      √ debería devolver productos similares (1 ms)                                                                                                                                    
+    getFeaturedProducts                                                                                                                                                                
+      √ debería devolver productos destacados                                                                                                                                          
+      √ debería devolver mensaje cuando no hay productos destacados (1 ms)                                                                                                             
+    getProductCategory                                                                                                                                                                 
+      √ debería devolver productos por categoría (1 ms)                                                                                                                                
+      √ debería devolver mensaje cuando no hay productos en la categoría                                                                                                               
+    readProduct                                                                                                                                                                        
+      √ debería devolver un producto específico (1 ms)                                                                                                                                 
+      √ debería devolver mensaje cuando el producto no existe (1 ms)                                                                                                                   
+    createProduct                                                                                                                                                                      
+      √ debería crear un nuevo producto (1 ms)                                                                                                                                         
+      √ debería devolver error cuando faltan campos obligatorios (1 ms)                                                                                                                
+    updateProduct                                                                                                                                                                      
+      √ debería actualizar un producto existente (1 ms)                                                                                                                                
+      √ debería devolver error cuando faltan campos obligatorios                                                                                                                       
+    deleteProduct                                                                                                                                                                      
+      √ debería eliminar un producto existente                                                                                                                                         
+      √ debería devolver error cuando falta el ID del producto (1 ms)                                                                                                                  
+    errorHandler                                                                                                                                                                       
+      √ debería manejar errores y enviar respuesta 500 (7 ms)                                                                                                                          
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       16 passed, 16 total                                                                                                                                                       
+Snapshots:   0 total
+Time:        0.633 s, estimated 1 s
+Ran all test suites matching /src\\controllers\\__tests__\\product.controller.test.js/i.
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Obtener Productos**   | `getAllProducts()`      | Solicitud exitosa                                                                   | Devuelve lista de productos                                                      |
+|                         |                         | Error en base de datos                                                              | Retorna error 500 con mensaje                                                    |
+| **Productos Similares** | `getSimilarProducts()`  | Búsqueda con término válido                                                         | Devuelve productos similares                                                     |
+| **Destacados**          | `getFeaturedProducts()` | Existencia de productos destacados                                                  | Retorna lista de destacados                                                      |
+|                         |                         | Sin productos destacados                                                            | Devuelve mensaje "No se encontraron productos destacados"                        |
+| **Por Categoría**       | `getProductCategory()`  | Categoría existente                                                                 | Devuelve productos de la categoría                                               |
+|                         |                         | Categoría sin productos                                                             | Retorna mensaje de no encontrados                                                |
+| **Detalle Producto**    | `readProduct()`         | Producto existente                                                                  | Devuelve detalles del producto                                                   |
+|                         |                         | Producto no existente                                                               | Retorna mensaje "Producto no encontrado"                                         |
+| **Creación**           | `createProduct()`       | Datos completos                                                                     | Crea producto y retorna mensaje de éxito                                         |
+|                         |                         | Faltan campos obligatorios                                                          | Retorna error 400 con mensaje                                                    |
+| **Actualización**       | `updateProduct()`       | Datos válidos                                                                       | Actualiza producto y retorna mensaje                                             |
+|                         |                         | Faltan campos obligatorios                                                          | Retorna error 400                                                                |
+| **Eliminación**        | `deleteProduct()`       | ID válido                                                                           | Elimina producto y retorna confirmación                                         |
+|                         |                         | Falta ID                                                                            | Retorna error 400                                                                |
+| **Manejo de Errores**  | `errorHandler()`        | Ocurre un error                                                                     | Retorna respuesta 500 con mensaje genérico                                       |
+
+###### RecoveryController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/recovery.controller.test.js                                                     
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/recovery.controller.test.js
+
+ PASS  src/controllers/__tests__/recovery.controller.test.js
+  RecoveryController
+    checkEmail                                                                                                                                                                         
+      √ debe retornar true cuando el email existe (4 ms)                                                                                                                               
+      √ debe lanzar un error cuando el modelo falla (15 ms)                                                                                                                            
+    sendVerification                                                                                                                                                                   
+      √ debe generar un código, guardarlo y enviarlo por email (3 ms)                                                                                                                  
+      √ debe lanzar un error si falla el guardado del código (2 ms)                                                                                                                    
+      √ debe lanzar un error si falla el envío del email (2 ms)                                                                                                                        
+    verifyCode                                                                                                                                                                         
+      √ debe retornar true cuando el código es válido (1 ms)                                                                                                                           
+      √ debe retornar false cuando el código es inválido                                                                                                                               
+      √ debe lanzar un error cuando la verificación falla (1 ms)                                                                                                                       
+    resetPassword                                                                                                                                                                      
+      √ debe actualizar la contraseña cuando el código es válido (1 ms)                                                                                                                
+      √ debe retornar false cuando el código es inválido (1 ms)                                                                                                                        
+      √ debe lanzar un error si falla la actualización de contraseña (2 ms)                                                                                                            
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       11 passed, 11 total                                                                                                                                                       
+Snapshots:   0 total
+Time:        0.873 s, estimated 3 s
+Ran all test suites matching /src\\controllers\\__tests__\\recovery.controller.test.js/i.
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Verificación Email**  | `checkEmail()`          | Email existe en el sistema                                                          | Retorna `true`                                                                    |
+|                         |                         | Fallo en la consulta a la base de datos                                             | Lanza error con mensaje original                                                  |
+| **Envío de Código**     | `sendVerification()`    | Generación y envío exitoso de código                                                | Retorna `true` (código de 6 dígitos guardado y email enviado)                    |
+|                         |                         | Fallo al guardar el código en DB                                                    | Lanza error y registra en consola                                                 |
+|                         |                         | Fallo en el envío del email                                                         | Lanza error específico del servicio de email                                      |
+| **Validación Código**   | `verifyCode()`          | Código correcto para el email                                                       | Retorna `true`                                                                    |
+|                         |                         | Código incorrecto                                                                   | Retorna `false`                                                                   |
+|                         |                         | Error en la verificación (ej. DB no disponible)                                     | Lanza error con detalles                                                          |
+| **Reset Password**      | `resetPassword()`       | Código válido + nueva contraseña                                                    | Actualiza contraseña y retorna `true`                                             |
+|                         |                         | Código inválido                                                                     | No actualiza contraseña y retorna `false`                                         |
+|                         |                         | Error al actualizar contraseña                                                      | Lanza error y registra en consola                                                 |
+
+###### SendMethodController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/send-method.controller.test.js   
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/send-method.controller.test.js
+
+  console.error
+    Error en readSendMethod: Error: Error de DB
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\send-method.controller.test.js:74:66)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      24 |         }
+      25 |     } catch (err) {
+    > 26 |         console.error('Error en readSendMethod:', err);
+         |                 ^
+      27 |         res.status(500).json({ message: 'Error interno del servidor' });
+      28 |     }
+      29 | };
+
+      at error (src/controllers/send-method.controller.js:26:17)
+      at Object.<anonymous> (src/controllers/__tests__/send-method.controller.test.js:77:13)
+
+  console.error
+    Error en createSendMethod: Error: Error de DB
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\send-method.controller.test.js:120:68)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      45 |         res.json({ message: 'Método de envío creado con éxito' });
+      46 |     } catch (err) {
+    > 47 |         console.error('Error en createSendMethod:', err);
+         |                 ^
+      48 |         res.status(500).json({ message: 'Error interno del servidor' });
+      49 |     }
+      50 | };
+
+      at error (src/controllers/send-method.controller.js:47:17)
+      at Object.<anonymous> (src/controllers/__tests__/send-method.controller.test.js:126:13)
+
+  console.error
+    Error en updateSendMethod: Error: Error de DB
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\send-method.controller.test.js:161:68)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      67 |         res.json({ message: 'Método de envío actualizado con éxito' });
+      68 |     } catch (err) {
+    > 69 |         console.error('Error en updateSendMethod:', err);
+         |                 ^
+      70 |         res.status(500).json({ message: 'Error interno del servidor' });
+      71 |     }
+      72 | };
+
+      at error (src/controllers/send-method.controller.js:69:17)
+      at Object.<anonymous> (src/controllers/__tests__/send-method.controller.test.js:165:13)
+
+  console.error                                                                                                                                                                        
+    Error en deleteSendMethod: Error: Error de DB                                                                                                                                      
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\send-method.controller.test.js:194:68)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      88 |         res.json({ message: 'Método de envío eliminado con éxito' });
+      89 |     } catch (err) {
+    > 90 |         console.error('Error en deleteSendMethod:', err);
+         |                 ^
+      91 |         res.status(500).json({ message: 'Error interno del servidor' });
+      92 |     }
+      93 | };
+
+      at error (src/controllers/send-method.controller.js:90:17)
+      at Object.<anonymous> (src/controllers/__tests__/send-method.controller.test.js:197:13)
+
+ PASS  src/controllers/__tests__/send-method.controller.test.js
+  Send Method Controller                                                                                                                                                               
+    readSendMethod                                                                                                                                                                     
+      √ debería devolver 400 si no se proporciona id_metodo_envio (3 ms)                                                                                                               
+      √ debería devolver el método de envío si existe (1 ms)                                                                                                                           
+      √ debería devolver mensaje de no encontrado si el método no existe (1 ms)                                                                                                        
+      √ debería manejar errores internos (50 ms)                                                                                                                                       
+    createSendMethod                                                                                                                                                                   
+      √ debería devolver 400 si faltan campos obligatorios (2 ms)                                                                                                                      
+      √ debería crear el método de envío exitosamente (1 ms)                                                                                                                           
+      √ debería manejar errores internos (5 ms)                                                                                                                                        
+    updateSendMethod                                                                                                                                                                   
+      √ debería devolver 400 si faltan campos obligatorios                                                                                                                             
+      √ debería actualizar el método de envío exitosamente (4 ms)                                                                                                                      
+      √ debería manejar errores internos (6 ms)                                                                                                                                        
+    deleteSendMethod                                                                                                                                                                   
+      √ debería devolver 400 si no se proporciona id_metodo_envio (1 ms)                                                                                                               
+      √ debería eliminar el método de envío exitosamente (1 ms)                                                                                                                        
+      √ debería manejar errores internos (5 ms)                                                                                                                                        
+
+Test Suites: 1 passed, 1 total
+Tests:       13 passed, 13 total
+Snapshots:   0 total
+Time:        0.627 s, estimated 1 s
+Ran all test suites matching /src\\controllers\\__tests__\\send-method.controller.test.js/i.
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**             | `readSendMethod()`      | No se proporciona ID                                                                | Devuelve error 400 (campo obligatorio)                                           |
+|                         |                         | Método existe                                                                       | Devuelve los datos del método                                                    |
+|                         |                         | Método no existe                                                                    | Devuelve mensaje "No encontrado"                                                 |
+|                         |                         | Error de base de datos                                                              | Devuelve error 500 (interno)                                                     |
+| **Creación**            | `createSendMethod()`    | Faltan campos obligatorios (3 casos)                                                | Devuelve error 400 para cada caso                                                |
+|                         |                         | Datos completos                                                                     | Crea el método y devuelve mensaje de éxito                                       |
+|                         |                         | Error de base de datos                                                              | Devuelve error 500                                                               |
+| **Actualización**       | `updateSendMethod()`    | Faltan campos obligatorios (2 casos)                                                | Devuelve error 400 para cada caso                                                |
+|                         |                         | Datos completos                                                                     | Actualiza el método y devuelve mensaje de éxito                                  |
+|                         |                         | Error de base de datos                                                              | Devuelve error 500                                                               |
+| **Eliminación**         | `deleteSendMethod()`    | No se proporciona ID                                                                | Devuelve error 400 (campo obligatorio)                                           |
+|                         |                         | ID válido                                                                           | Elimina el método y devuelve mensaje de éxito                                    |
+|                         |                         | Error de base de datos                                                              | Devuelve error 500                                                               |
+
+###### UserController
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/controllers/__tests__/user.controller.test.js
+
+> backend@1.0.0 test
+> jest src/controllers/__tests__/user.controller.test.js
+
+  console.error
+    Error en readUser: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\user.controller.test.js:117:50)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      51 |         }
+      52 |     } catch (err) {
+    > 53 |         console.error('Error en readUser:', err);
+         |                 ^
+      54 |         res.status(500).json({ message: 'Error interno del servidor' });
+      55 |     }
+      56 | };
+
+      at Object.error [as readUser] (src/controllers/user.controller.js:53:17)
+      at Object.<anonymous> (src/controllers/__tests__/user.controller.test.js:119:13)
+
+  console.error                                                                                                                                                                        
+    Error en createUser: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\user.controller.test.js:159:52)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      72 |         res.json({ message: `Usuario creado con éxito. El id del usuario es: ${result.insertId}` });
+      73 |     } catch (err) {
+    > 74 |         console.error('Error en createUser:', err);
+         |                 ^
+      75 |         res.status(500).json({ message: 'Error interno del servidor' });
+      76 |     }
+      77 | };
+
+      at Object.error [as createUser] (src/controllers/user.controller.js:74:17)
+      at Object.<anonymous> (src/controllers/__tests__/user.controller.test.js:161:13)
+
+  console.error                                                                                                                                                                        
+    Error en deleteUser: Error: DB Error                                                                                                                                               
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\user.controller.test.js:218:52)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      178 |         res.json({ message: 'Usuario eliminado con éxito' });
+      179 |     } catch (err) {
+    > 180 |         console.error('Error en deleteUser:', err);
+          |                 ^
+      181 |         res.status(500).json({ message: 'Error interno del servidor' });
+      182 |     }
+      183 | };
+
+      at Object.error [as deleteUser] (src/controllers/user.controller.js:180:17)
+      at Object.<anonymous> (src/controllers/__tests__/user.controller.test.js:220:13)
+
+  console.error
+    Error en readUser: Error: DB Error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\controllers\__tests__\user.controller.test.js:258:53)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      201 |         }
+      202 |     } catch (err) {
+    > 203 |         console.error('Error en readUser:', err);
+          |                 ^
+      204 |         res.status(500).json({ message: 'Error interno del servidor' });
+      205 |     }
+      206 | }
+
+      at Object.error [as findByEmail] (src/controllers/user.controller.js:203:17)
+      at Object.<anonymous> (src/controllers/__tests__/user.controller.test.js:260:13)
+
+ PASS  src/controllers/__tests__/user.controller.test.js
+  User Controller Tests                                                                                                                                                                
+    Middleware verifyToken                                                                                                                                                             
+      √ retornar error 401 si el token falta (4 ms)                                                                                                                                    
+      √ retorna error 403 si el token es inválido (1 ms)                                                                                                                               
+      √ llamar al siguiente método si el token es válido (1 ms)                                                                                                                        
+    readUser                                                                                                                                                                           
+      √ retorna error 404 si el ID del usuario falta (2 ms)                                                                                                                            
+      √ retornar el usuario si este se encuentra (1 ms)                                                                                                                                
+      √ retornar un mensaje de no encontrado si el usuario no existe                                                                                                                   
+      √ debe manejar los errores (57 ms)                                                                                                                                               
+    createUser                                                                                                                                                                         
+      √ retornar error 404 si algún campo hace falta                                                                                                                                   
+      √ debe crear el usuario y retornar un mensaje de éxito (1 ms)                                                                                                                    
+      √ debe manejar errores (7 ms)                                                                                                                                                    
+    updateUser                                                                                                                                                                         
+      √ actualizar el usuario con su contraseña                                                                                                                                        
+    deleteUser                                                                                                                                                                         
+      √ retornar error 400 si falta el ID del usuario                                                                                                                                  
+      √ debe eliminar el usuario y mostrar un mensaje de éxito                                                                                                                         
+      √ debe manejar errores (4 ms)                                                                                                                                                    
+    findByEmail                                                                                                                                                                        
+      √ retornar error 400 si el email no se provee (1 ms)                                                                                                                             
+      √ debe retornar el usuario con su respectivo correo (1 ms)                                                                                                                       
+      √ debe retornar un mensaje de no encontrado en caso de no hallar el usuario con el correo (1 ms)                                                                                 
+      √ manejar errores (5 ms)                                                                                                                                                         
+
+Test Suites: 1 passed, 1 total
+Tests:       18 passed, 18 total
+Snapshots:   0 total
+Time:        0.722 s, estimated 1 s
+Ran all test suites matching /src\\controllers\\__tests__\\user.controller.test.js/i
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Middleware**          | `verifyToken()`         | Falta token                                                                         | Retorna error 401 (Token requerido)                                              |
+|                         |                         | Token inválido                                                                      | Retorna error 403 (Token inválido/expirado)                                      |
+|                         |                         | Token válido                                                                        | Asigna usuario a `req.user` y llama a `next()`                                   |
+| **Lectura**             | `readUser()`            | Falta ID de usuario                                                                 | Retorna error 400 (ID obligatorio)                                               |
+|                         |                         | Usuario encontrado                                                                  | Retorna datos del usuario                                                        |
+|                         |                         | Usuario no existe                                                                   | Retorna mensaje "Usuario no encontrado"                                          |
+|                         |                         | Error de base de datos                                                              | Retorna error 500 (Error interno)                                                |
+| **Creación**            | `createUser()`          | Campos faltantes                                                                    | Retorna error 400 (Campos obligatorios)                                          |
+|                         |                         | Creación exitosa                                                                    | Retorna mensaje con ID del nuevo usuario                                         |
+|                         |                         | Error de base de datos                                                              | Retorna error 500 (Error interno)                                                |
+| **Actualización**       | `updateUser()`          | Actualización con contraseña                                                        | Llama a modelo con nuevos datos y retorna usuario actualizado                    |
+| **Eliminación**         | `deleteUser()`          | Falta ID de usuario                                                                 | Retorna error 400 (ID obligatorio)                                               |
+|                         |                         | Eliminación exitosa                                                                 | Retorna mensaje de éxito                                                         |
+|                         |                         | Error de base de datos                                                              | Retorna error 500 (Error interno)                                                |
+| **Búsqueda**            | `findByEmail()`         | Falta email                                                                         | Retorna error 400 (Email obligatorio)                                            |
+|                         |                         | Usuario encontrado                                                                  | Retorna datos del usuario                                                        |
+|                         |                         | Usuario no existe                                                                   | Retorna mensaje "Usuario no encontrado"                                          |
+|                         |                         | Error de base de datos                                                              | Retorna error 500 (Error interno)                                                |
+
+##### Modelos
+
+###### CategoryModel
+
