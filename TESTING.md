@@ -4126,6 +4126,16 @@ Time:        0.603 s, estimated 1 s
 Ran all test suites matching /src\\models\\__tests__\\delivery.model.test.js/i.
 
 
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Consultas**           | `readIdDelivery()`      | Búsqueda exitosa por ID de pedido                                                   | Retorna datos del pedido                                                          |
+|                         |                         | Error en consulta a la base de datos                                                | Rechaza con mensaje de error                                                      |
+|                         | `readUserDelivery()`    | Búsqueda exitosa por ID de usuario                                                  | Retorna lista de pedidos del usuario                                              |
+| **Creación**           | `createUserDelivery()`  | Inserción exitosa de nuevo pedido                                                   | Retorna resultado con ID del nuevo pedido                                         |
+| **Actualización**      | `updateUserDelivery()`  | Modificación exitosa de pedido existente                                            | Retorna resultado indicando filas afectadas                                       |
+| **Eliminación**        | `deleteUserDelivery()`  | Eliminación exitosa de pedido                                                       | Retorna resultado indicando filas afectadas                                       |
+|                         |                         | Error al eliminar pedido                                                            | Rechaza con mensaje de error                                                      |
+
 
 ###### DetailDeliveryModel
 
@@ -4155,6 +4165,20 @@ Snapshots:   0 total
 Time:        0.574 s, estimated 1 s
 Ran all test suites matching /src\\models\\__tests__\\detail-delivery.model.test.js/i.
 
+
+| Categoría          | Método Probado               | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|--------------------|------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**        | `readDeliveryDetails()`      | Consulta exitosa de detalles de pedido                                              | Devuelve los detalles del pedido                                                  |
+|                    |                              | Error en la consulta a la base de datos                                             | Lanza el error correspondiente                                                    |
+| **Creación**       | `createDeliveryDetails()`    | Inserción exitosa de nuevo detalle                                                  | Devuelve resultado con affectedRows: 1                                            |
+|                    |                              | Error en la inserción                                                               | Lanza el error correspondiente                                                    |
+| **Actualización**  | `updateDeliveryDetails()`    | Actualización exitosa de cantidad/precio                                            | Devuelve resultado con affectedRows: 1                                            |
+|                    |                              | Error en la actualización                                                           | Lanza el error correspondiente                                                    |
+| **Eliminación**    | `deleteDeliveryDetails()`    | Eliminación exitosa de detalle                                                      | Devuelve resultado con affectedRows: 1                                            |
+|                    |                              | Error en la eliminación                                                             | Lanza el error correspondiente                                                    |
+
+
+
 ###### OpinionsModel
 PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/opinions.model.test.js       
 
@@ -4180,6 +4204,18 @@ Tests:       7 passed, 7 total
 Snapshots:   0 total
 Time:        0.561 s, estimated 1 s
 Ran all test suites matching /src\\models\\__tests__\\opinions.model.test.js/i
+
+
+| Categoría               | Método Probado               | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Consultar Opiniones** | `readOpinionProduct()`       | Búsqueda exitosa de opiniones por producto                                         | Devuelve array con opiniones del producto                                        |
+|                         |                              | Error en consulta a la base de datos                                               | Lanza error con mensaje descriptivo                                              |
+| **Crear Opinión**       | `createOpinionProduct()`     | Creación exitosa de opinión (no anónima)                                           | Devuelve objeto con `insertId` de la nueva opinión                               |
+|                         |                              | Creación exitosa de opinión anónima                                                 | Registra opinión con flag `es_anonimo = true`                                    |
+| **Actualizar Opinión**  | `updateOpinionProduct()`     | Actualización exitosa de opinión existente                                          | Devuelve objeto con `affectedRows = 1`                                           |
+|                         |                              | Error al actualizar (opinión no existe o DB error)                                  | Lanza error con mensaje descriptivo                                              |
+| **Eliminar Opinión**    | `deleteOpinionProduct()`     | Eliminación exitosa de opinión existente                                            | Devuelve objeto con `affectedRows = 1`                                           |
+|                         |                              | Error al eliminar (opinión no existe o DB error)                                    | Lanza error con mensaje descriptivo                                              |
 
 
 ###### ProductModel
@@ -4213,6 +4249,19 @@ Tests:       8 passed, 8 total
 Snapshots:   0 total
 Time:        0.576 s, estimated 1 s
 Ran all test suites matching /src\\models\\__tests__\\product.model.test.js/i.
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Obtener Productos**   | `getAllProducts()`      | Consulta básica de todos los productos                                              | Devuelve array de productos con campos específicos                                |
+| **Búsqueda**            | `getSimilarProducts()`  | Búsqueda con término (ej. "camiseta")                                              | Usa LIKE en la consulta y devuelve productos coincidentes                        |
+| **Productos Destacados**| `getFeaturedProducts()` | Filtrado por productos destacados                                                  | Solo devuelve productos con `destacado = 1`                                      |
+| **Por Categoría**       | `getProductCategory()`  | Búsqueda por ID de categoría                                                       | Devuelve productos unidos con tabla categorías                                   |
+| **Detalle Producto**    | `readProduct()`         | Búsqueda por ID de producto                                                        | Devuelve solo el producto solicitado                                             |
+| **Creación**            | `createProduct()`       | Inserción con todos los campos requeridos                                          | Retorna objeto con `insertId` del nuevo producto                                 |
+| **Actualización**       | `updateProduct()`       | Modificación de nombre, stock, categoría y precio                                  | Retorna objeto con `affectedRows`                                                |
+| **Eliminación**         | `deleteProduct()`       | Eliminación por ID de producto                                                     | Retorna objeto con `affectedRows`                                                |
+
 
 ###### RecoveryModel
 
@@ -4309,6 +4358,25 @@ Snapshots:   0 total
 Time:        0.634 s, estimated 1 s
 Ran all test suites matching /src\\models\\__tests__\\recovery.model.test.js/i
 
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Verificación Email**  | `checkUserEmail()`      | Email existe en la base de datos                                                    | Devuelve `true`                                                                   |
+|                         |                         | Email no existe                                                                     | Devuelve `false`                                                                  |
+|                         |                         | Error de base de datos                                                              | Rechaza con error                                                                 |
+| **Códigos de Verificación** | `saveVerificationCode()` | Guardar código nuevo                                                              | Almacena código con timestamp de expiración                                       |
+|                         |                         | Especificar tiempo de expiración personalizado                                     | Calcula correctamente el timestamp futuro                                         |
+|                         | `verifyCode()`          | Código correcto y vigente                                                          | Devuelve `true`                                                                   |
+|                         |                         | Código incorrecto                                                                  | Devuelve `false`                                                                  |
+|                         |                         | Código expirado                                                                    | Devuelve `false` y limpia el código                                               |
+|                         |                         | Email no registrado                                                                | Devuelve `false`                                                                  |
+|                         | `deleteVerificationCode()` | Eliminar código existente                                                         | Remueve el código del almacenamiento                                              |
+|                         |                         | Eliminar código no existente                                                       | Devuelve `true` (idempotente)                                                     |
+| **Actualización Contraseña** | `updatePassword()`    | Actualización exitosa                                                              | Hashea la contraseña, actualiza BD y limpia códigos (devuelve `true`)             |
+|                         |                         | Email no existe en BD                                                              | Devuelve `false` (0 filas afectadas)                                              |
+|                         |                         | Error de base de datos                                                              | Rechaza con error                                                                 |
+
+
 ###### SendMethodModel
 
 PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/send-method.model.test.js
@@ -4333,6 +4401,16 @@ Tests:       5 passed, 5 total
 Snapshots:   0 total
 Time:        0.54 s, estimated 1 s
 Ran all test suites matching /src\\models\\__tests__\\send-method.model.test.js/i.
+
+
+| Categoría          | Método Probado           | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|--------------------|--------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**        | `readSendMethod()`       | Consulta SELECT con ID válido                                                       | Devuelve los datos del método de envío                                           |
+|                    |                          | Error en la consulta a la base de datos                                             | Rechaza con el error correspondiente                                             |
+| **Creación**       | `createSendMethod()`     | Inserción con datos válidos (ID y nombre)                                           | Devuelve objeto con `affectedRows: 1`                                            |
+| **Actualización**  | `updateSendMethod()`     | UPDATE con nuevos datos válidos                                                     | Devuelve objeto con `affectedRows: 1`                                            |
+| **Eliminación**    | `deleteSendMethod()`     | DELETE con ID válido                                                                | Devuelve objeto con `affectedRows: 1`                                            |
+
 
 ###### UserModel
 
@@ -4362,3 +4440,14 @@ Tests:       7 passed, 7 total
 Snapshots:   0 total
 Time:        0.55 s, estimated 1 s
 Ran all test suites matching /src\\models\\__tests__\\user.model.test.js/i.
+
+
+| Categoría               | Método Probado          | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|-------------------------|-------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**             | `readUser()`            | Buscar usuario por ID existente                                                     | Retorna datos del usuario                                                        |
+|                         |                         | Error al buscar usuario                                                             | Rechaza con error de base de datos                                               |
+| **Creación**            | `createUser()`          | Crear nuevo usuario con datos válidos                                               | Retorna ID del usuario creado                                                    |
+| **Actualización**       | `updateUser()`          | Actualizar datos completos de usuario                                               | Confirma número de filas afectadas                                               |
+| **Eliminación**         | `deleteUser()`          | Eliminar usuario existente                                                          | Confirma número de filas afectadas                                               |
+| **Búsqueda**            | `findByEmail()`         | Buscar usuario por email existente                                                  | Retorna datos del usuario                                                        |
+| **Seguridad**           | `updatePassword()`      | Actualizar contraseña de usuario                                                    | Confirma cambio de contraseña                                                    |
