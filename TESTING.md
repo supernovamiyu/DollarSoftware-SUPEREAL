@@ -12,7 +12,7 @@ Para generar un resumen de cobertura de pruebas (test coverage) se debe ingresar
 ### Frontend
 En en frontend, se verificaron componentes individuales, asegurando que rendericen correctamente y respondan a interacciones del usuario de manera esperada. Se utilizó JEST, JEST Environment DOM y Babel para facilitar la ejecución de pruebas.
 
-#### Cobertura Actual
+#### Cobertura Actual Frontend
 
 |   Métrica    |   Porcentaje  |
 |--------------|---------------|
@@ -20,6 +20,15 @@ En en frontend, se verificaron componentes individuales, asegurando que renderic
 | Branches     | 61.72%        |
 | Functions    | 76.00%        |
 | Lines        | 80.28%        |
+
+#### Cobertura Actual Backend
+
+|   Métrica    |   Porcentaje  |
+|--------------|---------------|
+| Statements   | 91.95%        |
+| Branches     | 94.42%        |
+| Functions    | 99.07%        |
+| Lines        | 91.95%        |
 
 #### Casos de Prueba del Frontend
 
