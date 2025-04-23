@@ -4,10 +4,6 @@ node_modules/
 # Ignorar las variables de entorno
 .env
 
-# Ignorar los archivos de bloqueo de dependiencias
-package-lock.json
-package.json
-
 # Ignorar la carpeta que almacena los archivos para generar reportes con JEST HTML
 
 coverage/

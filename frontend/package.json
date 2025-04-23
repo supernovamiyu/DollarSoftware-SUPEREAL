@@ -1,0 +1,33 @@
+{
+  "type": "module",
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"]
+  },
+
+  "dependencies": {
+    "cors": "^2.8.5",
+    "jest-html-reporter": "^4.1.0"
+  },
+
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest ---watchAll",
+    "test:coverage": "jest --coverage"
+  },
+
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@testing-library/jest-dom": "^6.6.3",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
