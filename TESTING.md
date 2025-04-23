@@ -3979,3 +3979,386 @@ Ran all test suites matching /src\\controllers\\__tests__\\user.controller.test.
 
 ###### CategoryModel
 
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/category.model.test.js       
+
+> backend@1.0.0 test
+> jest src/models/__tests__/category.model.test.js
+
+ PASS  src/models/__tests__/category.model.test.js
+  Operaciones CRUD para las Categorías
+    readCategory                                                                                                                                                                       
+      √ el resultado debe ser una categoría por ID (4 ms)                                                                                                                              
+      √ manejar errores en la BD (13 ms)                                                                                                                                               
+    createCategory                                                                                                                                                                     
+      √ debe crear una nueva categoría (1 ms)                                                                                                                                          
+      √ manejar errores de la creación de categorías (1 ms)                                                                                                                            
+    updateCategory                                                                                                                                                                     
+      √ debe actualizar una categoría existente (1 ms)                                                                                                                                 
+      √ manejar errores en la actualización (1 ms)                                                                                                                                     
+    deleteCategory                                                                                                                                                                     
+      √ debe eliminar una categoría                                                                                                                                                    
+      √ manejar errores en la eliminación                                                                                                                                              
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.974 s, estimated 2 s
+Ran all test suites matching /src\\models\\__tests__\\category.model.test.js/i.
+
+
+| Categoría          | Método Probado       | Escenarios Cubiertos                          | Resultado Esperado                          |
+|--------------------|----------------------|-----------------------------------------------|---------------------------------------------|
+| **Lectura**        | `readCategory()`     | Consulta exitosa por ID                       | Retorna categoría específica                |
+|                    |                      | Error en la base de datos                     | Lanza error 'Error en la BD'                |
+| **Creación**       | `createCategory()`   | Inserción exitosa                             | Retorna objeto con affectedRows: 1          |
+|                    |                      | Error al crear                                | Lanza error 'Fallo en la creación'          |
+| **Actualización**  | `updateCategory()`   | Actualización exitosa                         | Retorna objeto con affectedRows: 1          |
+|                    |                      | Error al actualizar                           | Lanza error 'Fallo en la actualización'     |
+| **Eliminación**    | `deleteCategory()`   | Eliminación exitosa                           | Retorna objeto con affectedRows: 1          |
+|                    |                      | Error al eliminar                             | Lanza error 'Fallo en la eliminación'       |
+
+###### CityModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/city.model.test.js                                                                   
+
+> backend@1.0.0 test
+> jest src/models/__tests__/city.model.test.js
+
+ PASS  src/models/__tests__/city.model.test.js
+  Pruebas para el CRUD de ciudades
+    readCity                                                                                                                                                                           
+      √ debería llamar a la consulta SQL correcta para leer una ciudad (4 ms)                                                                                                          
+      √ debería manejar errores de la base de datos (13 ms)                                                                                                                            
+    createCity                                                                                                                                                                         
+      √ debería crear una nueva ciudad correctamente (2 ms)                                                                                                                            
+      √ debería manejar errores al crear una ciudad (1 ms)                                                                                                                             
+    updateCity                                                                                                                                                                         
+      √ debería actualizar una ciudad existente correctamente (1 ms)                                                                                                                   
+      √ debería manejar errores al actualizar una ciudad (1 ms)                                                                                                                        
+    deleteCity                                                                                                                                                                         
+      √ debería eliminar una ciudad correctamente (1 ms)                                                                                                                               
+      √ debería manejar errores al eliminar una ciudad (1 ms)                                                                                                                          
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.57 s, estimated 2 s
+Ran all test suites matching /src\\models\\__tests__\\city.model.test.js/i.
+
+
+| Categoría          | Método Probado  | Escenarios Cubiertos                              | Resultado Esperado                                                                 |
+|--------------------|-----------------|--------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**        | `readCity()`    | Consulta exitosa por ID                          | Devuelve los datos de la ciudad (ej. `[{ id_ciudad: 1, nombre: 'Madrid' }]`)     |
+|                    |                 | Error en consulta a BD                           | Lanza error con mensaje descriptivo                                               |
+| **Creación**       | `createCity()`  | Inserción exitosa                                | Devuelve objeto con `affectedRows: 1`                                             |
+|                    |                 | Error al insertar                                | Lanza error con mensaje descriptivo                                               |
+| **Actualización**  | `updateCity()`  | Actualización exitosa                            | Devuelve objeto con `affectedRows: 1`                                             |
+|                    |                 | Error al actualizar                              | Lanza error con mensaje descriptivo                                               |
+| **Eliminación**    | `deleteCity()`  | Eliminación exitosa                              | Devuelve objeto con `affectedRows: 1`                                             |
+|                    |                 | Error al eliminar                                | Lanza error con mensaje descriptivo                                               |
+
+###### DeliveryStateModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/delivery-state.model.test.js 
+
+> backend@1.0.0 test
+> jest src/models/__tests__/delivery-state.model.test.js
+
+ PASS  src/models/__tests__/delivery-state.model.test.js
+  Pruebas para el CRUD de estados de pedido
+    readDeliveryState                                                                                                                                                                  
+      √ debe llamar a la consulta correcta para leer un estado de pedido (4 ms)                                                                                                        
+      √ debe manejar errores de la base de datos (10 ms)                                                                                                                               
+    createDeliveryState                                                                                                                                                                
+      √ debe crear un nuevo estado de pedido correctamente (1 ms)                                                                                                                      
+      √ debe manejar errores al crear un estado de pedido                                                                                                                              
+    updateDeliveryState                                                                                                                                                                
+      √ debe actualizar un estado de pedido correctamente (1 ms)                                                                                                                       
+      √ debe manejar errores al actualizar un estado de pedido (1 ms)                                                                                                                  
+    deleteDeliveryState                                                                                                                                                                
+      √ debe eliminar un estado de pedido correctamente (1 ms)                                                                                                                         
+      √ debe manejar errores al eliminar un estado de pedido (1 ms)                                                                                                                    
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       8 passed, 8 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.527 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\delivery-state.model.test.js/i.
+
+
+| Categoría          | Método Probado           | Escenarios Cubiertos                                                                 | Resultado Esperado                                                                 |
+|--------------------|--------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Lectura**        | `readDeliveryState()`    | Consulta exitosa por ID                                                             | Retorna datos del estado de pedido                                                |
+|                    |                          | Error de base de datos                                                              | Rechaza con el error correspondiente                                              |
+| **Creación**       | `createDeliveryState()`  | Inserción exitosa                                                                   | Retorna objeto con `affectedRows: 1`                                              |
+|                    |                          | Error al insertar                                                                   | Rechaza con el error de inserción                                                 |
+| **Actualización**  | `updateDeliveryState()`  | Actualización exitosa por ID                                                        | Retorna objeto con `affectedRows: 1`                                              |
+|                    |                          | Error al actualizar                                                                 | Rechaza con el error de actualización                                             |
+| **Eliminación**    | `deleteDeliveryState()`  | Eliminación exitosa por ID                                                          | Retorna objeto con `affectedRows: 1`                                              |
+|                    |                          | Error al eliminar                                                                   | Rechaza con el error de eliminación                                               |
+
+###### DeliveryModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/delivery.model.test.js       
+
+> backend@1.0.0 test
+> jest src/models/__tests__/delivery.model.test.js
+
+ PASS  src/models/__tests__/delivery.model.test.js
+  Módulo de Pedidos
+    readIdDelivery                                                                                                                                                                     
+      √ debería buscar un pedido por ID correctamente (5 ms)                                                                                                                           
+      √ debería manejar errores al buscar un pedido por ID (15 ms)
+    readUserDelivery                                                                                                                                                                   
+      √ debería buscar pedidos por usuario correctamente (1 ms)                                                                                                                        
+    createUserDelivery                                                                                                                                                                 
+      √ debería crear un nuevo pedido correctamente (1 ms)                                                                                                                             
+    updateUserDelivery                                                                                                                                                                 
+      √ debería actualizar un pedido existente correctamente (1 ms)                                                                                                                    
+    deleteUserDelivery                                                                                                                                                                 
+      √ debería eliminar un pedido correctamente (1 ms)                                                                                                                                
+      √ debería manejar errores al eliminar un pedido (1 ms)                                                                                                                           
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       7 passed, 7 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.603 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\delivery.model.test.js/i.
+
+
+
+###### DetailDeliveryModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/detail-delivery.model.test.js
+
+> backend@1.0.0 test
+> jest src/models/__tests__/detail-delivery.model.test.js
+
+ PASS  src/models/__tests__/detail-delivery.model.test.js
+  Funciones CRUD para Detalle de Pedido
+    readDeliveryDetails                                                                                                                                                                
+      √ debería ejecutar la consulta correcta para leer detalles de un pedido (4 ms)                                                                                                   
+      √ debería manejar errores al leer detalles de un pedido (14 ms)                                                                                                                  
+    createDeliveryDetails                                                                                                                                                              
+      √ debería crear correctamente un nuevo detalle de pedido (1 ms)                                                                                                                  
+      √ debería manejar errores al crear un detalle de pedido (1 ms)                                                                                                                   
+    updateDeliveryDetails                                                                                                                                                              
+      √ debería actualizar correctamente un detalle de pedido existente (1 ms)                                                                                                         
+      √ debería manejar errores al actualizar un detalle de pedido (1 ms)                                                                                                              
+    deleteDeliveryDetails                                                                                                                                                              
+      √ debería eliminar correctamente un detalle de pedido (1 ms)                                                                                                                     
+      √ debería manejar errores al eliminar un detalle de pedido (1 ms)                                                                                                                
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       8 passed, 8 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.574 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\detail-delivery.model.test.js/i.
+
+###### OpinionsModel
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/opinions.model.test.js       
+
+> backend@1.0.0 test
+> jest src/models/__tests__/opinions.model.test.js
+
+ PASS  src/models/__tests__/opinions.model.test.js
+  Servicio de Opiniones de Productos
+    readOpinionProduct                                                                                                                                                                 
+      √ debería buscar opiniones de un producto específico (4 ms)                                                                                                                      
+      √ debería manejar errores al buscar opiniones (14 ms)                                                                                                                            
+    createOpinionProduct                                                                                                                                                               
+      √ debería crear una nueva opinión para un producto (1 ms)                                                                                                                        
+    updateOpinionProduct                                                                                                                                                               
+      √ debería actualizar una opinión existente (2 ms)                                                                                                                                
+      √ debería manejar errores al actualizar (1 ms)                                                                                                                                   
+    deleteOpinionProduct                                                                                                                                                               
+      √ debería eliminar una opinión existente (2 ms)                                                                                                                                  
+      √ debería manejar errores al eliminar (1 ms)                                                                                                                                     
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       7 passed, 7 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.561 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\opinions.model.test.js/i
+
+
+###### ProductModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/product.model.test.js 
+
+> backend@1.0.0 test
+> jest src/models/__tests__/product.model.test.js
+
+ PASS  src/models/__tests__/product.model.test.js
+  Servicio de Productos
+    getAllProducts                                                                                                                                                                     
+      √ debería ejecutar la consulta correcta para obtener todos los productos (4 ms)                                                                                                  
+    getSimilarProducts                                                                                                                                                                 
+      √ debería ejecutar una consulta con LIKE para buscar productos similares (1 ms)                                                                                                  
+    getFeaturedProducts                                                                                                                                                                
+      √ debería obtener solo los productos destacados (1 ms)                                                                                                                           
+    getProductCategory                                                                                                                                                                 
+      √ debería obtener productos por categoría específica (1 ms)                                                                                                                      
+    readProduct                                                                                                                                                                        
+      √ debería obtener un producto por su ID (1 ms)                                                                                                                                   
+    createProduct                                                                                                                                                                      
+      √ debería insertar un nuevo producto en la base de datos (1 ms)                                                                                                                  
+    updateProduct                                                                                                                                                                      
+      √ debería actualizar un producto existente                                                                                                                                       
+    deleteProduct                                                                                                                                                                      
+      √ debería eliminar un producto por su ID                                                                                                                                         
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       8 passed, 8 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.576 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\product.model.test.js/i.
+
+###### RecoveryModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/recovery.model.test.js
+
+> backend@1.0.0 test
+> jest src/models/__tests__/recovery.model.test.js
+
+  console.error
+    Error al verificar el correo: Error: Database error
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\models\__tests__\recovery.model.test.js:42:31)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      19 |             databaseConnection.query(query, [email], (err, results) => {
+      20 |                 if (err) {
+    > 21 |                     console.error("Error al verificar el correo:", err);
+         |                             ^
+      22 |                     reject(err);
+      23 |                 } else {
+      24 |                     resolve(results.length > 0);
+
+      at error (src/models/recovery.model.js:21:29)
+      at Object.callback (src/models/__tests__/recovery.model.test.js:44:17)
+      at query (src/models/recovery.model.js:19:32)
+      at RecoveryModel.checkUserEmail (src/models/recovery.model.js:16:16)
+      at Object.checkUserEmail (src/models/__tests__/recovery.model.test.js:47:40)
+
+  console.error                                                                                                                                                                        
+    Error al actualizar la contraseña: Error: Database error                                                                                                                           
+        at Object.<anonymous> (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\src\models\__tests__\recovery.model.test.js:163:31)
+        at Promise.then.completed (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:121:9)
+        at run (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend\node_modules\jest-runner\build\runTest.js:444:34)
+
+      93 |                 databaseConnection.query(query, [hashedPassword, email], (err, results) => {
+      94 |                     if (err) {
+    > 95 |                         console.error("Error al actualizar la contraseña:", err);
+         |                                 ^
+      96 |                         reject(err);
+      97 |                     } else if (results.affectedRows === 0) {
+      98 |                         resolve(false);
+
+      at error (src/models/recovery.model.js:95:33)
+      at Object.callback (src/models/__tests__/recovery.model.test.js:166:17)
+      at query (src/models/recovery.model.js:93:36)
+
+ PASS  src/models/__tests__/recovery.model.test.js
+  RecoveryModel                                                                                                                                                                        
+    checkUserEmail                                                                                                                                                                     
+      √ debe devolver true si el usuario existe (3 ms)                                                                                                                                 
+      √ debe devolver false si el usuario no existe (1 ms)                                                                                                                             
+      √ debe rechazar con error si hay un problema en la base de datos (52 ms)                                                                                                         
+    saveVerificationCode                                                                                                                                                               
+      √ debe guardar correctamente un código de verificación (2 ms)                                                                                                                    
+      √ debe establecer el tiempo de expiración correctamente (1 ms)                                                                                                                   
+    verifyCode                                                                                                                                                                         
+      √ debe devolver true para un código válido (1 ms)                                                                                                                                
+      √ debe devolver false para un código incorrecto (1 ms)                                                                                                                           
+      √ debe devolver false para un código expirado (1 ms)                                                                                                                             
+      √ debe devolver false para un email no existente (1 ms)                                                                                                                          
+    updatePassword                                                                                                                                                                     
+      √ debe actualizar la contraseña correctamente (4 ms)                                                                                                                             
+      √ debe devolver false si no se actualiza ninguna fila (1 ms)                                                                                                                     
+      √ debe rechazar con error si hay un problema en la base de datos (5 ms)                                                                                                          
+    deleteVerificationCode                                                                                                                                                             
+      √ debe eliminar correctamente un código de verificación                                                                                                                          
+      √ debe devolver true incluso si el código no existe                                                                                                                              
+
+Test Suites: 1 passed, 1 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        0.634 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\recovery.model.test.js/i
+
+###### SendMethodModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/send-method.model.test.js
+
+> backend@1.0.0 test
+> jest src/models/__tests__/send-method.model.test.js
+
+ PASS  src/models/__tests__/send-method.model.test.js
+  Pruebas para el CRUD de métodos de envío
+    readSendMethod                                                                                                                                                                     
+      √ debería ejecutar una consulta SELECT correctamente (4 ms)                                                                                                                      
+      √ debería manejar errores correctamente (15 ms)                                                                                                                                  
+    createSendMethod                                                                                                                                                                   
+      √ debería ejecutar una consulta INSERT correctamente (1 ms)                                                                                                                      
+    updateSendMethod                                                                                                                                                                   
+      √ debería ejecutar una consulta UPDATE correctamente (1 ms)                                                                                                                      
+    deleteSendMethod                                                                                                                                                                   
+      √ debería ejecutar una consulta DELETE correctamente (1 ms)                                                                                                                      
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       5 passed, 5 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.54 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\send-method.model.test.js/i.
+
+###### UserModel
+
+PS C:\Users\rojas\OneDrive\Desktop\DollarSoftware-SUPEREAL\backend> npm test src/models/__tests__/user.model.test.js       
+
+> backend@1.0.0 test
+> jest src/models/__tests__/user.model.test.js
+
+ PASS  src/models/__tests__/user.model.test.js
+  Servicio de Usuarios
+    readUser                                                                                                                                                                           
+      √ debería buscar un usuario por ID correctamente (4 ms)                                                                                                                          
+      √ debería manejar errores al buscar un usuario (18 ms)                                                                                                                           
+    createUser                                                                                                                                                                         
+      √ debería crear un nuevo usuario correctamente (1 ms)                                                                                                                            
+    updateUser
+      √ debería actualizar un usuario existente correctamente (1 ms)                                                                                                                   
+    deleteUser                                                                                                                                                                         
+      √ debería eliminar un usuario correctamente (1 ms)                                                                                                                               
+    findByEmail                                                                                                                                                                        
+      √ debería buscar un usuario por correo electrónico correctamente (1 ms)                                                                                                          
+    updatePassword                                                                                                                                                                     
+      √ debería actualizar solo la contraseña de un usuario (1 ms)                                                                                                                     
+
+Test Suites: 1 passed, 1 total                                                                                                                                                         
+Tests:       7 passed, 7 total                                                                                                                                                         
+Snapshots:   0 total
+Time:        0.55 s, estimated 1 s
+Ran all test suites matching /src\\models\\__tests__\\user.model.test.js/i.
