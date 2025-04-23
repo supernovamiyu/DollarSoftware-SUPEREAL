@@ -1,4 +1,3 @@
-// Agregar al inicio del archivo de pruebas
 import BaseView from "../base.view.js"
 import RecoveryView from '../recovery.view.js'
 
